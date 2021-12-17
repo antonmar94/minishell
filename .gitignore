@@ -1,0 +1,7 @@
+*.json
+*.txt
+*.o
+*.out
+ni_*
+.vscode
+minishell
