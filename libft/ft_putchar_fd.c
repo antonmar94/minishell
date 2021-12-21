@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2021/12/17 17:15:32 by antonmar         ###   ########.fr       */
+/*   Created: 2021/06/07 15:58:07 by albzamor          #+#    #+#             */
+/*   Updated: 2021/06/07 16:02:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
 
-int main()
+void	ft_putchar_fd(char c, int fd)
 {
-	int i;
-
-	printf("MINISHELL\n");
-	i = 0;
-	while(1)
-	{
-		i++;
-	}
-	return (0);
+	write(fd, &c, 1);
 }
