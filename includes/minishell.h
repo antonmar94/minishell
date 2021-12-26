@@ -19,6 +19,8 @@
 # define CYAN	"\033[1;36m"
 # define WHITE	"\033[0;37m"
 # define RESET	"\033[0;m"
+# define BOLD	"\033[1;m"
+# define BEGIN(x,y) "\033["#x";"#y"m"    // x: fondo, y: primer plano
 
 
 void	header(void);

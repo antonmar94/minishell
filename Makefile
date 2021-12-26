@@ -24,7 +24,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -o $(NAME) $^
+	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
 
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	make bonus -C $(LIBFT_DIR)
