@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 17:46:51 by albzamor          #+#    #+#             */
-/*   Updated: 2021/11/11 17:42:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2021/12/28 20:10:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ size_t	ft_desplace(char const *s, char c);
 size_t	ft_lens(char *lens, char c);
 void	ft_putstr_fdnl(char *s, int fd);
 void	ft_putnbr_fdnl(int n, int fd);
+int     ft_strcmp(const char *s1, const char *s2);
 
 #endif
