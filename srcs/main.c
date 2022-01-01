@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2021/12/28 20:27:32 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/01 11:58:16 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int main()
 			printDir();
 		free(line);
 
+	write_history(NULL);
 	}
-	write_history("history_file");
 	return (0);
 }
