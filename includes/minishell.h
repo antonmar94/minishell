@@ -22,7 +22,20 @@
 # define BOLD	"\033[1;m"
 # define BEGIN(x,y) "\033["#x";"#y"m"    // x: fondo, y: primer plano
 
+/*
+** minishell variables
+*/
+typedef struct s_shell
+{
+	char 		*line;
+	char		**commands;
+	int			size_c;
+}	t_shell;
+
 void	header(void);
-void	clear_console();
+void	clear_console(void);
+void 	printDir(void);
+void find_command(t_shell *shell);
+void execute_command(t_shell *shell, int i);
 
 #endif

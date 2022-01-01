@@ -4,6 +4,7 @@ LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
 SRCS =	./srcs/main.c \
 		./srcs/header.c \
+		./srcs/commands.c \
 
 
 OBJS = ${SRCS:.c=.o}
