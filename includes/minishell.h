@@ -34,8 +34,19 @@ typedef struct s_shell
 
 void	header(void);
 void	clear_console(void);
-void 	printDir(void);
-void find_command(t_shell *shell);
-void execute_command(t_shell *shell, int i);
+void	find_command(t_shell *shell);
+void	execute_command(t_shell *shell, int i);
+
+/*----------------------- COMMANDS ---------------------------------------------*/
+
+int		print_pwd(void);
+void	help(t_shell *shell);
+void 	exit_minishell(void);
+
+
+
+/*----------------------- ERRORS ---------------------------------------------*/
+int		error_system_pwd(void);
+void	command_error(t_shell *shell);
 
 #endif

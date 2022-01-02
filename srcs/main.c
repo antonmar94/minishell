@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/01 13:41:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/02 11:16:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ t_shell *initialice()
 	t_shell *shell;
 	shell = malloc(sizeof(t_shell));
 	shell->line = NULL;
-	shell->size_c = 2;//Numero de comandos actualizar al final
+	shell->size_c = 4;//Numero de comandos actualizar al final
 	shell->commands = malloc(sizeof(char*) * shell->size_c);
 	shell->commands[0]="pwd";
 	shell->commands[1]="exit";
+	shell->commands[2]="hello";
+	shell->commands[3]="help";
 	return (shell);
 }
 
