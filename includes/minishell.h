@@ -28,25 +28,36 @@
 typedef struct s_shell
 {
 	char 		*line;
-	char		**commands;
+	char		*command;
+	char		**command_plus_args;
+	int			size_args;
+	char		**list_commands;
 	int			size_c;
 }	t_shell;
 
 void	header(void);
 void	clear_console(void);
-void	find_command(t_shell *shell);
+
+
+
+
+void	split_line_to_command(t_shell *shell);
+void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);
 
-/*----------------------- COMMANDS ---------------------------------------------*/
+/*----------------------- list_commands ---------------------------------------------*/
 
 int		print_pwd(void);
 void	help(t_shell *shell);
 void 	exit_minishell(void);
+int 	cd(t_shell *shell);
 
 
 
 /*----------------------- ERRORS ---------------------------------------------*/
 int		error_system_pwd(void);
 void	command_error(t_shell *shell);
+int		error_number_args(void);
+int		error_wrong_path(void);
 
 #endif

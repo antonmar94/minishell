@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/02 12:02:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/02 12:34:55 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	header(void)
 	user = getenv("USER");//get user
 	clear_console();
 	printf(YELLOW"%s", user);
-	printf(GREEN " bienvenido a nuestra:\n");
+	printf(GREEN " wellcome to our:\n");
 	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
 	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
 	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");

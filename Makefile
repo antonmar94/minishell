@@ -4,8 +4,10 @@ LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
 SRCS =	./srcs/main.c \
 		./srcs/header.c \
-		./srcs/commands.c \
 		./srcs/errors.c \
+		./srcs/line_to_commands.c \
+		./srcs/commands.c \
+
 
 
 OBJS = ${SRCS:.c=.o}

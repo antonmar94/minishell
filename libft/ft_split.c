@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 10:04:20 by albzamor          #+#    #+#             */
-/*   Updated: 2021/08/21 11:05:05 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/03 14:18:01 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ size_t	ft_lens(char *lens, char c)
 	}
 }
 
+/*
+** SYNOPSIS: split string, with specified character as delimiter, into an array
+**			of strings
+**
+** DESCRIPTION:
+** 		Allocates (with malloc(3)) and returns an array of strings obtained by
+**	splitting ’s’ using the character ’c’ as a delimiter. The array must be
+**	ended by a NULL pointer.
+*/
 char	**ft_split(char const *s, char c)
 
 {

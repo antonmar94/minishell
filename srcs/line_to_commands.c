@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   line_to_list_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/03 14:28:14 by albzamor         ###   ########.fr       */
+/*   Created: 2022/01/03 13:25:26 by albzamor          #+#    #+#             */
+/*   Updated: 2022/01/03 13:37:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void command_error(t_shell *shell)
+/* split the read line into command (first) and args (rest) */
+void	split_line_to_command(t_shell *shell)
 {
-	ft_putstr_fd(RED"Minishell: Command not found: "RESET, 2);
-	printf("%s", shell->line);
-}
 
-int	error_system_pwd(void)
-{
-	ft_putstr_fdnl(RED"Error getting current work directory"RESET, 2);
-	return (1);
-}
+	shell->size_args = ft_wordcount(shell->line, ' ') -1;
+	shell->command_plus_args = ft_split(shell->line, ' ');
+	shell->command = shell->command_plus_args[0];
 
-int	error_number_args(void)
-{
-	ft_putstr_fdnl(RED"Error number of arguments invalid"RESET, 2);
-	return (1);
-}
-
-int	error_wrong_path(void)
-{
-	ft_putstr_fdnl(RED"Error path incorrect"RESET, 2);
-	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.c                                         :+:      :+:    :+:   */
+/*   list_commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/02 12:31:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/02 12:33:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ int print_pwd(void)
 	if(!getcwd(pwd, sizeof(pwd)))
 		return (error_system_pwd());
 	printf("%s>", pwd);
+	return (0);
+}
+
+int cd(t_shell *shell)
+{
+	int ret = 0;
+
+	if(shell->size_args != 1 )
+		return (error_number_args());
+	ret = chdir(shell->command_plus_args[1]);
+	if (ret)
+		return (error_wrong_path());
 	return (0);
 }
 
@@ -51,6 +63,8 @@ void execute_command(t_shell *shell, int i)
 		header();
 	else if (i == 3)
 		help(shell);
+	else if (i == 4)
+		cd(shell);
 }
 
 void find_command(t_shell *shell)
@@ -61,7 +75,7 @@ void find_command(t_shell *shell)
 
 	while (++i < shell->size_c)
 	{
-		if (ft_strcmp(shell->line, shell->commands[i]) == 0)
+		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
 			return;
@@ -75,11 +89,11 @@ void help(t_shell *shell)
 	int i;
 
 	i = -1;
-	ft_putstr_fdnl(GREEN"Lista de comandos: "RESET, 1);
+	ft_putstr_fdnl(GREEN"Command's List: "RESET, 1);
 	while (++i < shell->size_c)
 	{
-		//printf("%s\n",shell->commands[i]);
-		write(1, shell->commands[i], ft_strlen(shell->commands[i]));
+		//printf("%s\n",shell->list_commands[i]);
+		write(1, shell->list_commands[i], ft_strlen(shell->list_commands[i]));
 		write(1, "\n", 1);
 	}
 	ft_putstr_fd(GREEN"(Pipes are coming..)"RESET, 1);
