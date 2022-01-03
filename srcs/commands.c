@@ -26,20 +26,23 @@ int cd(t_shell *shell)
 {
 	int ret = 0;
 
-	if(shell->size_args != 1 )
+
+	if(shell->size_args > 1 )
 		return (error_number_args());
-	ret = chdir(shell->command_plus_args[1]);
+	if(shell->size_args == 0 ||
+		(shell->size_args == 1 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
+		ret = chdir(shell->path->home_user);
+	else
+		ret = chdir(shell->command_plus_args[1]);
 	if (ret)
 		return (error_wrong_path());
 	return (0);
 }
 
-void exit_minishell(void)
+void exit_minishell(t_shell *shell)
 {
-	char *user;
 
-	user = getenv("USER");//get user
-	printf(YELLOW"%s", user);
+	printf(YELLOW"%s", shell->path->user);
 	printf(GREEN " thanks for using our:\n");
 	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
 	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
@@ -54,13 +57,12 @@ void exit_minishell(void)
 
 void execute_command(t_shell *shell, int i)
 {
-	(void)shell;
 	if (i == 0)
 		print_pwd();
 	else if (i == 1)
-		exit_minishell();
+		exit_minishell(shell);
 	else if (i == 2)
-		header();
+		header(shell);
 	else if (i == 3)
 		help(shell);
 	else if (i == 4)

@@ -6,19 +6,17 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/02 12:34:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:15:33 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	header(void)
+void	header(t_shell *shell)
 {
-	char *user;
 
-	user = getenv("USER");//get user
 	clear_console();
-	printf(YELLOW"%s", user);
+	printf(YELLOW"%s", shell->path->user);
 	printf(GREEN " wellcome to our:\n");
 	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
 	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");

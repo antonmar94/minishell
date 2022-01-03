@@ -6,16 +6,30 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/03 14:49:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:16:46 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+t_path *init_path(t_shell *shell)
+{
+
+	shell->path->user = ft_strdup(getenv("USER"));
+	shell->path->home = ft_strdup("/Users/");
+	shell->path->home_user = ft_strjoin(shell->path->home, shell->path->user);
+	return(shell->path);
+}
+
+
 t_shell *initialice()
 {
 	t_shell *shell;
+
 	shell = malloc(sizeof(t_shell));
+	shell->path = malloc(sizeof(t_path));
+	shell->path = init_path(shell);
 	shell->line = NULL;
 	shell->size_c = 5;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
@@ -32,7 +46,7 @@ int main()
 	t_shell *shell;
 	shell = initialice();
 
-	header();
+	header(shell);
 	read_history(NULL);// si es null coje historial ~/.history
 	//add_history(line);
 	//printf("MINISHELL\n");

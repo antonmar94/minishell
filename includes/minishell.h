@@ -25,6 +25,13 @@
 /*
 ** minishell variables
 */
+typedef struct s_path
+{
+	char 		*user;
+	char		*home;
+	char		*home_user;
+}	t_path;
+
 typedef struct s_shell
 {
 	char 		*line;
@@ -33,9 +40,14 @@ typedef struct s_shell
 	int			size_args;
 	char		**list_commands;
 	int			size_c;
+	t_path		*path;
 }	t_shell;
 
-void	header(void);
+
+t_path *init_path(t_shell *shell);
+
+
+void	header(t_shell *shell);
 void	clear_console(void);
 
 
@@ -49,7 +61,7 @@ void	execute_command(t_shell *shell, int i);
 
 int		print_pwd(void);
 void	help(t_shell *shell);
-void 	exit_minishell(void);
+void 	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 
 
