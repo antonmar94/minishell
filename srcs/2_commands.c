@@ -18,7 +18,7 @@ int print_pwd(void)
 	;
 	if(!getcwd(pwd, sizeof(pwd)))
 		return (error_system_pwd());
-	printf("%s>", pwd);
+	printf("%s>\n", pwd);
 	return (0);
 }
 
@@ -27,15 +27,16 @@ int cd(t_shell *shell)
 	int ret = 0;
 
 
-	if(shell->size_args > 1 )
+	if(shell->size_line > 2 )
 		return (error_number_args());
-	if(shell->size_args == 0 ||
-		(shell->size_args == 1 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
+	if(shell->size_line == 1 ||
+		(shell->size_line == 2 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
 		ret = chdir(shell->path->home_user);
 	else
 		ret = chdir(shell->command_plus_args[1]);
 	if (ret)
 		return (error_wrong_path());
+	write(1, "\n", 1);
 	return (0);
 }
 
@@ -53,39 +54,6 @@ void exit_minishell(t_shell *shell)
 	exit(0);
 }
 
-
-
-void execute_command(t_shell *shell, int i)
-{
-	if (i == 0)
-		print_pwd();
-	else if (i == 1)
-		exit_minishell(shell);
-	else if (i == 2)
-		header(shell);
-	else if (i == 3)
-		help(shell);
-	else if (i == 4)
-		cd(shell);
-}
-
-void find_command(t_shell *shell)
-{
-	int i;
-
-	i = -1;
-
-	while (++i < shell->size_c)
-	{
-		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
-		{
-			execute_command(shell, i);
-			return;
-		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
-	}
-	command_error(shell);
-}
-
 void help(t_shell *shell)
 {
 	int i;
@@ -99,6 +67,24 @@ void help(t_shell *shell)
 		write(1, "\n", 1);
 	}
 	ft_putstr_fd(GREEN"(Pipes are coming..)"RESET, 1);
+	write(1, "\n", 1);
 }
 
+int echo(t_shell *shell)
+{
+	int i = 0;
 
+
+	if(shell->size_line < 1 )
+		write (1,"\n", 1);
+
+	else
+		while (++i <= shell->size_line)
+		{
+			ft_putstr_fd(shell->command_plus_args[i], 1);
+			if (i < shell->size_line)
+				write(1, " ", 1);
+		}
+	write(1, "\n", 1);
+	return (0);
+}

@@ -16,8 +16,7 @@
 void	split_line_to_command(t_shell *shell)
 {
 
-	shell->size_args = ft_wordcount(shell->line, ' ') -1;
+	shell->size_line = ft_wordcount(shell->line, ' ');
 	shell->command_plus_args = ft_split(shell->line, ' ');
 	shell->command = shell->command_plus_args[0];
-
 }
