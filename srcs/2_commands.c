@@ -72,19 +72,22 @@ void help(t_shell *shell)
 
 int echo(t_shell *shell)
 {
-	int i = 0;
+	int i = -1;
 
 
-	if(shell->size_line < 1 )
+	if(!shell->command_args)
 		write (1,"\n", 1);
 
 	else
-		while (++i <= shell->size_line)
+	{
+		while (shell->command_args[++i])
 		{
-			ft_putstr_fd(shell->command_plus_args[i], 1);
-			if (i < shell->size_line)
+			ft_putstr_fd(shell->command_args[i], 1);
+			if (shell->command_args[i + 1])
 				write(1, " ", 1);
 		}
-	write(1, "\n", 1);
+
+		write(1, "\n", 1);
+	}
 	return (0);
 }

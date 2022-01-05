@@ -36,6 +36,8 @@ typedef struct s_shell
 {
 	char 		*line;
 	char		*command;
+	char		*command_flag;
+	char		**command_args;
 	char		**command_plus_args;
 	int			size_line;
 	char		**list_commands;
@@ -44,8 +46,12 @@ typedef struct s_shell
 }	t_shell;
 
 /*----------------------- init_commands --------------------------------------*/
-t_path *init_path(t_shell *shell);
+t_path 	*init_path(t_shell *shell);
 t_shell *initialice();
+void 	separate_args(t_shell *shell);
+void 	separate_args_no_flag(t_shell *shell);
+
+
 
 
 void	header(t_shell *shell);
@@ -70,8 +76,11 @@ int 	echo(t_shell *shell);
 
 /*----------------------- ERRORS ---------------------------------------------*/
 int		error_system_pwd(void);
-void	command_error(t_shell *shell);
+void	command_error(void);
 int		error_number_args(void);
 int		error_wrong_path(void);
+
+/*----------------------- AUXILIAR------------------/-------------------------*/
+void	print_all(t_shell *shell);
 
 #endif

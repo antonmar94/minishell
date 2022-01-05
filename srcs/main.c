@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/04 14:01:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:43:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int main()
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
 		split_line_to_command(shell);
-		//printf("\ncommands: %s\n", shell->command);
-		//printf("\nnumero commands: %d\n", shell->size_line);
-		//printf("\narg 1: %s\n", shell->command_plus_args[1]);
+
+
+		print_all(shell);// imprimir argumentos y todo para comprobar;
+
 
 		find_command(shell);
 		//history readline
