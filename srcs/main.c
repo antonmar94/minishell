@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/05 16:43:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/05 18:51:45 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main()
 		split_line_to_command(shell);
 
 
-		print_all(shell);// imprimir argumentos y todo para comprobar;
+		//print_all(shell);// imprimir argumentos y todo para comprobar;
 
 
 		find_command(shell);

@@ -48,7 +48,7 @@ typedef struct s_shell
 /*----------------------- init_commands --------------------------------------*/
 t_path 	*init_path(t_shell *shell);
 t_shell *initialice();
-void 	separate_args(t_shell *shell);
+void 	separate_args_flag(t_shell *shell);
 void 	separate_args_no_flag(t_shell *shell);
 
 

@@ -14,7 +14,7 @@ void find_command(t_shell *shell)
 			return;
 		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
 	}
-	command_error(shell);
+	command_error();
 }
 
 void execute_command(t_shell *shell, int i)

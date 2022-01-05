@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/05 17:09:42 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:29:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void command_error(void)
 {
-	ft_putstr_fdnl(RED"Minishell: Command not found: "RESET, 2);
+	ft_putstr_fdnl(RED"Minishell: Command not found "RESET, 2);
 	//printf("%s", shell->line);
 	//write(1, "\n", 1);
 }

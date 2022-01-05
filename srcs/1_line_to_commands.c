@@ -12,7 +12,9 @@
 
 #include "../includes/minishell.h"
 
-/* split the read line into command (first) and args (rest) */
+/* split the read line into command (first) and args (rest)
+
+*/
 void	split_line_to_command(t_shell *shell)
 {
 
@@ -20,15 +22,19 @@ void	split_line_to_command(t_shell *shell)
 	shell->size_line = ft_wordcount(shell->line, ' ');
 	shell->command_plus_args = ft_split(shell->line, ' ');
 	shell->command = shell->command_plus_args[0];
-	if(shell->command_plus_args[1] && (shell->command_plus_args[1][0] == '-'))
-		separate_args(shell);
+	if
+	(
+		shell->command_plus_args[1] &&
+		(ft_strcmp(shell->command_plus_args[1], "-n") == 0) &&
+		ft_strcmp(shell->command, "echo") == 0
+	)
+		separate_args_flag(shell);
 	else
 		separate_args_no_flag(shell);
 
 }
 
-
-void separate_args(t_shell *shell)
+void separate_args_flag(t_shell *shell)
 {
 
 	int i;
@@ -55,6 +61,7 @@ void separate_args_no_flag(t_shell *shell)
 	i = 0;
 	if (shell->size_line > 1)
 	{
+		shell->command_flag = NULL;
 		shell->command_args = malloc(sizeof(char*) * shell->size_line - 1);
 		while( i + 1 < shell->size_line )
 		{
@@ -63,5 +70,8 @@ void separate_args_no_flag(t_shell *shell)
 		}
 	}
 	else
+	{
+		shell->command_flag = NULL;
 		shell->command_args = NULL;
+	}
 }
