@@ -36,7 +36,7 @@ int cd(t_shell *shell)
 		ret = chdir(shell->command_plus_args[1]);
 	if (ret)
 		return (error_wrong_path());
-	write(1, "\n", 1);
+	//write(1, "\n", 1);
 	return (0);
 }
 
@@ -48,10 +48,8 @@ void exit_minishell(t_shell *shell)
 	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
 	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
 	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");
-	//sleep(2);
-	//clear_console();
+	shell->exit = 1;
 
-	exit(0);
 }
 
 void help(t_shell *shell)

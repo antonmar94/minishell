@@ -15,6 +15,7 @@ t_shell *initialice()
 	t_shell *shell;
 
 	shell = malloc(sizeof(t_shell));
+	shell->exit = 0;
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
 	shell->line = NULL;

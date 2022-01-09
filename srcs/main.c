@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/05 18:51:45 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:59:37 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main()
 	read_history(NULL);// si es null coje historial ~/.history
 	//add_history(line);
 	//printf("MINISHELL\n");
-	while(1)
+	while(!shell->exit)
 	{
 		//imprimir prompt con la ruta:
 		//readline() //capturar linea comandos

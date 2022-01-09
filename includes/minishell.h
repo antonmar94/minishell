@@ -42,6 +42,7 @@ typedef struct s_shell
 	int			size_line;
 	char		**list_commands;
 	int			size_c;
+	int 		exit;
 	t_path		*path;
 }	t_shell;
 
