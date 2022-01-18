@@ -7,11 +7,9 @@ SRCS =	./srcs/main.c \
 		./srcs/errors.c \
 		./srcs/1_line_to_commands.c \
 		./srcs/0_init.c \
-		./srcs/2_evaluate_commands.c \
+		./srcs/3_evaluate_commands.c \
 		./srcs/2_commands.c \
 		./srcs/z_auxiliar_comp.c \
-
-
 
 OBJS = ${SRCS:.c=.o}
 

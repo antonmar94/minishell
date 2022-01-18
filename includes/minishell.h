@@ -46,6 +46,11 @@ typedef struct s_shell
 	t_path		*path;
 }	t_shell;
 
+/*----------------------- header ---------------------------------------------*/
+void	header(t_shell *shell);
+void	print_header(t_shell *shell);
+
+
 /*----------------------- init_commands --------------------------------------*/
 t_path 	*init_path(t_shell *shell);
 t_shell *initialice();
@@ -55,7 +60,7 @@ void 	separate_args_no_flag(t_shell *shell);
 
 
 
-void	header(t_shell *shell);
+
 void	clear_console(void);
 
 

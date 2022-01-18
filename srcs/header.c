@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/03 17:15:33 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:29:26 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ void	header(t_shell *shell)
 {
 
 	clear_console();
-	printf(YELLOW"%s", shell->path->user);
-	printf(GREEN " wellcome to our:\n");
-	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
-	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
-	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");
+	print_header(shell);
 	sleep(2);
 	clear_console();
 
@@ -31,3 +27,11 @@ void	clear_console(void)
 	printf("\033[H\033[J");
 }
 
+void	print_header(t_shell *shell)
+{
+	printf(YELLOW"%s", shell->path->user);
+	printf(GREEN " wellcome to our:\n");
+	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
+	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
+	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");
+}

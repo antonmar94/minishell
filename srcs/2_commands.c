@@ -42,14 +42,8 @@ int cd(t_shell *shell)
 
 void exit_minishell(t_shell *shell)
 {
-
-	printf(YELLOW"%s", shell->path->user);
-	printf(GREEN " thanks for using our:\n");
-	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
-	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
-	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");
+	print_header(shell);
 	shell->exit = 1;
-
 }
 
 void help(t_shell *shell)
