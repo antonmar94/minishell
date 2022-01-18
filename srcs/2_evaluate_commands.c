@@ -31,4 +31,6 @@ void execute_command(t_shell *shell, int i)
 		cd(shell);
 	else if (i == 5)
 		echo(shell);
+	else if (i == 6)
+		clear_console();
 }

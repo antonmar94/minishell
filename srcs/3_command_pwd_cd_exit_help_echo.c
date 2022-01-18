@@ -26,7 +26,6 @@ int cd(t_shell *shell)
 {
 	int ret = 0;
 
-
 	if(shell->size_line > 2 )
 		return (error_number_args());
 	if(shell->size_line == 1 ||
@@ -76,10 +75,10 @@ int echo(t_shell *shell)
 
 	else
 	{
-		while (shell->command_args && shell->command_args[++i])
+		while (++i < shell->size_args)
 		{
 			ft_putstr_fd(shell->command_args[i], 1);
-			if (shell->command_args[i + 1])
+			if (i < shell->size_args -1)
 				write(1, " ", 1);
 		}
 

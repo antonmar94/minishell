@@ -40,6 +40,7 @@ typedef struct s_shell
 	char		**command_args;
 	char		**command_plus_args;
 	int			size_line;
+	int			size_args;
 	char		**list_commands;
 	int			size_c;
 	int 		exit;
@@ -69,6 +70,7 @@ void	clear_console(void);
 void	split_line_to_command(t_shell *shell);
 void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);
+void	free_and_reset_values(t_shell *shell);
 
 /*----------------------- list_commands --------------------------------------*/
 

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/09 13:59:37 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/01/18 21:24:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int main()
 	//printf("MINISHELL\n");
 	while(!shell->exit)
 	{
-		//imprimir prompt con la ruta:
-		//readline() //capturar linea comandos
+
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		//printf(RESET"el comando introucido es: %s\n"GREEN, line);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
@@ -34,15 +33,24 @@ int main()
 
 		//print_all(shell);// imprimir argumentos y todo para comprobar;
 
+		if (*shell->line)
+			find_command(shell);
 
-		find_command(shell);
-		//history readline
 
 		//if (ft_strcmp(shell->line, "pwd") == 0) // comparar para cada comando. Hacer una tabla con todos¿?¿?
 			//printDir();
-		free(shell->line);
 
+		free_and_reset_values(shell);
 		write_history(NULL);
 	}
 	return (0);
+}
+
+void	free_and_reset_values(t_shell *shell)
+{
+	if(shell->line)
+			free(shell->line);
+	shell->size_line = 0;
+	shell->size_args = 0;
+	shell->command = NULL;
 }
