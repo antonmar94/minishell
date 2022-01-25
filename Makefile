@@ -41,6 +41,7 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
+	$(RM) $(OBJS)
 
 re: clean all
 

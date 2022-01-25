@@ -54,7 +54,7 @@ void separate_args_flag(t_shell *shell)
 	}
 	else
 		shell->command_args = NULL;
-		shell->size_args = 0;
+		//shell->size_args = 0;
 }
 
 void separate_args_no_flag(t_shell *shell)
@@ -77,6 +77,6 @@ void separate_args_no_flag(t_shell *shell)
 	{
 		shell->command_flag = NULL;
 		shell->command_args = NULL;
-		shell->size_args = 0;
+		//shell->size_args = 0;
 	}
 }
