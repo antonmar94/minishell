@@ -5,3 +5,4 @@
 ni_*
 .vscode
 minishell
+*.test
