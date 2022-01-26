@@ -1,0 +1,11 @@
+total 56
+drwxr-xr-x  10 albzamor  2019    340 21 ene 16:13 .
+drwx------  10 albzamor  2019    340 21 ene 12:39 ..
+drwxr-xr-x  13 albzamor  2019    442 21 ene 16:09 .git
+-rw-r--r--   1 albzamor  2019     45 18 ene 17:58 .gitignore
+-rw-r--r--   1 albzamor  2019   1355 18 ene 21:09 Makefile
+drwxr-xr-x   3 albzamor  2019    102 18 ene 17:59 includes
+drwxr-xr-x  94 albzamor  2019   3196 21 ene 15:57 libft
+-rwxr-xr-x   1 albzamor  2019  18964 21 ene 15:57 minishell
+-rw-r--r--   1 albzamor  2019      0 21 ene 16:15 prueba
+drwxr-xr-x  22 albzamor  2019    748 21 ene 15:57 srcs
