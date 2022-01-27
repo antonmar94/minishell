@@ -32,7 +32,6 @@ void	split_line_to_command(t_shell *shell)
 		separate_args_flag(shell);
 	else
 		separate_args_no_flag(shell);
-
 }
 
 void separate_args_flag(t_shell *shell)
