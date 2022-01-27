@@ -24,6 +24,7 @@ endif
 
 CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
+
 all: $(NAME)
 %.o: %.c
 	$(CC)  $(CFLAGS) -c $< -o $@
@@ -37,6 +38,15 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 
 	make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
+
+compare: all
+	@cd tests && ./compare.sh && cd ..
+
+test: all
+	@cd tests && ./test.sh && cd ..
+
+2test: all
+	@cd tests && ./2test.sh && cd ..
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
