@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/25 20:31:55 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/01/28 10:57:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main()
 	t_shell *shell;
 	shell = initialice();
 
-	header(shell);
+	//header(shell);
 	read_history(NULL);// si es null coje historial ~/.history
 	//add_history(line);
 	//printf("MINISHELL\n");
