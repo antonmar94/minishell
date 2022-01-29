@@ -41,7 +41,7 @@ int cd(t_shell *shell)
 
 void exit_minishell(t_shell *shell)
 {
-	print_header(shell);
+	print_header(shell, "thanks for using ");
 	shell->exit = 1;
 }
 
