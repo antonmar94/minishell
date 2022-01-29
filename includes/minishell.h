@@ -35,6 +35,8 @@ typedef struct s_path
 typedef struct s_shell
 {
 	char 		*line;
+	char		*line_walker;
+	char		*line_args;
 	char		*command;
 	char		*command_flag;
 	char		**command_args;
@@ -66,7 +68,10 @@ void	clear_console(void);
 
 
 
-
+int 	line_without_command(t_shell *shell);
+int		arg_listing(t_shell *shell);
+int		count_quotes(t_shell *shell);
+int		count_args(t_shell *shell);
 void	split_line_to_command(t_shell *shell);
 void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);

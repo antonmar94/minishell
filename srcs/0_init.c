@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   0_init.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
+/*   Updated: 2022/01/29 21:18:33 by antonmar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 t_path *init_path(t_shell *shell)
@@ -19,6 +31,8 @@ t_shell *initialice()
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
 	shell->line = NULL;
+	shell->line_walker = NULL;
+	shell->line_args = NULL;
 	shell->size_c = 7;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
 	shell->list_commands[0]="pwd";
