@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/29 22:13:20 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/01/31 21:19:50 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,66 @@ int	line_without_command(t_shell *shell) //Introduce la linea de argumentos sin 
 	return (0);
 }
 
+int	split_arguments(t_shell *shell)
+{
+	int	count_args;
+
+	count_args = 0;
+	shell->line_walker = shell->line_args;
+	while (get_next_argument(shell))
+		count_args++;
+	printf("%s", shell->arg_list->content);
+	return (0);
+}
+
+int	get_next_argument(t_shell *shell)
+{
+	int i; //Contamos para luego dividir con substr
+	t_arglist	*this_arg;
+	char		*start_arg;
+
+	i = 0;
+	start_arg = shell->line_walker;
+	while (*(shell->line_walker) && (!check_quotes(shell, '\'') && !check_quotes(shell, '\"') && *(shell->line_walker) != ' '))
+	{
+		shell->line_walker++;
+		i++;
+	}
+	if (!(*(shell->line_walker))) //Revisar este metodo, no fucniona correctamente
+	{
+		start_arg = ft_substr(start_arg, 0, i);
+		this_arg = arg_node_new(start_arg);
+		arglstadd_back(&shell->arg_list, this_arg);
+		return (0);
+	}
+	shell->line_walker++;
+	printf("no estamos xa más");
+	return (1);
+}
+
+int	check_quotes(t_shell *shell, char quotes)
+{
+	int		i;   //Es lo grande que va a ser el argumento (en caso de "" no lo sabemos porque extiende el valor de la variable)
+	char	*quotes_finder;
+
+	i = 0;
+	quotes_finder = shell->line_walker;
+	if (*quotes_finder == quotes)
+	{
+		quotes_finder++;
+		while (*quotes_finder)
+		{
+			if (*quotes_finder == quotes)
+				return (i);
+			i++;
+			quotes_finder++;
+		}
+	}
+	return (0);
+}
+
+
+/*
 int	count_quotes(t_shell *shell)
 {
 	char	*quotes_finder;
@@ -126,14 +186,14 @@ int	count_args(t_shell *shell)
 			quotes_finder++;
 		}
 		quotes_finder++;
-/* 		if (*quotes_finder && *quotes_finder != ' ')
-			space_words++; */
+ 		if (*quotes_finder && *quotes_finder != ' ')
+			space_words++;
 		quotes_count = count_quotes(shell);
 	}
 	return (space_words);
 }
 
-/* int	arg_listing(t_shell *shell) //Introduce los argumentos limpios en "shell->command_args"
+int	arg_listing(t_shell *shell) //Introduce los argumentos limpios en "shell->command_args"
 {
 	char	*aux;
 

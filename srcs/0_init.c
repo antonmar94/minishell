@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/29 21:18:33 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/01/31 20:42:51 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_path *init_path(t_shell *shell)
 	shell->path->home_user = ft_strjoin(shell->path->home, shell->path->user);
 	return(shell->path);
 }
-
 
 t_shell *initialice()
 {
@@ -43,4 +42,34 @@ t_shell *initialice()
 	shell->list_commands[5]="echo";
 	shell->list_commands[6]="clear";
 	return (shell);
+}
+
+t_arglist	*arg_node_new(char *first_arg)
+{
+	t_arglist	*arg_list;
+
+	arg_list = (t_arglist *)malloc(sizeof(t_arglist));
+	if (!arg_list)
+		return (NULL);
+	arg_list->content = first_arg;
+	arg_list->next = NULL;
+	return (arg_list);
+}
+
+void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
+{
+	t_arglist	*aux;
+
+	aux = *arg_lst;
+	if (!new)
+		return ;
+	if (!*arg_lst)
+	{
+		*arg_lst = new;
+		return ;
+	}
+	while ((*arg_lst)->next)
+		*arg_lst = (*arg_lst)->next;
+	(*arg_lst)->next = new;
+	*arg_lst = aux;
 }

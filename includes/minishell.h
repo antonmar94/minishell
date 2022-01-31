@@ -32,6 +32,13 @@ typedef struct s_path
 	char		*home_user;
 }	t_path;
 
+typedef struct arg_list
+{
+	char			*content;
+	struct arg_list	*next;
+
+}	t_arglist;
+
 typedef struct s_shell
 {
 	char 		*line;
@@ -47,6 +54,7 @@ typedef struct s_shell
 	int			size_c;
 	int 		exit;
 	t_path		*path;
+	t_arglist	*arg_list;
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
@@ -59,8 +67,8 @@ t_path 	*init_path(t_shell *shell);
 t_shell *initialice();
 void 	separate_args_flag(t_shell *shell);
 void 	separate_args_no_flag(t_shell *shell);
-
-
+t_arglist	*arg_node_new(char *first_arg);
+void	arglstadd_back(t_arglist **arg_lst, t_arglist *new);
 
 
 
@@ -70,8 +78,11 @@ void	clear_console(void);
 
 int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
+int		check_quotes(t_shell *shell, char quotes);
 int		count_quotes(t_shell *shell);
+int		get_next_argument(t_shell *shell);
 int		count_args(t_shell *shell);
+int		split_arguments(t_shell *shell);
 void	split_line_to_command(t_shell *shell);
 void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/29 21:24:11 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/01/31 21:06:52 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(void)
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
 		line_without_command(shell);
-		printf("cosas %i", count_args(shell));
+		split_arguments(shell);
+		//printf("cosas %i", count_args(shell));
 		//if (arg_listing(shell) == -1)
 		//	command_error();
 		//print_all(shell);// imprimir argumentos y todo para comprobar;
