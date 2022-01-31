@@ -7,6 +7,7 @@ SRCS =	./srcs/main.c \
 		./srcs/errors.c \
 		./srcs/0_init.c \
 		./srcs/1_line_to_commands.c \
+		./srcs/1b_search_quotes.c \
 		./srcs/2_evaluate_commands.c \
 		./srcs/3_command_pwd_cd_exit_help_echo.c \
 		./srcs/4_commands_2.c \

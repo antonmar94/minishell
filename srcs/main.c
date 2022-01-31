@@ -6,13 +6,48 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/01/29 13:19:13 by albzamor         ###   ########.fr       */
+=======
+/*   Updated: 2022/01/29 21:24:11 by antonmar         ###   ########.fr       */
+>>>>>>> origin/antonio
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main()
+int	main(void)
+{
+	t_shell *shell;
+	//char	**list_args;
+
+	shell = initialice();
+	//header(shell);
+	read_history(NULL);
+	while(!shell->exit)
+	{
+
+		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
+		if (shell->line && *shell->line)// sólo si exite y hay contenido
+			add_history(shell->line);
+		line_without_command(shell);
+		printf("cosas %i", count_args(shell));
+		//if (arg_listing(shell) == -1)
+		//	command_error();
+		//print_all(shell);// imprimir argumentos y todo para comprobar;
+		//list_args = shell->command_args;
+		/* while (*list_args)
+		{
+			printf("%s\n", *list_args);
+			list_args++;
+		} */
+		write_history(NULL);
+		free_and_reset_values(shell);
+	}
+	return (0);
+}
+
+/* int main()
 {
 	t_shell *shell;
 	shell = initialice();
@@ -23,13 +58,11 @@ int main()
 	//printf("MINISHELL\n");
 	while(!shell->exit)
 	{
-
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		//printf(RESET"el comando introucido es: %s\n"GREEN, line);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
 		split_line_to_command(shell);
-
 
 		//print_all(shell);// imprimir argumentos y todo para comprobar;
 
@@ -44,7 +77,7 @@ int main()
 		write_history(NULL);
 	}
 	return (0);
-}
+} */
 
 void	free_and_reset_values(t_shell *shell)
 {
