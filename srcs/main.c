@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/31 21:06:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/01 12:44:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char** envp)
 {
+	(void)argc;
+	(void)argv;
 	t_shell *shell;
+
 	//char	**list_args;
 
-	shell = initialice();
+	shell = initialice(envp);
 	//header(shell);
 	read_history(NULL);
 	while(!shell->exit)
