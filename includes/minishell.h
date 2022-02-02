@@ -119,5 +119,7 @@ int		error_wrong_path(void);
 
 /*----------------------- AUXILIAR------------------/-------------------------*/
 void	print_all(t_shell *shell);
+void	print_env_list(t_env_list *envp);
+int		size_matriz(char **str);
 
 #endif

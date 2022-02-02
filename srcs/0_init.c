@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/01 21:28:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/02 16:30:33 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,14 @@ t_env_list	*init_list_env(t_shell *shell, char** envp)
 	int i;
 
 
+	size_envp = size_matriz(envp);
+
 
 	this_list_var = env_var_list_new(envp[0]);
-	//env_var_add_back(&shell->env_list, this_list_var);
+	env_var_add_back(&shell->env_list, this_list_var);
 	init = this_list_var;
 
-	i = 0;
-
-	size_envp = sizeof(envp) / sizeof(char *);
-
+	i = 1;
 	while (++i < size_envp)
 	{
 		this_list_var = env_var_list_new(envp[i]);
