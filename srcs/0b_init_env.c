@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/02 18:42:26 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/02 18:52:56 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ t_env_list	*env_var_list_new(char* env_var)
 	env_list = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!env_list)
 		return (NULL);
-	env_list->var_content = cut_env_var_name(env_var);//pasar funcion para trocear var
+	env_list->var_name = cut_env_var_name(env_var);//pasar funcion para trocear var
+	env_list->var_content = cut_env_var_content(env_var);//pasar funcion para trocear var
 	env_list->next = NULL;
 	return (env_list);
 }
@@ -87,17 +88,30 @@ char *cut_env_var_name(char* env_var)
 
 char *cut_env_var_content(char* env_var)
 {
-    char *var_name;
+    char *var_content;
     char *env_var_walking;
-    int i;
+    int start;
+    int end;
 
     env_var_walking = env_var;
-    i=0;
-    while (*env_var_walking && *env_var_walking != '=')
+    start=0;
+    while (*env_var_walking != '=')
     {
-        i++;
+        start++;
         env_var_walking++;
     }
-    var_name=ft_substr(env_var, 0, i);
-    return(var_name);
+    start++;
+    end = start;
+    env_var_walking++;
+    while (*env_var_walking)
+    {
+        end++;
+        env_var_walking++;
+    }
+
+
+
+    var_content=ft_substr(env_var, start, end);
+    return(var_content);
 }
+
