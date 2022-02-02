@@ -6,6 +6,8 @@ SRCS =	./srcs/main.c \
 		./srcs/header.c \
 		./srcs/errors.c \
 		./srcs/0_init.c \
+		./srcs/0b_init_env.c\
+		./srcs/1_line_to_commands.c \
 		./srcs/1_line_to_commands.c \
 		./srcs/1b_search_quotes.c \
 		./srcs/2_evaluate_commands.c \
