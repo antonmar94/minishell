@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/01 13:19:24 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:28:21 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_shell *initialice(char** envp)
 	shell->exit = 0;
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
-	shell->env_list = init_list_env(shell);
+	shell->env_list = init_list_env(shell, envp);
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->line_args = NULL;
@@ -45,23 +45,31 @@ t_shell *initialice(char** envp)
 	return (shell);
 }
 
-init_list_env(t_shell *shell, char** envp)
+t_env_list	*init_list_env(t_shell *shell, char** envp)
 {
+	t_env_list *init;
 	t_env_list	*this_list_var;
 	int size_envp;
 	int i;
 
-	i = -1;
+
+
+	this_list_var = env_var_list_new(envp[0]);
+	//env_var_add_back(&shell->env_list, this_list_var);
+	init = this_list_var;
+
+	i = 0;
+
 	size_envp = sizeof(envp) / sizeof(char *);
 
 	while (++i < size_envp)
 	{
 		this_list_var = env_var_list_new(envp[i]);
-		arglstadd_back(&shell->arg_list, this_list_);
+		env_var_add_back(&shell->env_list, this_list_var);
 	}
+	return (init);
 
 
-	
 }
 
 t_env_list	*env_var_list_new(char* env_var)
@@ -94,30 +102,6 @@ void	env_var_add_back(t_env_list **env_list, t_env_list *new)
 	*env_list = aux;
 }
 
-int	get_next_argument(t_shell *shell)
-{
-	int i; //Contamos para luego dividir con substr
-	t_arglist	*this_arg;
-	char		*start_arg;
-
-	i = 0;
-	start_arg = shell->line_walker;
-	while (*(shell->line_walker) && (!check_quotes(shell, '\'') && !check_quotes(shell, '\"') && *(shell->line_walker) != ' '))
-	{
-		shell->line_walker++;
-		i++;
-	}
-	if (!(*(shell->line_walker))) //Revisar este metodo, no fucniona correctamente
-	{
-		start_arg = ft_substr(start_arg, 0, i);
-		this_arg = arg_node_new(start_arg);
-		arglstadd_back(&shell->arg_list, this_arg);
-		return (0);
-	}
-	shell->line_walker++;
-	printf("no estamos xa más");
-	return (1);
-}
 
 
 

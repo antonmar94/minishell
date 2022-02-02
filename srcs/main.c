@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/01 12:44:28 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:23:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	main(int argc, char **argv, char** envp)
 	//char	**list_args;
 
 	shell = initialice(envp);
+
+
+	t_env_list *copy;
+	copy = shell->env_list;
+	printf("contenido copy: %s", copy->next->var_content);
+	while (copy->next)
+	{
+		printf("env var: %s", shell->env_list->var_content);
+		printf("hello");
+		copy = copy->next;
+	}
 	//header(shell);
 	read_history(NULL);
 	while(!shell->exit)

@@ -41,9 +41,9 @@ typedef struct arg_list
 
 typedef struct env_list
 {
-	char			*var_name;
-	char			*var_content;
-	struct arg_list	*next;
+	char				*var_name;
+	char				*var_content;
+	struct env_list	*next;
 
 }	t_env_list;
 
@@ -72,14 +72,16 @@ void	print_header(t_shell *shell);
 
 
 /*----------------------- init_commands --------------------------------------*/
-t_path 	*init_path(t_shell *shell);
-t_shell *initialice(char** envp);
-void 	separate_args_flag(t_shell *shell);
-void 	separate_args_no_flag(t_shell *shell);
+t_path 		*init_path(t_shell *shell);
+t_shell 	*initialice(char** envp);
+void 		separate_args_flag(t_shell *shell);
+void 		separate_args_no_flag(t_shell *shell);
 t_arglist	*arg_node_new(char *first_arg);
-void	arglstadd_back(t_arglist **arg_lst, t_arglist *new);
+void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
 t_env_list	*env_var_list_new(char* env_var);
-void	env_var_add_back(t_env_list **env_list, t_env_list *new);
+void		env_var_add_back(t_env_list **env_list, t_env_list *new);
+t_env_list	*init_list_env(t_shell *shell, char** envp);
+
 
 
 
