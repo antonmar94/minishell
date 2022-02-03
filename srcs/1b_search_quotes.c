@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/01 21:08:42 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:03:20 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	split_arguments(t_shell *shell)
 	shell->line_walker = shell->line_args;
 	while (simple_quotes_argument(shell))
 		count_args++;
-	printf("%s", shell->arg_list->content);
+	printf("lista: %s", shell->arg_list->content);
 	return (0);
 }
 
@@ -77,22 +77,20 @@ int	simple_quotes_argument(t_shell *shell)
 
 	i = 0;
 	start_arg = shell->line_walker;
-	while (*(shell->line_walker) && !check_quotes(shell, '\''))
+	while (*(shell->line_walker) && *(shell->line_walker) != '\'')
 	{
 		shell->line_walker++;
 		i++;
 	}
-	if (!(*(shell->line_walker))) //Revisar este metodo, no fucniona correctamente
+	if (!(*(shell->line_walker))) //Añade el ultimo argumento a la lista y devuelve 0 para que pare el bucle que llama a esta funcion
 	{
 		start_arg = ft_substr(start_arg, 0, i);
-		printf("argumento que entra: %s ||", start_arg);
 		this_arg = arg_node_new(start_arg);
 		arglstadd_back(&shell->arg_list, this_arg);
-		printf("argumento que esta: %s ||", shell->arg_list->content);
 		return (0);
 	}
+	//Implimentar que añada el argumento de antes de la comilla a la lista
 	shell->line_walker++;
-	//printf("no estamos xa más");
 	return (1);
 }
 

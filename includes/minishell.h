@@ -39,6 +39,14 @@ typedef struct arg_list
 
 }	t_arglist;
 
+typedef struct env_list
+{
+	char				*var_name;
+	char				*var_content;
+	struct env_list	*next;
+
+}	t_env_list;
+
 typedef struct s_shell
 {
 	char 		*line;
@@ -55,6 +63,7 @@ typedef struct s_shell
 	int 		exit;
 	t_path		*path;
 	t_arglist	*arg_list;
+	t_env_list	*env_list;
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
@@ -64,12 +73,24 @@ void	print_header(t_shell *shell, char *custom_head);
 
 /*----------------------- init_commands --------------------------------------*/
 t_path 		*init_path(t_shell *shell);
-t_shell 	*initialice();
+t_shell 	*initialice(char** envp);
 void 		separate_args_flag(t_shell *shell);
 void 		separate_args_no_flag(t_shell *shell);
 t_arglist	*arg_node_new(char *first_arg);
 void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
-void		all_clear(t_arglist **arg_lst);
+int 		env(t_shell *shell);
+
+
+/*----------------------- init_env --------------------------------------*/
+t_env_list	*env_var_list_new(char* env_var);
+void		env_var_add_back(t_env_list **env_list, t_env_list *new);
+t_env_list	*init_list_env(t_shell *shell, char** envp);
+char 		*cut_env_var_name(char* env_var);
+char 		*cut_env_var_content(char* env_var);
+int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
+int 		change_var_content(t_shell *shell, char *var_name_to_find,
+				char *var_content_to_change);
+
 
 
 
@@ -96,6 +117,8 @@ void	help(t_shell *shell);
 void 	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 int 	echo(t_shell *shell);
+int 	export(t_shell *shell);
+void	all_clear(t_arglist **arg_lst);
 
 
 
@@ -107,5 +130,8 @@ int		error_wrong_path(void);
 
 /*----------------------- AUXILIAR------------------/-------------------------*/
 void	print_all(t_shell *shell);
+void	print_env_list(t_env_list *envp);
+int		size_matriz(char **str);
+void	easy_test_line_for_check_export(t_shell *shell);
 
 #endif

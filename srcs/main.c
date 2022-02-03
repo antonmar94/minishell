@@ -3,18 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/02/01 21:05:40 by antonmar         ###   ########.fr       */
-=======
-<<<<<<< HEAD
-/*   Updated: 2022/01/29 13:19:13 by albzamor         ###   ########.fr       */
-=======
-/*   Updated: 2022/01/29 21:24:11 by antonmar         ###   ########.fr       */
->>>>>>> origin/antonio
->>>>>>> master
+/*   Updated: 2022/02/03 20:19:32 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +21,18 @@ void	free_and_reset_values(t_shell *shell)
 	shell->command = NULL;
 }
 
-int	main(void)
+int	main(int argc, char **argv, char** envp)
 {
+	(void)argc;
+	(void)argv;
 	t_shell *shell;
+
 	//char	**list_args;
 
-	shell = initialice();
-	//header(shell);
+	shell = initialice(envp);
+	print_env_list(shell->env_list);
+
+	wellcome_header(shell);
 	read_history(NULL);
 	while(!shell->exit)
 	{
@@ -43,9 +40,13 @@ int	main(void)
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
 		line_without_command(shell);
-		simple_quotes_argument(shell);
-		printf("%s", shell->arg_list->content);
-		//split_arguments(shell);
+		//simple_quotes_argument(shell);
+		//printf("%s", shell->arg_list->content);
+		split_arguments(shell);
+		//line_without_command(shell);  //No funciona ANTONIO
+		//split_arguments(shell); NO FUNCIONA ANTONIO
+		//easy_test_line_for_check_export(shell);
+		//find_command(shell);
 		//printf("cosas %i", count_args(shell));
 		//if (arg_listing(shell) == -1)
 		//	command_error();
@@ -57,7 +58,8 @@ int	main(void)
 			list_args++;
 		} */
 		write_history(NULL);
-		free_and_reset_values(shell);
+		all_clear(&shell->arg_list);
+		//free_and_reset_values(shell);
 	}
 	return (0);
 }

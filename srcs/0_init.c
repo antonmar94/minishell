@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/01 20:38:55 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/03 21:03:17 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_path *init_path(t_shell *shell)
 	return(shell->path);
 }
 
-t_shell *initialice()
+t_shell *initialice(char** envp)
 {
 	t_shell *shell;
 
@@ -29,10 +29,11 @@ t_shell *initialice()
 	shell->exit = 0;
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
+	shell->env_list = init_list_env(shell, envp);
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->line_args = NULL;
-	shell->size_c = 7;//Numero de comandos actualizar al final
+	shell->size_c = 9;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
 	shell->list_commands[0]="pwd";
 	shell->list_commands[1]="exit";
@@ -41,8 +42,16 @@ t_shell *initialice()
 	shell->list_commands[4]="cd";
 	shell->list_commands[5]="echo";
 	shell->list_commands[6]="clear";
+	shell->list_commands[7]="export";
+	shell->list_commands[8]="env";// borrar?? solo para comprobar env
+	// NO AÑADIR COMANDO SIN AUMENTAR SIZE_C
 	return (shell);
 }
+
+
+
+
+
 
 t_arglist	*arg_node_new(char *first_arg)
 {
@@ -89,4 +98,5 @@ void	all_clear(t_arglist **arg_lst)
 	}
 	cleaner->content = NULL;
 	cleaner->next = NULL;
+	*arg_lst = NULL;
 }

@@ -6,12 +6,15 @@ SRCS =	./srcs/main.c \
 		./srcs/header.c \
 		./srcs/errors.c \
 		./srcs/0_init.c \
+		./srcs/0b_init_env.c\
+		./srcs/1_line_to_commands.c \
 		./srcs/1_line_to_commands.c \
 		./srcs/1b_search_quotes.c \
 		./srcs/2_evaluate_commands.c \
 		./srcs/3_command_pwd_cd_exit_help_echo.c \
 		./srcs/4_commands_2.c \
 		./srcs/z_auxiliar_comp.c \
+		./srcs/z1_auxiliar_list.c \
 
 OBJS = ${SRCS:.c=.o}
 

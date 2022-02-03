@@ -33,4 +33,8 @@ void execute_command(t_shell *shell, int i)
 		echo(shell);
 	else if (i == 6)
 		clear_console();
+	else if (i == 7)
+		export(shell);
+	else if (i == 8)
+		env(shell);
 }
