@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/02 18:58:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:51:55 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	print_env_list(t_env_list *envp)
 		i++;
 	}
 	i++;
-	printf("\nenv var: %s", copy->var_content);
+	printf(BLUE"\nvar name:"RESET);
+	printf("%s", copy->var_name);
+	printf(GREEN"\nvar content:"RESET);
+	printf("%s"RESET, copy->var_content);
 	printf("\n");
 	printf(RED"tamaño lista: %d\n"RESET,i);
 }
