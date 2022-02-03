@@ -20,6 +20,15 @@
 
 #include "../includes/minishell.h"
 
+void	free_and_reset_values(t_shell *shell)
+{
+	if(shell->line)
+			free(shell->line);
+	shell->size_line = 0;
+	shell->size_args = 0;
+	shell->command = NULL;
+}
+
 int	main(void)
 {
 	t_shell *shell;
@@ -49,7 +58,6 @@ int	main(void)
 		} */
 		write_history(NULL);
 		free_and_reset_values(shell);
-		all_clear(&shell->arg_list);
 	}
 	return (0);
 }
@@ -85,12 +93,3 @@ int	main(void)
 	}
 	return (0);
 } */
-
-void	free_and_reset_values(t_shell *shell)
-{
-	if(shell->line)
-			free(shell->line);
-	shell->size_line = 0;
-	shell->size_args = 0;
-	shell->command = NULL;
-}
