@@ -113,6 +113,7 @@ void	help(t_shell *shell);
 void 	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 int 	echo(t_shell *shell);
+int 	export(t_shell *shell);
 
 
 
@@ -126,5 +127,6 @@ int		error_wrong_path(void);
 void	print_all(t_shell *shell);
 void	print_env_list(t_env_list *envp);
 int		size_matriz(char **str);
+void	easy_test_line_for_check_export(t_shell *shell);
 
 #endif

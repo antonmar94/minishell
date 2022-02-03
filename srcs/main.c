@@ -6,11 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/01/29 13:19:13 by albzamor         ###   ########.fr       */
-=======
-/*   Updated: 2022/02/02 16:30:48 by albzamor         ###   ########.fr       */
->>>>>>> comillas2
+/*   Updated: 2022/02/03 15:45:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +23,7 @@ int	main(int argc, char **argv, char** envp)
 	shell = initialice(envp);
 	print_env_list(shell->env_list);
 
-	//header(shell);
+	wellcome_header(shell);
 	read_history(NULL);
 	while(!shell->exit)
 	{
@@ -35,8 +31,10 @@ int	main(int argc, char **argv, char** envp)
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
-		line_without_command(shell);
-		split_arguments(shell);
+		//line_without_command(shell); No funciona ANTONIO
+		//split_arguments(shell); NO FUNCIONA ANTONIO
+		easy_test_line_for_check_export(shell);
+		find_command(shell);
 		//printf("cosas %i", count_args(shell));
 		//if (arg_listing(shell) == -1)
 		//	command_error();

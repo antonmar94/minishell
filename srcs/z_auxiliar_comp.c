@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/03 13:51:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:43:23 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,13 @@ int	size_matriz(char **str)
 	while (str[i])
 		i++;
 	return(i);
+}
+
+/* de la linea pasada (readline) comando a command y primer argumento sin tener
+en cuenta errores ni ninguna otra cosa para testear export*/
+void	easy_test_line_for_check_export(t_shell *shell)
+{
+	split_line_to_command(shell);
+	//primer argumento: shell->command_args[0]
+
 }
