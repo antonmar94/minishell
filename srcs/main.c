@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/02/01 21:05:40 by antonmar         ###   ########.fr       */
+=======
+<<<<<<< HEAD
+/*   Updated: 2022/01/29 13:19:13 by albzamor         ###   ########.fr       */
+=======
+/*   Updated: 2022/01/29 21:24:11 by antonmar         ###   ########.fr       */
+>>>>>>> origin/antonio
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +59,7 @@ int	main(void)
 	t_shell *shell;
 	shell = initialice();
 
-	header(shell);
+	wellcome_header(shell);
 	read_history(NULL);// si es null coje historial ~/.history
 	//add_history(line);
 	//printf("MINISHELL\n");

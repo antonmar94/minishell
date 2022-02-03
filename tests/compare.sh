@@ -6,7 +6,7 @@
 #    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/07 16:54:53 by mbueno-g          #+#    #+#              #
-#    Updated: 2022/01/27 17:07:10 by albzamor         ###   ########.fr        #
+#    Updated: 2022/01/28 12:35:58 by albzamor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RESET="\033[0m"
 
 #ECHO TESTS
 
-read -p "Enter your command: " var
+read -p "Enter your ECHO command: " var
 
 touch test1 test2
 
@@ -39,13 +39,5 @@ fi
 
 printf $BOLDGREEN"Expected output : \n%.20s\n$(cat -e test2)\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 
-if (cmp -s "$test1" "$test2") ; then
-	./starstruck
-else
-	printf "$BOLDRED\n----------------------------------------- DIFF -----------------------------------------\n\n"
-	diff test1 test2
-	printf $RESET
-	./sad
-fi
 
 rm -f test1 test2

@@ -58,8 +58,8 @@ typedef struct s_shell
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
-void	header(t_shell *shell);
-void	print_header(t_shell *shell);
+void	wellcome_header(t_shell *shell);
+void	print_header(t_shell *shell, char *custom_head);
 
 
 /*----------------------- init_commands --------------------------------------*/

@@ -24,7 +24,7 @@ void execute_command(t_shell *shell, int i)
 	else if (i == 1)
 		exit_minishell(shell);
 	else if (i == 2)
-		header(shell);
+		wellcome_header(shell);//hello
 	else if (i == 3)
 		help(shell);
 	else if (i == 4)
