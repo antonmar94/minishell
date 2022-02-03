@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/31 20:42:51 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/01 20:38:55 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,21 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 		*arg_lst = (*arg_lst)->next;
 	(*arg_lst)->next = new;
 	*arg_lst = aux;
+}
+
+void	all_clear(t_arglist **arg_lst)
+{
+	t_arglist *cleaner;
+	t_arglist *aux;
+
+	cleaner = *arg_lst;
+	while (cleaner->next)
+	{
+		aux = cleaner->next;
+		cleaner->content = NULL;
+		cleaner->next = NULL;
+		cleaner = aux;
+	}
+	cleaner->content = NULL;
+	cleaner->next = NULL;
 }

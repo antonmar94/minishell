@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/01/31 21:19:50 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:08:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ int	split_arguments(t_shell *shell)
 
 	count_args = 0;
 	shell->line_walker = shell->line_args;
-	while (get_next_argument(shell))
+	while (simple_quotes_argument(shell))
 		count_args++;
 	printf("%s", shell->arg_list->content);
 	return (0);
 }
 
-int	get_next_argument(t_shell *shell)
+int	simple_quotes_argument(t_shell *shell)
 {
 	int i; //Contamos para luego dividir con substr
 	t_arglist	*this_arg;
@@ -77,7 +77,7 @@ int	get_next_argument(t_shell *shell)
 
 	i = 0;
 	start_arg = shell->line_walker;
-	while (*(shell->line_walker) && (!check_quotes(shell, '\'') && !check_quotes(shell, '\"') && *(shell->line_walker) != ' '))
+	while (*(shell->line_walker) && !check_quotes(shell, '\''))
 	{
 		shell->line_walker++;
 		i++;
@@ -85,12 +85,14 @@ int	get_next_argument(t_shell *shell)
 	if (!(*(shell->line_walker))) //Revisar este metodo, no fucniona correctamente
 	{
 		start_arg = ft_substr(start_arg, 0, i);
+		printf("argumento que entra: %s ||", start_arg);
 		this_arg = arg_node_new(start_arg);
 		arglstadd_back(&shell->arg_list, this_arg);
+		printf("argumento que esta: %s ||", shell->arg_list->content);
 		return (0);
 	}
 	shell->line_walker++;
-	printf("no estamos xa más");
+	//printf("no estamos xa más");
 	return (1);
 }
 
