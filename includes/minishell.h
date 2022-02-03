@@ -32,9 +32,26 @@ typedef struct s_path
 	char		*home_user;
 }	t_path;
 
+typedef struct arg_list
+{
+	char			*content;
+	struct arg_list	*next;
+
+}	t_arglist;
+
+typedef struct env_list
+{
+	char				*var_name;
+	char				*var_content;
+	struct env_list	*next;
+
+}	t_env_list;
+
 typedef struct s_shell
 {
 	char 		*line;
+	char		*line_walker;
+	char		*line_args;
 	char		*command;
 	char		*command_flag;
 	char		**command_args;
@@ -45,6 +62,8 @@ typedef struct s_shell
 	int			size_c;
 	int 		exit;
 	t_path		*path;
+	t_arglist	*arg_list;
+	t_env_list	*env_list;
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
@@ -53,11 +72,20 @@ void	print_header(t_shell *shell, char *custom_head);
 
 
 /*----------------------- init_commands --------------------------------------*/
-t_path 	*init_path(t_shell *shell);
-t_shell *initialice();
-void 	separate_args_flag(t_shell *shell);
-void 	separate_args_no_flag(t_shell *shell);
+t_path 		*init_path(t_shell *shell);
+t_shell 	*initialice(char** envp);
+void 		separate_args_flag(t_shell *shell);
+void 		separate_args_no_flag(t_shell *shell);
+t_arglist	*arg_node_new(char *first_arg);
+void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
 
+
+/*----------------------- init_env --------------------------------------*/
+t_env_list	*env_var_list_new(char* env_var);
+void		env_var_add_back(t_env_list **env_list, t_env_list *new);
+t_env_list	*init_list_env(t_shell *shell, char** envp);
+char 		*cut_env_var_name(char* env_var);
+char 		*cut_env_var_content(char* env_var);
 
 
 
@@ -66,7 +94,13 @@ void	clear_console(void);
 
 
 
-
+int 	line_without_command(t_shell *shell);
+int		arg_listing(t_shell *shell);
+int		check_quotes(t_shell *shell, char quotes);
+int		count_quotes(t_shell *shell);
+int		get_next_argument(t_shell *shell);
+int		count_args(t_shell *shell);
+int		split_arguments(t_shell *shell);
 void	split_line_to_command(t_shell *shell);
 void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);
@@ -90,5 +124,7 @@ int		error_wrong_path(void);
 
 /*----------------------- AUXILIAR------------------/-------------------------*/
 void	print_all(t_shell *shell);
+void	print_env_list(t_env_list *envp);
+int		size_matriz(char **str);
 
 #endif
