@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/02 18:52:56 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/03 19:18:34 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,49 +69,5 @@ void	env_var_add_back(t_env_list **env_list, t_env_list *new)
 	*env_list = aux;
 }
 
-char *cut_env_var_name(char* env_var)
-{
-    char *var_name;
-    char *env_var_walking;
-    int i;
 
-    env_var_walking = env_var;
-    i=0;
-    while (*env_var_walking && *env_var_walking != '=')
-    {
-        i++;
-        env_var_walking++;
-    }
-    var_name=ft_substr(env_var, 0, i);
-    return(var_name);
-}
-
-char *cut_env_var_content(char* env_var)
-{
-    char *var_content;
-    char *env_var_walking;
-    int start;
-    int end;
-
-    env_var_walking = env_var;
-    start=0;
-    while (*env_var_walking != '=')
-    {
-        start++;
-        env_var_walking++;
-    }
-    start++;
-    end = start;
-    env_var_walking++;
-    while (*env_var_walking)
-    {
-        end++;
-        env_var_walking++;
-    }
-
-
-
-    var_content=ft_substr(env_var, start, end);
-    return(var_content);
-}
 

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/03 15:48:29 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/03 18:07:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_shell *initialice(char** envp)
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->line_args = NULL;
-	shell->size_c = 8;//Numero de comandos actualizar al final
+	shell->size_c = 9;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
 	shell->list_commands[0]="pwd";
 	shell->list_commands[1]="exit";
@@ -43,6 +43,7 @@ t_shell *initialice(char** envp)
 	shell->list_commands[5]="echo";
 	shell->list_commands[6]="clear";
 	shell->list_commands[7]="export";
+	shell->list_commands[8]="env";// borrar?? solo para comprobar env
 	// NO AÑADIR COMANDO SIN AUMENTAR SIZE_C
 	return (shell);
 }

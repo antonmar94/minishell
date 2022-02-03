@@ -14,6 +14,7 @@ SRCS =	./srcs/main.c \
 		./srcs/3_command_pwd_cd_exit_help_echo.c \
 		./srcs/4_commands_2.c \
 		./srcs/z_auxiliar_comp.c \
+		./srcs/z1_auxiliar_list.c \
 
 OBJS = ${SRCS:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/03 15:43:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/03 19:12:11 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,25 @@ void	print_env_list(t_env_list *envp)
 
 int	size_matriz(char **str)
 {
+	char **aux;
 	int i;
+
+	i=0;
+
+	aux = str;
+	while (*aux)
+	{
+		aux ++;
+		i++;
+	}
+	return(i);
+
+
+	/* int i;
 	i = 0;
 	while (str[i])
 		i++;
-	return(i);
+	return(i); */
 }
 
 /* de la linea pasada (readline) comando a command y primer argumento sin tener

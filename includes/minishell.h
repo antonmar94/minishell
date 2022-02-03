@@ -78,6 +78,7 @@ void 		separate_args_flag(t_shell *shell);
 void 		separate_args_no_flag(t_shell *shell);
 t_arglist	*arg_node_new(char *first_arg);
 void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
+int 		env(t_shell *shell);
 
 
 /*----------------------- init_env --------------------------------------*/
@@ -86,6 +87,9 @@ void		env_var_add_back(t_env_list **env_list, t_env_list *new);
 t_env_list	*init_list_env(t_shell *shell, char** envp);
 char 		*cut_env_var_name(char* env_var);
 char 		*cut_env_var_content(char* env_var);
+int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
+int 		change_var_content(t_shell *shell, char *var_name_to_find,
+				char *var_content_to_change);
 
 
 
