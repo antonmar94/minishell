@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/04 19:29:12 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:33:22 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,7 @@ int	add_simple_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 	{
 		if (size_prev > 0)
 		{
-			printf(RED"startarg: \n"RESET);
 			start_arg = ft_substr(start_arg, 0, size_prev);
-			
 			this_arg = arg_node_new(start_arg);
 			arglstadd_back(&shell->arg_list, this_arg);
 		}
@@ -170,7 +168,7 @@ int	argument_list_creator(t_shell *shell)
 	start_arg = shell->line_walker;
 	while (*(shell->line_walker))
 	{
-		printf("line walker %s\n", shell->line_walker);
+		//printf("line walker %s\n", shell->line_walker);
 		if (add_simple_quotes_argument(shell, start_arg, i)) //Controlar que no introduzca dos veces el argumento
 		{
 			if (!(*(shell->line_walker)))
@@ -185,7 +183,6 @@ int	argument_list_creator(t_shell *shell)
 	}
 	if (!(*(shell->line_walker))) //Añade el ultimo argumento a la lista y devuelve 0 para que pare el bucle que llama a esta funcion
 	{
-		printf("line tuamdre %s\n", start_arg);
 		start_arg = ft_substr(start_arg, 0, i);
 		this_arg = arg_node_new(start_arg);
 		arglstadd_back(&shell->arg_list, this_arg);

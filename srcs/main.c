@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/04 19:27:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:33:56 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	main(int argc, char **argv, char** envp)
 			list_args++;
 		} */
 		write_history(NULL);
-		//all_clear(&shell->arg_list);
-		free_and_reset_values(shell);
+		all_clear(&shell->arg_list);
+		//free_and_reset_values(shell);
 	}
 	return (0);
 }
