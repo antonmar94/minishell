@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/04 12:39:13 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:37:51 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,31 @@ int change_var_content(t_shell *shell, char *var_name_to_find,
 		return(1);
 	}
 	return(0);
+}
+
+/* modify variable content if it already exists otherwise returns 1*/
+int del_var_node_coincident(t_shell *shell, char *var_name_to_find,
+	char *var_content_to_change)
+{
+	t_env_list *copy;
+
+	copy = shell->env_list;
+	while (copy->next)
+	{
+		if (!ft_strcmp(copy->var_name,var_name_to_find))
+		{
+			copy->next = copy->next->next;
+			return(1);
+		}
+		copy = copy->next;
+	}
+	if (!ft_strcmp(copy->var_name,var_name_to_find))
+	{
+		copy->var_content = var_content_to_change;
+		return(1);
+	}
+	return(0);
+}
+
+
 }

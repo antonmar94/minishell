@@ -91,6 +91,8 @@ int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
 int 		change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
 
+void	lst_del_one_envlist(t_env_list *lst, void (*del)(void*));
+
 
 
 
