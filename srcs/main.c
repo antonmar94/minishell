@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/03 19:13:15 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:59:17 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@ int	main(int argc, char **argv, char** envp)
 	(void)argv;
 	t_shell *shell;
 
-	//char	**list_args;
-
 	shell = initialice(envp);
 	print_env_list(shell->env_list);
-
 	wellcome_header(shell);
-	read_history(NULL);
+	read_history(NULL);//BORRAR ./history cuando guardemos mierda rara
 	while(!shell->exit)
 	{
 
@@ -86,7 +83,11 @@ int	main(int argc, char **argv, char** envp)
 void	free_and_reset_values(t_shell *shell)
 {
 	if(shell->line)
+	{
 			free(shell->line);
+			shell->line = NULL;
+
+	}
 	shell->size_line = 0;
 	shell->size_args = 0;
 	shell->command = NULL;
