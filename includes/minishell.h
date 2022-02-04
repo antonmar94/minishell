@@ -102,7 +102,7 @@ int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
 int		check_quotes(t_shell *shell, char quotes);
 int		count_quotes(t_shell *shell);
-int		simple_quotes_argument(t_shell *shell);
+int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
 void	split_line_to_command(t_shell *shell);

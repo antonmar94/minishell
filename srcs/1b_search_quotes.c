@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/03 21:03:20 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:29:12 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,132 @@ int	line_without_command(t_shell *shell) //Introduce la linea de argumentos sin 
 int	split_arguments(t_shell *shell)
 {
 	int	count_args;
-
+	t_arglist *printer;
 	count_args = 0;
+
 	shell->line_walker = shell->line_args;
-	while (simple_quotes_argument(shell))
+	
+	while (argument_list_creator(shell))
 		count_args++;
-	printf("lista: %s", shell->arg_list->content);
+	printer = shell->arg_list;
+	while (printer)
+	{
+		printf("Argument: %s\n", printer->content);
+		printer = printer->next;
+	}
 	return (0);
 }
 
-int	simple_quotes_argument(t_shell *shell)
+int	add_space_argument(t_shell *shell, char *start_arg, int size_prev)
+{
+	int i;
+	t_arglist	*this_arg;
+
+	i = check_quotes(shell, ' ');
+	if (i)
+	{
+		start_arg = ft_substr(start_arg, 0, size_prev);
+		this_arg = arg_node_new(start_arg);
+		arglstadd_back(&shell->arg_list, this_arg);
+		shell->line_walker++;
+		start_arg = shell->line_walker;
+		start_arg = ft_substr(start_arg, 0, i);
+		this_arg = arg_node_new(start_arg);
+		arglstadd_back(&shell->arg_list, this_arg);
+		shell->line_walker += i + 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	add_double_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
+{
+	int i;
+	t_arglist	*this_arg;
+
+	i = check_quotes(shell, '\"');
+	if (i)
+	{
+		start_arg = ft_substr(start_arg, 0, size_prev);
+		
+		if (start_arg)
+		{
+			this_arg = arg_node_new(start_arg);
+			
+			arglstadd_back(&shell->arg_list, this_arg);
+		}
+		shell->line_walker++;
+		start_arg = shell->line_walker;
+		start_arg = ft_substr(start_arg, 0, i);
+		this_arg = arg_node_new(start_arg);
+		arglstadd_back(&shell->arg_list, this_arg);
+		shell->line_walker += i + 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	add_simple_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
+{
+	int i;
+	t_arglist	*this_arg;
+
+	i = check_quotes(shell, '\'');
+	printf("line walker %s\n", shell->line_walker);
+	if (i)
+	{
+		if (size_prev > 0)
+		{
+			printf(RED"startarg: \n"RESET);
+			start_arg = ft_substr(start_arg, 0, size_prev);
+			
+			this_arg = arg_node_new(start_arg);
+			arglstadd_back(&shell->arg_list, this_arg);
+		}
+		shell->line_walker++;
+		start_arg = shell->line_walker;
+		start_arg = ft_substr(start_arg, 0, i);
+		if (*start_arg)
+		{
+			this_arg = arg_node_new(start_arg);
+			printf("y esto: %s\n ", start_arg);
+			arglstadd_back(&shell->arg_list, this_arg);
+			shell->line_walker += i;
+		}
+		shell->line_walker++;
+		return (1);
+	}
+	return (0);
+}
+
+
+
+int	argument_list_creator(t_shell *shell)
 {
 	int i; //Contamos para luego dividir con substr
 	t_arglist	*this_arg;
-	char		*start_arg;
+	char 	*start_arg;
 
 	i = 0;
 	start_arg = shell->line_walker;
-	while (*(shell->line_walker) && *(shell->line_walker) != '\'')
+	while (*(shell->line_walker))
 	{
+		printf("line walker %s\n", shell->line_walker);
+		if (add_simple_quotes_argument(shell, start_arg, i)) //Controlar que no introduzca dos veces el argumento
+		{
+			if (!(*(shell->line_walker)))
+				return (0);
+			return (1);
+		}
+		//start_arg = shell->line_walker;
+		//if (add_double_quotes_argument(shell, start_arg, i)) //Controlar que no introduzca dos veces el argumento
+		//	return (1);
 		shell->line_walker++;
 		i++;
 	}
 	if (!(*(shell->line_walker))) //Añade el ultimo argumento a la lista y devuelve 0 para que pare el bucle que llama a esta funcion
 	{
+		printf("line tuamdre %s\n", start_arg);
 		start_arg = ft_substr(start_arg, 0, i);
 		this_arg = arg_node_new(start_arg);
 		arglstadd_back(&shell->arg_list, this_arg);
@@ -104,6 +206,11 @@ int	check_quotes(t_shell *shell, char quotes)
 	if (*quotes_finder == quotes)
 	{
 		quotes_finder++;
+		if (*quotes_finder == quotes)
+		{
+			shell->line_walker++;
+			return (0);
+		}
 		while (*quotes_finder)
 		{
 			if (*quotes_finder == quotes)

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/03 21:03:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:17:40 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 	t_arglist	*aux;
 
 	aux = *arg_lst;
+	printf(RED"startarg: %s\n"RESET, new->content);
 	if (!new)
 		return ;
 	if (!*arg_lst)
