@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/03 19:04:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:06:45 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int export(t_shell *shell)
 		shell->command_args++;
 	} */
 
-	printf(RED"\n\n AÑADIENDO NUEVA VARIABLE\n"RESET);
+
+	print_var_content_text(var_name, var_content, "Added");//TODO:borrar?
 	new_list_var = env_var_list_new(*(shell->command_args));
 	env_var_add_back(&shell->env_list, new_list_var);
-	//print_env_list(shell->env_list);
 
 	return(0);
 }

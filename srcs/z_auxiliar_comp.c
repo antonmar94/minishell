@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/03 19:12:11 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:48:37 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ void	print_env_list(t_env_list *envp)
 	printf("%s"RESET, copy->var_content);
 	printf("\n");
 	printf(RED"tamaño lista: %d\n"RESET,i);
+}
+
+void print_var_content_text(char *var_name, char *var_content, char *text)
+{
+	
+	printf("Variable: ");
+	printf(GREEN"%s "RESET, var_name);
+	printf("with content: ");
+	printf(GREEN"%s     "RESET, var_content);
+	printf(GREEN"%s\n"RESET, text);
+
+	
 }
 
 int	size_matriz(char **str)

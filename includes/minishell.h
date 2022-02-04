@@ -127,10 +127,18 @@ void	command_error(void);
 int		error_number_args(void);
 int		error_wrong_path(void);
 
-/*----------------------- AUXILIAR------------------/-------------------------*/
-void	print_all(t_shell *shell);
-void	print_env_list(t_env_list *envp);
+
+/*----------------------- AUXILIAR--------------------------------------------*/
+
 int		size_matriz(char **str);
 void	easy_test_line_for_check_export(t_shell *shell);
+
+
+
+/*----------------------- AUXILIAR PRINT--------------------------------------*/
+void	print_all(t_shell *shell);
+void	print_env_list(t_env_list *envp);
+void 	print_var_content_text(char *var_name, char *var_content, char *text);
+
 
 #endif
