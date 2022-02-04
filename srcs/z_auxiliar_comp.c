@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/04 11:48:37 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/04 12:45:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,20 @@ void	print_env_list(t_env_list *envp)
 	printf(RED"tamaño lista: %d\n"RESET,i);
 }
 
-void print_var_content_text(char *var_name, char *var_content, char *text)
+void print_var_content_text(char *var_name, char *var_content, t_shell *shell)
 {
-	
+	char mod[]=BLUE"modified."RESET;
+	char added[]=GREEN"added."RESET;
+	char *text;
+	if (look_for_var_name(shell, var_name))
+		text=mod;
+	else
+		text=added;
 	printf("Variable: ");
 	printf(GREEN"%s "RESET, var_name);
 	printf("with content: ");
 	printf(GREEN"%s     "RESET, var_content);
-	printf(GREEN"%s\n"RESET, text);
-
-	
+	printf("%s\n", text);	
 }
 
 int	size_matriz(char **str)

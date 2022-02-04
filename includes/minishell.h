@@ -138,7 +138,7 @@ void	easy_test_line_for_check_export(t_shell *shell);
 /*----------------------- AUXILIAR PRINT--------------------------------------*/
 void	print_all(t_shell *shell);
 void	print_env_list(t_env_list *envp);
-void 	print_var_content_text(char *var_name, char *var_content, char *text);
+void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 
 
 #endif
