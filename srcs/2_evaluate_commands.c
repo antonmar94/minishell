@@ -37,4 +37,6 @@ void execute_command(t_shell *shell, int i)
 		export(shell);
 	else if (i == 8)
 		env(shell);
+	else if (i == 9)
+		unset(shell);
 }

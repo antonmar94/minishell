@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/04 19:19:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/05 11:55:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,11 @@ int export(t_shell *shell)
 
 int unset(t_shell *shell)
 {
-	t_env_list *new_list_var;
 	char *var_name;
 
 	var_name = cut_env_var_name(*(shell->command_args));
-	if (look_for_var_name(shell, var_name))
-		return (0);
-	new_list_var = env_var_list_new(*(shell->command_args));
-	env_var_add_back(&shell->env_list, new_list_var);
+	print_var_unset(var_name, shell);
+	del_var_node_coincident(shell, var_name);
 	return(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/04 12:45:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:02:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,24 @@ void print_var_content_text(char *var_name, char *var_content, t_shell *shell)
 	else
 		text=added;
 	printf("Variable: ");
-	printf(GREEN"%s "RESET, var_name);
+	printf(CYAN"%s "RESET, var_name);
 	printf("with content: ");
-	printf(GREEN"%s     "RESET, var_content);
+	printf(CYAN"%s     "RESET, var_content);
+	printf("%s\n", text);	
+}
+
+void print_var_unset(char *var_name, t_shell *shell)
+{
+	char mod[]=GREEN"unset."RESET;
+	char added[]=RED"variable not found"RESET;
+	char *text;
+	if (look_for_var_name(shell, var_name))
+		text=mod;
+	else
+		text=added;
+	printf("Variable: ");
+	printf(CYAN"%s "RESET, var_name);
+	printf("     status:   ");
 	printf("%s\n", text);	
 }
 

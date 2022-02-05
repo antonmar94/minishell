@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/04 19:37:51 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/05 11:25:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,28 +100,33 @@ int change_var_content(t_shell *shell, char *var_name_to_find,
 }
 
 /* modify variable content if it already exists otherwise returns 1*/
-int del_var_node_coincident(t_shell *shell, char *var_name_to_find,
-	char *var_content_to_change)
+int del_var_node_coincident(t_shell *shell, char *var_name_to_find)
 {
 	t_env_list *copy;
+	t_env_list *del_copy;
 
 	copy = shell->env_list;
 	while (copy->next)
 	{
-		if (!ft_strcmp(copy->var_name,var_name_to_find))
+		if (!ft_strcmp(copy->next->var_name,var_name_to_find))
 		{
+			del_copy = copy->next;
 			copy->next = copy->next->next;
+			free(del_copy->var_name);
+			free(del_copy->var_content);
+			free(del_copy);
 			return(1);
 		}
 		copy = copy->next;
 	}
-	if (!ft_strcmp(copy->var_name,var_name_to_find))
+	if (!ft_strcmp(copy->next->var_name,var_name_to_find))
 	{
-		copy->var_content = var_content_to_change;
+		del_copy = copy->next;
+		copy->next = copy->next->next;
+		free(del_copy->var_name);
+		free(del_copy->var_content);
+		free(del_copy);
 		return(1);
 	}
 	return(0);
-}
-
-
 }

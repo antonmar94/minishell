@@ -79,7 +79,7 @@ void 		separate_args_no_flag(t_shell *shell);
 t_arglist	*arg_node_new(char *first_arg);
 void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
 int 		env(t_shell *shell);
-
+int 		unset(t_shell *shell);
 
 /*----------------------- init_env --------------------------------------*/
 t_env_list	*env_var_list_new(char* env_var);
@@ -91,7 +91,7 @@ int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
 int 		change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
 
-void	lst_del_one_envlist(t_env_list *lst, void (*del)(void*));
+int del_var_node_coincident(t_shell *shell, char *var_name_to_find);
 
 
 
@@ -141,6 +141,8 @@ void	easy_test_line_for_check_export(t_shell *shell);
 void	print_all(t_shell *shell);
 void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
+void 	print_var_unset(char *var_name, t_shell *shell);
+
 
 
 #endif
