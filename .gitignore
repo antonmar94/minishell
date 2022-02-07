@@ -6,3 +6,4 @@ ni_*
 .vscode
 minishell
 zz*
+libft/*.a
