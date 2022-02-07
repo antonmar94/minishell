@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/05 11:28:01 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/07 20:00:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_shell *initialice(char** envp)
 	shell->list_commands[6]="clear";
 	shell->list_commands[7]="export";
 	shell->list_commands[8]="env";// borrar?? solo para comprobar env
-	shell->list_commands[9]="unset";// borrar?? solo para comprobar env
+	shell->list_commands[9]="unset";
 	// NO AÑADIR COMANDO SI AUMENTAR SIZE_C
 	return (shell);
 }
