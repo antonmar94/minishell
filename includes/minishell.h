@@ -151,6 +151,11 @@ void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
+/*--------------------$---------------*/
+char *search_var_coincident(t_shell *shell, char* str_to_find);
+int	change_dollars(t_shell *shell);
+char	*ft_split_one(char const *s, char c);
+
 /*----------------------- FAKES DEL------------------------------------------*/
 
 t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);

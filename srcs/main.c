@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/04 12:59:17 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:52:13 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ int	main(int argc, char **argv, char** envp)
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
-		//line_without_command(shell); No funciona ANTONIO
+		line_without_command(shell);// No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
-		easy_test_line_for_check_export(shell);
-		find_command(shell);
+		easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
+		change_dollars(shell);
+		//find_command(shell);
 		//printf("cosas %i", count_args(shell));
 		//if (arg_listing(shell) == -1)
 		//	command_error();
@@ -84,7 +85,8 @@ void	free_and_reset_values(t_shell *shell)
 {
 	if(shell->line)
 	{
-			free(shell->line);
+			free(shell->line);;
+			shell->line = NULL;
 			shell->line = NULL;
 
 	}
