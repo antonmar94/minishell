@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/08 14:50:35 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:27:38 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 
 	while (copy->next)
 	{
-		if (ft_strcmp(copy->var_name, str_to_find))
-			return(shell->env_list->var_content);
+
+		if (!ft_strcmp(copy->var_name, str_to_find))
+			return(copy->var_content);
 		copy = copy->next;
 	}
-	if (ft_strcmp(copy->var_name, str_to_find))
-			return(shell->env_list->var_content);
-
-	printf("no hay nada");
+	if (!ft_strcmp(copy->var_name, str_to_find))
+			return(copy->var_content);
 	return(0);
 
 }
@@ -64,32 +63,34 @@ int	change_dollars(t_shell *shell)
 	int 	last_pos;
 	int		size_arg;
 	char *trozo;
+	char *content;
 
-	origin_line_arg = shell->line_args;
+	origin_line_arg = shell->line;
 	last_pos = 0;
 	printf("\nhola\n");
-	printf("\nfake arguments: %s\n\n", shell->line_args);
+	printf("\nfake arguments: %s\n\n", shell->line);
 
 
-	while (shell->line_args && *(shell->line_args))
+	while (shell->line&& *(shell->line))
 	{
-		if (*shell->line_args != '$')
-			shell->line_args++;
+		if (*shell->line != '$')
+			shell->line++;
 		else
 		{
-			shell->line_args++;
-			begin$ = shell->line_args;
+			shell->line++;
+			begin$ = shell->line;
 			first_$_found = ft_split_one(begin$, ' ');
 			size_arg = ft_strlen(first_$_found);
-			if (search_var_coincident(shell, first_$_found) !=0)
+			content = search_var_coincident(shell, first_$_found);
+			if (content)
 			{
-				trozo =ft_strjoin(ft_substr(shell->line_args, last_pos, last_pos + size_arg), first_$_found);
+				trozo =ft_strjoin(ft_substr(shell->line, last_pos, last_pos + size_arg), content);
 				last_pos +=size_arg;
 				printf("trozo %s", trozo);
 			}
 			printf("\nprimera$: %s\n", first_$_found);
 			//printf("\nsize primera %d:\n", size_arg);
-			shell->line_args+=size_arg;
+			shell->line+=size_arg;
 		}
 
 	}
