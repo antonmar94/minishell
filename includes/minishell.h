@@ -32,6 +32,13 @@ typedef struct s_path
 	char		*home_user;
 }	t_path;
 
+typedef struct fake_arg_list //TODO:Borrar sólo para desarrollo $
+{
+	char					*content;
+	struct fake_arg_list	*next;
+}	t_fake_arg_list;
+
+
 typedef struct arg_list
 {
 	char			*content;
@@ -64,6 +71,7 @@ typedef struct s_shell
 	t_path		*path;
 	t_arglist	*arg_list;
 	t_env_list	*env_list;
+	t_fake_arg_list *fake_arg_list;//Borrar sólo para desarrollo $
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
@@ -143,6 +151,11 @@ void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
+/*----------------------- FAKES DEL------------------------------------------*/
+
+t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);
+t_fake_arg_list	*fake_args_list_new(char* env_var);
+void			fake_args_add_back(t_fake_arg_list **env_list, t_fake_arg_list *new);
 
 
 #endif
