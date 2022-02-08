@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/04 19:34:02 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:56:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,17 @@ void	all_clear(t_arglist **arg_lst)
 	t_arglist *aux;
 
 	cleaner = *arg_lst;
-	while (cleaner->next)
+	if (*arg_lst)
 	{
-		aux = cleaner->next;
+		while (cleaner->content && cleaner->next)
+		{
+			aux = cleaner->next;
+			cleaner->content = NULL;
+			cleaner->next = NULL;
+			cleaner = aux;
+		}
 		cleaner->content = NULL;
 		cleaner->next = NULL;
-		cleaner = aux;
+		*arg_lst = NULL;
 	}
-	cleaner->content = NULL;
-	cleaner->next = NULL;
-	*arg_lst = NULL;
 }

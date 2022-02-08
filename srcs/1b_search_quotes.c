@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/04 19:33:22 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:36:20 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	split_arguments(t_shell *shell)
 	count_args = 0;
 
 	shell->line_walker = shell->line_args;
-	
+	printer = NULL;
 	while (argument_list_creator(shell))
 		count_args++;
 	printer = shell->arg_list;
@@ -76,7 +76,7 @@ int	split_arguments(t_shell *shell)
 	return (0);
 }
 
-int	add_space_argument(t_shell *shell, char *start_arg, int size_prev)
+/*int	add_space_argument(t_shell *shell, char *start_arg, int size_prev)
 {
 	int i;
 	t_arglist	*this_arg;
@@ -96,9 +96,9 @@ int	add_space_argument(t_shell *shell, char *start_arg, int size_prev)
 		return (1);
 	}
 	return (0);
-}
+}*/
 
-int	add_double_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
+/*int	add_double_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 {
 	int i;
 	t_arglist	*this_arg;
@@ -123,16 +123,17 @@ int	add_double_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 		return (1);
 	}
 	return (0);
-}
+}*/
 
 int	add_simple_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 {
 	int i;
 	t_arglist	*this_arg;
 
-	i = check_quotes(shell, '\'');
-	printf("line walker %s\n", shell->line_walker);
-	if (i)
+	printf("line walker a comprobar comillas %s\n", shell->line_walker);
+	i = 0;
+	//printf("siize_prev %i\n", size_prev);
+	if (check_quotes(shell, '\''))
 	{
 		if (size_prev > 0)
 		{
@@ -140,13 +141,14 @@ int	add_simple_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 			this_arg = arg_node_new(start_arg);
 			arglstadd_back(&shell->arg_list, this_arg);
 		}
+		i = size_quotes_arg(shell, '\'');
 		shell->line_walker++;
 		start_arg = shell->line_walker;
 		start_arg = ft_substr(start_arg, 0, i);
 		if (*start_arg)
 		{
 			this_arg = arg_node_new(start_arg);
-			printf("y esto: %s\n ", start_arg);
+			//printf("y esto: %s\n ", start_arg);
 			arglstadd_back(&shell->arg_list, this_arg);
 			shell->line_walker += i;
 		}
@@ -156,58 +158,72 @@ int	add_simple_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 	return (0);
 }
 
-
-
 int	argument_list_creator(t_shell *shell)
 {
-	int i; //Contamos para luego dividir con substr
+	int 		size_prev; //Contamos para luego dividir con substr
 	t_arglist	*this_arg;
-	char 	*start_arg;
+	char 		*start_arg;
+	//char *aux;
 
-	i = 0;
+	size_prev = 0;
 	start_arg = shell->line_walker;
 	while (*(shell->line_walker))
 	{
-		//printf("line walker %s\n", shell->line_walker);
-		if (add_simple_quotes_argument(shell, start_arg, i)) //Controlar que no introduzca dos veces el argumento
+		if (add_simple_quotes_argument(shell, start_arg, size_prev))
 		{
 			if (!(*(shell->line_walker)))
 				return (0);
 			return (1);
 		}
-		//start_arg = shell->line_walker;
-		//if (add_double_quotes_argument(shell, start_arg, i)) //Controlar que no introduzca dos veces el argumento
-		//	return (1);
 		shell->line_walker++;
-		i++;
+		size_prev++;
 	}
 	if (!(*(shell->line_walker))) //Añade el ultimo argumento a la lista y devuelve 0 para que pare el bucle que llama a esta funcion
 	{
-		start_arg = ft_substr(start_arg, 0, i);
-		this_arg = arg_node_new(start_arg);
-		arglstadd_back(&shell->arg_list, this_arg);
+		printf("y esto: %s\n ", start_arg);
+		printf("size_prev: %i\n ", size_prev);
+		if (size_prev > 0 && *start_arg)
+		{
+			start_arg = ft_substr(start_arg, 0, size_prev);
+			this_arg = arg_node_new(start_arg);
+			arglstadd_back(&shell->arg_list, this_arg);
+		}
 		return (0);
 	}
-	//Implimentar que añada el argumento de antes de la comilla a la lista
+	if (*shell->line_walker != '\'')
+		size_prev++;
 	shell->line_walker++;
 	return (1);
 }
 
-int	check_quotes(t_shell *shell, char quotes)
+int	check_quotes(t_shell *shell, char quotes) //Devuelve 1 si existen comillas abiertas y cerradas
 {
-	int		i;   //Es lo grande que va a ser el argumento (en caso de "" no lo sabemos porque extiende el valor de la variable)
 	char	*quotes_finder;
 
-	i = 0;
 	quotes_finder = shell->line_walker;
 	if (*quotes_finder == quotes)
 	{
 		quotes_finder++;
-		if (*quotes_finder == quotes)
+		while (*quotes_finder)
 		{
-			shell->line_walker++;
-			return (0);
+			if (*quotes_finder == quotes)
+				return (1);
+			quotes_finder++;
 		}
+	}
+	return (0);
+}
+
+int	size_quotes_arg(t_shell *shell, char quotes) //Devuelve el tamaño del argumento entre comillas
+{
+	int		i;   
+	char	*quotes_finder;
+
+	i = 0;
+	quotes_finder = shell->line_walker;
+	if (check_quotes(shell, quotes))
+	{
+		quotes_finder++;
 		while (*quotes_finder)
 		{
 			if (*quotes_finder == quotes)
@@ -218,6 +234,7 @@ int	check_quotes(t_shell *shell, char quotes)
 	}
 	return (0);
 }
+
 
 
 /*

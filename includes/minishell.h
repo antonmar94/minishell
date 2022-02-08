@@ -101,6 +101,7 @@ void	clear_console(void);
 int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
 int		check_quotes(t_shell *shell, char quotes);
+int		size_quotes_arg(t_shell *shell, char quotes);
 int		count_quotes(t_shell *shell);
 int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
