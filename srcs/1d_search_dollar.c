@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/09 19:00:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:43:15 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,29 @@ int	change_dollars(t_shell *shell)
 			shell->line++;
 			begin$ = shell->line;
 			first_$_found = ft_split_one(begin$, ' ');
+			if(!first_$_found)
+				return(0);
 			content = search_var_coincident(shell, first_$_found);
 			size_arg = ft_strlen(first_$_found);
 			printf("\ncontent: %s\n", content);
 			if (content)
 			{
 
-				printf("count_until$%d", count_until$);
 				if(!last_pos_until$)
-					line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$ -1);
+				{
+					printf("PRIMERA PASADA: count_until$%d", count_until$);
+					line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
+
+				}
 				else
-					line_until$ = ft_substr(origin_line_arg, last_pos_until$ +1, count_until$ -1);
+					{
+						//origin_line_arg ++;
+						//count_until$ --;
+						origin_line_arg --;
+						printf(RED"\npASO X AAQUI\n"RESET);
+						printf("SIGUIENTES PASADAScount_until$%d", count_until$);
+						line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
+					}
 				if(new_expanded_str)
 				{
 					line_until$_joined = ft_strjoin(new_expanded_str, line_until$);
@@ -110,7 +122,7 @@ int	change_dollars(t_shell *shell)
 					line_until$_joined = line_until$;
 					printf("\nline_until$: %s\n", line_until$);
 					printf("\nfirst$_found; %s\n", first_$_found);
-					origin_line_arg += size_arg + ft_strlen(line_until$) -1;//var name + char $
+					origin_line_arg += size_arg  + ft_strlen(line_until$) -1;//var name + char $
 					new_expanded_str =ft_strjoin(line_until$_joined, content);
 					if(line_until$)
 						free(line_until$);
