@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/09 16:34:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/09 19:00:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,21 +97,25 @@ int	change_dollars(t_shell *shell)
 			{
 
 				printf("count_until$%d", count_until$);
-				line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$ -1);
+				if(!last_pos_until$)
+					line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$ -1);
+				else
+					line_until$ = ft_substr(origin_line_arg, last_pos_until$ +1, count_until$ -1);
 				if(new_expanded_str)
 				{
 					line_until$_joined = ft_strjoin(new_expanded_str, line_until$);
-					free(new_expanded_str);
+						//free(new_expanded_str);
 				}
 				else
 					line_until$_joined = line_until$;
-				printf("\nline_until$: %s\n", line_until$);
-				printf("\nfirst$_found; %s\n", first_$_found);
-				origin_line_arg += size_arg + ft_strlen(line_until$) -1;//var name + char $
-				new_expanded_str =ft_strjoin(line_until$_joined, content);
-				free(line_until$);
-				last_pos_until$+=size_arg;
-				count_until$ = 0;
+					printf("\nline_until$: %s\n", line_until$);
+					printf("\nfirst$_found; %s\n", first_$_found);
+					origin_line_arg += size_arg + ft_strlen(line_until$) -1;//var name + char $
+					new_expanded_str =ft_strjoin(line_until$_joined, content);
+					if(line_until$)
+						free(line_until$);
+					last_pos_until$+=size_arg;
+					count_until$ = 0;
 			}
 			shell->line+=size_arg;
 			printf("\nline_until$_joined: %s\n", new_expanded_str);
