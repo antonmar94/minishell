@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/10 19:43:15 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/10 20:49:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	change_dollars(t_shell *shell)
 	char *line_until$;
 	char *new_expanded_str;
 	char *content;
+	char *final_str;
+	char *final_without$;
 
 	origin_line_arg = shell->line;
 	last_pos_until$ = 0;
@@ -98,25 +100,15 @@ int	change_dollars(t_shell *shell)
 			if (content)
 			{
 
-				if(!last_pos_until$)
-				{
-					printf("PRIMERA PASADA: count_until$%d", count_until$);
-					line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
+				if(last_pos_until$)
+					origin_line_arg --;
 
-				}
-				else
-					{
-						//origin_line_arg ++;
-						//count_until$ --;
-						origin_line_arg --;
-						printf(RED"\npASO X AAQUI\n"RESET);
-						printf("SIGUIENTES PASADAScount_until$%d", count_until$);
-						line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
-					}
+				line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
+
 				if(new_expanded_str)
 				{
 					line_until$_joined = ft_strjoin(new_expanded_str, line_until$);
-						//free(new_expanded_str);
+					free(new_expanded_str);
 				}
 				else
 					line_until$_joined = line_until$;
@@ -130,11 +122,21 @@ int	change_dollars(t_shell *shell)
 					count_until$ = 0;
 			}
 			shell->line+=size_arg;
-			printf("\nline_until$_joined: %s\n", new_expanded_str);
+			new_expanded_str =ft_strjoin(line_until$_joined, content);
 		}
 
 	}
+	if (!begin$)
+		printf("%s", shell->line);
 
+	printf("\norigin_line :%s",origin_line_arg);
+	printf("\nlast_pos_until$ %d",last_pos_until$);
+	printf("\ncount_until$ :%d",count_until$);
+
+	final_without$ = ft_substr(origin_line_arg, 9, 9);
+	//printf("\nline_until$_joined: %s\n", new_expanded_str);
+	printf("\nFinal final_without$: %s\n", final_without$ );
+	(void)final_str;
 	//t_arglist	*copy;
 
 
