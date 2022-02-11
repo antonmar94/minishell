@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/08 18:56:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/11 19:46:18 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	main(int argc, char **argv, char** envp)
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
-		line_without_command(shell);
+		if (add_command(shell))
+			return (-1);
 		//simple_quotes_argument(shell);
 		//printf("%s", shell->arg_list->content);
 		split_arguments(shell);

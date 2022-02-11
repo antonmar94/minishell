@@ -97,13 +97,15 @@ int 		change_var_content(t_shell *shell, char *var_name_to_find,
 void	clear_console(void);
 
 
-
+int		split_arguments(t_shell *shell);
 int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
-int		check_quotes(t_shell *shell, char quotes);
-int		size_quotes_arg(t_shell *shell, char quotes);
+int		check_quotes(char *line_walker, char quotes);
+int		add_command(t_shell *shell);
+char	check_allquotes(char *line_walker);
+int		size_quotes_arg(char *line_walker, char quotes);
 int		count_quotes(t_shell *shell);
-int		argument_list_creator(t_shell *shell);
+//int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
 void	split_line_to_command(t_shell *shell);
