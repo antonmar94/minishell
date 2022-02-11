@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/11 14:24:48 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/11 19:41:38 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char *change_dollars(t_shell *shell)
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	printf("fake arguments expanded: ");//TODO Del Test
 
-	while (shell->line&& *(shell->line))
+	while (shell->line && *(shell->line))
 	{
 		if (*shell->line != '$')
 		{
@@ -128,7 +128,31 @@ char *change_dollars(t_shell *shell)
 			}
 			else
 			{
-				new_expanded_str = line_until$_joined; //REVISAR
+				//shell->line+=size_arg;
+				if(last_pos_until$)
+					origin_line_arg --;
+
+				line_until$ = ft_substr(origin_line_arg, last_pos_until$, count_until$);
+
+				if(new_expanded_str)
+				{
+					line_until$_joined = ft_strjoin(new_expanded_str, line_until$);
+					free(new_expanded_str);
+				}
+				else
+					line_until$_joined = line_until$;
+					printf("\nline_until$: %s\n", line_until$);
+					printf("\nfirst$_found; %s\n", first_$_found);
+					origin_line_arg += size_arg  + ft_strlen(line_until$) -1;//var name + char $
+					new_expanded_str =ft_strdup(line_until$_joined);
+					if(line_until$)
+						free(line_until$);
+					last_pos_until$+=size_arg;
+					count_until$ = 0;
+
+				//new_expanded_str = line_until$_joined; //REVISAR
+				shell->line+=size_arg;
+				new_expanded_str =ft_strdup(line_until$_joined);
 			}
 		}
 
