@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/11 21:27:59 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/11 22:01:09 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,11 @@ void	replace_content_runaway(t_aux_pointer *pointer)
 		free(pointer->new_expanded_str);
 	}
 	else
-		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
+		pointer->line_until$_joined = pointer->line_until$;///AQQQUUUQQQQQ
 		//printf("\nline_until$: %s\n", pointer->line_until$);
 		//printf("\nfirst$_found; %s\n", pointer->first_$_found);
 		pointer->origin_line_arg += pointer->size_arg  + ft_strlen(pointer->line_until$) -1;//var name + char $
 		pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
-		if(pointer->line_until$)
-			free(pointer->line_until$);
-		if(pointer->line_until$_joined)
-			free(pointer->line_until$_joined);
 		pointer->last_pos_until$+=pointer->size_arg;
 		pointer->count_until$ = 0;
 }
@@ -97,13 +93,11 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 		//free(pointer->new_expanded_str);
 	}
 	else
-		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
+		pointer->line_until$_joined = pointer->line_until$;
 		//printf("\nline_until$: %s\n", pointer->line_until$);
 		//printf("\nfirst$_found; %s\n", pointer->first_$_found);
 		pointer->origin_line_arg += pointer->size_arg  + ft_strlen(pointer->line_until$) -1;//var name + char $
 		pointer->new_expanded_str =ft_strdup(pointer->line_until$_joined);
-		if(pointer->line_until$)
-			free(pointer->line_until$);
 		pointer->last_pos_until$+=pointer->size_arg;
 		pointer->count_until$ = 0;
 
@@ -138,6 +132,7 @@ char *change_dollars(t_shell *shell)
 			shell->line++;
 			pointer->begin$ = shell->line;
 			pointer->first_$_found = ft_split_one(pointer->begin$, ' ');
+			printf("\n000000000000");
 			//if(!first_$_found)
 				//return(0);
 			pointer->content = search_var_coincident(shell, pointer->first_$_found);
@@ -145,9 +140,11 @@ char *change_dollars(t_shell *shell)
 			//printf("\ncontent: %s\n", pointer->content);
 			if (pointer->content)
 			{
+				printf("\n11111111111111");
 				replace_content_runaway(pointer);
 				shell->line+=pointer->size_arg;
 				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+
 			}
 			else
 			{
@@ -156,9 +153,13 @@ char *change_dollars(t_shell *shell)
 				pointer->new_expanded_str =ft_strdup(pointer->line_until$_joined);
 				//shell->line+=size_arg;
 			}
+				printf("\n0000000001111");
+			if (pointer->line_until$)
+				free(pointer->line_until$);
 		}
 
 	}
+	printf("\n2222222222");
 	if (!pointer->begin$)
 		return(pointer->origin_line_arg);
 
