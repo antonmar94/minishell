@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/29 13:25:40 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/11 11:53:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	wellcome_header(t_shell *shell)
 	print_header(shell, "wellcome");
 	if (shell->line == NULL)
 	{
-		sleep(2);
+		//sleep(2);TODO off to test
 		clear_console();
 	}
 

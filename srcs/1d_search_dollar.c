@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/10 20:49:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/11 14:24:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ char	*ft_split_one(char const *s, char c)
 }
 
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
-int	change_dollars(t_shell *shell)
+char *change_dollars(t_shell *shell)
 {
 	char *origin_line_arg;
-	char	*begin$;
+	char	*begin$ = NULL;
 	char	*first_$_found;
 	char	*line_until$_joined;
 	int 	last_pos_until$;
@@ -69,15 +69,15 @@ int	change_dollars(t_shell *shell)
 	char *line_until$;
 	char *new_expanded_str;
 	char *content;
-	char *final_str;
 	char *final_without$;
+	char *final_return;
 
 	origin_line_arg = shell->line;
 	last_pos_until$ = 0;
 	count_until$ = 0;
-	printf("fake arguments: ");
-	printf(RED"%s\n\n"RESET, shell->line);
-
+	printf("fake arguments         : ");//TODO Del Test
+	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
+	printf("fake arguments expanded: ");//TODO Del Test
 
 	while (shell->line&& *(shell->line))
 	{
@@ -92,8 +92,8 @@ int	change_dollars(t_shell *shell)
 			shell->line++;
 			begin$ = shell->line;
 			first_$_found = ft_split_one(begin$, ' ');
-			if(!first_$_found)
-				return(0);
+			//if(!first_$_found)
+				//return(0);
 			content = search_var_coincident(shell, first_$_found);
 			size_arg = ft_strlen(first_$_found);
 			printf("\ncontent: %s\n", content);
@@ -120,23 +120,35 @@ int	change_dollars(t_shell *shell)
 						free(line_until$);
 					last_pos_until$+=size_arg;
 					count_until$ = 0;
+
+
+				shell->line+=size_arg;
+				new_expanded_str =ft_strjoin(line_until$_joined, content);
+
 			}
-			shell->line+=size_arg;
-			new_expanded_str =ft_strjoin(line_until$_joined, content);
+			else
+			{
+				new_expanded_str = line_until$_joined; //REVISAR
+			}
 		}
 
 	}
 	if (!begin$)
-		printf("%s", shell->line);
+		return(origin_line_arg);
 
-	printf("\norigin_line :%s",origin_line_arg);
-	printf("\nlast_pos_until$ %d",last_pos_until$);
-	printf("\ncount_until$ :%d",count_until$);
 
-	final_without$ = ft_substr(origin_line_arg, 9, 9);
+	//printf("\norigin_line :%s",origin_line_arg);
+	//printf("\nlast_pos_until$ %d",last_pos_until$);
+	//printf("\ncount_until$ :%d",count_until$);
+
+	final_without$ = ft_substr(origin_line_arg, last_pos_until$ -1, count_until$);
+	final_return = ft_strjoin(new_expanded_str, final_without$);
+
 	//printf("\nline_until$_joined: %s\n", new_expanded_str);
-	printf("\nFinal final_without$: %s\n", final_without$ );
-	(void)final_str;
+	//printf("\nnew_expanded_strt$: %s\n", new_expanded_str );
+	//printf("\nFinal final_without$: %s\n", final_without$ );
+	//printf(GREEN"\n\n\nFinal RETURN$: %s\n"RESET, final_return );
+	return(final_return);
 	//t_arglist	*copy;
 
 

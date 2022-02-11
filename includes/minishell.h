@@ -153,7 +153,7 @@ void 	print_var_unset(char *var_name, t_shell *shell);
 
 /*--------------------$---------------*/
 char *search_var_coincident(t_shell *shell, char* str_to_find);
-int	change_dollars(t_shell *shell);
+char	*change_dollars(t_shell *shell);
 char	*ft_split_one(char const *s, char c);
 
 /*----------------------- FAKES DEL------------------------------------------*/
