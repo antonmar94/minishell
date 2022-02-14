@@ -54,7 +54,7 @@ typedef struct env_list
 
 }	t_env_list;
 
-typedef struct s_aux_pointer
+/* typedef struct s_aux_pointer
 {
 	char	*origin_line_arg;
 	char	*begin$;
@@ -68,7 +68,7 @@ typedef struct s_aux_pointer
 	char 	*content;
 	char 	*final_without$;
 	char 	*final_return;
-}	t_aux_pointer;
+}	t_aux_pointer; */
 
 
 typedef struct s_shell
@@ -173,7 +173,7 @@ char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char	*change_dollars(t_shell *shell);
 char	*ft_split_one(char const *s, char c);
 void	nocontent_runaway(t_aux_pointer *pointer);
-void	replace_content_runaway(t_aux_pointer *pointer);
+char 	*replace_content_runaway(char *line, int count_until$, int arg_size, char *content);
 
 /*----------------------- FAKES DEL------------------------------------------*/
 
