@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/14 23:07:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/16 14:39:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 
 	while (copy->next)
 	{
-
 		if (!ft_strcmp(copy->var_name, str_to_find))
 			return(copy->var_content);
 		copy = copy->next;
@@ -57,15 +56,22 @@ char	*ft_split_one(char const *s, char c)
 }
 
 
-char *replace_content_runaway(char *line, int count_until$, int arg_size, char *content)
+void replace_content_runaway(t_aux_pointer *pointer)
 {
-	char *line_until$;
 	/* if(pointer->last_pos_until$)
 		pointer->origin_line_arg --; */
 	//pointer->line_until$=NULL;
 	// se hace una substring de la original desde la ultima posicion antes de $ y el nº de caracteres avanzado
-	line_until$ = ft_substr(line, count_until$, arg_size);
+	int pos_new_$;
 
+	pos_new_$ = 0;
+
+	if(pointer->line_until$_joined)
+		pos_new_$ += ft_strlen(pointer->new_expanded_str);
+
+	printf("\norigin_line_arg: %s\n" ,pointer->origin_line_arg);
+	pointer->line_until$ = ft_substr(pointer->origin_line_arg, pos_new_$, pointer->count_until$);
+	printf("\nline_until$ %s\n" ,pointer->line_until$);
 	//si anteriormente ya hay algo se concatena a lo anterior
 	if(pointer->new_expanded_str)
 	{
@@ -80,13 +86,13 @@ char *replace_content_runaway(char *line, int count_until$, int arg_size, char *
 		pointer->line_until$_joined = pointer->line_until$;///AQQQUUUQQQQQ
 		//printf("\nline_until$: %s\n", pointer->line_until$);
 		//printf("\nfirst$_found; %s\n", pointer->first_$_found);
-	}	
-
+	}
+	printf("\nline_until$_joined %s\n" ,pointer->line_until$_joined);
 	//Se avanzan los punteros para saltar las variables expandidas
-	pointer->origin_line_arg += pointer->size_arg  + ft_strlen(pointer->line_until$) -1;//var name + char $
+	//pointer->origin_line_arg += pointer->size_arg  + ft_strlen(pointer->line_until$) -1;//var name + char $
 	//se une lo anterior al contenido de la variable
-	pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
-	pointer->last_pos_until$+=pointer->size_arg;
+	//pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+	//pointer->last_pos_until$+=pointer->size_arg;
 	pointer->count_until$ = 0;
 }
 
@@ -116,59 +122,64 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 }
 
 
+
+
+
+
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell)
 {
-	/* t_aux_pointer *pointer;
+	t_aux_pointer *pointer;
 	pointer = malloc(sizeof(t_aux_pointer));
 	pointer->begin$ = NULL;
 
 	pointer->origin_line_arg = shell->line;
 	pointer->last_pos_until$ = 0;
-	pointer->count_until$ = 0; */
+	pointer->count_until$ = 0;
+	pointer->new_expanded_str = NULL;
 
-	char 	*shell_line_walker;
-	int		count_until$;
-	char	*first_$_found;
-	char	*last_pos_until$;
-	char	*content = NULL;
-	int		size_arg;
 
-	printf("fake arguments         : ");//TODO Del Test
+	check_envar(shell);//TODO: seguridad comprobacion variables entorno
+	printf("fake arguments         :\n ");//TODO Del Test
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	//printf("fake arguments expanded: ");//TODO Del Test
 
-	shell_line_walker = shell->line;
+	pointer->shell_line_walker = shell->line;
 
-	while (shell_line_walker && *(shell_line_walker))
+	while (pointer->shell_line_walker && *(pointer->shell_line_walker))
 	{
-		if (*shell_line_walker != '$')
+		if (*pointer->shell_line_walker != '$')
 		{
-			shell_line_walker++;
-			count_until$++;
+			pointer->shell_line_walker++;
+			pointer->count_until$++;
 		}
 		else
 		{
-			shell->line++;
-			first_$_found = ft_split_one(shell->line, ' ');
+			pointer->shell_line_walker++;
+			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ');
 			//printf("\n000000000000");
 			//if(!first_$_found)
 				//return(0);
-			printf("\nfirst$_found; %s\n", first_$_found);
-			content = search_var_coincident(shell, first_$_found);
-			size_arg = ft_strlen(first_$_found);
-			//printf("\ncontent: %s\n", pointer->content);
-			if (content)
+			printf(BLUE"\nfirst$_found: %s\n"RESET, pointer->first_$_found);
+			pointer->content= search_var_coincident(shell, pointer->first_$_found);
+			//exit(0);
+			pointer->size_arg = ft_strlen(pointer->first_$_found);
+			printf("\ncontent: %s\n", pointer->content);
+			printf("\nsize first$_found: %d\n", pointer->size_arg);
+			if (pointer->content)
 			{
-				//printf("\n11111111111111");
-				replace_content_runaway(shell->line, count_until$, size_arg, content);
-				shell->line+=pointer->size_arg;
+				printf("\n11111111111111\n");
+
+				replace_content_runaway(pointer);
+				printf("\n222222222\n");
+				pointer->shell_line_walker+=pointer->size_arg;
 				printf("\nline_until$: %s\n", pointer->line_until$);
 				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
 
 			}
 			else
 			{
+				exit(0);
 				nocontent_runaway(pointer);
 				//shell->line+=pointer->size_arg;
 				pointer->new_expanded_str =ft_strdup(pointer->line_until$_joined);

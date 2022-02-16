@@ -54,8 +54,9 @@ typedef struct env_list
 
 }	t_env_list;
 
-/* typedef struct s_aux_pointer
+typedef struct s_aux_pointer
 {
+	char	*shell_line_walker;
 	char	*origin_line_arg;
 	char	*begin$;
 	char	*first_$_found;
@@ -68,19 +69,20 @@ typedef struct env_list
 	char 	*content;
 	char 	*final_without$;
 	char 	*final_return;
-}	t_aux_pointer; */
+	char	*line_walker;
+}	t_aux_pointer;
 
 
 typedef struct s_shell
 {
 	char 		*line;
-	char		*line_walker;
 	char		*line_args;
 	char		*command;
 	char		*command_flag;
 	char		**command_args;
 	char		**command_plus_args;
 	int			size_line;
+	char		*line_walker;
 	int			size_args;
 	char		**list_commands;
 	int			size_c;
@@ -159,6 +161,7 @@ int		error_wrong_path(void);
 
 int		size_matriz(char **str);
 void	easy_test_line_for_check_export(t_shell *shell);
+void	check_envar(t_shell *shell);
 
 
 
@@ -173,7 +176,7 @@ char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char	*change_dollars(t_shell *shell);
 char	*ft_split_one(char const *s, char c);
 void	nocontent_runaway(t_aux_pointer *pointer);
-char 	*replace_content_runaway(char *line, int count_until$, int arg_size, char *content);
+void 	replace_content_runaway(t_aux_pointer *pointer);
 
 /*----------------------- FAKES DEL------------------------------------------*/
 

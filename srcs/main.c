@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/11 14:02:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/16 13:52:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	main(int argc, char **argv, char** envp)
 	t_shell *shell;
 
 	shell = initialice(envp);
-	//print_env_list(shell->env_list);
 	wellcome_header(shell);
+	//print_env_list(shell->env_list);
 	read_history(NULL);//BORRAR ./history cuando guardemos mierda rara
 	while(!shell->exit)
 	{

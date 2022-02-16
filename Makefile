@@ -17,6 +17,7 @@ SRCS =	./srcs/main.c \
 		./srcs/z1_auxiliar_list.c \
 		./srcs/1d_search_dollar.c \
 		./srcs/z3_fake_arguments.c \
+		./srcs/z4_check_aux.c \
 
 OBJS = ${SRCS:.c=.o}
 
