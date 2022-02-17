@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 14:25:56 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 16:57:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ char *change_dollars(t_shell *shell)
 		}
 
 	}
+	if ((int)ft_strlen(shell->line) == pointer->count_until$)
+		return(shell->line);
 	if 	(pointer->count_until$)
 		{
 			pointer->final_str = ft_strjoin(pointer->new_expanded_str, pointer->origin_line_arg );

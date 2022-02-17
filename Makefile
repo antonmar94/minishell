@@ -1,5 +1,6 @@
 
 NAME = minishell
+NAME_DEBUG = minishell_debug
 LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
 SRCS =	./srcs/main.c \
@@ -7,7 +8,6 @@ SRCS =	./srcs/main.c \
 		./srcs/errors.c \
 		./srcs/0_init.c \
 		./srcs/0b_init_env.c\
-		./srcs/1_line_to_commands.c \
 		./srcs/1_line_to_commands.c \
 		./srcs/1b_search_quotes.c \
 		./srcs/2_evaluate_commands.c \
@@ -46,6 +46,9 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 
 	make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
+
+debug:
+	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -g -o $(NAME_DEBUG)
 
 compare: all
 	@cd tests && ./compare.sh && cd ..
