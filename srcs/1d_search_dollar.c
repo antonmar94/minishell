@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 13:45:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 14:16:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,38 +176,24 @@ char *change_dollars(t_shell *shell)
 				pointer->shell_line_walker+=pointer->size_arg;
 				shell->line+=pointer->size_arg +1;
 				pointer->new_expanded_str = pointer->line_until$_joined;
-
 			}
-				//printf("\n0000000001111");
-		/* 	if (pointer->line_until$)
-			{
-				free(pointer->line_until$);
-				pointer->line_until$ = NULL;
-			} */
 
 		}
 
 	}
-	//printf("\n2222222222");
-	if (!pointer->begin$)
-		return(pointer->origin_line_arg);
+	if 	(pointer->count_until$)
+		{
+			pointer->str_without$ = ft_strdup(pointer->origin_line_arg);
+			pointer->final_str = ft_strjoin(pointer->new_expanded_str, pointer->str_without$ );
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->str_without$);
 
-
-	//printf("\norigin_line :%s",pointer->origin_line_arg);
-	//printf("\nlast_pos_until$ %d",pointer->last_pos_until$);
-	//printf("\ncount_until$ :%d\n",pointer->count_until$);
-	//printf("\npointer->final_without$ :%s\n",pointer->final_without$);
-	//printf("\npointer->new_expanded_str :%s\n",pointer->new_expanded_str);
-
-	pointer->final_without$ = ft_substr(pointer->origin_line_arg, pointer->last_pos_until$ -1, pointer->count_until$);
-	pointer->final_return = ft_strjoin(pointer->new_expanded_str, pointer->final_without$);
-	//printf("que pasa");
-
-	//printf("\nline_until$_joined: %s\n", new_expanded_str);
-	//printf("\nnew_expanded_strt$: %s\n", new_expanded_str );
-	//printf("\nFinal final_without$: %s\n", final_without$ );
-	//printf(GREEN"\n\n\nFinal RETURN$: %s\n"RESET, final_return );
-	return(pointer->final_return);
-	//t_arglist	*copy;
+		}
+		else
+		{
+			pointer->final_str = pointer->new_expanded_str;
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->str_without$);
+		}
+	printf(GREEN"\n\n\nFINAL:%s\n\n\n"RESET, pointer->final_str);
+	return(pointer->final_str);
 }
 

@@ -54,6 +54,10 @@ typedef struct env_list
 
 }	t_env_list;
 
+
+/**
+ @param
+*/
 typedef struct s_aux_pointer
 {
 	char	*shell_line_walker;
@@ -70,6 +74,9 @@ typedef struct s_aux_pointer
 	char 	*final_without$;
 	char 	*final_return;
 	char	*line_walker;
+	char 	*str_without$;
+	char	*final_str;
+
 }	t_aux_pointer;
 
 
