@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 01:10:09 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 01:38:33 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void replace_content_runaway(t_aux_pointer *pointer)
 		//printf("\nline_until$: %s\n", pointer->line_until$);
 		//printf("\nfirst$_found; %s\n", pointer->first_$_found);
 		pointer->line_until$_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_until$);
-		free(pointer->new_expanded_str);
-		pointer->new_expanded_str = NULL;
 	}
 	else// si anteriormente no hay nada es directamente lo anterior
 	{
@@ -98,6 +96,8 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	//pointer->last_pos_until$+=pointer->size_arg;
 	pointer->count_until$ = 0;
+	if(pointer->first_$_found)
+		free(pointer->first_$_found);
 }
 
 
@@ -121,6 +121,8 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	pointer->new_expanded_str =ft_strdup(pointer->line_until$_joined);
 	pointer->last_pos_until$+=pointer->size_arg;
 	pointer->count_until$ = 0;
+
+	
 
 	//new_expanded_str = line_until$_joined; //REVISAR
 }
@@ -178,8 +180,9 @@ char *change_dollars(t_shell *shell)
 
 				replace_content_runaway(pointer);
 				pointer->shell_line_walker+=pointer->size_arg;
-				printf("\nline_until$: %s\n"RESET, pointer->line_until$);
+				//printf("\nline_until$: %s\n"RESET, pointer->line_until$);
 				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+				
 
 			}
 			else
