@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 14:16:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 14:25:56 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,6 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 		free(pointer->first_$_found);
 }
 
-
-
-
-
-
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell)
 {
@@ -164,7 +159,6 @@ char *change_dollars(t_shell *shell)
 			if (pointer->content)
 			{
 				printf(CYAN"\nExiste Coincidencia pointer->content ✅ \n");
-
 				replace_content_runaway(pointer);
 				pointer->shell_line_walker+=pointer->size_arg;
 				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
@@ -183,17 +177,15 @@ char *change_dollars(t_shell *shell)
 	}
 	if 	(pointer->count_until$)
 		{
-			pointer->str_without$ = ft_strdup(pointer->origin_line_arg);
-			pointer->final_str = ft_strjoin(pointer->new_expanded_str, pointer->str_without$ );
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->str_without$);
+			pointer->final_str = ft_strjoin(pointer->new_expanded_str, pointer->origin_line_arg );
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->origin_line_arg);
 
 		}
 		else
 		{
 			pointer->final_str = pointer->new_expanded_str;
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->str_without$);
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->origin_line_arg);
 		}
-	printf(GREEN"\n\n\nFINAL:%s\n\n\n"RESET, pointer->final_str);
 	return(pointer->final_str);
 }
 
