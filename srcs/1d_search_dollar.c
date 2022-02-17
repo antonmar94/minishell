@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 16:57:58 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 17:21:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ char *change_dollars(t_shell *shell)
 			//if(!first_$_found)
 				//return(0);
 			pointer->content= search_var_coincident(shell, pointer->first_$_found);
-			//exit(0);
 			printf(CYAN"\ncontent: %s\n"RESET, pointer->content);
 			if (pointer->content)
 			{
