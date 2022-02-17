@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/16 14:39:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 01:10:09 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,13 @@ void replace_content_runaway(t_aux_pointer *pointer)
 
 	pos_new_$ = 0;
 
-	if(pointer->line_until$_joined)
-		pos_new_$ += ft_strlen(pointer->new_expanded_str);
+	//if(pointer->line_until$_joined)
+		//pos_new_$ += ft_strlen(pointer->line_until$_joined);
 
-	printf("\norigin_line_arg: %s\n" ,pointer->origin_line_arg);
-	pointer->line_until$ = ft_substr(pointer->origin_line_arg, pos_new_$, pointer->count_until$);
-	printf("\nline_until$ %s\n" ,pointer->line_until$);
+	printf("\norigin_line_arg:%s\n" ,pointer->origin_line_arg);
+	pointer->line_until$ = ft_substr(pointer->origin_line_arg, 0, pointer->count_until$);
+	printf("\nline_until$:%s\n" ,pointer->line_until$);
+	printf("\nsize line_until$:%lu", ft_strlen(pointer->line_until$));
 	//si anteriormente ya hay algo se concatena a lo anterior
 	if(pointer->new_expanded_str)
 	{
@@ -87,11 +88,14 @@ void replace_content_runaway(t_aux_pointer *pointer)
 		//printf("\nline_until$: %s\n", pointer->line_until$);
 		//printf("\nfirst$_found; %s\n", pointer->first_$_found);
 	}
-	printf("\nline_until$_joined %s\n" ,pointer->line_until$_joined);
+	
+	//printf("\nline_until$_joined:%s\n" ,pointer->line_until$_joined);
 	//Se avanzan los punteros para saltar las variables expandidas
-	//pointer->origin_line_arg += pointer->size_arg  + ft_strlen(pointer->line_until$) -1;//var name + char $
-	//se une lo anterior al contenido de la variable
-	//pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+	pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+	
+	printf("unido contenido: pointer->new_expanded_str\n");
+	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);
+	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	//pointer->last_pos_until$+=pointer->size_arg;
 	pointer->count_until$ = 0;
 }
@@ -138,9 +142,11 @@ char *change_dollars(t_shell *shell)
 	pointer->count_until$ = 0;
 	pointer->new_expanded_str = NULL;
 
+	int i = 0;
+
 
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
-	printf("fake arguments         :\n ");//TODO Del Test
+	printf(YELLOW"fake arguments:\n"RESET);//TODO Del Test
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	//printf("fake arguments expanded: ");//TODO Del Test
 
@@ -157,23 +163,22 @@ char *change_dollars(t_shell *shell)
 		{
 			pointer->shell_line_walker++;
 			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ');
+			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, pointer->first_$_found);
+			pointer->size_arg = ft_strlen(pointer->first_$_found);
+			printf(CYAN"\nsize first$_found: %d\n"RESET, pointer->size_arg);
 			//printf("\n000000000000");
 			//if(!first_$_found)
 				//return(0);
-			printf(BLUE"\nfirst$_found: %s\n"RESET, pointer->first_$_found);
 			pointer->content= search_var_coincident(shell, pointer->first_$_found);
 			//exit(0);
-			pointer->size_arg = ft_strlen(pointer->first_$_found);
-			printf("\ncontent: %s\n", pointer->content);
-			printf("\nsize first$_found: %d\n", pointer->size_arg);
+			printf(CYAN"\ncontent: %s\n"RESET, pointer->content);
 			if (pointer->content)
 			{
-				printf("\n11111111111111\n");
+				printf(CYAN"\nExiste Coincidencia pointer->content ✅ \n");
 
 				replace_content_runaway(pointer);
-				printf("\n222222222\n");
 				pointer->shell_line_walker+=pointer->size_arg;
-				printf("\nline_until$: %s\n", pointer->line_until$);
+				printf("\nline_until$: %s\n"RESET, pointer->line_until$);
 				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
 
 			}

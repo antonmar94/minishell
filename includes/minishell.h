@@ -171,6 +171,10 @@ void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
+
+/*----------------------- MOD LIBFT-------------------------------------*/
+char	*ft_strjoin_whith_space(char const *s1, char const *s2);
+
 /*--------------------$---------------*/
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char	*change_dollars(t_shell *shell);
