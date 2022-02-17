@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 13:17:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 13:45:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char	*ft_split_one(char const *s, char c)
  @param new_expanded_str save the last piece of the string
  @param line_until$_joined
  @param content Comtent of the global var
-
  @param origin_line_arg the string to advance to obtain line_until$
 
 */
@@ -87,11 +86,18 @@ void replace_content_runaway(t_aux_pointer *pointer)
 		free(pointer->first_$_found);
 }
 
-
+/**
+ replace global var($) to his content
+ @param line_until$ -1 because if del VAR$ save spce after and before. Del one
+ @param new_expanded_str save the last piece of the string
+ @param line_until$_joined
+ @param content Comtent of the global var
+ @param origin_line_arg the string to advance to obtain line_until$
+*/
 void	nocontent_runaway(t_aux_pointer *pointer)
 {
 	printf("\norigin_line_arg:%s\n" ,pointer->origin_line_arg);//TODO del
-	pointer->line_until$ = ft_substr(pointer->origin_line_arg, 0, pointer->count_until$);
+	pointer->line_until$ = ft_substr(pointer->origin_line_arg, 0, pointer->count_until$ -1);//
 	printf("\nline_until$:%s\n" ,pointer->line_until$);//TODO del
 	printf("size line_until$: %lu\n", ft_strlen(pointer->line_until$));//TODO del
 	if(pointer->new_expanded_str)
