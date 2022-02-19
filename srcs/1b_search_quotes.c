@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/19 17:54:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/02/19 18:33:16 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 	}
 }
 
-int	add_command(t_shell *shell)
+int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo' hola
 {
 	int i;
 	char quotes;
@@ -125,24 +125,23 @@ int	add_command(t_shell *shell)
 			shell->line_walker++;
 			size_command++;
 		}
+		shell->line_walker++;
 	}
-	while (*shell->line_walker && *shell->line_walker != ' ')
+	else
 	{
-		if (quotes)
-		{
-			quotes = '\0';
-			size_command++;
-		}
-		if (!check_allquotes(shell->line_walker))
+		while (*shell->line_walker && *shell->line_walker != ' ' && !check_allquotes(shell->line_walker))
 		{
 			size_command++;
 			shell->line_walker++;
 		}
-		else
-			jump_quotes(shell);
 	}
+	printf("start command: %s\n", start_command);
+	printf("line walker: %s\n", shell->line_walker);
+	printf("size_command: %i\n", size_command);
 	while (i < shell->size_c && ft_strncmp(start_command, shell->list_commands[i], size_command))
 		i++;
+	//if (quotes && !check_allquotes(shell->line_walker)) Algo asi, pensar mejor
+	//	return (-1);
 	if (i >= shell->size_c)
 		return (-1);
 	if (!ft_strcmp(shell->list_commands[i], "echo")) //Comprueba la flag si el comando es "echo", este flag no se introduce en "shell->line_args" ni en "shell->line_walker"
