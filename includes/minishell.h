@@ -179,16 +179,19 @@ void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
 
-/*----------------------- MOD LIBFT-------------------------------------*/
-char	*ft_strjoin_whith_space(char const *s1, char const *s2);
-
 /*--------------------$---------------*/
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char	*change_dollars(t_shell *shell);
-char	*ft_split_one(char const *s, char c);
 void	nocontent_runaway(t_aux_pointer *pointer);
 void 	replace_content_runaway(t_aux_pointer *pointer);
 
+
+
+/*------------------------ MOD LIFT --------------------------------------*/
+char	*ft_strjoin_whith_space(char const *s1, char const *s2);
+char	*ft_split_one(char const *s, char c, char d);
+size_t	ft_desplace_2char(char const *s, char c, char d);
+size_t	ft_lens_2char(char *lens, char c, char d);
 /*----------------------- FAKES DEL------------------------------------------*/
 
 t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);

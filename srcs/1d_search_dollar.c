@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 17:21:05 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/20 00:03:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,7 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 
 }
 
-/* modified split to return de first str before a char */
-char	*ft_split_one(char const *s, char c)
 
-{
-	char	*scopy;
-	char	*pp;
-	size_t	i;
-	size_t	desplace;
-
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	desplace = 0;
-	scopy = (char *)s;
-	pp = (char *)malloc(sizeof(char *));
-	if (pp == NULL)
-		return (NULL);
-
-		scopy = scopy + ft_desplace(scopy, c);
-		pp = ft_substr((const char *)scopy, 0, ft_lens(scopy, c));
-	return (pp);
-}
 
 
 /**
@@ -146,7 +125,7 @@ char *change_dollars(t_shell *shell)
 		else
 		{
 			pointer->shell_line_walker++;
-			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ');
+			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ', '$');
 			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, pointer->first_$_found);
 			pointer->size_arg = ft_strlen(pointer->first_$_found);
 			printf(CYAN"\nsize first$_found: %d\n"RESET, pointer->size_arg);
