@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/17 18:45:01 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/17 17:21:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ char	*ft_split_one(char const *s, char c)
 	if (pp == NULL)
 		return (NULL);
 
-	scopy = scopy + ft_desplace(scopy, c);
-	if (ft_desplace(scopy, c) == ft_strlen(s))
-		return("do");
-	pp = ft_substr((const char *)scopy, 0, ft_lens(scopy, c));
+		scopy = scopy + ft_desplace(scopy, c);
+		pp = ft_substr((const char *)scopy, 0, ft_lens(scopy, c));
 	return (pp);
 }
 
@@ -116,26 +114,6 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 		free(pointer->first_$_found);
 }
 
-
-int	look_for_char_until_char(char *str, char to_find, char until)
-{
-	int i;
-	i = 0;
-	while (str && *str && *str != until )
-	{
-		if (*str == to_find)
-		{
-			return(i);
-		}
-		i++;
-		str++;
-	}
-	return(0);
-
-}
-
-
-
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell)
 {
@@ -147,9 +125,8 @@ char *change_dollars(t_shell *shell)
 	pointer->last_pos_until$ = 0;
 	pointer->count_until$ = 0;
 	pointer->new_expanded_str = NULL;
-	char *more_than_one$_united;
+
 	int i = 0;
-	int b = 0;
 
 
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
@@ -170,22 +147,8 @@ char *change_dollars(t_shell *shell)
 		{
 			pointer->shell_line_walker++;
 			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ');
-			printf("\nORIGIN pointer->first_$_found: %s\n", pointer->first_$_found);
-			more_than_one$_united = ft_split_one(pointer->first_$_found, '$');
 			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, pointer->first_$_found);
-			printf(CYAN"\nsize first$_found: %d\n"RESET, pointer->size_arg);
-			if(more_than_one$_united)
-			{
-				b = look_for_char_until_char(pointer->first_$_found , '$', ' ');
-				pointer->size_arg = b;
-				printf("\nmore_than_one$_united: %s\n",more_than_one$_united);
-				printf("BBBBBBB: %d",b);
-				pointer->first_$_found = more_than_one$_united;
-				free(more_than_one$_united);
-			}
-			else
-				pointer->size_arg = ft_strlen(pointer->first_$_found);
-			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, pointer->first_$_found);
+			pointer->size_arg = ft_strlen(pointer->first_$_found);
 			printf(CYAN"\nsize first$_found: %d\n"RESET, pointer->size_arg);
 			//printf("\n000000000000");
 			//if(!first_$_found)
