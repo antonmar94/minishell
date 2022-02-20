@@ -169,6 +169,7 @@ int		error_wrong_path(void);
 int		size_matriz(char **str);
 void	easy_test_line_for_check_export(t_shell *shell);
 void	check_envar(t_shell *shell);
+void    free_str(char *str);
 
 
 

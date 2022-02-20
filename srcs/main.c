@@ -6,11 +6,16 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/17 16:50:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/20 01:51:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	leaks(void)
+{
+	system("leaks minishell");
+}
 
 int	main(int argc, char **argv, char** envp)
 {
@@ -18,6 +23,7 @@ int	main(int argc, char **argv, char** envp)
 	(void)argv;
 	t_shell *shell;
 
+	//atexit(leaks);
 	shell = initialice(envp);
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
@@ -47,6 +53,7 @@ int	main(int argc, char **argv, char** envp)
 		write_history(NULL);
 		//free_and_reset_values(shell);
 	}
+
 	return (0);
 }
 
