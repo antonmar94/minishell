@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/20 01:51:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/21 12:02:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	leaks(void)
 {
 	system("leaks minishell");
 }
+
+
 
 int	main(int argc, char **argv, char** envp)
 {
@@ -28,9 +30,12 @@ int	main(int argc, char **argv, char** envp)
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
 	read_history(NULL);//BORRAR ./history cuando guardemos mierda rara
+	//print_env_list(shell->env_list);
+
+	//wellcome_header(shell);
+	read_history(NULL);
 	while(!shell->exit)
 	{
-
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
@@ -39,6 +44,14 @@ int	main(int argc, char **argv, char** envp)
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 
 		printf(GREEN"\n%s\n"RESET, change_dollars(shell));
+		if (add_command(shell))
+			return (-1);
+		//simple_quotes_argument(shell);
+		//printf("%s", shell->arg_list->content);
+		split_arguments(shell);
+		//line_without_command(shell);  //No funciona ANTONIO
+		//split_arguments(shell); NO FUNCIONA ANTONIO
+		//easy_test_line_for_check_export(shell);
 		//find_command(shell);
 		//printf("cosas %i", count_args(shell));
 		//if (arg_listing(shell) == -1)
@@ -51,6 +64,8 @@ int	main(int argc, char **argv, char** envp)
 			list_args++;
 		} */
 		write_history(NULL);
+		all_clear(&shell->arg_list);
+		
 		//free_and_reset_values(shell);
 	}
 
