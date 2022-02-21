@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/21 12:12:26 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/21 20:35:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ void	leaks(void)
 
 int	main(int argc, char **argv, char** envp)
 {
+	char *temp;
 	(void)argc;
 	(void)argv;
 	t_shell *shell;
 
-	//atexit(leaks);
+	atexit(leaks);
 	shell = initialice(envp);
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
@@ -42,13 +43,21 @@ int	main(int argc, char **argv, char** envp)
 		//line_without_command(shell);// No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
+		temp = change_dollars(shell, shell->line);
+		printf(GREEN"\n%s\n"RESET, temp);
+		//free_str(temp);
 
-		printf(GREEN"\n%s\n"RESET, change_dollars(shell, shell->line));
-		if (add_command(shell))
-			return (-1);
+
+		//if (add_command(shell))
+			//return (-1);
+
+
 		//simple_quotes_argument(shell);
 		//printf("%s", shell->arg_list->content);
-		split_arguments(shell);
+
+		//split_arguments(shell);
+
+
 		//line_without_command(shell);  //No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);
@@ -65,11 +74,12 @@ int	main(int argc, char **argv, char** envp)
 		} */
 		write_history(NULL);
 		all_clear(&shell->arg_list);
-		
+
 		//free_and_reset_values(shell);
 	}
 
-	return (0);
+	free(shell);
+	exit (0);
 }
 
 /* int main()

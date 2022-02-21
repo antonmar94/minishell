@@ -1,6 +1,7 @@
 
 NAME = minishell
 NAME_DEBUG = minishell_debug
+CODE_DEBUG_EXTERNAL_CONSOLE = true
 LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
 SRCS =	./srcs/main.c \
@@ -20,7 +21,7 @@ SRCS =	./srcs/main.c \
 		./srcs/z4_check_aux.c \
 		./srcs/z5_aux_lib.c \
 		./srcs/z6_aux_free.c \
-		
+
 
 OBJS = ${SRCS:.c=.o}
 
@@ -51,6 +52,12 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 
 debug:
 	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -g -o $(NAME_DEBUG)
+
+create_code_folder:
+	rm -rf .vscode
+	mkdir .vscode
+	@echo "{\"tasks\":[{\"type\":\"cppbuild\",\"label\":\"Make debug\",\"command\":\"/usr/bin/make\",\"args\":[\"debug\"],\"options\":{\"cwd\":\"\$${workspaceFolder}\"},\"problemMatcher\":[\"\$$gcc\"],\"group\":{\"kind\":\"build\",\"isDefault\":true}}],\"version\":\"2.0.0\"}" > .vscode/tasks.json
+	@echo "{\"version\": \"0.2.0\",\"configurations\": [{\"name\": \"gcc - Build and debug active file\",\"type\": \"cppdbg\",\"request\": \"launch\",\"program\": \"\$${workspaceFolder}/${NAME_DEBUG}\",\"args\": [],\"stopAtEntry\": false,\"cwd\": \"\$${workspaceFolder}\",\"environment\": [],\"externalConsole\": $(CODE_DEBUG_EXTERNAL_CONSOLE),\"MIMode\": \"lldb\",\"preLaunchTask\": \"Make debug\"}]}" > .vscode/launch.json
 
 compare: all
 	@cd tests && ./compare.sh && cd ..

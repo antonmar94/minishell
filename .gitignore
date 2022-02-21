@@ -7,3 +7,5 @@ ni_*
 minishell
 zz*
 libft/*.a
+minishell_debug
+*.dSYM
