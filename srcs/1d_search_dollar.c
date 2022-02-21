@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/20 01:45:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/21 12:10:45 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 }
 
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
-char *change_dollars(t_shell *shell)
+char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
 	t_aux_pointer *pointer;
 	pointer = malloc(sizeof(t_aux_pointer));
@@ -109,7 +109,7 @@ char *change_dollars(t_shell *shell)
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	//printf("fake arguments expanded: ");//TODO Del Test
 
-	pointer->shell_line_walker = shell->line;
+	pointer->shell_line_walker = str_to_change_dollar;
 
 	while (pointer->shell_line_walker && *(pointer->shell_line_walker))
 	{
