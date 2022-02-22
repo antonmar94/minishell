@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/21 20:42:30 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:48:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	printf(CYAN"size: %lu\n", ft_strlen(pointer->new_expanded_str));
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
-	free_str(pointer->new_expanded_str);
+	//free_str(pointer->new_expanded_str);
 }
 
 /**
@@ -88,7 +88,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	printf("size: %lu\n", ft_strlen(pointer->new_expanded_str));
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
-	free_str(pointer->new_expanded_str);
+	//free_str(pointer->new_expanded_str);
 }
 
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
@@ -152,13 +152,14 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	}
 	if ((int)ft_strlen(shell->line) == pointer->count_until$)
 	{
-		if (ft_strcmp(shell->line, "exit") == 0)
+		if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui.
 		{
 
 			shell->exit = 1;
 			exit(0);
-			return(shell->line);
 		}
+		return(shell->line);
+		
 	}
 	if 	(pointer->count_until$)
 		{
@@ -171,7 +172,6 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 			pointer->final_str = pointer->new_expanded_str;
 			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->origin_line_arg);
 		}
-	free_str(pointer->new_expanded_str);
 	return(pointer->final_str);
 }
 

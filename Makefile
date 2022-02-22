@@ -72,6 +72,7 @@ fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
 	$(RM) $(OBJS)
+	$(RM) $(NAME_DEBUG)
 
 re: clean all
 

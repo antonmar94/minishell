@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/21 20:35:42 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:44:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char** envp)
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		temp = change_dollars(shell, shell->line);
 		printf(GREEN"\n%s\n"RESET, temp);
-		//free_str(temp);
+		free_str(temp);
 
 
 		//if (add_command(shell))
