@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/22 12:44:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:18:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	main(int argc, char **argv, char** envp)
 
 		//free_and_reset_values(shell);
 	}
-
 	free(shell);
 	exit (0);
 }
