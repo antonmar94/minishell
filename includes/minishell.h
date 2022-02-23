@@ -60,21 +60,16 @@ typedef struct env_list
 */
 typedef struct s_aux_pointer
 {
-	char	*shell_line_walker;
-	char	*origin_line_arg;
-	char	*begin$;
-	char	*first_$_found;
-	char	*line_until$_joined;
-	int 	last_pos_until$;
 	int		size_arg;
 	int		count_until$;
+	char	*shell_line_walker;
+	char	*origin_line_arg;
+	char	*first_$_found;
+	char	*line_until$_joined;
 	char 	*line_until$;
 	char 	*new_expanded_str;
 	char 	*content;
-	char 	*final_without$;
-	char 	*final_return;
 	char	*line_walker;
-	char 	*str_without$;
 	char	*final_str;
 
 }	t_aux_pointer;
@@ -82,22 +77,23 @@ typedef struct s_aux_pointer
 
 typedef struct s_shell
 {
-	char 		*line;
-	char		*line_args;
-	char		*command;
-	char		*command_flag;
-	char		**command_args;
-	char		**command_plus_args;
-	int			size_line;
-	char		*line_walker;
-	int			size_args;
-	char		**list_commands;
-	int			size_c;
-	int 		exit;
-	t_path		*path;
-	t_arglist	*arg_list;
-	t_env_list	*env_list;
+	char 			*line;
+	char			*line_args;
+	char			*command;
+	char			*command_flag;
+	char			**command_args;
+	char			**command_plus_args;
+	int				size_line;
+	char			*line_walker;
+	int				size_args;
+	char			**list_commands;
+	int				size_c;
+	int 			exit;
+	t_path			*path;
+	t_arglist		*arg_list;
+	t_env_list		*env_list;
 	t_fake_arg_list *fake_arg_list;//Borrar sólo para desarrollo $
+	t_aux_pointer 	*aux_pointer;
 }	t_shell;
 
 /*----------------------- header ---------------------------------------------*/
@@ -174,6 +170,10 @@ int		size_matriz(char **str);
 void	easy_test_line_for_check_export(t_shell *shell);
 void	check_envar(t_shell *shell);
 void    free_str(char *str);
+void	free_all(t_shell *shell);
+void	*del_name_and_contend(t_shell *shell);
+void	free_env_list(t_env_list *envp);
+void	free_aux_pointer(t_aux_pointer *aux_pointer);
 
 
 

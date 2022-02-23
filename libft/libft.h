@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 17:46:51 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/05 13:54:19 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 12:38:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+# include "../includes/minishell.h"
 
 typedef struct s_list
 {

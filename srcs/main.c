@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/22 13:18:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:04:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv, char** envp)
 	//print_env_list(shell->env_list);
 	read_history(NULL);//BORRAR ./history cuando guardemos mierda rara
 	//print_env_list(shell->env_list);
-
 	//wellcome_header(shell);
 	read_history(NULL);
 	while(!shell->exit)
@@ -77,41 +76,118 @@ int	main(int argc, char **argv, char** envp)
 
 		//free_and_reset_values(shell);
 	}
-	free(shell);
+	free_all(shell);
 	exit (0);
 }
 
-/* int main()
+void	free_all(t_shell *shell)
 {
-	t_shell *shell;
-	shell = initialice();
-
-	wellcome_header(shell);
-	read_history(NULL);// si es null coje historial ~/.history
-	//add_history(line);
-	//printf("MINISHELL\n");
-	while(!shell->exit)
+	if(shell)
 	{
-		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
-		//printf(RESET"el comando introucido es: %s\n"GREEN, line);
-		if (shell->line && *shell->line)// sólo si exite y hay contenido
-			add_history(shell->line);
-		split_line_to_command(shell);
+		if (shell->path)
+		{
+			if(shell->path->user)
+			{
+				free_str(shell->path->user);
+				shell->path->user = NULL;
+			}
+			if(shell->path->home)
+			{
+				free_str(shell->path->home);
+				shell->path->home = NULL;
+			}
+			if(shell->path->home_user)
+			{
+				free_str(shell->path->home_user);
+				shell->path->home_user = NULL;
+			}
+			free (shell->path);
+			shell->path = NULL;
+			free(shell);
 
-		//print_all(shell);// imprimir argumentos y todo para comprobar;
+		}
 
-		if (*shell->line)
-			find_command(shell);
-
-
-		//if (ft_strcmp(shell->line, "pwd") == 0) // comparar para cada comando. Hacer una tabla con todos¿?¿?
-			//printDir();
-
-		free_and_reset_values(shell);
-		write_history(NULL);
+		if(shell->list_commands)
+			free(shell->list_commands);
+		if(shell->env_list)
+			free_env_list(shell->env_list);
+		if(shell->aux_pointer)
+			free(shell->aux_pointer);
 	}
-	return (0);
-} */
+
+
+}
+
+void	free_aux_pointer(t_aux_pointer *aux_pointer)
+{
+	/* if((aux_pointer->first_$_found))
+	{
+		free(aux_pointer->first_$_found);
+		aux_pointer->first_$_found = NULL;
+	} */
+	if(aux_pointer->new_expanded_str)
+	{
+		free(aux_pointer->new_expanded_str);
+		aux_pointer->new_expanded_str = NULL;
+
+	}
+	/* if (aux_pointer->line_until$_joined)
+	{
+		free(aux_pointer->line_until$_joined);
+		aux_pointer->line_until$_joined = NULL;
+	} */
+	/* if (aux_pointer->line_until$)
+	{
+		free(aux_pointer->line_until$);
+		aux_pointer->line_until$ = NULL;
+	} */
+	free(aux_pointer);
+	aux_pointer = NULL;
+
+
+}
+
+
+
+
+
+void	free_env_list(t_env_list *envp)
+{
+
+	t_env_list *copy;
+	t_env_list *copy2;
+	copy = envp;
+	while (copy->next)
+	{
+		if(copy->var_name)
+		{
+			free(copy->var_name);
+			copy->var_name = NULL;
+		}
+		if(copy->var_content)
+		{
+			free(copy->var_content);
+			copy->var_content = NULL;
+
+		}
+		copy2 = copy->next;
+		free(copy);
+		copy = copy2;
+
+
+	}
+	if(copy->var_name)
+	{
+		free(copy->var_name);
+		copy->var_name = NULL;
+	}
+	if(copy->var_content)
+	{
+		free(copy->var_content);
+		copy->var_content = NULL;
+	}
+	free(copy);
+}
 
 void	free_and_reset_values(t_shell *shell)
 {

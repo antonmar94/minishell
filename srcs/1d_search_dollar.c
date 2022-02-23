@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/22 13:15:34 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 13:39:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,11 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
-	t_aux_pointer *pointer;
-	pointer = malloc(sizeof(t_aux_pointer));
-	pointer->begin$ = NULL;
 
-	pointer->origin_line_arg = shell->line;
-	pointer->last_pos_until$ = 0;
-	pointer->count_until$ = 0;
-	pointer->new_expanded_str = NULL;
+
+	shell->aux_pointer->origin_line_arg = shell->line;
+	shell->aux_pointer->count_until$ = 0;
+	shell->aux_pointer->new_expanded_str = NULL;
 
 	int i = 0;
 
@@ -109,64 +106,64 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	//printf("fake arguments expanded: ");//TODO Del Test
 
-	pointer->shell_line_walker = str_to_change_dollar;
+	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 
-	while (pointer->shell_line_walker && *(pointer->shell_line_walker))
+	while (shell->aux_pointer->shell_line_walker && *(shell->aux_pointer->shell_line_walker))
 	{
-		if (*pointer->shell_line_walker != '$')
+		if (*shell->aux_pointer->shell_line_walker != '$')
 		{
-			pointer->shell_line_walker++;
-			pointer->count_until$++;
+			shell->aux_pointer->shell_line_walker++;
+			shell->aux_pointer->count_until$++;
 		}
 		else
 		{
-			pointer->shell_line_walker++;
-			pointer->first_$_found = ft_split_one(pointer->shell_line_walker, ' ', '$');
-			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, pointer->first_$_found);
-			pointer->size_arg = ft_strlen(pointer->first_$_found);
-			printf(CYAN"\nsize first$_found: %d\n"RESET, pointer->size_arg);
-			pointer->content= search_var_coincident(shell, pointer->first_$_found);
-			printf(CYAN"\ncontent: %s\n"RESET, pointer->content);
-			if (pointer->content)
+			shell->aux_pointer->shell_line_walker++;
+			shell->aux_pointer->first_$_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
+			printf(WHITE"\n %i first$_found: %s\n"RESET, ++i, shell->aux_pointer->first_$_found);
+			shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_$_found);
+			printf(CYAN"\nsize first$_found: %d\n"RESET, shell->aux_pointer->size_arg);
+			shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_$_found);
+			printf(CYAN"\ncontent: %s\n"RESET, shell->aux_pointer->content);
+			if (shell->aux_pointer->content)
 			{
-				printf(CYAN"\nExiste Coincidencia pointer->content ✅ \n");
-				replace_content_runaway(pointer);
-				pointer->shell_line_walker+=pointer->size_arg;
-				pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
+				printf(CYAN"\nExiste Coincidencia shell->aux_pointer->content ✅ \n");
+				replace_content_runaway(shell->aux_pointer);
+				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
+				shell->aux_pointer->new_expanded_str =ft_strjoin(shell->aux_pointer->line_until$_joined, shell->aux_pointer->content);
 			}
 			else
 			{
-				printf(CYAN"\nNO Existe Coincidencia pointer->content ❌ \n");
-				nocontent_runaway(pointer);
-				pointer->shell_line_walker+=pointer->size_arg;
-				shell->line+=pointer->size_arg +1;
-				pointer->new_expanded_str = pointer->line_until$_joined;
+				printf(CYAN"\nNO Existe Coincidencia shell->aux_pointer->content ❌ \n");
+				nocontent_runaway(shell->aux_pointer);
+				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
+				shell->line+=shell->aux_pointer->size_arg +1;
+				shell->aux_pointer->new_expanded_str = shell->aux_pointer->line_until$_joined;
 			}
-			free_str(pointer->line_until$_joined);
-			free_str(pointer->first_$_found);
-			
+			free_str(shell->aux_pointer->line_until$_joined);
+			free_str(shell->aux_pointer->first_$_found);
+
 
 		}
 
 	}
-	if ((int)ft_strlen(shell->line) == pointer->count_until$)
+	if ((int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
 	{
 		if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
 			shell->exit = 1;
 		return(shell->line);
-		
+
 	}
-	if 	(pointer->count_until$)
+	if 	(shell->aux_pointer->count_until$)
 		{
-			pointer->final_str = ft_strjoin(pointer->new_expanded_str, pointer->origin_line_arg );
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->origin_line_arg);
+			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
 
 		}
 		else
 		{
-			pointer->final_str = pointer->new_expanded_str;
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", pointer->origin_line_arg);
+			shell->aux_pointer->final_str = shell->aux_pointer->new_expanded_str;
+			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
 		}
-	return(pointer->final_str);
+	return(shell->aux_pointer->final_str);
 }
 

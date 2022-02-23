@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/21 12:02:57 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 13:33:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_shell *initialice(char** envp)
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
 	shell->env_list = init_list_env(shell, envp);
+	shell->aux_pointer = malloc(sizeof(t_aux_pointer));
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->line_args = NULL;
