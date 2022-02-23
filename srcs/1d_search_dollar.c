@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/23 13:39:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:34:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	printf(CYAN"size: %lu\n", ft_strlen(pointer->new_expanded_str));
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
+	free_str(pointer->new_expanded_str);
+
 }
 
 /**
@@ -87,6 +89,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	printf("size: %lu\n", ft_strlen(pointer->new_expanded_str));
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
+	free_str(pointer->new_expanded_str);
 }
 
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
@@ -164,6 +167,8 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 			shell->aux_pointer->final_str = shell->aux_pointer->new_expanded_str;
 			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
 		}
+	if(shell->aux_pointer->new_expanded_str)
+		free(shell->aux_pointer->new_expanded_str);
 	return(shell->aux_pointer->final_str);
 }
 

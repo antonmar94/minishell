@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/23 16:04:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 16:29:13 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	leaks(void)
 
 int	main(int argc, char **argv, char** envp)
 {
-	char *temp;
+	//char *temp;
 	(void)argc;
 	(void)argv;
 	t_shell *shell;
@@ -42,11 +42,9 @@ int	main(int argc, char **argv, char** envp)
 		//line_without_command(shell);// No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-		temp = change_dollars(shell, shell->line);
-		printf(GREEN"\n%s\n"RESET, temp);
-		free_str(temp);
-
-
+		//temp = change_dollars(shell, shell->line);
+		printf(GREEN"\n%s\n"RESET, change_dollars(shell, shell->line));
+		//free_str(temp);
 		//if (add_command(shell))
 			//return (-1);
 
@@ -75,6 +73,7 @@ int	main(int argc, char **argv, char** envp)
 		all_clear(&shell->arg_list);
 
 		//free_and_reset_values(shell);
+		free(shell->line);
 	}
 	free_all(shell);
 	exit (0);
@@ -87,32 +86,22 @@ void	free_all(t_shell *shell)
 		if (shell->path)
 		{
 			if(shell->path->user)
-			{
 				free_str(shell->path->user);
-				shell->path->user = NULL;
-			}
 			if(shell->path->home)
-			{
 				free_str(shell->path->home);
-				shell->path->home = NULL;
-			}
 			if(shell->path->home_user)
-			{
 				free_str(shell->path->home_user);
-				shell->path->home_user = NULL;
-			}
-			free (shell->path);
+			free(shell->path);
 			shell->path = NULL;
-			free(shell);
-
 		}
-
 		if(shell->list_commands)
 			free(shell->list_commands);
 		if(shell->env_list)
 			free_env_list(shell->env_list);
 		if(shell->aux_pointer)
 			free(shell->aux_pointer);
+		free(shell);
+		shell=NULL;
 	}
 
 
