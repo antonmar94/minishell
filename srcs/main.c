@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/23 16:29:13 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/23 18:59:17 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	leaks(void)
 
 int	main(int argc, char **argv, char** envp)
 {
-	//char *temp;
+	char *changed_dollar;
 	(void)argc;
 	(void)argv;
 	t_shell *shell;
@@ -42,9 +42,17 @@ int	main(int argc, char **argv, char** envp)
 		//line_without_command(shell);// No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-		//temp = change_dollars(shell, shell->line);
-		printf(GREEN"\n%s\n"RESET, change_dollars(shell, shell->line));
-		//free_str(temp);
+		changed_dollar = change_dollars(shell, shell->line);
+		printf(GREEN"\n%s\n"RESET,changed_dollar);
+		free_str(shell->aux_pointer->new_expanded_str);
+		if(shell->aux_pointer)
+		{
+			if (shell->aux_pointer->final_str)
+				free(shell->aux_pointer->final_str);
+			free(shell->aux_pointer);
+			shell->aux_pointer = NULL;
+
+		}
 		//if (add_command(shell))
 			//return (-1);
 
@@ -73,7 +81,8 @@ int	main(int argc, char **argv, char** envp)
 		all_clear(&shell->arg_list);
 
 		//free_and_reset_values(shell);
-		free(shell->line);
+		if(shell->line)
+			free(shell->line);
 	}
 	free_all(shell);
 	exit (0);
@@ -98,8 +107,6 @@ void	free_all(t_shell *shell)
 			free(shell->list_commands);
 		if(shell->env_list)
 			free_env_list(shell->env_list);
-		if(shell->aux_pointer)
-			free(shell->aux_pointer);
 		free(shell);
 		shell=NULL;
 	}

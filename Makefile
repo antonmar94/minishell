@@ -45,6 +45,7 @@ all: $(NAME)
 $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
 	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
+	
 
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	make bonus -C $(LIBFT_DIR)
@@ -64,6 +65,8 @@ create_code_folder:
 compare: all
 	@cd tests && ./compare.sh && cd ..
 
+del_history:
+	rm -f ../../.history
 test: all
 	@cd tests && ./test.sh && cd ..
 
