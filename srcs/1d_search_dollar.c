@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/24 17:28:17 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/24 20:14:55 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 */
 void replace_content_runaway(t_aux_pointer *pointer)
 {
-	printf("\norigin_line_arg:%s\n" ,pointer->origin_line_arg);//TODO del
+	printf("\norigin_line_arg:%s\n" ,pointer->origin_line_arg);//TODO de
 	pointer->line_until$ = ft_substr(pointer->origin_line_arg, 0, pointer->count_until$);
 	printf("\nline_until$:%s\n" ,pointer->line_until$);//TODO del
 	printf("size line_until$: %lu\n", ft_strlen(pointer->line_until$));//TODO del
@@ -55,9 +55,11 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	{
 		pointer->line_until$_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_until$);
 		new_free(&pointer->new_expanded_str);
+
 	}
 	else
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
+
 	pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
 	printf("\nunido contenido: pointer->new_expanded_str\n");//TODO del
 	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);//TODO del
@@ -89,7 +91,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	else
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
 
-	pointer->new_expanded_str = ft_strdup(pointer->line_until$_joined);
+	pointer->new_expanded_str = pointer->line_until$_joined;
 	printf("\nunido contenido: pointer->new_expanded_str\n");//TODO del
 	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);//TODO del
 	printf("size: %lu\n", ft_strlen(pointer->new_expanded_str));
@@ -101,27 +103,22 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
 
-
-	shell->aux_pointer = malloc(sizeof(t_aux_pointer));
-	shell->aux_pointer->origin_line_arg = shell->line;
+	//shell->aux_pointer = malloc(sizeof(t_aux_pointer));
+	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
 	shell->aux_pointer->count_until$ = 0;
-	shell->aux_pointer->new_expanded_str = NULL;
+	//shell->aux_pointer->new_expanded_str = NULL;
 	shell->aux_pointer->final_str = NULL;
 	shell->aux_pointer->new_expanded_str = NULL;
 	shell->aux_pointer->first_$_found = NULL;
 	shell->aux_pointer->line_until$_joined = NULL;
 	shell->aux_pointer->content = NULL;
-
 	int i = 0;
 
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
-	printf(YELLOW"fake arguments:\n"RESET);//TODO Del Test
-	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
-	//printf("fake arguments expanded: ");//TODO Del Test
+	printf(RED"%s\n"RESET, str_to_change_dollar);//TODO Del Test
 
 	if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
 		shell->exit = 1;
-
 
 	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 
@@ -146,7 +143,9 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				printf(CYAN"\nExiste Coincidencia shell->aux_pointer->content ✅ \n");
 				replace_content_runaway(shell->aux_pointer);
 				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
-				shell->aux_pointer->new_expanded_str =ft_strjoin(shell->aux_pointer->line_until$_joined, shell->aux_pointer->content);
+				if(shell->aux_pointer->new_expanded_str)
+					free(shell->aux_pointer->new_expanded_str);
+				shell->aux_pointer->new_expanded_str = ft_strjoin(shell->aux_pointer->line_until$_joined, shell->aux_pointer->content);
 			}
 			else
 			{
@@ -162,19 +161,14 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				new_free(&shell->aux_pointer->line_until$_joined);
 			if(shell->aux_pointer->first_$_found)
 				new_free(&shell->aux_pointer->first_$_found);
-			if(shell->aux_pointer->line_until$)
-				new_free(&shell->aux_pointer->line_until$);
-
-			printf(BLUE"\n shell->aux_pointer->new_expanded_str: %s\n "RESET, shell->aux_pointer->new_expanded_str);
-			printf(BLUE"\n shell->aux_pointer->first_$_found: %s\n "RESET, shell->aux_pointer->first_$_found);
-			printf(BLUE"\n shell->aux_pointer->line_until$_joined: %s\n "RESET, shell->aux_pointer->line_until$_joined);
-			printf(BLUE"\n shell->aux_pointer->contentd: %s\n"RESET, shell->aux_pointer->content);
-			printf(BLUE"\n shell->aux_pointer->line_until$: %s\n"RESET, shell->aux_pointer->line_until$);
-
+			//if((shell->aux_pointer->line_until$))
+				//free(shell->aux_pointer->line_until$);
 		}
 	}
 	if (shell->line && (int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
-		return(shell->line);
+	{
+		return(shell->line);////ARREGLAR AQUIIIIIII
+	}
 
 	if 	(shell->aux_pointer->count_until$)
 		{
@@ -183,6 +177,9 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 		}
 	else
 	{
+			//free(shell->line);
+			shell->line = NULL;
+
 		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
 		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
 	}
