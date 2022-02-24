@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/24 14:07:26 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:28:17 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	else
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
 	pointer->new_expanded_str =ft_strjoin(pointer->line_until$_joined, pointer->content);
-	if(pointer->line_until$_joined)
-		new_free(&pointer->line_until$_joined);
 	printf("\nunido contenido: pointer->new_expanded_str\n");//TODO del
 	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);//TODO del
 	printf(CYAN"size: %lu\n", ft_strlen(pointer->new_expanded_str));
@@ -92,8 +90,6 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
 
 	pointer->new_expanded_str = ft_strdup(pointer->line_until$_joined);
-	if(pointer->line_until$_joined)
-		new_free(&pointer->line_until$_joined);
 	printf("\nunido contenido: pointer->new_expanded_str\n");//TODO del
 	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);//TODO del
 	printf("size: %lu\n", ft_strlen(pointer->new_expanded_str));
@@ -114,6 +110,7 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	shell->aux_pointer->new_expanded_str = NULL;
 	shell->aux_pointer->first_$_found = NULL;
 	shell->aux_pointer->line_until$_joined = NULL;
+	shell->aux_pointer->content = NULL;
 
 	int i = 0;
 
@@ -121,6 +118,10 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	printf(YELLOW"fake arguments:\n"RESET);//TODO Del Test
 	printf(RED"%s\n"RESET, shell->line);//TODO Del Test
 	//printf("fake arguments expanded: ");//TODO Del Test
+
+	if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
+		shell->exit = 1;
+
 
 	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 
@@ -155,38 +156,36 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				shell->line+=shell->aux_pointer->size_arg +1;
 				shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
 			}
+
 			printf(RED"\nQUE HAY EXTENDED %s\n"RESET,shell->aux_pointer->new_expanded_str);
 			if(shell->aux_pointer->line_until$_joined)
 				new_free(&shell->aux_pointer->line_until$_joined);
 			if(shell->aux_pointer->first_$_found)
 				new_free(&shell->aux_pointer->first_$_found);
+			if(shell->aux_pointer->line_until$)
+				new_free(&shell->aux_pointer->line_until$);
 
+			printf(BLUE"\n shell->aux_pointer->new_expanded_str: %s\n "RESET, shell->aux_pointer->new_expanded_str);
+			printf(BLUE"\n shell->aux_pointer->first_$_found: %s\n "RESET, shell->aux_pointer->first_$_found);
+			printf(BLUE"\n shell->aux_pointer->line_until$_joined: %s\n "RESET, shell->aux_pointer->line_until$_joined);
+			printf(BLUE"\n shell->aux_pointer->contentd: %s\n"RESET, shell->aux_pointer->content);
+			printf(BLUE"\n shell->aux_pointer->line_until$: %s\n"RESET, shell->aux_pointer->line_until$);
 
 		}
-
 	}
-	if ((int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
-	{
-		if (ft_strcmp(shell->line, "exit") == 0)
-		{//TODO:Borrar solo para probar leaks aqui
-			if(shell->aux_pointer->new_expanded_str)
-				new_free(&shell->aux_pointer->new_expanded_str);
-			shell->exit = 1;
-		}
+	if (shell->line && (int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
 		return(shell->line);
 
-	}
 	if 	(shell->aux_pointer->count_until$)
 		{
 			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
 			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
-
 		}
-		else
-		{
-			shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
-		}
+	else
+	{
+		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
+		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
+	}
 	if(shell->aux_pointer->new_expanded_str)
 		new_free(&shell->aux_pointer->new_expanded_str);
 	return(shell->aux_pointer->final_str);

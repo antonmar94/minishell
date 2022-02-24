@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/24 13:58:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:23:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,11 @@ int	main(int argc, char **argv, char** envp)
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		changed_dollar = change_dollars(shell, shell->line);
-		printf(GREEN"\n%s\n"RESET,changed_dollar);
+		if(shell->aux_pointer->final_str)
+			new_free(&shell->aux_pointer->final_str);
+		printf(GREEN"\nFINAL_STR_\n");
+		printf("%s\n"RESET,changed_dollar);
 
-		if(shell->aux_pointer)
-		{
-			if (shell->aux_pointer->final_str)
-				new_free(&shell->aux_pointer->final_str);
-			if (shell->aux_pointer->new_expanded_str)
-				new_free(&shell->aux_pointer->new_expanded_str);
-			if (shell->aux_pointer->first_$_found)
-				new_free(&shell->aux_pointer->first_$_found);
-			free(shell->aux_pointer);
-			shell->aux_pointer = NULL;
-
-		}
 		//if (add_command(shell))
 			//return (-1);
 
