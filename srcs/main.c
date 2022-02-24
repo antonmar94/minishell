@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/23 18:59:17 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/24 13:58:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ int	main(int argc, char **argv, char** envp)
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		changed_dollar = change_dollars(shell, shell->line);
 		printf(GREEN"\n%s\n"RESET,changed_dollar);
-		free_str(shell->aux_pointer->new_expanded_str);
+
 		if(shell->aux_pointer)
 		{
 			if (shell->aux_pointer->final_str)
-				free(shell->aux_pointer->final_str);
+				new_free(&shell->aux_pointer->final_str);
+			if (shell->aux_pointer->new_expanded_str)
+				new_free(&shell->aux_pointer->new_expanded_str);
+			if (shell->aux_pointer->first_$_found)
+				new_free(&shell->aux_pointer->first_$_found);
 			free(shell->aux_pointer);
 			shell->aux_pointer = NULL;
 
@@ -84,7 +88,7 @@ int	main(int argc, char **argv, char** envp)
 		if(shell->line)
 			free(shell->line);
 	}
-	free_all(shell);
+	//free_all(shell);
 	exit (0);
 }
 
@@ -95,11 +99,11 @@ void	free_all(t_shell *shell)
 		if (shell->path)
 		{
 			if(shell->path->user)
-				free_str(shell->path->user);
+				new_free(&shell->path->user);
 			if(shell->path->home)
-				free_str(shell->path->home);
+				new_free(&shell->path->home);
 			if(shell->path->home_user)
-				free_str(shell->path->home_user);
+				new_free(&shell->path->home_user);
 			free(shell->path);
 			shell->path = NULL;
 		}

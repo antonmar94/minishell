@@ -6,17 +6,14 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 00:19:08 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/20 00:22:19 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/24 12:46:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    free_str(char *str)
+void new_free(char **ptr)
 {
-    if (str)
-    {
-        free(str);
-        str = NULL;
-    }
+    free(*ptr);
+    *ptr = NULL;
 }

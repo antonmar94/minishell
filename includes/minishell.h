@@ -169,11 +169,11 @@ int		error_wrong_path(void);
 int		size_matriz(char **str);
 void	easy_test_line_for_check_export(t_shell *shell);
 void	check_envar(t_shell *shell);
-void    free_str(char *str);
 void	free_all(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
 void	free_env_list(t_env_list *envp);
 void	free_aux_pointer(t_aux_pointer *aux_pointer);
+void 	new_free(char **ptr);
 
 
 
