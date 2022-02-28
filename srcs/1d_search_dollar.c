@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 18:06:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:55:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 	t_env_list *copy;
 	copy = shell->env_list;
 
+	/* if (ft_isdigit(str_to_find[0]))
+		return (str_to_find + 1); */
+	//revisar gon
 	while (copy->next)
 	{
 		if (!ft_strcmp(copy->var_name, str_to_find))
@@ -109,7 +112,6 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	shell->aux_pointer->first_$_found = NULL;
 	int i = 0;
 
-	rl_replace_line("hola", 1);
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
 	printf(RED"%s\n"RESET, str_to_change_dollar);//TODO Del Test
 
