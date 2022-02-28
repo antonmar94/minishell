@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 13:52:42 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:25:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	else
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
 
-	pointer->new_expanded_str = pointer->line_until$_joined;
+	pointer->new_expanded_str = ft_strdup(pointer->line_until$_joined);
 	printf("\nunido contenido: pointer->new_expanded_str\n");//TODO del
 	printf(GREEN"%s\n"RESET, pointer->new_expanded_str);//TODO del
 	printf("size: %lu\n", ft_strlen(pointer->new_expanded_str));
@@ -152,8 +152,7 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				printf(CYAN"\nNO Existe Coincidencia shell->aux_pointer->content ❌ \n");
 				nocontent_runaway(shell->aux_pointer);
 				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
-				shell->line+=shell->aux_pointer->size_arg +1;
-				shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
+				//shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
 			}
 			free(shell->aux_pointer->line_until$);
 
@@ -179,8 +178,8 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 		}
 	else
 	{
-			free(shell->line);
-			shell->line = NULL;
+			//free(shell->line);
+			//shell->line = NULL;
 
 		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
 		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
