@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 15:34:11 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:25:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				printf(CYAN"\nNO Existe Coincidencia shell->aux_pointer->content ❌ \n");
 				nocontent_runaway(shell->aux_pointer);
 				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
+				//shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
 			}
 			free(shell->aux_pointer->line_until$);
 
@@ -160,6 +161,8 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				new_free(&shell->aux_pointer->line_until$_joined);
 			if(shell->aux_pointer->first_$_found)
 				new_free(&shell->aux_pointer->first_$_found);
+			//if((shell->aux_pointer->line_until$))
+				//free(shell->aux_pointer->line_until$);
 		}
 	}
 	if (shell->line && (int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
