@@ -1,3 +1,4 @@
+READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 
 NAME = minishell
 NAME_DEBUG = minishell_debug
@@ -35,7 +36,7 @@ CC = cc
 DEBUGGER = cppdbg
 endif
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
 RM = rm -f
 
 all: $(NAME)
@@ -44,8 +45,8 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
-	
+	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -L $(READLINE_INSTALL_LOCATION)/lib -o $(NAME) $^
+
 
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	make bonus -C $(LIBFT_DIR)
@@ -54,7 +55,7 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	$(RM) $(OBJS)
 
 debug:
-	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -g -o $(NAME_DEBUG)
+	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -L $(READLINE_INSTALL_LOCATION)/lib -g -o $(NAME_DEBUG)
 
 create_code_folder:
 	rm -rf .vscode

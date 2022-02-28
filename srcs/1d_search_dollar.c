@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 16:41:37 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 18:06:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,13 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
 
-	//shell->aux_pointer = malloc(sizeof(t_aux_pointer));
+
 	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
 	shell->aux_pointer->count_until$ = 0;
-	//shell->aux_pointer->new_expanded_str = NULL;
-	//shell->aux_pointer->final_str = NULL;
-	//shell->aux_pointer->new_expanded_str = NULL;
 	shell->aux_pointer->first_$_found = NULL;
-	//shell->aux_pointer->line_until$_joined = NULL;
-	//shell->aux_pointer->content = NULL;
 	int i = 0;
 
+	rl_replace_line("hola", 1);
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
 	printf(RED"%s\n"RESET, str_to_change_dollar);//TODO Del Test
 
@@ -152,7 +148,6 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				printf(CYAN"\nNO Existe Coincidencia shell->aux_pointer->content ❌ \n");
 				nocontent_runaway(shell->aux_pointer);
 				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
-				//shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
 			}
 			free(shell->aux_pointer->line_until$);
 
@@ -161,35 +156,26 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				new_free(&shell->aux_pointer->line_until$_joined);
 			if(shell->aux_pointer->first_$_found)
 				new_free(&shell->aux_pointer->first_$_found);
-			//if((shell->aux_pointer->line_until$))
-				//free(shell->aux_pointer->line_until$);
 		}
 	}
 	if (shell->line && (int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
 	{
-		return(shell->line);////ARREGLAR AQUIIIIIII
+		return(shell->line);
 	}
 
 	if 	(shell->aux_pointer->count_until$)
 		{
 			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
 			printf("\nLAST WORDS: %s\n", shell->aux_pointer->origin_line_arg);
-			//free(shell->aux_pointer->new_expanded_str);
 		}
 	else
 	{
-			//free(shell->line);
-			//shell->line = NULL;
 
 		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
 		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
-
 	}
 	if(shell->aux_pointer->new_expanded_str)
 		new_free(&shell->aux_pointer->new_expanded_str);
-
-	//if(str_to_change_dollar)
-		//free(str_to_change_dollar);// BORRA LEAK LINE!!!
 	printf("%s\n", shell->aux_pointer->final_str);
 	return(shell->aux_pointer->final_str);
 }
