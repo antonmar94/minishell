@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/20 00:02:29 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:29:36 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,23 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 }
 
 /* modified split to return de first str before a char */
-char	*ft_split_one(char const *s, char c, char d)
+char	*ft_split_one(char *s, char c, char d)
 
 {
 	char	*scopy;
-	char	*pp;
 	size_t	i;
 	size_t	desplace;
+	char *pp;
+
 
 	i = 0;
 	if (s == NULL)
 		return (NULL);
 	desplace = 0;
-	scopy = (char *)s;
-	pp = (char *)malloc(sizeof(char *));
-	if (pp == NULL)
-		return (NULL);
+	scopy = s;
+	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 
-		scopy = scopy + ft_desplace_2char(scopy, c, d);
-		pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
+	scopy = scopy + ft_desplace_2char(scopy, c, d);
 	return (pp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/24 20:14:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:52:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
 	shell->aux_pointer->count_until$ = 0;
 	//shell->aux_pointer->new_expanded_str = NULL;
-	shell->aux_pointer->final_str = NULL;
-	shell->aux_pointer->new_expanded_str = NULL;
+	//shell->aux_pointer->final_str = NULL;
+	//shell->aux_pointer->new_expanded_str = NULL;
 	shell->aux_pointer->first_$_found = NULL;
-	shell->aux_pointer->line_until$_joined = NULL;
-	shell->aux_pointer->content = NULL;
+	//shell->aux_pointer->line_until$_joined = NULL;
+	//shell->aux_pointer->content = NULL;
 	int i = 0;
 
 	check_envar(shell);//TODO: seguridad comprobacion variables entorno
@@ -155,6 +155,7 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 				shell->line+=shell->aux_pointer->size_arg +1;
 				shell->aux_pointer->new_expanded_str = ft_strdup(shell->aux_pointer->line_until$_joined);
 			}
+			free(shell->aux_pointer->line_until$);
 
 			printf(RED"\nQUE HAY EXTENDED %s\n"RESET,shell->aux_pointer->new_expanded_str);
 			if(shell->aux_pointer->line_until$_joined)
@@ -173,18 +174,23 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	if 	(shell->aux_pointer->count_until$)
 		{
 			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
-			printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
+			printf("\nLAST WORDS: %s\n", shell->aux_pointer->origin_line_arg);
+			//free(shell->aux_pointer->new_expanded_str);
 		}
 	else
 	{
-			//free(shell->line);
+			free(shell->line);
 			shell->line = NULL;
 
 		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
 		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
+
 	}
-	if(shell->aux_pointer->new_expanded_str)
-		new_free(&shell->aux_pointer->new_expanded_str);
+	//if(shell->aux_pointer->new_expanded_str)
+		//new_free(&shell->aux_pointer->new_expanded_str);
+
+	//if(str_to_change_dollar)
+		//free(str_to_change_dollar);// BORRA LEAK LINE!!!
 	return(shell->aux_pointer->final_str);
 }
 

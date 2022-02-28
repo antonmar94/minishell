@@ -194,7 +194,7 @@ void 	replace_content_runaway(t_aux_pointer *pointer);
 
 /*------------------------ MOD LIFT --------------------------------------*/
 char	*ft_strjoin_whith_space(char const *s1, char const *s2);
-char	*ft_split_one(char const *s, char c, char d);
+char	*ft_split_one(char *s, char c, char d);
 size_t	ft_desplace_2char(char const *s, char c, char d);
 size_t	ft_lens_2char(char *lens, char c, char d);
 /*----------------------- FAKES DEL------------------------------------------*/
