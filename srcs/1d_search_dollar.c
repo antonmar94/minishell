@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 14:25:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:09:09 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,8 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 		printf("\nLAST WORDS(NADA AL FINAL): %s\n", shell->aux_pointer->origin_line_arg);
 
 	}
-	//if(shell->aux_pointer->new_expanded_str)
-		//new_free(&shell->aux_pointer->new_expanded_str);
+	if(shell->aux_pointer->new_expanded_str)
+		new_free(&shell->aux_pointer->new_expanded_str);
 
 	//if(str_to_change_dollar)
 		//free(str_to_change_dollar);// BORRA LEAK LINE!!!
