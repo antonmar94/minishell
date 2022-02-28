@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 18:07:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:44:17 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ size_t	ft_desplace_2char(char const *s, char c, char d)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if ((s[i] != c || s[i] != d) && (s[i] == '\f' || s[i] == '\n' || s[i] == '\r'
+		if ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d) && (s[i] == '\f' || s[i] == '\n' || s[i] == '\r'
 				|| s[i] == '\t' || s[i] == '\v' || s[i] == ' '))
 			i++;
-		if ((s[i] != c || s[i] != d) && s[i] != '\0')
+		if ((!ft_isalpha(s[i]) || s[i] != d) && s[i] != '\0')
 			return (i);
-		while ((s[i] != c || s[i] != d) && s[i] != '\0')
+		while ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d) && s[i] != '\0')
 		{
 			i++;
 		}
@@ -87,7 +87,7 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 	{
 		while (lens[i] != '\0')
 		{
-			if (lens[i] == c || lens[i] == d)
+			if (lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i]) && lens[i] != '_'))
 				return (i);
 			i++;
 		}
