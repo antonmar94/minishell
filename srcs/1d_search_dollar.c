@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 16:09:09 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:41:37 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 
 	//if(str_to_change_dollar)
 		//free(str_to_change_dollar);// BORRA LEAK LINE!!!
+	printf("%s\n", shell->aux_pointer->final_str);
 	return(shell->aux_pointer->final_str);
 }
 
