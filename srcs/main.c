@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/28 14:23:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:34:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	main(int argc, char **argv, char** envp)
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		changed_dollar = change_dollars(shell, shell->line);
 		//printf("%p;%p\n", &changed_dollar, &shell->aux_pointer->final_str);
-		//if(shell->aux_pointer->final_str)
-			//new_free(&shell->aux_pointer->final_str);
+		if(shell->aux_pointer->final_str)
+			free(shell->aux_pointer->final_str);
 		printf(GREEN"\nFINAL_STR_\n");
 		printf("%s\n"RESET,changed_dollar);
 		//if (add_command(shell))
@@ -74,8 +74,7 @@ int	main(int argc, char **argv, char** envp)
 		} */
 		write_history(NULL);
 		all_clear(&shell->arg_list);
-		if(shell->line)
-		 	free(shell->line);
+		free(shell->line);
 		//free_and_reset_values(shell);
 	}
 	exit (0);
