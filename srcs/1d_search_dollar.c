@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/02 11:49:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:29:50 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 /* if found one return de var content */
 char *search_var_coincident(t_shell *shell, char* str_to_find)
 {
-
-
 	t_env_list *copy;
 	copy = shell->env_list;
 
@@ -27,9 +25,8 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 		copy = copy->next;
 	}
 	if (!ft_strcmp(copy->var_name, str_to_find))
-			return(copy->var_content);
+		return(copy->var_content);
 	return(0);
-
 }
 
 /**
@@ -56,6 +53,11 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
 
+	pointer->shell_line_walker+=pointer->size_arg;
+	if(pointer->new_expanded_str)
+		free(pointer->new_expanded_str);
+	pointer->new_expanded_str = ft_strjoin(pointer->line_until$_joined, pointer->content);
+
 }
 
 /**
@@ -76,20 +78,17 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	}
 	else
 		pointer->line_until$_joined = ft_strdup(pointer->line_until$);
-
 	pointer->new_expanded_str = ft_strdup(pointer->line_until$_joined);
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_until$ + pointer->size_arg + 1;
 	pointer->count_until$ = 0;
+	pointer->shell_line_walker+=pointer->size_arg;
 }
 
 /* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
-
-
 	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
 	shell->aux_pointer->count_until$ = 0;
-	shell->aux_pointer->first_$_found = NULL;
 
 	//check_envar(shell);//TODO: seguridad comprobacion variables entorno
 	if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
@@ -103,48 +102,29 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 			shell->aux_pointer->count_until$++;
 		}
 		else
-		{
-			shell->aux_pointer->shell_line_walker++;
-			shell->aux_pointer->first_$_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
-			shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_$_found);
-			shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_$_found);
-			if (shell->aux_pointer->content)
-			{
-				replace_content_runaway(shell->aux_pointer);
-				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
-				if(shell->aux_pointer->new_expanded_str)
-					free(shell->aux_pointer->new_expanded_str);
-				shell->aux_pointer->new_expanded_str = ft_strjoin(shell->aux_pointer->line_until$_joined, shell->aux_pointer->content);
-			}
-			else
-			{
-				nocontent_runaway(shell->aux_pointer);
-				shell->aux_pointer->shell_line_walker+=shell->aux_pointer->size_arg;
-			}
-			free(shell->aux_pointer->line_until$);
-
-			if(shell->aux_pointer->line_until$_joined)
-				new_free(&shell->aux_pointer->line_until$_joined);
-			if(shell->aux_pointer->first_$_found)
-				new_free(&shell->aux_pointer->first_$_found);
-		}
+			replace_dollar(shell);
 	}
 	if (shell->line && (int)ft_strlen(shell->line) == shell->aux_pointer->count_until$)
-	{
 		return(shell->line);
-	}
-
 	if 	(shell->aux_pointer->count_until$)
-		{
 			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
-		}
 	else
-	{
-
 		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
-	}
-	if(shell->aux_pointer->new_expanded_str)
-		new_free(&shell->aux_pointer->new_expanded_str);
+	new_free(&shell->aux_pointer->new_expanded_str);
 	return(shell->aux_pointer->final_str);
 }
 
+void	replace_dollar(t_shell *shell)
+{
+	shell->aux_pointer->shell_line_walker++;
+	shell->aux_pointer->first_$_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
+	shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_$_found);
+	shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_$_found);
+	if (shell->aux_pointer->content)
+		replace_content_runaway(shell->aux_pointer);
+	else
+		nocontent_runaway(shell->aux_pointer);
+	free(shell->aux_pointer->line_until$);
+	free(shell->aux_pointer->line_until$_joined);
+	free(shell->aux_pointer->first_$_found);
+}

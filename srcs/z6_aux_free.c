@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 00:19:08 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/24 12:46:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:18:34 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void new_free(char **ptr)
 {
-    free(*ptr);
-    *ptr = NULL;
+    if(ptr)
+    {
+        free(*ptr);
+        *ptr = NULL;
+    }
 }

@@ -189,6 +189,7 @@ char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
 void	nocontent_runaway(t_aux_pointer *pointer);
 void 	replace_content_runaway(t_aux_pointer *pointer);
+void	replace_dollar(t_shell *shell);
 
 
 
