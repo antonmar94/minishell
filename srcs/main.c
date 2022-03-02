@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/28 16:55:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:02:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ int	main(int argc, char **argv, char** envp)
 		//printf("%p;%p\n", &changed_dollar, &shell->aux_pointer->final_str);
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);
-		printf(GREEN"\nFINAL_STR_\n");
-		printf("%s\n"RESET,changed_dollar);
+		printf(GREEN"\nFINAL_STR_:      %s\n"RESET,changed_dollar);
 		//if (add_command(shell))
 			//return (-1);
 
