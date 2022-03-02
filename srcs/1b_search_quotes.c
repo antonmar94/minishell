@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/21 21:14:02 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:43:16 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,16 +179,20 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	quotes = jump_quotes(shell);
-	start_command = shell->line_walker;
 	size_command = 0;
 	start_command = shell->line_walker;
-	while (*shell->line_walker && *shell->line_walker != quotes && *shell->line_walker != ' ')
+	while (*shell->line_walker && *shell->line_walker != '\"' && *shell->line_walker != '\'' && *shell->line_walker != ' ')
 	{
+		printf("line walker:%s\n", shell->line_walker);
 		shell->line_walker++;
 		size_command++;
 	}
-	if (quotes)
-		shell->line_walker++;
+	//if (quotes)
+	//	shell->line_walker++;
+	quotes = jump_quotes(shell);
+	//printf("line walker:%s\n", shell->line_walker);
+	printf("start command:%s\n", start_command);
+	printf("size_command: %i\n", size_command);
 	quotes = jump_quotes(shell);
 	start_command = ft_substr(start_command, 0, size_command);
 	command = start_command;
@@ -211,7 +215,7 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 		quotes = jump_quotes(shell);
 		start_command = ft_substr(start_command, 0, size_command);
 		//printf("start command:%s\n", start_command);
-		//printf("command:%s\n", command);
+		printf("command:%s\n", command);
 		command = ft_strjoin(command, start_command);
 	}
 	printf("command:%s\n", command);
