@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 17:42:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:36:40 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 	char 	*flag;
 	char 	*start_flag;
 	char	*no_flag;
-	//char 	*end_command;
 	char	quotes;
 	int		size_flag;
 	int 	i;
@@ -135,11 +134,8 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 	quotes = jump_quotes(shell);
 	start_flag = ft_substr(start_flag, 0, size_flag);
 	flag = start_flag;
-	//printf("flag:%s\n", flag);
-	printf("flag line:%s\n", shell->line_walker);
 	while (*shell->line_walker != quotes && *shell->line_walker != ' ')
 	{
-		//printf("line walker:%s\n", shell->line_walker);
 		size_flag = 0;
 		start_flag = shell->line_walker;
 		while (*shell->line_walker && *shell->line_walker != quotes && *shell->line_walker != ' ')
@@ -149,18 +145,15 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 		}
 		if (quotes)
 			shell->line_walker++;
-		//printf("start_command: %s\n", start_command);
-		//printf("size_command: %i\n", size_command);
 		quotes = jump_quotes(shell);
 		start_flag = ft_substr(start_flag, 0, size_flag);
-		//printf("star_flag:%s", start_flag);
-		//printf("start command:%s\n", start_command);
-		//printf("command:%s\n", command);
 		flag = ft_strjoin(flag, start_flag);
 	}
-	//printf("flag:%s\n", flag);
 	if (ft_strcmp(flag, "-n"))
+	{
+		shell->command_flag = flag;
 		shell->line_walker = no_flag;
+	}
 }
 
 
@@ -168,7 +161,6 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 {
 	char 	*command;
 	char 	*start_command;
-	//char 	*end_command;
 	char	quotes;
 	int		size_command;
 	int i;
@@ -181,64 +173,66 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	quotes = jump_quotes(shell);
 	size_command = 0;
 	start_command = shell->line_walker;
-	while (*shell->line_walker && *shell->line_walker != ' ' && *shell->line_walker != '\"' && *shell->line_walker != '\'')
+	if (quotes)
 	{
-		//printf("line walker:%s\n", shell->line_walker);
-		shell->line_walker++;
-		size_command++;
-	}
-	//if (quotes)
-	//	shell->line_walker++;
-	quotes = jump_quotes(shell);
-	//printf("line walker:%s\n", shell->line_walker);
-	//printf("start command:%s\n", start_command);
-	//printf("size_command: %i\n", size_command);
-	start_command = ft_substr(start_command, 0, size_command);
-	command = start_command;
-	printf("line walker:%s\n", shell->line_walker);
-	//printf("command:%s\n", command);
-	while (*shell->line_walker && *shell->line_walker != ' ' && *shell->line_walker != '\"' && *shell->line_walker != '\'')
-	{
-		//printf("line walker:%s\n", shell->line_walker);
-	printf("comillas: %c\n", quotes);
-		size_command = 0;
-		start_command = shell->line_walker;
-		while (*shell->line_walker && *shell->line_walker != '\"' && *shell->line_walker != '\'' && *shell->line_walker != ' ')
+		while (*shell->line_walker && *shell->line_walker != quotes)
 		{
-			printf("line walker:%s\n", shell->line_walker);
 			shell->line_walker++;
 			size_command++;
 		}
-		if (quotes)
+		shell->line_walker++;
+	}
+	else
+	{
+		while (*shell->line_walker && *shell->line_walker != ' ' && !jump_flag_quotes(shell->line_walker))
+		{
 			shell->line_walker++;
-		//printf("start_command: %s\n", start_command);
-		printf("size_command: %i\n", size_command);
+			size_command++;
+		}
+	}
+	quotes = jump_quotes(shell);
+	start_command = ft_substr(start_command, 0, size_command);
+	command = start_command;
+	while (*shell->line_walker && *shell->line_walker != ' ')
+	{
+		size_command = 0;
+		start_command = shell->line_walker;
+		if (quotes)
+		{
+			while (*shell->line_walker && *shell->line_walker != quotes)
+			{
+				shell->line_walker++;
+				size_command++;
+			}
+			shell->line_walker++;
+		}
+		else
+		{
+			while (*shell->line_walker && *shell->line_walker != ' ' && !jump_flag_quotes(shell->line_walker))
+			{
+				shell->line_walker++;
+				size_command++;
+			}
+		}
 		quotes = jump_quotes(shell);
 		start_command = ft_substr(start_command, 0, size_command);
-		//printf("start command:%s\n", start_command);
-		printf("command:%s\n", command);
 		command = ft_strjoin(command, start_command);
 	}
-	printf("command:%s\n", command);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command++;
 		shell->line_walker++;
 	}
-	//printf("start command: %s\n", start_command);
-	//printf("line walker: %s\n", shell->line_walker);
 	while (i < shell->size_c && ft_strcmp(command, shell->list_commands[i]))
 		i++;
 	if (i >= shell->size_c)
 		return (-1);
-	printf("line walker:%s\n", shell->line_walker);
-	if (!ft_strcmp(shell->list_commands[i], "echo")) //Comprueba la flag si el comando es "echo", este flag no se introduce en "shell->line_args" ni en "shell->line_walker"
+	if (!ft_strcmp(shell->list_commands[i], "echo"))
 		check_flag(shell);
 	while (*shell->line_walker == ' ')
 		shell->line_walker++;
 	shell->line_args = shell->line_walker;
 	shell->command = shell->list_commands[i];
-	printf("line walkerthis:%s\n", shell->line_walker);
 	return (0);
 }
 
@@ -261,7 +255,6 @@ int	add_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 	char 		quotes;
 
 	i = 0;
-	//printf("line walker:%s\n", shell->line_walker);
 	quotes = check_allquotes(shell->line_walker);
 	if (check_quotes(shell->line_walker, quotes))
 	{
@@ -334,15 +327,10 @@ int	split_arguments(t_shell *shell)
 	shell->line_walker = shell->line_args;
 	while (shell->arg_list)
 	{
-		printf("\nlinewalker: %s\n", shell->line_walker);
-		printf("\ncheck_quotes: %c\n", check_allquotes(shell->line_walker));
 		if (check_allquotes(shell->line_walker) != '\'')
 			shell->arg_list->content= change_dollars(shell, shell->arg_list->content);
 		shell->arg_list = shell->arg_list->next;
 	}
-
-
-
 	while (printer)
 	{
 		printf("Argument: %s\n", printer->content);
