@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/02/23 13:33:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 19:58:18 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 	t_arglist	*aux;
 
 	aux = *arg_lst;
-	printf(RED"startarg: %s\n"RESET, new->content);
+	//printf(RED"startarg: %s\n"RESET, new->content);
 	if (!new)
 		return ;
 	if (!*arg_lst)

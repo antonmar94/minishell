@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 18:48:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:01:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ int	main(int argc, char **argv, char** envp)
 			return (-1);
 
 		split_arguments(shell);
-
+		find_command(shell);
 
 		//line_without_command(shell);// No funciona ANTONIO
-		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		//changed_dollar = change_dollars(shell, shell->line);
 		//printf("%p;%p\n", &changed_dollar, &shell->aux_pointer->final_str);

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 20:36:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:47:37 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,26 +315,49 @@ int argument_list_creator(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	int	count_args;
 	t_arglist *printer;
-	count_args = 0;
+	int i;
+
+	i = 0;
+	shell->size_args = 1;
 
 	printer = NULL;
 	while (argument_list_creator(shell))
-		count_args++;
+		shell->size_args++;
+	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	//	AQUI VA TU FUNCION PASANDO POR LA LISTA ALBERTO, LA LISTA TIENE YA LAS COMILLAS INCLUIDAS EN CADA ARGUMENTO.
 	shell->line_walker = shell->line_args;
 	while (shell->arg_list)
 	{
-		if (check_allquotes(shell->line_walker) != '\'')
+		//printf("\nlinewalker: %s\n", shell->line_walker);
+		//printf("\ncheck_quotes: %c\n", check_allquotes(shell->line_walker));
+		
+		if (check_allquotes(shell->arg_list->content) != '\'')
 			shell->arg_list->content= change_dollars(shell, shell->arg_list->content);
+		if (check_allquotes(shell->arg_list->content))
+			shell->arg_list->content = del_quotes(shell->arg_list->content);
+		
+		shell->command_args[i] = shell->arg_list->content;
+		i++;
+
 		shell->arg_list = shell->arg_list->next;
 	}
-	while (printer)
+
+
+
+	/* while (printer)
 	{
 		printf("Argument: %s\n", printer->content);
 		printer = printer->next;
-	}
+	} */
 	return (0);
+}
+
+char *del_quotes(char *str_to_del_quotes)
+{
+	if(!str_to_del_quotes)
+		return(NULL);
+
+	return(ft_substr(str_to_del_quotes, 1 , ft_strlen(str_to_del_quotes) - 2));
 }

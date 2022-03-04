@@ -135,11 +135,10 @@ void	clear_console(void);
 int		split_arguments(t_shell *shell);
 int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
-int		check_quotes(char *line_walker, char quotes);
 int		add_command(t_shell *shell);
-char	check_allquotes(char *line_walker);
-int		size_quotes_arg(char *line_walker, char quotes);
-int		count_quotes(t_shell *shell);
+
+
+
 
 //int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
@@ -148,6 +147,19 @@ void	split_line_to_command(t_shell *shell);
 void 	find_command(t_shell *shell);
 void	execute_command(t_shell *shell, int i);
 void	free_and_reset_values(t_shell *shell);
+
+/*--------------------PARSING----------------------------------------------------*/
+char	*search_var_coincident(t_shell *shell, char* str_to_find);
+char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
+void	nocontent_runaway(t_aux_pointer *pointer);
+void 	replace_content_runaway(t_aux_pointer *pointer);
+void	replace_dollar(t_shell *shell);
+
+int		check_quotes(char *line_walker, char quotes);
+char	check_allquotes(char *line_walker);
+int		size_quotes_arg(char *line_walker, char quotes);
+int		count_quotes(t_shell *shell);
+char 	*del_quotes(char *str_to_del_quotes);
 
 /*----------------------- list_commands --------------------------------------*/
 
@@ -188,12 +200,6 @@ void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
 
-/*--------------------$---------------*/
-char	*search_var_coincident(t_shell *shell, char* str_to_find);
-char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
-void	nocontent_runaway(t_aux_pointer *pointer);
-void 	replace_content_runaway(t_aux_pointer *pointer);
-void	replace_dollar(t_shell *shell);
 
 
 
