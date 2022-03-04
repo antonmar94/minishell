@@ -10,6 +10,7 @@ SRCS =	./srcs/main.c \
 		./srcs/errors.c \
 		./srcs/0_init.c \
 		./srcs/0b_init_env.c\
+		./srcs/0c_signal.c \
 		./srcs/1_line_to_commands.c \
 		./srcs/1b_search_quotes.c \
 		./srcs/2_evaluate_commands.c \
@@ -38,7 +39,7 @@ READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
 DEBUGGER = cppdbg
-READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib 
+READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif
 
 RM = rm -f

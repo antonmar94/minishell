@@ -101,6 +101,9 @@ void	wellcome_header(t_shell *shell);
 void	print_header(t_shell *shell, char *custom_head);
 
 
+/*----------------------- signal----------------------------------------------*/
+void	sigint_handler(void);
+
 /*----------------------- init_commands --------------------------------------*/
 t_path 		*init_path(t_shell *shell);
 t_shell 	*initialice(char** envp);
@@ -137,6 +140,7 @@ int		add_command(t_shell *shell);
 char	check_allquotes(char *line_walker);
 int		size_quotes_arg(char *line_walker, char quotes);
 int		count_quotes(t_shell *shell);
+
 //int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
