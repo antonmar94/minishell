@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/02 19:43:16 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:06:03 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,9 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	quotes = jump_quotes(shell);
 	size_command = 0;
 	start_command = shell->line_walker;
-	while (*shell->line_walker && *shell->line_walker != '\"' && *shell->line_walker != '\'' && *shell->line_walker != ' ')
+	while (*shell->line_walker && *shell->line_walker != ' ' && *shell->line_walker != '\"' && *shell->line_walker != '\'')
 	{
-		printf("line walker:%s\n", shell->line_walker);
+		//printf("line walker:%s\n", shell->line_walker);
 		shell->line_walker++;
 		size_command++;
 	}
@@ -191,27 +191,28 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	//	shell->line_walker++;
 	quotes = jump_quotes(shell);
 	//printf("line walker:%s\n", shell->line_walker);
-	printf("start command:%s\n", start_command);
-	printf("size_command: %i\n", size_command);
-	quotes = jump_quotes(shell);
+	//printf("start command:%s\n", start_command);
+	//printf("size_command: %i\n", size_command);
 	start_command = ft_substr(start_command, 0, size_command);
 	command = start_command;
 	printf("line walker:%s\n", shell->line_walker);
-	printf("command:%s\n", command);
-	while (*shell->line_walker != quotes && *shell->line_walker != ' ')
+	//printf("command:%s\n", command);
+	while (*shell->line_walker && *shell->line_walker != ' ' && *shell->line_walker != '\"' && *shell->line_walker != '\'')
 	{
 		//printf("line walker:%s\n", shell->line_walker);
+	printf("comillas: %c\n", quotes);
 		size_command = 0;
 		start_command = shell->line_walker;
-		while (*shell->line_walker && *shell->line_walker != quotes && *shell->line_walker != ' ')
+		while (*shell->line_walker && *shell->line_walker != '\"' && *shell->line_walker != '\'' && *shell->line_walker != ' ')
 		{
+			printf("line walker:%s\n", shell->line_walker);
 			shell->line_walker++;
 			size_command++;
 		}
 		if (quotes)
 			shell->line_walker++;
 		//printf("start_command: %s\n", start_command);
-		//printf("size_command: %i\n", size_command);
+		printf("size_command: %i\n", size_command);
 		quotes = jump_quotes(shell);
 		start_command = ft_substr(start_command, 0, size_command);
 		//printf("start command:%s\n", start_command);
