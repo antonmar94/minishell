@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 17:41:34 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 18:48:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char** envp)
 	(void)argv;
 	t_shell *shell;
 
-	atexit(leaks);
+	//atexit(leaks);
 	//signal(SIGINT, sigint_handler);
 	shell = initialice(envp);
 	wellcome_header(shell);
