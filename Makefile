@@ -1,4 +1,4 @@
-READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
+
 
 NAME = minishell
 NAME_DEBUG = minishell_debug
@@ -29,14 +29,18 @@ OBJS = ${SRCS:.c=.o}
 UNAME :=$(shell uname -m)
 ifeq ($(UNAME), arm64)
 CC = arch -x86_64 cc
+CFLAGS = -Wall -Werror -Wextra
+READLINE = -lreadline
 MAKE = arch -x86_64 make
 DEBUGGER = lldb
 else
+READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
 DEBUGGER = cppdbg
+READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib 
 endif
 
-CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
 RM = rm -f
 
 all: $(NAME)
@@ -45,7 +49,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -L $(READLINE_INSTALL_LOCATION)/lib -o $(NAME) $^
+	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
 
 
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
@@ -55,7 +59,7 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	$(RM) $(OBJS)
 
 debug:
-	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -L $(READLINE_INSTALL_LOCATION)/lib -g -o $(NAME_DEBUG)
+	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME)  $(READLINE) -g -o $(NAME_DEBUG)
 
 create_code_folder:
 	rm -rf .vscode
