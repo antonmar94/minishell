@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 17:42:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 19:45:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,6 +338,9 @@ int	split_arguments(t_shell *shell)
 		printf("\ncheck_quotes: %c\n", check_allquotes(shell->line_walker));
 		if (check_allquotes(shell->line_walker) != '\'')
 			shell->arg_list->content= change_dollars(shell, shell->arg_list->content);
+		if (check_allquotes(shell->line_walker))
+			shell->arg_list->content = del_quotes(shell->arg_list->content);
+
 		shell->arg_list = shell->arg_list->next;
 	}
 
@@ -349,4 +352,12 @@ int	split_arguments(t_shell *shell)
 		printer = printer->next;
 	}
 	return (0);
+}
+
+char *del_quotes(char *str_to_del_quotes)
+{
+	if(!str_to_del_quotes)
+		return(NULL);
+
+	return(ft_substr(str_to_del_quotes, 1 , ft_strlen(str_to_del_quotes) - 2));
 }
