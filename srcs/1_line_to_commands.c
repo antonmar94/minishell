@@ -15,7 +15,7 @@
 /* split the read line into command (first) and args (rest)
 
 */
-void	split_line_to_command(t_shell *shell)
+/* void	split_line_to_command(t_shell *shell)
 {
 
 	if(!*shell->line)
@@ -54,9 +54,9 @@ void separate_args_flag(t_shell *shell)
 	else
 		shell->command_args = NULL;
 		//shell->size_args = 0;
-}
+} */
 
-void separate_args_no_flag(t_shell *shell)
+/* void separate_args_no_flag(t_shell *shell)
 {
 	int i;
 
@@ -78,4 +78,4 @@ void separate_args_no_flag(t_shell *shell)
 		shell->command_args = NULL;
 		//shell->size_args = 0;
 	}
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 19:52:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:34:41 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 	start_flag = ft_substr(start_flag, 0, size_flag);
 	flag = start_flag;
 	//printf("flag:%s\n", flag);
-	printf("flag line:%s\n", shell->line_walker);
+	//printf("flag line:%s\n", shell->line_walker);
 	while (*shell->line_walker != quotes && *shell->line_walker != ' ')
 	{
 		//printf("line walker:%s\n", shell->line_walker);
@@ -195,12 +195,12 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	//printf("size_command: %i\n", size_command);
 	start_command = ft_substr(start_command, 0, size_command);
 	command = start_command;
-	printf("line walker:%s\n", shell->line_walker);
+	//printf("line walker:%s\n", shell->line_walker);
 	//printf("command:%s\n", command);
 	while (*shell->line_walker && *shell->line_walker != ' ' && *shell->line_walker != '\"' && *shell->line_walker != '\'')
 	{
 		//printf("line walker:%s\n", shell->line_walker);
-	printf("comillas: %c\n", quotes);
+	//printf("comillas: %c\n", quotes);
 		size_command = 0;
 		start_command = shell->line_walker;
 		while (*shell->line_walker && *shell->line_walker != '\"' && *shell->line_walker != '\'' && *shell->line_walker != ' ')
@@ -219,7 +219,7 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 		printf("command:%s\n", command);
 		command = ft_strjoin(command, start_command);
 	}
-	printf("command:%s\n", command);
+	//printf("command:%s\n", command);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command++;
@@ -231,14 +231,14 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 		i++;
 	if (i >= shell->size_c)
 		return (-1);
-	printf("line walker:%s\n", shell->line_walker);
+	//printf("line walker:%s\n", shell->line_walker);
 	if (!ft_strcmp(shell->list_commands[i], "echo")) //Comprueba la flag si el comando es "echo", este flag no se introduce en "shell->line_args" ni en "shell->line_walker"
 		check_flag(shell);
 	while (*shell->line_walker == ' ')
 		shell->line_walker++;
 	shell->line_args = shell->line_walker;
 	shell->command = shell->list_commands[i];
-	printf("line walkerthis:%s\n", shell->line_walker);
+	//printf("line walkerthis:%s\n", shell->line_walker);
 	return (0);
 }
 
@@ -322,36 +322,42 @@ int argument_list_creator(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	int	count_args;
 	t_arglist *printer;
-	count_args = 0;
+	int i;
+
+	i = 0;
+	shell->size_args = 1;
 
 	printer = NULL;
 	while (argument_list_creator(shell))
-		count_args++;
+		shell->size_args++;
+	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	//	AQUI VA TU FUNCION PASANDO POR LA LISTA ALBERTO, LA LISTA TIENE YA LAS COMILLAS INCLUIDAS EN CADA ARGUMENTO.
 	shell->line_walker = shell->line_args;
 	while (shell->arg_list)
 	{
-		printf("\nlinewalker: %s\n", shell->line_walker);
-		printf("\ncheck_quotes: %c\n", check_allquotes(shell->line_walker));
+		//printf("\nlinewalker: %s\n", shell->line_walker);
+		//printf("\ncheck_quotes: %c\n", check_allquotes(shell->line_walker));
 		
 		if (check_allquotes(shell->arg_list->content) != '\'')
 			shell->arg_list->content= change_dollars(shell, shell->arg_list->content);
 		if (check_allquotes(shell->arg_list->content))
 			shell->arg_list->content = del_quotes(shell->arg_list->content);
+		
+		shell->command_args[i] = shell->arg_list->content;
+		i++;
 
 		shell->arg_list = shell->arg_list->next;
 	}
 
 
 
-	while (printer)
+	/* while (printer)
 	{
 		printf("Argument: %s\n", printer->content);
 		printer = printer->next;
-	}
+	} */
 	return (0);
 }
 
