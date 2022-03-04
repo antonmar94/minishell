@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/04 12:39:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:41:34 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	leaks(void)
 
 int	main(int argc, char **argv, char** envp)
 {
-	char *changed_dollar;
+	//char *changed_dollar;
 	(void)argc;
 	(void)argv;
 	t_shell *shell;
@@ -40,14 +40,21 @@ int	main(int argc, char **argv, char** envp)
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)// sólo si exite y hay contenido
 			add_history(shell->line);
+
+		if (add_command(shell))
+			return (-1);
+
+		split_arguments(shell);
+
+
 		//line_without_command(shell);// No funciona ANTONIO
 		//split_arguments(shell); NO FUNCIONA ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-		changed_dollar = change_dollars(shell, shell->line);
+		//changed_dollar = change_dollars(shell, shell->line);
 		//printf("%p;%p\n", &changed_dollar, &shell->aux_pointer->final_str);
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);
-		printf(GREEN"\nFINAL_STR_:      %s\n"RESET,changed_dollar);
+		//printf(GREEN"\nFINAL_STR_:      %s\n"RESET,changed_dollar);
 		//if (add_command(shell))
 			//return (-1);
 
@@ -55,7 +62,6 @@ int	main(int argc, char **argv, char** envp)
 		//simple_quotes_argument(shell);
 		//printf("%s", shell->arg_list->content);
 
-		//split_arguments(shell);
 
 
 		//line_without_command(shell);  //No funciona ANTONIO
