@@ -65,14 +65,15 @@ int echo(t_shell *shell)
 {
 	int i = -1;
 
+	printf("flag %s\n", shell->command_flag);
 	if(!shell->command_args)
 	{
+		
 		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
 			return(0);
 		write (1,"\n", 1);
 		return(0);
 	}
-
 	else
 	{
 		while (++i < shell->size_args)
@@ -81,7 +82,6 @@ int echo(t_shell *shell)
 			if (i < shell->size_args -1)
 				write(1, " ", 1);
 		}
-
 		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
 			return(0);
 		write(1, "\n", 1);
