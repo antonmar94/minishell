@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/09 10:20:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/09 12:12:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,52 +37,19 @@ int	main(int argc, char **argv, char** envp)
 	//read_history(NULL);
 	while(!shell->exit)
 	{
-		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
-		if (shell->line && *shell->line)// sólo si exite y hay contenido
-			add_history(shell->line);
-
-		if (add_command(shell))
-			return (-1);
-
+		while (add_command(shell))
+			command_error();
 		split_arguments(shell);
 		find_command(shell);
-
-		//line_without_command(shell);// No funciona ANTONIO
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-		//changed_dollar = change_dollars(shell, shell->line);
-		//printf("%p;%p\n", &changed_dollar, &shell->aux_pointer->final_str);
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);
-		//printf(GREEN"\nFINAL_STR_:      %s\n"RESET,changed_dollar);
-		//if (add_command(shell))
-			//return (-1);
-
-
-		//simple_quotes_argument(shell);
-		//printf("%s", shell->arg_list->content);
-
-
-
-		//line_without_command(shell);  //No funciona ANTONIO
-		//split_arguments(shell); NO FUNCIONA ANTONIO
-		//easy_test_line_for_check_export(shell);
-		//find_command(shell);
-		//printf("cosas %i", count_args(shell));
-		//if (arg_listing(shell) == -1)
-		//	command_error();
-		//print_all(shell);// imprimir argumentos y todo para comprobar;
-		//list_args = shell->command_args;
-		/* while (*list_args)
-		{
-			printf("%s\n", *list_args);
-			list_args++;
-		} */
-		write_history(".history_own");
 		all_clear(&shell->arg_list);
 		if(shell->line)
 		 	free(shell->line);
 		//free_and_reset_values(shell);
 	}
+	write_history(".history_own");
 	exit (0);
 }
 

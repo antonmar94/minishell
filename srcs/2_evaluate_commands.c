@@ -5,7 +5,6 @@ void find_command(t_shell *shell)
 	int i;
 
 	i = -1;
-
 	while (++i < shell->size_c)
 	{
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
@@ -14,7 +13,7 @@ void find_command(t_shell *shell)
 			return;
 		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
 	}
-	command_error();
+	//command_error(shell);
 }
 
 void execute_command(t_shell *shell, int i)

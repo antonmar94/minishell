@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/08 20:15:45 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/09 11:22:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,10 @@ int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo'
 	int		i;
 
 	i = 0;
+
+	shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
+		if (shell->line && *shell->line)// sólo si exite y hay contenido
+			add_history(shell->line);
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
@@ -282,7 +286,6 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*printer;
 	int			i;
-
 	i = 0;
 	shell->size_args = 1;
 	printer = NULL;

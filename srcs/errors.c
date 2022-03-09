@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/27 20:07:08 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/09 11:18:50 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void command_error(void)
 {
 	ft_putstr_fdnl(RED"Minishell: Command not found "RESET, 2);
-	//printf("%s", shell->line);
-	//write(1, "\n", 1);
 }
 
 int	error_system_pwd(void)
