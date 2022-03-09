@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/08 20:16:16 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:00:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	main(int argc, char **argv, char** envp)
 	shell = initialice(envp);
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
-	read_history(NULL);//BORRAR ./history cuando guardemos mierda rara
+	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
 	//print_env_list(shell->env_list);
 	//wellcome_header(shell);
-	read_history(NULL);
+	//read_history(NULL);
 	while(!shell->exit)
 	{
 		shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char** envp)
 			printf("%s\n", *list_args);
 			list_args++;
 		} */
-		write_history(NULL);
+		write_history(".history_own");
 		all_clear(&shell->arg_list);
 		if(shell->line)
 		 	free(shell->line);

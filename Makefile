@@ -72,7 +72,8 @@ compare: all
 	@cd tests && ./compare.sh && cd ..
 
 del_history:
-	rm -f ../../.history
+	rm -f .history_own
+#rm -f ../../.history
 test: all
 	@cd tests && ./test.sh && cd ..
 
