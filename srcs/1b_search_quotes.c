@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/09 11:22:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:05:45 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char	*get_command_part(t_shell *shell)
 		size_command = 0;
 		start_command = shell->line_walker;
 		size_command = get_size_splitted_part(shell, quotes);
-			start_command = ft_substr(start_command, 0, size_command);
+		start_command = ft_substr(start_command, 0, size_command);
 		quotes = jump_quotes(shell);
 		command = ft_strjoin(command, start_command);
 	}
@@ -178,19 +178,23 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 	}
 }
 
-int	add_command(t_shell *shell) // arreglar este método, no funciona con 'echo' hola
+int	add_command(t_shell *shell)
 {
-	char	*command;
-	int		i;
+	char		*command;
+	int			i;
 
 	i = 0;
-
 	shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
-		if (shell->line && *shell->line)// sólo si exite y hay contenido
-			add_history(shell->line);
+	if (shell->line && *shell->line)
+		add_history(shell->line);
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
+	if (!jump_quotes(shell) && !*shell->line_walker)
+	{
+		shell->command = "";
+		return (0);
+	}
 	command = get_command_part(shell);
 	while (i < shell->size_c && ft_strcmp(command, shell->list_commands[i]))
 		i++;
@@ -222,10 +226,13 @@ int	add_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 	int			i;
 	t_arglist	*this_arg;
 	char		quotes;
+	//char		*start_arg;
+	//int			size_arg;
 
 	i = 0;
+	//size_arg = 0;
 	quotes = check_allquotes(shell->line_walker);
-	if (check_quotes(shell->line_walker, quotes))
+	if (check_quotes(shell->line_walker, quotes)) //&& size_quotes_arg(shell->line_walker, quotes) != 0)
 	{
 		add_arg(shell, start_arg, size_prev);
 		i = size_quotes_arg(shell->line_walker, quotes) + 2;
@@ -240,6 +247,18 @@ int	add_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 		}
 		return (1);
 	}
+	/*if (check_quotes(shell->line_walker, quotes) && size_quotes_arg(shell->line_walker, quotes) == 0)
+	{
+		printf("line walker:%s\n", shell->line_walker);
+		quotes = jump_quotes(shell);
+		printf("line walker:%s\n", shell->line_walker);
+		if (shell->arg_list)
+		{
+			start_arg = ft_substr(start_arg, 0, size_arg);
+			quotes = jump_quotes(shell);
+			shell->arg_list = ft_strjoin(command, start_command);
+		}
+	}*/
 	return (0);
 }
 
@@ -258,9 +277,15 @@ int	argument_list_creator(t_shell *shell)
 {
 	int		size_prev;
 	char	*start_arg;
+	t_arglist	*this_arg;
 
 	size_prev = 0;
 	start_arg = shell->line_walker;
+	if (!shell->arg_list && !jump_flag_quotes(shell->line_walker) && *shell->line_walker == ' ')
+	{
+		this_arg = arg_node_new(" ");
+		arglstadd_back(&shell->arg_list, this_arg);
+	}
 	while (*(shell->line_walker))
 	{
 		if (add_quotes_argument(shell, start_arg, size_prev)
@@ -294,9 +319,10 @@ int	split_arguments(t_shell *shell)
 	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	shell->line_walker = shell->line_args;
+	//printf("COMMAND %s\n", shell->command);
 	while (shell->arg_list)
 	{
-		printf("ARGS: %s\n", shell->arg_list->content);
+		printf("ARGS:%s\n", shell->arg_list->content);
 		if (check_allquotes(shell->arg_list->content) != '\'')
 			shell->arg_list->content
 				= change_dollars(shell, shell->arg_list->content);
