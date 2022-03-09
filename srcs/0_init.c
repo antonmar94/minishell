@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/08 20:17:26 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:27:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_shell *initialice(char** envp)
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->line_args = NULL;
-	shell->size_c = 10;//Numero de comandos actualizar al final
+	shell->size_c = 11;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
-	shell->list_commands[0]="pwd";
-	shell->list_commands[1]="exit";
+	shell->list_commands[0]="";
+	shell->list_commands[1]="pwd";
 	shell->list_commands[2]="hello";
 	shell->list_commands[3]="help";
 	shell->list_commands[4]="cd";
@@ -46,6 +46,7 @@ t_shell *initialice(char** envp)
 	shell->list_commands[7]="export";
 	shell->list_commands[8]="env";// borrar?? solo para comprobar env
 	shell->list_commands[9]="unset";
+	shell->list_commands[10]="exit";
 	// NO AÑADIR COMANDO SI AUMENTAR SIZE_C
 	return (shell);
 }

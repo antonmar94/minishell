@@ -20,9 +20,9 @@ void find_command(t_shell *shell)
 void execute_command(t_shell *shell, int i)
 {
 	if (i == 0)
-		print_pwd();
+		return;
 	else if (i == 1)
-		exit_minishell(shell);
+		print_pwd();
 	else if (i == 2)
 		wellcome_header(shell);//hello
 	else if (i == 3)
@@ -39,4 +39,6 @@ void execute_command(t_shell *shell, int i)
 		env(shell);
 	else if (i == 9)
 		unset(shell);
+	else if (i == 10)
+		exit_minishell(shell);
 }

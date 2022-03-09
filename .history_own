@@ -15,3 +15,9 @@ ec'h'o\040que\040pasa\040mier
 echo\040$PWD$USER\040mier
 echo\040$PWD$USER\040mier
 echo\040$PWD$CACA$USER\040mier
+'echo'\040hola
+echo\040$PWD$USER\040mier
+echo\040$PWD$USER\040mier
+echo\040$PWD$USER\040mier
+pwd
+exit
