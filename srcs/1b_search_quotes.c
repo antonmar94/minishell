@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/09 20:05:45 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/10 19:53:01 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 
 int	add_command(t_shell *shell)
 {
-	char		*command;
+	char		*aux;
 	int			i;
 
 	i = 0;
@@ -190,13 +190,15 @@ int	add_command(t_shell *shell)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
+	aux = shell->line_walker;
 	if (!jump_quotes(shell) && !*shell->line_walker)
 	{
-		shell->command = "";
-		return (0);
+		//shell->command = "";
+		return (-1);
 	}
-	command = get_command_part(shell);
-	while (i < shell->size_c && ft_strcmp(command, shell->list_commands[i]))
+	shell->line_walker = aux;
+	shell->command = get_command_part(shell);
+	while (i < shell->size_c && ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
 	if (i >= shell->size_c)
 		return (-1);
@@ -205,7 +207,6 @@ int	add_command(t_shell *shell)
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	shell->line_args = shell->line_walker;
-	shell->command = shell->list_commands[i];
 	return (0);
 }
 
@@ -221,44 +222,62 @@ void	add_arg(t_shell *shell, char *start_arg, int size_prev)
 	}
 }
 
+void	join_last(t_shell *shell, char *joined_part)
+{
+	t_arglist	*aux;
+
+	aux = shell->arg_list;
+	while (aux && aux->next)
+		aux = aux->next;
+	if (shell->arg_list && !check_allquotes(aux->content))
+		aux->content = ft_strjoin(aux->content, joined_part);
+	else
+	{
+		aux = arg_node_new(joined_part);
+		arglstadd_back(&shell->arg_list, aux);
+	}
+}
+
 int	add_quotes_argument(t_shell *shell, char *start_arg, int size_prev)
 {
 	int			i;
 	t_arglist	*this_arg;
 	char		quotes;
-	//char		*start_arg;
-	//int			size_arg;
+	char		*start_next_part;
+	char		*next_part;
 
 	i = 0;
-	//size_arg = 0;
 	quotes = check_allquotes(shell->line_walker);
-	if (check_quotes(shell->line_walker, quotes)) //&& size_quotes_arg(shell->line_walker, quotes) != 0)
+	if (check_quotes(shell->line_walker, quotes))
 	{
+		
 		add_arg(shell, start_arg, size_prev);
-		i = size_quotes_arg(shell->line_walker, quotes) + 2;
-		start_arg = shell->line_walker;
-		start_arg = ft_substr(start_arg, 0, i);
-		if (*start_arg)
+		if (size_quotes_arg(shell->line_walker, quotes) != 0)
 		{
-			this_arg = arg_node_new(start_arg);
-			if (ft_strcmp(start_arg, "\'\'") && ft_strcmp(start_arg, "\"\""))
+			i = size_quotes_arg(shell->line_walker, quotes) + 2;
+			start_arg = shell->line_walker;
+			start_arg = ft_substr(start_arg, 0, i);
+			if (*start_arg)
+			{
+				this_arg = arg_node_new(start_arg);
 				arglstadd_back(&shell->arg_list, this_arg);
-			shell->line_walker += i;
+				shell->line_walker += i;
+			}
+			return (1);
 		}
-		return (1);
-	}
-	/*if (check_quotes(shell->line_walker, quotes) && size_quotes_arg(shell->line_walker, quotes) == 0)
-	{
-		printf("line walker:%s\n", shell->line_walker);
-		quotes = jump_quotes(shell);
-		printf("line walker:%s\n", shell->line_walker);
-		if (shell->arg_list)
+		else
 		{
-			start_arg = ft_substr(start_arg, 0, size_arg);
 			quotes = jump_quotes(shell);
-			shell->arg_list = ft_strjoin(command, start_command);
+			start_next_part = shell->line_walker;
+			i = get_size_splitted_part(shell, quotes);
+			next_part = ft_substr(start_next_part, 0, i);
+			if (i > 0)
+				join_last(shell, next_part);
+			else
+				return (0);
+			return (1);
 		}
-	}*/
+	}
 	return (0);
 }
 
@@ -285,6 +304,7 @@ int	argument_list_creator(t_shell *shell)
 	{
 		this_arg = arg_node_new(" ");
 		arglstadd_back(&shell->arg_list, this_arg);
+		shell->line_walker += 2;
 	}
 	while (*(shell->line_walker))
 	{
@@ -319,7 +339,7 @@ int	split_arguments(t_shell *shell)
 	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	shell->line_walker = shell->line_args;
-	//printf("COMMAND %s\n", shell->command);
+	printf("COMMAND %s\n", shell->command);
 	while (shell->arg_list)
 	{
 		printf("ARGS:%s\n", shell->arg_list->content);
