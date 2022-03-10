@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/10 19:53:01 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/10 20:00:48 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,12 +300,14 @@ int	argument_list_creator(t_shell *shell)
 
 	size_prev = 0;
 	start_arg = shell->line_walker;
-	if (!shell->arg_list && !jump_flag_quotes(shell->line_walker) && *shell->line_walker == ' ')
+	if (!shell->arg_list && !jump_quotes(shell) && *shell->line_walker == ' ')
 	{
+		printf("COMMAND ");
 		this_arg = arg_node_new(" ");
 		arglstadd_back(&shell->arg_list, this_arg);
-		shell->line_walker += 2;
+		start_arg += 2;
 	}
+	shell->line_walker = start_arg;
 	while (*(shell->line_walker))
 	{
 		if (add_quotes_argument(shell, start_arg, size_prev)
