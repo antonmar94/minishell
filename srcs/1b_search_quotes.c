@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 19:28:01 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:42:25 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,11 +191,8 @@ int	add_command(t_shell *shell)
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	aux = shell->line_walker;
-	if (!jump_quotes(shell) && !*shell->line_walker)
-	{
-		//shell->command = "";
+	if (!jump_quotes(shell) && (!*shell->line_walker || *shell->line_walker == ' '))
 		return (-1);
-	}
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
 	while (i < shell->size_c && ft_strcmp(shell->command, shell->list_commands[i]))
@@ -276,13 +273,19 @@ int	argument_list_creator(t_shell *shell)
 	int			size_arg;
 	char		*start_arg;
 	char		*argument;
+	char		*dollar_argument;
 	char		quotes;
 	t_arglist	*this_arg;
 
+	dollar_argument = NULL;
 	quotes = jump_arg_quotes(shell);
 	start_arg = shell->line_walker;
 	size_arg = get_size_splitted_argpart(shell, quotes);
 	argument = ft_substr(start_arg, 0,size_arg);
+	if (check_allquotes(argument) != '\'')
+		argument = change_dollars(shell, argument);
+	if (check_allquotes(start_arg))
+		argument = del_quotes(argument);
 	quotes = jump_flag_quotes(shell->line_walker);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
@@ -291,7 +294,11 @@ int	argument_list_creator(t_shell *shell)
 		start_arg = shell->line_walker;
 		size_arg = get_size_splitted_argpart(shell, quotes);
 		start_arg = ft_substr(start_arg, 0, size_arg);
-		quotes = jump_flag_quotes(shell->line_walker);
+		if (check_allquotes(start_arg) != '\'')
+			start_arg = change_dollars(shell, start_arg);
+		if (check_allquotes(start_arg))
+			start_arg = del_quotes(start_arg);
+		quotes = jump_flag_quotes(start_arg);
 		argument = ft_strjoin(argument, start_arg);
 	}
 	this_arg = arg_node_new(argument);
@@ -328,9 +335,9 @@ int	split_arguments(t_shell *shell)
 	while (shell->arg_list)
 	{
 		printf("ARGS:%s\n", shell->arg_list->content);
-		if (check_allquotes(shell->arg_list->content) != '\'')
-			shell->arg_list->content
-				= change_dollars(shell, shell->arg_list->content);
+		//if (check_allquotes(shell->arg_list->content) != '\'')
+		//	shell->arg_list->content
+		//		= change_dollars(shell, shell->arg_list->content);
 		if (check_allquotes(shell->arg_list->content))
 			shell->arg_list->content = del_quotes(shell->arg_list->content);
 		shell->command_args[i] = shell->arg_list->content;
