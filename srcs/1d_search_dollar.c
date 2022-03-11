@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/04 18:47:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:15:16 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	shell->aux_pointer->count_until$ = 0;
 
 	//check_envar(shell);//TODO: seguridad comprobacion variables entorno
-	if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
-		shell->exit = 1;
+	//if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
+		//shell->exit = 1;
 	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 	while (shell->aux_pointer->shell_line_walker && *(shell->aux_pointer->shell_line_walker))
 	{

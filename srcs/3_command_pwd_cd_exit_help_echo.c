@@ -41,14 +41,29 @@ int cd(t_shell *shell)
 
 void exit_minishell(t_shell *shell)
 {
-	if (!shell->command_args)
+	t_arglist *copy_arg;
+
+	copy_arg = shell->arg_list;
+	//printf("\nARGS: %s ",shell->arg_list->content);
+	//printf("\n\n\n\n\nHOLAA\n");
+	
+	if(copy_arg->next)
+		
+	
+	
+	if (!*copy_arg->content)
 	{
-		printf("\n\n\nHOLAA\n");
 		shell->exit_return = 0;
+		print_header(shell, "thanks for using ");
 		shell->exit = 1;
 	}
-	print_header(shell, "thanks for using ");
-	shell->exit = 1;
+	//if *copy_arg->content
+	
+	/* else
+	{
+		printf("\n\n\n\n\nMEDIO\n");
+	} */
+	//shell->exit = 1;
 }
 
 void help(t_shell *shell)
@@ -59,7 +74,6 @@ void help(t_shell *shell)
 	ft_putstr_fdnl(GREEN"Command's List: "RESET, 1);
 	while (++i < shell->size_c)
 	{
-		//printf("%s\n",shell->list_commands[i]);
 		write(1, shell->list_commands[i], ft_strlen(shell->list_commands[i]));
 		write(1, "\n", 1);
 	}
@@ -71,34 +85,16 @@ int echo(t_shell *shell)
 {
 	t_arglist *copy;
 
-
 	copy = shell->arg_list;
-
-	//printf("\n 0size arg: %d\n", shell->size_args);
-	/* if(!shell->size_args)
+	while (copy)
 	{
-		//printf("flag %s\n", shell->command_flag);
-		//printf("\n\n\nADIOSSS\n");
-		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
-			return(0);
-		write (1,"\n", 1);
+		ft_putstr_fd(copy->content, 1);
+		if (copy->next)
+			write(1, " ", 1);
+		copy = copy->next;
+	}
+	if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
 		return(0);
-	}
-	else
-	{  */
-		while (copy)
-		{
-			//printf("\nholaaaaa\n");
-			ft_putstr_fd(copy->content, 1);
-			if (copy->next)
-				write(1, " ", 1);
-			copy = copy->next;
-		}
-		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
-		{
-			return(0);
-		//}
-		write(1, "\n", 1);
-	}
+	write(1, "\n", 1);
 	return (0);
 }

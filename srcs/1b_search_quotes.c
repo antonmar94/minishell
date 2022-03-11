@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 19:28:01 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 19:43:38 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,20 +314,15 @@ int	split_arguments(t_shell *shell)
 	i = 1;
 	printer = NULL;
 	shell->size_args=0;
-	printf("\nline walker %s", shell->line_walker);
 	if(*shell->line_walker)
 		shell->size_args=1;
-	printf("\n size arg1: %d\n", shell->size_args);
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	printf("\n size arg2: %d\n", shell->size_args);
 	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	shell->line_walker = shell->line_args;
-	printf("COMMAND %s\n", shell->command);
 	while (shell->arg_list)
 	{
-		printf("ARGS:%s\n", shell->arg_list->content);
 		if (check_allquotes(shell->arg_list->content) != '\'')
 			shell->arg_list->content
 				= change_dollars(shell, shell->arg_list->content);
