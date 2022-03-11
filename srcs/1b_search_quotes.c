@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 20:46:52 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:48:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,12 +330,6 @@ int	split_arguments(t_shell *shell)
 	shell->line_walker = shell->line_args;
 	while (shell->arg_list)
 	{
-		printf("ARGS:%s\n", shell->arg_list->content);
-		//if (check_allquotes(shell->arg_list->content) != '\'')
-		//	shell->arg_list->content
-		//		= change_dollars(shell, shell->arg_list->content);
-		if (check_allquotes(shell->arg_list->content))
-			shell->arg_list->content = del_quotes(shell->arg_list->content);
 		shell->command_args[i] = shell->arg_list->content;
 		i++;
 		shell->arg_list = shell->arg_list->next;
