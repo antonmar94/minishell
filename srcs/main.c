@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/09 12:12:30 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 18:27:12 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ int	main(int argc, char **argv, char** envp)
 		//free_and_reset_values(shell);
 	}
 	write_history(".history_own");
-	exit (0);
+	
+	
+	exit (shell->exit_return);
 }
 
 void	free_all(t_shell *shell)

@@ -41,6 +41,12 @@ int cd(t_shell *shell)
 
 void exit_minishell(t_shell *shell)
 {
+	if (!shell->command_args)
+	{
+		printf("\n\n\nHOLAA\n");
+		shell->exit_return = 0;
+		shell->exit = 1;
+	}
 	print_header(shell, "thanks for using ");
 	shell->exit = 1;
 }
@@ -63,27 +69,35 @@ void help(t_shell *shell)
 
 int echo(t_shell *shell)
 {
-	int i = -1;
+	t_arglist *copy;
 
-	printf("flag %s\n", shell->command_flag);
-	if(!shell->command_args)
+
+	copy = shell->arg_list;
+
+	//printf("\n 0size arg: %d\n", shell->size_args);
+	/* if(!shell->size_args)
 	{
-		
+		//printf("flag %s\n", shell->command_flag);
+		//printf("\n\n\nADIOSSS\n");
 		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
 			return(0);
 		write (1,"\n", 1);
 		return(0);
 	}
 	else
-	{
-		while (++i < shell->size_args)
+	{  */
+		while (copy)
 		{
-			ft_putstr_fd(shell->command_args[i], 1);
-			if (i < shell->size_args -1)
+			//printf("\nholaaaaa\n");
+			ft_putstr_fd(copy->content, 1);
+			if (copy->next)
 				write(1, " ", 1);
+			copy = copy->next;
 		}
 		if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
+		{
 			return(0);
+		//}
 		write(1, "\n", 1);
 	}
 	return (0);

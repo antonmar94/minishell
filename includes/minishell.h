@@ -89,6 +89,7 @@ typedef struct s_shell
 	char			**list_commands;
 	int				size_c;
 	int 			exit;
+	int 			exit_return;
 	t_path			*path;
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
@@ -164,7 +165,7 @@ char 	*del_quotes(char *str_to_del_quotes);
 
 int		print_pwd(void);
 void	help(t_shell *shell);
-void 	exit_minishell(t_shell *shell);
+void	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 int 	echo(t_shell *shell);
 int 	export(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/09 11:22:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/11 19:06:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,11 +286,16 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*printer;
 	int			i;
-	i = 0;
-	shell->size_args = 1;
+	i = 1;
 	printer = NULL;
+	shell->size_args=0;
+	printf("\nline walker %s", shell->line_walker);
+	if(*shell->line_walker)
+		shell->size_args=1;
+	printf("\n size arg1: %d\n", shell->size_args);
 	while (argument_list_creator(shell))
 		shell->size_args++;
+	printf("\n size arg2: %d\n", shell->size_args);
 	shell->command_args = malloc(sizeof(char *) * shell->size_args);
 	printer = shell->arg_list;
 	shell->line_walker = shell->line_args;
@@ -306,6 +311,7 @@ int	split_arguments(t_shell *shell)
 		i++;
 		shell->arg_list = shell->arg_list->next;
 	}
+	shell->arg_list = printer;
 	return (0);
 }
 
