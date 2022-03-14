@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:15:05 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:45:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char	*get_command_part(t_shell *shell)
 	char	*start_command;
 	char	*command;
 	char	quotes;
+	char 	*free_command;
 
 	command = NULL;
 	quotes = jump_quotes(shell);
@@ -153,7 +154,9 @@ char	*get_command_part(t_shell *shell)
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
 		quotes = jump_quotes(shell);
+		free_command = command;
 		command = ft_strjoin(command, start_command);
+		free(free_command);
 	}
 	while (*shell->line_walker && *shell->line_walker != ' ')
 		shell->line_walker++;

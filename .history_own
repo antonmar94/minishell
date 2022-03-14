@@ -58,3 +58,7 @@ exit\040300
 exit\040-300
 exit\04032235\04023234
 exit\04032235
+echo -nnnnnn hola
+echo -nnnnnncaca hola
+echo "-""nnnnnnn" hola
+exit
