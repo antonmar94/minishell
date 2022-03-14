@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/14 19:45:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 21:14:39 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ char	*get_command_part(t_shell *shell)
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command = 0;
+
 		start_command = shell->line_walker;
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
@@ -157,6 +158,7 @@ char	*get_command_part(t_shell *shell)
 		free_command = command;
 		command = ft_strjoin(command, start_command);
 		free(free_command);
+		free(start_command);
 	}
 	while (*shell->line_walker && *shell->line_walker != ' ')
 		shell->line_walker++;
@@ -181,6 +183,8 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 			aux++;
 		if (!*aux || *aux == ' ')
 		{
+			if (flag)
+				free(flag);
 			flag = "-n";
 			shell->command_flag = flag;
 		}
@@ -290,35 +294,52 @@ char	jump_arg_quotes(t_shell *shell)
 int	argument_list_creator(t_shell *shell)
 {
 	int			size_arg;
-	char		*start_arg;
+	char		*arg_start;
 	char		*argument;
 	char		*dollar_argument;
 	char		quotes;
+	char		*free_argument;
 	t_arglist	*this_arg;
 
+	//arg_start = NULL;
 	dollar_argument = NULL;
 	quotes = jump_arg_quotes(shell);
-	start_arg = shell->line_walker;
+	arg_start = shell->line_walker;
 	size_arg = get_size_splitted_argpart(shell, quotes);
-	argument = ft_substr(start_arg, 0,size_arg);
+	argument = ft_substr(arg_start, 0,size_arg);
 	if (check_allquotes(argument) != '\'')
 		argument = change_dollars(shell, argument);
-	if (check_allquotes(start_arg))
+	if (check_allquotes(arg_start))
+	{
+		free_argument = argument;
 		argument = del_quotes(argument);
+		free(free_argument);
+	}
 	quotes = jump_flag_quotes(shell->line_walker);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_arg = 0;
 		quotes = jump_arg_quotes(shell);
-		start_arg = shell->line_walker;
+		arg_start = shell->line_walker;
 		size_arg = get_size_splitted_argpart(shell, quotes);
-		start_arg = ft_substr(start_arg, 0, size_arg);
-		if (check_allquotes(start_arg) != '\'')
-			start_arg = change_dollars(shell, start_arg);
-		if (check_allquotes(start_arg))
-			start_arg = del_quotes(start_arg);
-		quotes = jump_flag_quotes(start_arg);
-		argument = ft_strjoin(argument, start_arg);
+		arg_start = ft_substr(arg_start, 0, size_arg);
+		if (check_allquotes(arg_start) != '\'')
+		{
+			free_argument = arg_start;
+			arg_start = change_dollars(shell, arg_start);
+			free(free_argument);
+		}
+		if (check_allquotes(arg_start))
+		{
+			free_argument = arg_start;
+			arg_start = del_quotes(arg_start);
+			free(free_argument);
+		}
+		quotes = jump_flag_quotes(arg_start);
+		free_argument = argument;
+		argument = ft_strjoin(argument, arg_start);
+		free(arg_start);
+		free(free_argument);
 	}
 	this_arg = arg_node_new(argument);
 	arglstadd_back(&shell->arg_list, this_arg);

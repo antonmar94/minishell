@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 18:01:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:30:35 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	all_clear(t_arglist **arg_lst)
 		while (cleaner->content && cleaner->next)
 		{
 			aux = cleaner->next;
+			free(cleaner);
 			cleaner->content = NULL;
 			cleaner->next = NULL;
 			cleaner = aux;
