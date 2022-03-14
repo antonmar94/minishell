@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 18:27:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:59:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,17 @@ void	leaks(void)
 int	main(int argc, char **argv, char** envp)
 {
 	//char *changed_dollar;
-	(void)argc;
 	(void)argv;
 	t_shell *shell;
 
 	//atexit(leaks);
 	//signal(SIGINT, sigint_handler);
+	if (argc != 1)
+	{
+		error_too_many_args();
+		exit(0);
+	}
+
 	shell = initialice(envp);
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
