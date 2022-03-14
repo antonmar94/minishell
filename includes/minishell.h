@@ -178,7 +178,8 @@ int		error_system_pwd(void);
 void	command_error();
 int		error_number_args(void);
 int		error_wrong_path(void);
-
+int		error_too_many_args(void);
+int		error_not_numeric(void);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 
@@ -208,6 +209,8 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2);
 char	*ft_split_one(char *s, char c, char d);
 size_t	ft_desplace_2char(char const *s, char c, char d);
 size_t	ft_lens_2char(char *lens, char c, char d);
+int		ft_isdigit_str(char *str);
+int		ft_isalpha_str(char *str, char c);
 /*----------------------- FAKES DEL------------------------------------------*/
 
 t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);

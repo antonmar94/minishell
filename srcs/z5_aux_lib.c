@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 19:58:24 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:19:36 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,38 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 		}
 		return (i);
 	}
+}
+
+int	ft_isalpha_str(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(str[i]))
+		return (0);
+	while (str[i] != c && str[i])
+	{
+		if (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_isdigit_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]))
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }

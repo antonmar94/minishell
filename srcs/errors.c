@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/09 11:18:50 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:10:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ int	error_wrong_path(void)
 {
 	ft_putstr_fdnl(RED"Error path incorrect"RESET, 2);
 	return (1);
+}
+
+int	error_too_many_args(void)
+{
+	ft_putstr_fdnl(RED"Error too many arguments"RESET, 2);
+	return(1);
+}
+
+int	error_not_numeric(void)
+{
+	ft_putstr_fdnl(RED"numeric argument required"RESET, 2);
+	return(1);
 }
