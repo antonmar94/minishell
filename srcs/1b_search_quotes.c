@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/11 20:48:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:14:02 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,13 +164,29 @@ void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si ex
 {
 	char	*flag;
 	char	*no_flag;
+	char	*aux;
 
 	no_flag = shell->line_walker;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	flag = get_command_part(shell);
-	if (!ft_strcmp(flag, "-n"))
-		shell->command_flag = flag;
+	aux = flag;
+	if (!ft_strncmp(flag, "-n", 2))
+	{
+		aux += 1;
+		while (*aux && *aux == 'n')
+			aux++;
+		if (!*aux || *aux == ' ')
+		{
+			flag = "-n";
+			shell->command_flag = flag;
+		}
+		else
+		{
+			shell->command_flag = NULL;
+			shell->line_walker = no_flag;
+		}
+	}
 	else
 	{
 		shell->command_flag = NULL;
