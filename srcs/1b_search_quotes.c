@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/15 19:56:00 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 20:20:44 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	get_size_splitted_part(t_shell *shell, char quotes)
 	else
 	{
 		while (*shell->line_walker && *shell->line_walker != ' '
-			&& !jump_flag_quotes(shell->line_walker))
+			&& !check_allquotes(shell->line_walker))
 		{
 			shell->line_walker++;
 			size_command++;
@@ -141,7 +141,6 @@ char	*get_command_part(t_shell *shell)
 	char	quotes;
 	char	*free_command;
 
-	command = NULL;
 	quotes = jump_quotes(shell);
 	start_command = shell->line_walker;
 	size_command = get_size_splitted_part(shell, quotes);
@@ -153,9 +152,9 @@ char	*get_command_part(t_shell *shell)
 		start_command = shell->line_walker;
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
-		quotes = jump_quotes(shell);
 		free_command = command;
 		command = ft_strjoin(command, start_command);
+		quotes = jump_quotes(shell);
 		free(free_command);
 		free(start_command);
 	}
@@ -190,24 +189,30 @@ int	check_flag(t_shell *shell)
 	return (0);
 }
 
-int	add_command(t_shell *shell)
+void	start_command(t_shell *shell)
 {
-	char		*aux;
-	int			i;
-
-	i = 0;
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
 		add_history(shell->line);
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
+}
+
+int	add_command(t_shell *shell)
+{
+	char		*aux;
+	int			i;
+
+	i = 0;
+	start_command(shell);
 	aux = shell->line_walker;
 	if (!jump_quotes(shell)
 		&& (!*shell->line_walker || *shell->line_walker == ' '))
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
+	printf("COMAND %s\n", shell->command);
 	while (i < shell->size_c
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
@@ -312,7 +317,6 @@ int	argument_list_creator(t_shell *shell)
 	char		*arg_start;
 	char		*argument;
 	char		quotes;
-	char		*free_argument;
 
 	quotes = jump_arg_quotes(shell);
 	arg_start = shell->line_walker;
@@ -321,11 +325,7 @@ int	argument_list_creator(t_shell *shell)
 	if (check_allquotes(argument) != '\'')
 		argument = change_dollars(shell, argument);
 	if (check_allquotes(argument))
-	{
-		free_argument = argument;
 		argument = del_quotes(argument);
-		free(free_argument);
-	}
 	arglstadd_back(&shell->arg_list,
 		arg_node_new(get_arg_parts(shell, argument)));
 	if (!(*shell->line_walker))
@@ -366,7 +366,12 @@ int	split_arguments(t_shell *shell)
 
 char	*del_quotes(char *str_to_del_quotes)
 {
+	char	*no_quotes;
+
 	if (!str_to_del_quotes)
 		return (NULL);
-	return (ft_substr(str_to_del_quotes, 1, ft_strlen(str_to_del_quotes) - 2));
+	no_quotes = ft_substr(str_to_del_quotes, 1,
+			ft_strlen(str_to_del_quotes) - 2);
+	free (str_to_del_quotes);
+	return (no_quotes);
 }
