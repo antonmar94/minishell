@@ -6,13 +6,13 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/14 21:14:39 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:56:00 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_quotes(char *line_walker, char quotes) //Devuelve 1 si existen comillas abiertas y cerradas
+int	check_quotes(char *line_walker, char quotes)
 {
 	char	*quotes_finder;
 
@@ -30,7 +30,7 @@ int	check_quotes(char *line_walker, char quotes) //Devuelve 1 si existen comilla
 	return (0);
 }
 
-int	size_quotes_arg(char *line_walker, char quotes) //Devuelve el tamaño del argumento entre comillas
+int	size_quotes_arg(char *line_walker, char quotes)
 {
 	int		i;
 	char	*quotes_finder;
@@ -139,7 +139,7 @@ char	*get_command_part(t_shell *shell)
 	char	*start_command;
 	char	*command;
 	char	quotes;
-	char 	*free_command;
+	char	*free_command;
 
 	command = NULL;
 	quotes = jump_quotes(shell);
@@ -150,7 +150,6 @@ char	*get_command_part(t_shell *shell)
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command = 0;
-
 		start_command = shell->line_walker;
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
@@ -165,40 +164,30 @@ char	*get_command_part(t_shell *shell)
 	return (command);
 }
 
-void	check_flag(t_shell *shell) //Comprueba si existe la flag -n en echo y si existe la introduce en "shell->command_flag"
+int	check_flag(t_shell *shell)
 {
 	char	*flag;
 	char	*no_flag;
-	char	*aux;
 
 	no_flag = shell->line_walker;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	flag = get_command_part(shell);
-	aux = flag;
 	if (!ft_strncmp(flag, "-n", 2))
 	{
-		aux += 1;
-		while (*aux && *aux == 'n')
-			aux++;
-		if (!*aux || *aux == ' ')
+		flag += 1;
+		while (*flag && *flag == 'n')
+			flag++;
+		if (!*flag)
 		{
-			if (flag)
-				free(flag);
 			flag = "-n";
 			shell->command_flag = flag;
-		}
-		else
-		{
-			shell->command_flag = NULL;
-			shell->line_walker = no_flag;
+			return (1);
 		}
 	}
-	else
-	{
-		shell->command_flag = NULL;
-		shell->line_walker = no_flag;
-	}
+	shell->command_flag = NULL;
+	shell->line_walker = no_flag;
+	return (0);
 }
 
 int	add_command(t_shell *shell)
@@ -207,18 +196,20 @@ int	add_command(t_shell *shell)
 	int			i;
 
 	i = 0;
-	shell->line =readline(BLUE"AlicornioPrompt$ "RESET);
+	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
 		add_history(shell->line);
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	aux = shell->line_walker;
-	if (!jump_quotes(shell) && (!*shell->line_walker || *shell->line_walker == ' '))
+	if (!jump_quotes(shell)
+		&& (!*shell->line_walker || *shell->line_walker == ' '))
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	while (i < shell->size_c && ft_strcmp(shell->command, shell->list_commands[i]))
+	while (i < shell->size_c
+		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
 	if (i >= shell->size_c)
 		return (-1);
@@ -290,32 +281,13 @@ char	jump_arg_quotes(t_shell *shell)
 	return (0);
 }
 
-
-int	argument_list_creator(t_shell *shell)
+char	*get_arg_parts(t_shell *shell, char *argument)
 {
 	int			size_arg;
 	char		*arg_start;
-	char		*argument;
-	char		*dollar_argument;
 	char		quotes;
 	char		*free_argument;
-	t_arglist	*this_arg;
 
-	//arg_start = NULL;
-	dollar_argument = NULL;
-	quotes = jump_arg_quotes(shell);
-	arg_start = shell->line_walker;
-	size_arg = get_size_splitted_argpart(shell, quotes);
-	argument = ft_substr(arg_start, 0,size_arg);
-	if (check_allquotes(argument) != '\'')
-		argument = change_dollars(shell, argument);
-	if (check_allquotes(arg_start))
-	{
-		free_argument = argument;
-		argument = del_quotes(argument);
-		free(free_argument);
-	}
-	quotes = jump_flag_quotes(shell->line_walker);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_arg = 0;
@@ -324,25 +296,38 @@ int	argument_list_creator(t_shell *shell)
 		size_arg = get_size_splitted_argpart(shell, quotes);
 		arg_start = ft_substr(arg_start, 0, size_arg);
 		if (check_allquotes(arg_start) != '\'')
-		{
-			free_argument = arg_start;
 			arg_start = change_dollars(shell, arg_start);
-			free(free_argument);
-		}
 		if (check_allquotes(arg_start))
-		{
-			free_argument = arg_start;
 			arg_start = del_quotes(arg_start);
-			free(free_argument);
-		}
 		quotes = jump_flag_quotes(arg_start);
 		free_argument = argument;
 		argument = ft_strjoin(argument, arg_start);
 		free(arg_start);
+	}
+	return (argument);
+}
+
+int	argument_list_creator(t_shell *shell)
+{
+	char		*arg_start;
+	char		*argument;
+	char		quotes;
+	char		*free_argument;
+
+	quotes = jump_arg_quotes(shell);
+	arg_start = shell->line_walker;
+	argument = ft_substr(arg_start, 0,
+			get_size_splitted_argpart(shell, quotes));
+	if (check_allquotes(argument) != '\'')
+		argument = change_dollars(shell, argument);
+	if (check_allquotes(argument))
+	{
+		free_argument = argument;
+		argument = del_quotes(argument);
 		free(free_argument);
 	}
-	this_arg = arg_node_new(argument);
-	arglstadd_back(&shell->arg_list, this_arg);
+	arglstadd_back(&shell->arg_list,
+		arg_node_new(get_arg_parts(shell, argument)));
 	if (!(*shell->line_walker))
 		return (0);
 	else
@@ -358,11 +343,12 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*printer;
 	int			i;
+
 	i = 1;
 	printer = NULL;
-	shell->size_args=0;
-	if(*shell->line_walker)
-		shell->size_args=1;
+	shell->size_args = 0;
+	if (*shell->line_walker)
+		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
 	shell->command_args = malloc(sizeof(char *) * shell->size_args);
@@ -371,8 +357,8 @@ int	split_arguments(t_shell *shell)
 	while (shell->arg_list)
 	{
 		shell->command_args[i] = shell->arg_list->content;
-		i++;
 		shell->arg_list = shell->arg_list->next;
+		i++;
 	}
 	shell->arg_list = printer;
 	return (0);
