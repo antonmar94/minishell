@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/15 20:20:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 20:26:13 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ int	get_size_splitted_part(t_shell *shell, char quotes)
 
 char	*get_command_part(t_shell *shell)
 {
-	int		size_command;
 	char	*start_command;
 	char	*command;
 	char	quotes;
@@ -143,15 +142,14 @@ char	*get_command_part(t_shell *shell)
 
 	quotes = jump_quotes(shell);
 	start_command = shell->line_walker;
-	size_command = get_size_splitted_part(shell, quotes);
-	command = ft_substr(start_command, 0, size_command);
+	command = ft_substr(start_command, 0,
+			get_size_splitted_part(shell, quotes));
 	quotes = jump_quotes(shell);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
-		size_command = 0;
 		start_command = shell->line_walker;
-		size_command = get_size_splitted_part(shell, quotes);
-		start_command = ft_substr(start_command, 0, size_command);
+		start_command = ft_substr(start_command, 0,
+				get_size_splitted_part(shell, quotes));
 		free_command = command;
 		command = ft_strjoin(command, start_command);
 		quotes = jump_quotes(shell);
