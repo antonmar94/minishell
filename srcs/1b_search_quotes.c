@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/15 20:26:13 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:45:40 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,105 @@ char	jump_flag_quotes(char *flag_line)
 	return (0);
 }
 
+int	check_correct_quotes(char *line)
+{
+	char	*line_aux;
+	char	*line_back;
+	char	quotes;
+	int		num_slash;
+
+	line_aux = line;
+	while (*line_aux)
+	{
+		num_slash = 0;
+		quotes = jump_flag_quotes(line_aux);
+		if (check_allquotes(line_aux) && size_quotes_arg(line_aux, *line_aux) == 0)
+			line_aux++;
+		else if (quotes)
+		{
+			line_back = line_aux;
+			line_back--;
+			while (*line_back && *line_back == '\\')
+			{
+				line_back--;
+				num_slash++;
+			}
+			if (num_slash % 2 == 1)
+				return (0);
+			line_aux++;
+			while (*line_aux != quotes)
+				line_aux++;
+		}
+		else if (!quotes && (*line_aux == '\"' || *line_aux == '\''))
+		{
+			line_back = line_aux;
+			line_back--;
+			while (*line_back && *line_back == '\\')
+			{
+				line_back--;
+				num_slash++;
+			}
+			if (num_slash % 2 == 0)
+				return (0);
+		}
+		line_aux++;
+	}
+	return (1);
+}
+
+char	*delete_slashes(char *line_slashed) //no funciona
+{
+	char 	*aux;
+	char	*new_part;
+	char	*line_holder;
+	char	*line_no_slashed;
+	int		num_slashes;
+	int		tam;
+	
+	aux = line_slashed;
+	line_no_slashed = line_slashed;
+	tam = 0;
+	while (*line_no_slashed)
+	{
+		if (*line_no_slashed == '\\')
+		{
+			line_no_slashed = ft_substr(aux, 0, tam);
+			break ;
+		}
+		line_no_slashed++;
+		tam++;
+	}
+	printf("line no slashed %s\n", line_no_slashed);
+	if (!*line_no_slashed)
+		return (line_slashed);
+	aux += tam;
+	line_holder = aux;
+	tam = 0;
+	while (*aux)
+	{
+		num_slashes = 0;
+		if (*aux == '\\')
+		{
+			while (*aux && *aux == '\\')
+			{
+				aux++;
+				num_slashes++;
+			}
+			tam += num_slashes / 2;
+			new_part = ft_substr(line_holder, 0, tam);
+			printf("line no slashed %s\n", line_no_slashed);
+			line_no_slashed = ft_strjoin(line_no_slashed, new_part);
+			printf("line no slashed %s\n", line_no_slashed);
+			line_holder = aux;
+			tam = 0;
+		}
+		line_no_slashed = aux;
+		aux++;
+		tam++;
+	}
+	return (line_no_slashed);
+}
+
 int	get_size_splitted_part(t_shell *shell, char quotes)
 {
 	int	size_command;
@@ -187,7 +286,7 @@ int	check_flag(t_shell *shell)
 	return (0);
 }
 
-void	start_command(t_shell *shell)
+int	start_command(t_shell *shell)
 {
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
@@ -195,6 +294,11 @@ void	start_command(t_shell *shell)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
+	if (!check_correct_quotes(shell->line_walker))
+		return (-1);
+	//shell->line_walker = delete_slashes(shell->line_walker);
+	//printf("line walker %s\n", shell->line_walker);
+	return (0);
 }
 
 int	add_command(t_shell *shell)
@@ -203,14 +307,15 @@ int	add_command(t_shell *shell)
 	int			i;
 
 	i = 0;
-	start_command(shell);
+	if (start_command(shell) == -1)
+		return (-1);
 	aux = shell->line_walker;
 	if (!jump_quotes(shell)
 		&& (!*shell->line_walker || *shell->line_walker == ' '))
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	printf("COMAND %s\n", shell->command);
+	//printf("COMAND %s\n", shell->command);
 	while (i < shell->size_c
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
