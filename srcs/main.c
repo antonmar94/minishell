@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:33:14 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:20:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	main(int argc, char **argv, char** envp)
 		while (add_command(shell))
 			command_error();
 		split_arguments(shell);
-		find_command(shell);
+		do_exec(shell->line_args, shell);
+		//find_command(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);
