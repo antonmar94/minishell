@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/21 20:20:57 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/22 11:59:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,22 @@ int	main(int argc, char **argv, char** envp)
 	//print_env_list(shell->env_list);
 	//wellcome_header(shell);
 	//read_history(NULL);
+	int i = 0;
 	while(!shell->exit)
 	{
 		while (add_command(shell))
 			command_error();
 		split_arguments(shell);
-		do_exec(shell->line_args, shell);
+		//do_exec(shell->line_args, shell);
+		while (shell->command_plus_args[i])
+		{
+			printf("\ncomandplusarg[%i]: %s\n", i, shell->command_plus_args[i]);
+			i++;
+
+		}
+		//print_all(shell);
+	
+
 		//find_command(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		if(shell->aux_pointer->final_str)

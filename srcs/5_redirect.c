@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/21 20:17:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/22 11:32:11 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int do_exec(char *buff, t_shell *shell)
 		do_redirect(buff);
 		//shell->command_args = do_parse(buff);
 		
-		if(NULL != shell->command_args[0])
+		if(NULL != shell->command)
 		{
-			execvp(shell->command_args[0], shell->command_args);
+			execvp(shell->command, shell->command_args);
 			// Proceso de reemplazo
 		}
 		else
