@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/15 20:20:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/22 18:57:44 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ int	get_size_splitted_argpart(t_shell *shell, char quotes)
 	else
 	{
 		while (*shell->line_walker && *shell->line_walker != ' '
-			&& !jump_flag_quotes(shell->line_walker))
+			&& !check_allquotes(shell->line_walker))
 		{
 			shell->line_walker++;
 			size_command++;
