@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/22 18:57:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/03/22 19:34:33 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,16 +145,15 @@ char	*get_command_part(t_shell *shell)
 	start_command = shell->line_walker;
 	size_command = get_size_splitted_part(shell, quotes);
 	command = ft_substr(start_command, 0, size_command);
-	quotes = jump_quotes(shell);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command = 0;
 		start_command = shell->line_walker;
+		quotes = jump_quotes(shell);
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
 		free_command = command;
 		command = ft_strjoin(command, start_command);
-		quotes = jump_quotes(shell);
 		free(free_command);
 		free(start_command);
 	}
@@ -188,7 +187,53 @@ int	check_flag(t_shell *shell)
 	shell->line_walker = no_flag;
 	return (0);
 }
+/* FUNCION DE COMPROBACIÓN DE COMILLAS SIN CERRAR
+int check_correct_quotes(char *line)
+{
+    char    *line_aux;
+    char    *line_back;
+    char    quotes;
+    int     num_slash;
 
+    line_aux = line;
+    while (*line_aux)
+    {
+        num_slash = 0;
+        quotes = jump_flag_quotes(line_aux);
+        if (check_allquotes(line_aux) && size_quotes_arg(line_aux, *line_aux) == 0)
+            line_aux++;
+        else if (quotes)
+        {
+            line_back = line_aux;
+            line_back--;
+            while (*line_back && *line_back == '\\')
+            {
+                line_back--;
+                num_slash++;
+            }
+            if (num_slash % 2 == 1)
+                return (0);
+            line_aux++;
+            while (*line_aux != quotes)
+                line_aux++;
+        }
+        else if (!quotes && (*line_aux == '\"' || *line_aux == '\''))
+        {
+            line_back = line_aux;
+            line_back--;
+            while (*line_back && *line_back == '\\')
+            {
+                line_back--;
+                num_slash++;
+            }
+            if (num_slash % 2 == 0)
+                return (0);
+        }
+        line_aux++;
+    }
+    return (1);
+}
+*/
 void	start_command(t_shell *shell)
 {
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
@@ -212,7 +257,6 @@ int	add_command(t_shell *shell)
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	printf("COMAND %s\n", shell->command);
 	while (i < shell->size_c
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
