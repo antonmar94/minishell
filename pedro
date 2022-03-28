@@ -1,0 +1,5 @@
+
+final_line: echo hola 
+[?2004h[1;34mAlicornioPrompt$ [0;mholasd
+[?2004l
+[?2004h[1;34mAlicornioPrompt$ [0;msad^C[?2004l

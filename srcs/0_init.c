@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/21 20:15:56 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:30:23 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_shell *initialice(char** envp)
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->command_args = NULL;
+	shell->final_line = NULL;
 	shell->size_c = 11;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
 	shell->list_commands[0]="";

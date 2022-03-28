@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/22 11:57:29 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/28 21:20:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,8 +294,8 @@ int	start_command(t_shell *shell)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
-	if (!check_correct_quotes(shell->line_walker))
-		return (-1);
+	//if (!check_correct_quotes(shell->line_walker))
+		//return (-1);
 	//shell->line_walker = delete_slashes(shell->line_walker);
 	//printf("line walker %s\n", shell->line_walker);
 	return (0);
@@ -316,11 +316,11 @@ int	add_command(t_shell *shell)
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
 	//printf("COMAND %s\n", shell->command);
-	while (i < shell->size_c
+/* 	while (i < shell->size_c
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
 	if (i >= shell->size_c)
-		return (-1);
+		return (-1); */
 	if (!ft_strcmp(shell->list_commands[i], "echo"))
 		check_flag(shell);
 	while (*shell->line_walker && *shell->line_walker == ' ')
@@ -446,6 +446,7 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*printer;
 	int			i;
+	char		*copy_tofree;
 
 	i = 0;//MOD de 1 a 0 para que rellene arg 0
 	printer = NULL;
@@ -454,19 +455,30 @@ int	split_arguments(t_shell *shell)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	shell->command_args = malloc(sizeof(char *) * shell->size_args);
-	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 1);
+	shell->command_args = malloc(sizeof(char *) * shell->size_args +1);
+	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_plus_args[0] = shell->command;
+	i++;
+	shell->final_line = ft_strdup(shell->command_plus_args[0]);
 	printer = shell->arg_list;
 	shell->line_walker = shell->line_args;
+	//shell->arg_list = shell->arg_list->next;
 	while (shell->arg_list)
 	{
-		shell->command_args[i] = shell->arg_list->content;
-		shell->command_plus_args[i+1] = shell->arg_list->content;
+		copy_tofree = shell->final_line;
+		//shell->command_args[i] = shell->arg_list->content;
+		
+		shell->command_plus_args[i] = shell->arg_list->content;
+		printf("arg %s\n", shell->command_plus_args[i]);
+		shell->final_line = ft_strjoin_whith_space(copy_tofree, shell->command_args[i]);
+		free(copy_tofree);
 		shell->arg_list = shell->arg_list->next;
 		i++;
 	}
+	shell->command_plus_args[i] = NULL;
 	shell->arg_list = printer;
+		printf("command plus args[0] %s\n", shell->command_plus_args[0]);
+		printf("command plus args[1] %s\n", shell->command_plus_args[1]);
 	return (0);
 }
 
