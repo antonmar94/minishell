@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/14 20:33:14 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/08 20:58:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char** envp)
 	//read_history(NULL);
 	while(!shell->exit)
 	{
+		//add_command(shell);
 		while (add_command(shell))
 			command_error();
 		split_arguments(shell);

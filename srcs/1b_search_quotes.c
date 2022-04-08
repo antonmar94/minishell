@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/22 19:34:33 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/08 21:02:44 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,11 +257,11 @@ int	add_command(t_shell *shell)
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	while (i < shell->size_c
+	/*while (i < shell->size_c  QUITAR PARA QUE FUNCIONE CON LO DE HOY, ECNONTRAR MANERA DE QUE FUNCIONE
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
-	if (i >= shell->size_c)
-		return (-1);
+		if (i >= shell->size_c)
+		return (-1); */
 	if (!ft_strcmp(shell->list_commands[i], "echo"))
 		check_flag(shell);
 	while (*shell->line_walker && *shell->line_walker == ' ')
