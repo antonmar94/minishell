@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/28 21:20:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/08 20:02:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,7 +446,7 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*printer;
 	int			i;
-	char		*copy_tofree;
+	//char		*copy_tofree;
 
 	i = 0;//MOD de 1 a 0 para que rellene arg 0
 	printer = NULL;
@@ -459,26 +459,24 @@ int	split_arguments(t_shell *shell)
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_plus_args[0] = shell->command;
 	i++;
-	shell->final_line = ft_strdup(shell->command_plus_args[0]);
+	//shell->final_line = ft_strdup(shell->command_plus_args[0]);
 	printer = shell->arg_list;
-	shell->line_walker = shell->line_args;
+	//shell->line_walker = shell->line_args;
 	//shell->arg_list = shell->arg_list->next;
-	while (shell->arg_list)
+ 	while (shell->arg_list && shell->size_args > 0)
 	{
-		copy_tofree = shell->final_line;
+		//copy_tofree = shell->final_line;
 		//shell->command_args[i] = shell->arg_list->content;
 		
 		shell->command_plus_args[i] = shell->arg_list->content;
-		printf("arg %s\n", shell->command_plus_args[i]);
-		shell->final_line = ft_strjoin_whith_space(copy_tofree, shell->command_args[i]);
-		free(copy_tofree);
+/* 		shell->final_line = ft_strjoin_whith_space(ft_strdup(shell->command_plus_args[0]),
+			shell->command_args[i]); */
+		//free(copy_tofree);
 		shell->arg_list = shell->arg_list->next;
 		i++;
 	}
 	shell->command_plus_args[i] = NULL;
 	shell->arg_list = printer;
-		printf("command plus args[0] %s\n", shell->command_plus_args[0]);
-		printf("command plus args[1] %s\n", shell->command_plus_args[1]);
 	return (0);
 }
 

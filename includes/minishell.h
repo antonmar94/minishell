@@ -146,7 +146,8 @@ int		add_command(t_shell *shell);
 //int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
-void 	find_command(t_shell *shell);
+int 	find_command(t_shell *shell);
+int		system_commmand(t_shell *shell, char **envp);
 void	execute_command(t_shell *shell, int i);
 void	free_and_reset_values(t_shell *shell);
 

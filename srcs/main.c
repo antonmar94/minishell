@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/28 21:17:41 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/08 20:13:13 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,10 @@ int	main(int argc, char **argv, char** envp)
 		//while (add_command(shell))
 		//	command_error();
 		split_arguments(shell);
-		printf("command %s\n", shell->command);
-		printf("command plus args[0] %s\n", shell->command_plus_args[0]);
-		printf("command plus args[1] %s\n", shell->command_plus_args[1]);
-		printf("command plus args[2] %s\n", shell->command_plus_args[2]);
-		//printf("\nfinal_line: %s\n", shell->final_line);
-		execve(ft_strjoin("/bin/", shell->command), shell->command_plus_args, envp);
-		//do_exec(shell);
-		//print_all(shell);
+		if(!find_command(shell))
+			if(!system_commmand(shell, envp))
+				command_error();
 	
-		//find_command(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);
