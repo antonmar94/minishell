@@ -45,26 +45,36 @@ void execute_command(t_shell *shell, int i)
 
 int system_commmand(t_shell *shell, char **envp)
 {
-
-		//char *whereis[] = {"whereis", NULL};
-		//char *cmd[] = { "echo", "hola", (char *)0 };
-		//char *env[] = { "TERM=xterm", (char *)0 };
-		//salida =
-		//execve("/var/clear", cmd, envp);
 	int ex_res;
 	int pid;
+	char	*env_aux;
+	char	**paths_list;
 
-	pid = fork();// Crea un proceso hijo, reemplaza el programa en el proceso hijo
+	pid = fork();
 	if (pid < 0)
 		return (0);
-	if(pid == 0) //PID=0 es el hijo
+	if(pid == 0)
 	{
+<<<<<<< HEAD
 		//printf("\narg1: %s\n",  shell->command_plus_args[1]);
 		ex_res = execve (ft_strjoin("/bin/", shell->command), shell->command_plus_args, envp);
 		ex_res = execve (ft_strjoin("/usr/bin/", shell->command), shell->command_plus_args, envp);
+=======
+		env_aux = *envp;
+		while (ft_strncmp(env_aux, "PATH", 4))
+			env_aux++;
+		env_aux += 5;
+		paths_list = ft_split(env_aux, ':');
+		while (*paths_list)
+		{
+			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
+				shell->command), shell->command_plus_args, envp);
+			paths_list++;
+		}
+>>>>>>> antoniofromalb
 		if(ex_res)
 			return (0);
 	}
-	waitpid(pid, NULL, 0);// Espera a que salga el proceso hijo
+	waitpid(pid, NULL, 0);
 	return (1);
 }

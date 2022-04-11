@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/11 10:47:07 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/11 10:51:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,105 +107,6 @@ char	jump_flag_quotes(char *flag_line)
 	return (0);
 }
 
-int	check_correct_quotes(char *line)
-{
-	char	*line_aux;
-	char	*line_back;
-	char	quotes;
-	int		num_slash;
-
-	line_aux = line;
-	while (*line_aux)
-	{
-		num_slash = 0;
-		quotes = jump_flag_quotes(line_aux);
-		if (check_allquotes(line_aux) && size_quotes_arg(line_aux, *line_aux) == 0)
-			line_aux++;
-		else if (quotes)
-		{
-			line_back = line_aux;
-			line_back--;
-			while (*line_back && *line_back == '\\')
-			{
-				line_back--;
-				num_slash++;
-			}
-			if (num_slash % 2 == 1)
-				return (0);
-			line_aux++;
-			while (*line_aux != quotes)
-				line_aux++;
-		}
-		else if (!quotes && (*line_aux == '\"' || *line_aux == '\''))
-		{
-			line_back = line_aux;
-			line_back--;
-			while (*line_back && *line_back == '\\')
-			{
-				line_back--;
-				num_slash++;
-			}
-			if (num_slash % 2 == 0)
-				return (0);
-		}
-		line_aux++;
-	}
-	return (1);
-}
-
-char	*delete_slashes(char *line_slashed) //no funciona
-{
-	char 	*aux;
-	char	*new_part;
-	char	*line_holder;
-	char	*line_no_slashed;
-	int		num_slashes;
-	int		tam;
-	
-	aux = line_slashed;
-	line_no_slashed = line_slashed;
-	tam = 0;
-	while (*line_no_slashed)
-	{
-		if (*line_no_slashed == '\\')
-		{
-			line_no_slashed = ft_substr(aux, 0, tam);
-			break ;
-		}
-		line_no_slashed++;
-		tam++;
-	}
-	printf("line no slashed %s\n", line_no_slashed);
-	if (!*line_no_slashed)
-		return (line_slashed);
-	aux += tam;
-	line_holder = aux;
-	tam = 0;
-	while (*aux)
-	{
-		num_slashes = 0;
-		if (*aux == '\\')
-		{
-			while (*aux && *aux == '\\')
-			{
-				aux++;
-				num_slashes++;
-			}
-			tam += num_slashes / 2;
-			new_part = ft_substr(line_holder, 0, tam);
-			printf("line no slashed %s\n", line_no_slashed);
-			line_no_slashed = ft_strjoin(line_no_slashed, new_part);
-			printf("line no slashed %s\n", line_no_slashed);
-			line_holder = aux;
-			tam = 0;
-		}
-		line_no_slashed = aux;
-		aux++;
-		tam++;
-	}
-	return (line_no_slashed);
-}
-
 int	get_size_splitted_part(t_shell *shell, char quotes)
 {
 	int	size_command;
@@ -247,8 +148,8 @@ char	*get_command_part(t_shell *shell)
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
 		size_command = 0;
-		start_command = shell->line_walker;
 		quotes = jump_quotes(shell);
+		start_command = shell->line_walker;
 		size_command = get_size_splitted_part(shell, quotes);
 		start_command = ft_substr(start_command, 0, size_command);
 		free_command = command;
@@ -286,54 +187,8 @@ int	check_flag(t_shell *shell)
 	shell->line_walker = no_flag;
 	return (0);
 }
-/* FUNCION DE COMPROBACIÓN DE COMILLAS SIN CERRAR
-int check_correct_quotes(char *line)
-{
-    char    *line_aux;
-    char    *line_back;
-    char    quotes;
-    int     num_slash;
 
-    line_aux = line;
-    while (*line_aux)
-    {
-        num_slash = 0;
-        quotes = jump_flag_quotes(line_aux);
-        if (check_allquotes(line_aux) && size_quotes_arg(line_aux, *line_aux) == 0)
-            line_aux++;
-        else if (quotes)
-        {
-            line_back = line_aux;
-            line_back--;
-            while (*line_back && *line_back == '\\')
-            {
-                line_back--;
-                num_slash++;
-            }
-            if (num_slash % 2 == 1)
-                return (0);
-            line_aux++;
-            while (*line_aux != quotes)
-                line_aux++;
-        }
-        else if (!quotes && (*line_aux == '\"' || *line_aux == '\''))
-        {
-            line_back = line_aux;
-            line_back--;
-            while (*line_back && *line_back == '\\')
-            {
-                line_back--;
-                num_slash++;
-            }
-            if (num_slash % 2 == 0)
-                return (0);
-        }
-        line_aux++;
-    }
-    return (1);
-}
-*/
-void	start_command(t_shell *shell)
+/* void	start_command(t_shell *shell)
 {
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
@@ -341,12 +196,7 @@ void	start_command(t_shell *shell)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
-	//if (!check_correct_quotes(shell->line_walker))
-		//return (-1);
-	//shell->line_walker = delete_slashes(shell->line_walker);
-	//printf("line walker %s\n", shell->line_walker);
-	return (0);
-}
+} */
 
 int	add_command(t_shell *shell)
 {
@@ -354,21 +204,14 @@ int	add_command(t_shell *shell)
 	int			i;
 
 	i = 0;
-	if (start_command(shell) == -1)
-		return (-1);
+	//start_command(shell);
 	aux = shell->line_walker;
 	if (!jump_quotes(shell)
 		&& (!*shell->line_walker || *shell->line_walker == ' '))
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	//printf("COMAND %s\n", shell->command);
-/* 	while (i < shell->size_c
-		&& ft_strcmp(shell->command, shell->list_commands[i]))
-		i++;
-	if (i >= shell->size_c)
-		return (-1); */
-	if (!ft_strcmp(shell->list_commands[i], "echo"))
+	if (!ft_strcmp(shell->command, "echo"))
 		check_flag(shell);
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
@@ -416,6 +259,7 @@ int	get_size_splitted_argpart(t_shell *shell, char quotes)
 	}
 	return (size_command);
 }
+
 
 char	jump_arg_quotes(t_shell *shell)
 {
@@ -491,39 +335,27 @@ int	argument_list_creator(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	t_arglist	*printer;
+	t_arglist	*holder_first;
 	int			i;
-	//char		*copy_tofree;
 
-	i = 0;//MOD de 1 a 0 para que rellene arg 0
-	printer = NULL;
+	i = 0;
 	shell->size_args = 0;
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	shell->command_args = malloc(sizeof(char *) * shell->size_args +1);
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_plus_args[0] = shell->command;
 	i++;
-	//shell->final_line = ft_strdup(shell->command_plus_args[0]);
-	printer = shell->arg_list;
-	//shell->line_walker = shell->line_args;
-	//shell->arg_list = shell->arg_list->next;
+	holder_first = shell->arg_list;
  	while (shell->arg_list && shell->size_args > 0)
 	{
-		//copy_tofree = shell->final_line;
-		//shell->command_args[i] = shell->arg_list->content;
-		
 		shell->command_plus_args[i] = shell->arg_list->content;
-/* 		shell->final_line = ft_strjoin_whith_space(ft_strdup(shell->command_plus_args[0]),
-			shell->command_args[i]); */
-		//free(copy_tofree);
 		shell->arg_list = shell->arg_list->next;
 		i++;
 	}
 	shell->command_plus_args[i] = NULL;
-	shell->arg_list = printer;
+	shell->arg_list = holder_first;
 	return (0);
 }
 

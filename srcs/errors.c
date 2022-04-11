@@ -3,41 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/14 10:10:59 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/09 18:17:17 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void command_error(void)
+void command_error(char *command)
 {
-	ft_putstr_fdnl(RED"Minishell: Command not found "RESET, 2);
+	write(2, RED"minishell: ", 18);
+	write(2, command, ft_strlen(command));
+	write(2, ": command not found\n"RESET, 24);
+}
+
+int	syntax_error(void)
+{
+	ft_putstr_fdnl(RED"syntax error in command line"RESET, 2);
+	return (1);
 }
 
 int	error_system_pwd(void)
 {
-	ft_putstr_fdnl(RED"Error getting current work directory"RESET, 2);
+	ft_putstr_fdnl(RED"error getting current work directory"RESET, 2);
 	return (1);
 }
 
 int	error_number_args(void)
 {
-	ft_putstr_fdnl(RED"Error number of arguments invalid"RESET, 2);
+	ft_putstr_fdnl(RED"error number of arguments invalid"RESET, 2);
 	return (1);
 }
 
 int	error_wrong_path(void)
 {
-	ft_putstr_fdnl(RED"Error path incorrect"RESET, 2);
+	ft_putstr_fdnl(RED"error path incorrect"RESET, 2);
 	return (1);
 }
 
 int	error_too_many_args(void)
 {
-	ft_putstr_fdnl(RED"Error too many arguments"RESET, 2);
+	ft_putstr_fdnl(RED"error too many arguments"RESET, 2);
 	return(1);
 }
 

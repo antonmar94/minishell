@@ -144,6 +144,7 @@ int		add_command(t_shell *shell);
 
 
 //int		argument_list_creator(t_shell *shell);
+char	check_allquotes(char *line_walker);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
 int 	find_command(t_shell *shell);
@@ -177,8 +178,9 @@ void	all_clear(t_arglist **arg_lst);
 
 
 /*----------------------- ERRORS ---------------------------------------------*/
+int		syntax_error(void);
 int		error_system_pwd(void);
-void	command_error();
+void	command_error(char *error);
 int		error_number_args(void);
 int		error_wrong_path(void);
 int		error_too_many_args(void);
