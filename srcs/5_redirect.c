@@ -6,17 +6,17 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/28 19:37:32 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/11 13:56:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void do_redirect(char *buff)
+void redirect(char *look_for_redirect)
 {
 	int redirect_flag = 0;
 	char *redirect_file = NULL;
-	char *ptr = buff;
+	char *ptr = look_for_redirect;
 	int fd;
 
 	while(*ptr != '\0')
@@ -48,12 +48,18 @@ void do_redirect(char *buff)
 	if(redirect_flag == 1)
 	{
 		fd = open(redirect_file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-		dup2(fd, 1);
+		if(fd == -1)
+    		fd_error();
+		dup2(fd, 1);//NEW  1 dup te dice que se escriba aqui lo que necesite.
+		// Hay que cerrar todos los ficheros// ojo que se duplican al haceer pipes y forks
+		//Se cierran todos close!!
 	}
 	else if(redirect_flag == 2)
 	{
 		fd = open(redirect_file, O_WRONLY|O_CREAT|O_APPEND, 0664);
-		dup2(fd, 1);
+		if(fd == -1)
+    		fd_error();
+		dup2(fd, 1);//APPEND
 	}
 }
 

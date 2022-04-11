@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/04/11 10:47:58 by albzamor         ###   ########.fr       */
-=======
-/*   Updated: 2022/04/09 18:46:49 by antonmar         ###   ########.fr       */
->>>>>>> antoniofromalb
+/*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
+/*   Updated: 2022/04/11 13:57:33 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +103,12 @@ int	main(int argc, char **argv, char** envp)
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
+
+
+		//PROBAR REDIRECCION
+		//redirect(shell->line); //PARA PROBAR QUE DETECTA LA REDIRECCIÖN y crea EL ARCHIVO
+		//exit(0);
+
 		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
@@ -147,6 +149,7 @@ int	main(int argc, char **argv, char** envp)
 			shell->line_walker++;
 			add_command(shell);
 			split_arguments(shell);
+			
 			if(!find_command(shell))
 				if(!system_commmand(shell, envp))
 				{

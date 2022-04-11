@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2_evaluate_commands.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
+/*   Updated: 2022/04/11 13:31:36 by albzamor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
 
 int find_command(t_shell *shell)
@@ -55,11 +68,6 @@ int system_commmand(t_shell *shell, char **envp)
 		return (0);
 	if(pid == 0)
 	{
-<<<<<<< HEAD
-		//printf("\narg1: %s\n",  shell->command_plus_args[1]);
-		ex_res = execve (ft_strjoin("/bin/", shell->command), shell->command_plus_args, envp);
-		ex_res = execve (ft_strjoin("/usr/bin/", shell->command), shell->command_plus_args, envp);
-=======
 		env_aux = *envp;
 		while (ft_strncmp(env_aux, "PATH", 4))
 			env_aux++;
@@ -67,11 +75,11 @@ int system_commmand(t_shell *shell, char **envp)
 		paths_list = ft_split(env_aux, ':');
 		while (*paths_list)
 		{
+			//redirect(shell->final_line);
 			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
 				shell->command), shell->command_plus_args, envp);
 			paths_list++;
 		}
->>>>>>> antoniofromalb
 		if(ex_res)
 			return (0);
 	}

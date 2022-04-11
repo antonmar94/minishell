@@ -76,6 +76,7 @@ typedef struct s_aux_pointer
 }	t_aux_pointer;
 
 
+
 typedef struct s_shell
 {
 	char 			*line;
@@ -97,7 +98,11 @@ typedef struct s_shell
 	t_env_list		*env_list;
 	t_fake_arg_list *fake_arg_list;//Borrar sólo para desarrollo $
 	t_aux_pointer 	*aux_pointer;
+
 }	t_shell;
+
+
+
 
 /*----------------------- header ---------------------------------------------*/
 void	wellcome_header(t_shell *shell);
@@ -185,6 +190,7 @@ int		error_number_args(void);
 int		error_wrong_path(void);
 int		error_too_many_args(void);
 int		error_not_numeric(void);
+int		fd_error(void);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 
@@ -222,5 +228,9 @@ t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);
 t_fake_arg_list	*fake_args_list_new(char* env_var);
 void			fake_args_add_back(t_fake_arg_list **env_list, t_fake_arg_list *new);
 
+
+/*----------------------- REDIR------------------------------------------*/
+
+void redirect(char *buff);
 
 #endif
