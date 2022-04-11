@@ -62,3 +62,9 @@ echo -nnnnnn hola
 echo -nnnnnncaca hola
 echo "-""nnnnnnn" hola
 exit
+make
+ls
+rm gola
+rm -rf gola
+cg vb
+exit

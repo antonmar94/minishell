@@ -61,6 +61,7 @@ int system_commmand(t_shell *shell, char **envp)
 	{
 		//printf("\narg1: %s\n",  shell->command_plus_args[1]);
 		ex_res = execve (ft_strjoin("/bin/", shell->command), shell->command_plus_args, envp);
+		ex_res = execve (ft_strjoin("/usr/bin/", shell->command), shell->command_plus_args, envp);
 		if(ex_res)
 			return (0);
 	}
