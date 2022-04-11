@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/08 20:58:43 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/11 10:47:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char** envp)
 	//char *changed_dollar;
 	(void)argv;
 	t_shell *shell;
+	//char *env_list[] = { "HOME=/root", "PATH=/bin:/sbin", "/bin/",  NULL };
 
 	//atexit(leaks);
 	//signal(SIGINT, sigint_handler);
@@ -32,7 +33,6 @@ int	main(int argc, char **argv, char** envp)
 		error_too_many_args();
 		exit(0);
 	}
-
 	shell = initialice(envp);
 	wellcome_header(shell);
 	//print_env_list(shell->env_list);
@@ -40,13 +40,17 @@ int	main(int argc, char **argv, char** envp)
 	//print_env_list(shell->env_list);
 	//wellcome_header(shell);
 	//read_history(NULL);
+	//int i = 0;
 	while(!shell->exit)
 	{
-		//add_command(shell);
-		while (add_command(shell))
-			command_error();
+		add_command(shell);
+		//while (add_command(shell))
+		//	command_error();
 		split_arguments(shell);
-		find_command(shell);
+		if(!find_command(shell))
+			if(!system_commmand(shell, envp))
+				command_error();
+	
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 		if(shell->aux_pointer->final_str)
 			new_free(&shell->aux_pointer->final_str);

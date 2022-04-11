@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/11 20:15:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/03/21 20:15:56 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	nocontent_runaway(t_aux_pointer *pointer)
 	pointer->shell_line_walker+=pointer->size_arg;
 }
 
-/* Utiliza shell->line_args que no tiene comando y cambia $ por contenido*/
+/* Utiliza shell->command_args que no tiene comando y cambia $ por contenido*/
 char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
 	shell->aux_pointer->origin_line_arg = str_to_change_dollar;

@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <signal.h>
 # include <termios.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
@@ -83,6 +84,7 @@ typedef struct s_shell
 	char			*command_flag;
 	char			**command_args;
 	char			**command_plus_args;
+	char			*final_line;
 	int				size_line;
 	char			*line_walker;
 	int				size_args;
@@ -128,7 +130,7 @@ int 		change_var_content(t_shell *shell, char *var_name_to_find,
 int del_var_node_coincident(t_shell *shell, char *var_name_to_find);
 
 
-
+int do_exec(char *buff, t_shell *shell);
 
 void	clear_console(void);
 
@@ -144,7 +146,8 @@ int		add_command(t_shell *shell);
 //int		argument_list_creator(t_shell *shell);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
-void 	find_command(t_shell *shell);
+int 	find_command(t_shell *shell);
+int		system_commmand(t_shell *shell, char **envp);
 void	execute_command(t_shell *shell, int i);
 void	free_and_reset_values(t_shell *shell);
 
