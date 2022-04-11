@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/03/16 20:45:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/11 10:33:06 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,7 @@ int	get_size_splitted_part(t_shell *shell, char quotes)
 
 char	*get_command_part(t_shell *shell)
 {
+	int		size_command;
 	char	*start_command;
 	char	*command;
 	char	quotes;
@@ -241,17 +242,17 @@ char	*get_command_part(t_shell *shell)
 
 	quotes = jump_quotes(shell);
 	start_command = shell->line_walker;
-	command = ft_substr(start_command, 0,
-			get_size_splitted_part(shell, quotes));
-	quotes = jump_quotes(shell);
+	size_command = get_size_splitted_part(shell, quotes);
+	command = ft_substr(start_command, 0, size_command);
 	while (*shell->line_walker && *shell->line_walker != ' ')
 	{
+		size_command = 0;
 		start_command = shell->line_walker;
-		start_command = ft_substr(start_command, 0,
-				get_size_splitted_part(shell, quotes));
+		quotes = jump_quotes(shell);
+		size_command = get_size_splitted_part(shell, quotes);
+		start_command = ft_substr(start_command, 0, size_command);
 		free_command = command;
 		command = ft_strjoin(command, start_command);
-		quotes = jump_quotes(shell);
 		free(free_command);
 		free(start_command);
 	}
@@ -285,8 +286,54 @@ int	check_flag(t_shell *shell)
 	shell->line_walker = no_flag;
 	return (0);
 }
+/* FUNCION DE COMPROBACIÓN DE COMILLAS SIN CERRAR
+int check_correct_quotes(char *line)
+{
+    char    *line_aux;
+    char    *line_back;
+    char    quotes;
+    int     num_slash;
 
-int	start_command(t_shell *shell)
+    line_aux = line;
+    while (*line_aux)
+    {
+        num_slash = 0;
+        quotes = jump_flag_quotes(line_aux);
+        if (check_allquotes(line_aux) && size_quotes_arg(line_aux, *line_aux) == 0)
+            line_aux++;
+        else if (quotes)
+        {
+            line_back = line_aux;
+            line_back--;
+            while (*line_back && *line_back == '\\')
+            {
+                line_back--;
+                num_slash++;
+            }
+            if (num_slash % 2 == 1)
+                return (0);
+            line_aux++;
+            while (*line_aux != quotes)
+                line_aux++;
+        }
+        else if (!quotes && (*line_aux == '\"' || *line_aux == '\''))
+        {
+            line_back = line_aux;
+            line_back--;
+            while (*line_back && *line_back == '\\')
+            {
+                line_back--;
+                num_slash++;
+            }
+            if (num_slash % 2 == 0)
+                return (0);
+        }
+        line_aux++;
+    }
+    return (1);
+}
+*/
+void	start_command(t_shell *shell)
 {
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
@@ -315,12 +362,11 @@ int	add_command(t_shell *shell)
 		return (-1);
 	shell->line_walker = aux;
 	shell->command = get_command_part(shell);
-	//printf("COMAND %s\n", shell->command);
-	while (i < shell->size_c
+	/*while (i < shell->size_c  QUITAR PARA QUE FUNCIONE CON LO DE HOY, ECNONTRAR MANERA DE QUE FUNCIONE
 		&& ft_strcmp(shell->command, shell->list_commands[i]))
 		i++;
-	if (i >= shell->size_c)
-		return (-1);
+		if (i >= shell->size_c)
+		return (-1); */
 	if (!ft_strcmp(shell->list_commands[i], "echo"))
 		check_flag(shell);
 	while (*shell->line_walker && *shell->line_walker == ' ')
@@ -361,7 +407,7 @@ int	get_size_splitted_argpart(t_shell *shell, char quotes)
 	else
 	{
 		while (*shell->line_walker && *shell->line_walker != ' '
-			&& !jump_flag_quotes(shell->line_walker))
+			&& !check_allquotes(shell->line_walker))
 		{
 			shell->line_walker++;
 			size_command++;
