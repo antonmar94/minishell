@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/09 11:59:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/09 14:00:57 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int	check_flag(t_shell *shell)
 	return (0);
 }
 
-void	start_command(t_shell *shell)
+/* void	start_command(t_shell *shell)
 {
 	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 	if (shell->line && *shell->line)
@@ -196,7 +196,7 @@ void	start_command(t_shell *shell)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
-}
+} */
 
 int	add_command(t_shell *shell)
 {
@@ -204,7 +204,7 @@ int	add_command(t_shell *shell)
 	int			i;
 
 	i = 0;
-	start_command(shell);
+	//start_command(shell);
 	aux = shell->line_walker;
 	if (!jump_quotes(shell)
 		&& (!*shell->line_walker || *shell->line_walker == ' '))
@@ -335,21 +335,19 @@ int	argument_list_creator(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	t_arglist	*printer;
+	t_arglist	*holder_first;
 	int			i;
 
 	i = 0;
-	printer = NULL;
 	shell->size_args = 0;
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	shell->command_args = malloc(sizeof(char *) * shell->size_args +1);
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_plus_args[0] = shell->command;
 	i++;
-	printer = shell->arg_list;
+	holder_first = shell->arg_list;
  	while (shell->arg_list && shell->size_args > 0)
 	{
 		shell->command_plus_args[i] = shell->arg_list->content;
@@ -357,7 +355,7 @@ int	split_arguments(t_shell *shell)
 		i++;
 	}
 	shell->command_plus_args[i] = NULL;
-	shell->arg_list = printer;
+	shell->arg_list = holder_first;
 	return (0);
 }
 
