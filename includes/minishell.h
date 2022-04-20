@@ -11,6 +11,9 @@
 # include <readline/history.h>
 # include <dirent.h>
 
+# define READ_END	0
+# define WRITE_END	1
+//# define PIPE_FILE_NAME	"pipe_file.txt"
 # define GRAY	"\033[1;30m"
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
@@ -185,6 +188,7 @@ int		error_number_args(void);
 int		error_wrong_path(void);
 int		error_too_many_args(void);
 int		error_not_numeric(void);
+int		error_child_process(void);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 

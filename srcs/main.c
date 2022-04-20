@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/09 18:46:49 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/20 20:27:58 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,43 @@ int	check_pipe_syntax(char *line)
 	return (0);
 }
 
+void	free_shell(t_shell *shell)
+{
+	if(shell->aux_pointer->final_str)
+		new_free(&shell->aux_pointer->final_str);
+	all_clear(&shell->arg_list);
+	if(shell->line)
+		new_free(&shell->line);
+}
+
+int	execute_line(t_shell *shell, char **envp)
+{
+	shell->line_walker = shell->line;
+	while (*shell->line_walker && *shell->line_walker == ' ')
+		shell->line_walker++;
+	add_command(shell);
+	split_arguments(shell);
+	if (!find_command(shell))
+	{
+		if (!system_commmand(shell, envp))
+			command_error(shell->command);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
-	t_shell *shell;
+	t_shell	*shell;
 	char	*holder_parent;
 	char	*holder_child;
 	int		has_childs;
 	int 	i;
 	int		pid;
 	int		error;
+	int		fd1[2];
+	//int		fd[2];
+	//int 	status;
 
 	i = 0;
 	pid = 1;
@@ -99,10 +126,15 @@ int	main(int argc, char **argv, char** envp)
 	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
 	while(!shell->exit)
 	{
-		//printf("PID QUE BUSCA LA LINEA [%i]\n", pid);
+
+
+		//Se lee la line del stdinput y se añade al historial;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
+
+
+		//Se comprueba la sintaxis en los pipes;
 		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
@@ -112,58 +144,118 @@ int	main(int argc, char **argv, char** envp)
 			}
 			has_childs = 1;
 		}
+
+		//Se inicializa hold parent que recorre la line parando en cada pipe
 		holder_parent = shell->line;
-		//printf("LINEA DE SHELL ENTRA AL IF [%s]\n", shell->line);
-		while (*holder_parent && has_childs && !error)
+		while (*holder_parent && !error)
 		{
-			//printf("HOLDER PARENT ENTRA AL BUCLE [%s]\n", holder_parent);
-			holder_child = holder_parent;
+			while (holder_parent[i] && holder_parent[i] != '|')
+				i++;
+
+
+
+			//Se inicializa hold child que corta el trozo que va a ejecutar cada hijo
+			holder_child = ft_substr(holder_parent, 0, i);
+			printf("La linea del hijo [%s]\n", holder_child);
+			pipe(fd1);
+			pid = fork();
+			if (pid < 0)
+			{
+				error_child_process();
+				error = 1;
+			}
+			if(pid == 0)
+			{
+				shell->line = holder_child;
+				execute_line(shell, envp);
+			}
+			waitpid(pid, NULL, 0);
+			holder_parent = pipe_next_line(holder_parent);
+		}
+		
+		
+		//Se crean tantos hijos como comandos haya que ejecutar;
+
+		/*if (*shell->line)
+			holder_parent = shell->line;
+		if (*holder_parent && has_childs && !error) //controlar donde termina y demás mierdas
+		{
+			while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el primer hijo)
+				i++;
+			holder_child = ft_substr(holder_parent, 0, i);
+			printf("el substr del padre antes de crear el primer hijo [%s]\n", holder_child);
+			holder_parent = pipe_next_line(holder_parent);
+			pipe(fd);
 			pid = fork();
 			if (pid == 0)
 			{
-				while (holder_child[i] && holder_child[i] != '|')
-					i++;
-				holder_child = ft_substr(holder_child, 0, i);
-				shell->line = holder_child;
+				close(fd[READ_END]);
+				printf("Entra al hijo creado\n");
+				//shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
+				printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
 				has_childs = 0;
-				break ;
+				shell->line = holder_child;
 			}
-			holder_parent = pipe_next_line(holder_parent);
+			else
+			{
+				while (*holder_parent && has_childs)
+				{
+					printf("Sigue el padre con holder parent [%s]\n", holder_parent);
+					while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el segundo hijo)
+						i++;
+					holder_child = ft_substr(holder_parent, 0, i);
+					printf("el substr del padre antes de crear el segundo hijo [%s]\n", holder_child);
+					holder_parent = pipe_next_line(holder_parent);
+					pipe(fd);
+					pid = fork();
+					if (pid == 0)
+					{
+						printf("Entra al segundo hijo creado\n");
+						//printf("Acaba con los ficheros del segundo hijo\n");
+						shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
+						printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
+						has_childs = 0;
+					}
+					else if (*holder_parent)
+					{
+						printf("Sigue el padre con holder parent [%s]\n", holder_parent);
+						while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el segundo hijo)
+							i++;
+						holder_child = ft_substr(holder_parent, 0, i);
+						printf("el substr del padre antes de crear el tercer hijo [%s]\n", holder_child);
+						pid = fork();
+						if (pid == 0)
+						{
+							printf("Entra al tercer hijo creado\n");
+							//printf("Acaba con los ficheros del segundo hijo\n");
+							shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
+							printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
+							has_childs = 0;
+						}
+					}
+					if (pid)
+						holder_parent = pipe_next_line(holder_parent);
+				}
+			}
 		}
-		//printf("PID AL SALIR DEL BUCLE [%i]\n", pid);
 		if (pid)
 			waitpid(pid, NULL, 0);
-		else
-			shell->line = holder_child;
-			//printf("LINEA DE SHELL DE TODO [%s]\n", shell->line);
-		if (!has_childs && !error)
-		{
-			shell->line_walker = shell->line;
-			while (*shell->line_walker && *shell->line_walker == ' ')
-			shell->line_walker++;
-			add_command(shell);
-			split_arguments(shell);
-			if(!find_command(shell))
-				if(!system_commmand(shell, envp))
-				{
-					command_error(shell->command);
-					exit (shell->exit_return);
-				}		
-/* 			if(shell->aux_pointer->final_str)
-				new_free(&shell->aux_pointer->final_str);
-			all_clear(&shell->arg_list); */
-		}
-		if(shell->aux_pointer->final_str)
-			new_free(&shell->aux_pointer->final_str);
-		all_clear(&shell->arg_list);
-		error = 0;
-		if(shell->line)
-		 	free(shell->line);
+		*/
+
+
+
+			
+
+
+
+		free_shell(shell);
 		if (pid == 0)
 			exit (shell->exit_return);
+		has_childs = 0;
 		//free_and_reset_values(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}
+	//Se escribe en el historial al terminar el programa y se libera line_walker
 	write_history(".history_own");
 	free(shell->line_walker);
 	exit (shell->exit_return);

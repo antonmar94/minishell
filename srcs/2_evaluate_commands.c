@@ -46,29 +46,29 @@ void execute_command(t_shell *shell, int i)
 int system_commmand(t_shell *shell, char **envp)
 {
 	int ex_res;
-	int pid;
+	//int pid;
 	char	*env_aux;
 	char	**paths_list;
 
-	pid = fork();
+/* 	pid = fork();
 	if (pid < 0)
 		return (0);
 	if(pid == 0)
+	{ */
+	env_aux = *envp;
+	while (ft_strncmp(env_aux, "PATH", 4))
+		env_aux++;
+	env_aux += 5;
+	paths_list = ft_split(env_aux, ':');
+	while (*paths_list)
 	{
-		env_aux = *envp;
-		while (ft_strncmp(env_aux, "PATH", 4))
-			env_aux++;
-		env_aux += 5;
-		paths_list = ft_split(env_aux, ':');
-		while (*paths_list)
-		{
-			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
-				shell->command), shell->command_plus_args, envp);
-			paths_list++;
-		}
-		if(ex_res)
-			return (0);
+		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
+			shell->command), shell->command_plus_args, envp);
+		paths_list++;
 	}
-	waitpid(pid, NULL, 0);
+	if(ex_res)
+		return (0);
+/* 	}
+	waitpid(pid, NULL, 0); */
 	return (1);
 }

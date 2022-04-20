@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/09 18:17:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/20 20:12:12 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ int	syntax_error(void)
 int	error_system_pwd(void)
 {
 	ft_putstr_fdnl(RED"error getting current work directory"RESET, 2);
+	return (1);
+}
+
+int	error_child_process(void)
+{
+	ft_putstr_fdnl(RED"error cannot create child process"RESET, 2);
 	return (1);
 }
 
