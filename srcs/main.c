@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/20 20:27:58 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:10:56 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,20 @@ int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
-	char	*holder_parent;
-	char	*holder_child;
+	//char	*holder_parent;
+	//char	*holder_child;
 	int		has_childs;
 	int 	i;
 	int		pid;
 	int		error;
-	int		fd1[2];
-	//int		fd[2];
+	//int		fd1[2];
+	int		is_first;
+	//int		fd2[2];
 	//int 	status;
 
 	i = 0;
 	pid = 1;
+	is_first = 1;
 	has_childs = 0;
 	error = 0;
 	if (argc != 1)
@@ -146,18 +148,36 @@ int	main(int argc, char **argv, char** envp)
 		}
 
 		//Se inicializa hold parent que recorre la line parando en cada pipe
-		holder_parent = shell->line;
-		while (*holder_parent && !error)
+		//holder_parent = shell->line;
+		/*while (*holder_parent && !error)
 		{
+			//printf("La linea del padre al iniciar el bucle [%s]\n", holder_parent);
 			while (holder_parent[i] && holder_parent[i] != '|')
-				i++;
+				i++;*/
 
 
 
 			//Se inicializa hold child que corta el trozo que va a ejecutar cada hijo
-			holder_child = ft_substr(holder_parent, 0, i);
-			printf("La linea del hijo [%s]\n", holder_child);
-			pipe(fd1);
+
+			//pipe(fd1); //SOLO SE DEBEN CREAR LOS PIPES SI LAS PARTES DE WRITE AND READ ESTAN CERRADAS
+
+			
+			//Si es el primer pipe, se cierra la lectura
+/* 			if (is_first)
+			{
+				printf("Entra el primero con linea a cortar [%s]\n", holder_parent);
+				close(fd1[READ_END]);
+			}
+			 */
+			//holder_child = ft_substr(holder_parent, 0, i);
+			//printf("La linea del hijo [%s]\n", holder_child);
+			
+			//holder_parent = pipe_next_line(holder_parent);
+			//printf("El resto de la linea que sigue el padre [%s]\n", holder_parent);
+
+			//Si es el último pipe, se cierra la escritura
+
+
 			pid = fork();
 			if (pid < 0)
 			{
@@ -166,87 +186,73 @@ int	main(int argc, char **argv, char** envp)
 			}
 			if(pid == 0)
 			{
-				shell->line = holder_child;
+				/*shell->line = holder_child;
+				if (!is_first)
+				{
+					printf("Entra uno que no es el primero en el if[%s]\n", shell->line);
+					dup2(fd1[READ_END], STDIN_FILENO);
+					close(fd1[READ_END]);
+					printf("Lee uno que no es el primero en el if\n");
+				}
+				if (*holder_parent)
+				{
+					printf("Entra uno que no es el último al if [%s]\n", shell->line);
+					dup2(fd1[WRITE_END], STDOUT_FILENO);
+					printf("Escribe uno que no es el último en el if\n");
+					close(fd1[WRITE_END]);
+					printf("cierra uno que no es el último en el if\n");
+				}
+				printf("VA A EJECUTAR en el if\n");
 				execute_line(shell, envp);
 			}
-			waitpid(pid, NULL, 0);
-			holder_parent = pipe_next_line(holder_parent);
-		}
-		
-		
-		//Se crean tantos hijos como comandos haya que ejecutar;
-
-		/*if (*shell->line)
-			holder_parent = shell->line;
-		if (*holder_parent && has_childs && !error) //controlar donde termina y demás mierdas
-		{
-			while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el primer hijo)
-				i++;
-			holder_child = ft_substr(holder_parent, 0, i);
-			printf("el substr del padre antes de crear el primer hijo [%s]\n", holder_child);
-			holder_parent = pipe_next_line(holder_parent);
-			pipe(fd);
-			pid = fork();
-			if (pid == 0)
+			else 
 			{
-				close(fd[READ_END]);
-				printf("Entra al hijo creado\n");
-				//shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
-				printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
-				has_childs = 0;
-				shell->line = holder_child;
-			}
-			else
-			{
-				while (*holder_parent && has_childs)
+				waitpid(pid, NULL, 0);
+				holder_parent = pipe_next_line(holder_parent);
+				printf("Entra alguno al else con llinea a cortar[%s]\n", holder_parent);
+				while (holder_parent[i] && holder_parent[i] != '|')
+					i++;
+				holder_child = ft_substr(holder_parent, 0, i);
+				printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
+				holder_parent = pipe_next_line(holder_parent);
+				if (!*holder_parent)
 				{
-					printf("Sigue el padre con holder parent [%s]\n", holder_parent);
-					while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el segundo hijo)
-						i++;
-					holder_child = ft_substr(holder_parent, 0, i);
-					printf("el substr del padre antes de crear el segundo hijo [%s]\n", holder_child);
-					holder_parent = pipe_next_line(holder_parent);
-					pipe(fd);
-					pid = fork();
-					if (pid == 0)
-					{
-						printf("Entra al segundo hijo creado\n");
-						//printf("Acaba con los ficheros del segundo hijo\n");
-						shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
-						printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
-						has_childs = 0;
-					}
-					else if (*holder_parent)
-					{
-						printf("Sigue el padre con holder parent [%s]\n", holder_parent);
-						while (holder_parent[i] && holder_parent[i] != '|') //parte un trozo hasta que acaba o hasta el pipe (sería el segundo hijo)
-							i++;
-						holder_child = ft_substr(holder_parent, 0, i);
-						printf("el substr del padre antes de crear el tercer hijo [%s]\n", holder_child);
-						pid = fork();
-						if (pid == 0)
-						{
-							printf("Entra al tercer hijo creado\n");
-							//printf("Acaba con los ficheros del segundo hijo\n");
-							shell->line = holder_child; //le asigna ese trozo al line de el primer hijo creado
-							printf("Acaba con los ficheros, su linea es [%s]\n", shell->line);
-							has_childs = 0;
-						}
-					}
-					if (pid)
-						holder_parent = pipe_next_line(holder_parent);
+					printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
+					close(fd1[WRITE_END]);
 				}
-			}
+				is_first = 0;
+				pid = fork();
+				if (pid < 0)
+				{
+					error_child_process();
+					error = 1;
+				}
+				shell->line = holder_child;
+				if (!is_first)
+				{
+					printf("Entra uno que no es el primero en el else[%s]\n", shell->line);
+					dup2(fd1[READ_END], STDIN_FILENO);
+					close(fd1[READ_END]);
+					printf("Lee uno que no es el primero en el else\n");
+				} 
+				if (*holder_parent)
+				{
+					printf("Entra uno que no es el último en el else[%s]\n", shell->line);
+					dup2(fd1[WRITE_END], STDOUT_FILENO);
+					printf("Escribe uno que no es el último en el else\n");
+					close(fd1[WRITE_END]);
+					printf("cierra uno que no es el último en el else\n");
+				}
+				printf("VA A EJECUTAR en el else\n");
+				execute_line(shell, envp);	
+			}*/
+			execute_line(shell, envp);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
-		*/
-
 
 
 			
-
-
 
 		free_shell(shell);
 		if (pid == 0)
