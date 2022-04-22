@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/22 23:08:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/23 00:38:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void eval_exit(t_shell	*shell)
 	add_command(shell);
 	split_arguments(shell);
 
-	//printf("\nprimero%s\n", shell->arg_list->content);
+
 	if(!ft_strcmp(shell->command, "exit"))
 	{
 		exit_minishell(shell);
@@ -138,9 +138,6 @@ void eval_exit(t_shell	*shell)
 		shell->command = NULL;
 		del_list(shell);
 		free(shell->arg_list);
-		printf("\nlinew:[%s]\n", shell->line_walker);
-
-
 }
 
 int	main(int argc, char **argv, char** envp)
@@ -169,7 +166,6 @@ int	main(int argc, char **argv, char** envp)
 		exit(0);
 	}
 	shell = initialice(envp);
-	printf("\nquepasa HEADER\n");
 	//wellcome_header(shell);
 	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
 	while(!shell->exit)
@@ -293,7 +289,8 @@ int	main(int argc, char **argv, char** envp)
 				printf("VA A EJECUTAR en el else\n");
 				execute_line(shell, envp);	
 			}*/
-			execute_line(shell, envp);
+			//execute_line(shell, envp);
+			do_redirect(shell, envp);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
@@ -313,9 +310,6 @@ int	main(int argc, char **argv, char** envp)
 	free(shell->line_walker);
 	exit (shell->exit_return);
 }
-
-
-
 
 void	free_all(t_shell *shell)
 {
@@ -339,7 +333,6 @@ void	free_all(t_shell *shell)
 		free(shell);
 		shell=NULL;
 	}
-
 
 }
 

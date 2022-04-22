@@ -100,7 +100,11 @@ typedef struct s_shell
 	t_env_list		*env_list;
 	t_fake_arg_list *fake_arg_list;//Borrar sólo para desarrollo $
 	t_aux_pointer 	*aux_pointer;
+	char *redirect_input;
+	char *redirect_output;
+	char *redirect_error;
 }	t_shell;
+
 
 /*----------------------- header ---------------------------------------------*/
 void	wellcome_header(t_shell *shell);
@@ -167,6 +171,9 @@ char	check_allquotes(char *line_walker);
 int		size_quotes_arg(char *line_walker, char quotes);
 int		count_quotes(t_shell *shell);
 char 	*del_quotes(char *str_to_del_quotes);
+
+int	execute_line(t_shell *shell, char **envp);
+void do_redirect(t_shell *shell, char **envp);
 
 /*----------------------- list_commands --------------------------------------*/
 
