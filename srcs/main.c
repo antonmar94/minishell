@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/22 20:51:02 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:59:19 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	del_list(t_shell	*shell)
 		}
 		copy = copy->next;	
 	}
+	shell->arg_list = copy;
 }
 
 void eval_exit(t_shell	*shell)
@@ -137,9 +138,9 @@ void eval_exit(t_shell	*shell)
 		shell->command = NULL;
 		del_list(shell);
 		free(shell->arg_list);
-		shell->line = copy_line;
-		shell->line_walker = copy_line;
-		//printf("\nprimero%s\n", shell->arg_list->content);
+		printf("\nlinew:[%s]\n", shell->line_walker);
+
+
 }
 
 int	main(int argc, char **argv, char** envp)
@@ -178,7 +179,7 @@ int	main(int argc, char **argv, char** envp)
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
-		//eval_exit(shell);
+		eval_exit(shell);
 		//printf("\ninea:%s linewalker:%sP\n", shell->line, shell->line_walker);
 		//printf("\nprimero%s\n", shell->arg_list->content);
 		//Se comprueba la sintaxis en los pipes;

@@ -129,6 +129,7 @@ int echo(t_shell *shell)
 {
 	t_arglist *copy;
 
+	//printf("\nprimer:[%s]\n", shell->arg_list->next->content);
 	copy = shell->arg_list;
 	while (copy)
 	{
