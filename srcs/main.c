@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/11 13:57:33 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:00:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,8 @@ int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell *shell;
-	char	*holder_parent;
-	char	*holder_child;
-	int		has_childs;
-	int 	i;
-	int		pid;
-	int		error;
 
-	i = 0;
-	pid = 1;
-	has_childs = 0;
-	error = 0;
+
 	if (argc != 1)
 	{
 		error_too_many_args();
@@ -106,77 +97,16 @@ int	main(int argc, char **argv, char** envp)
 
 
 		//PROBAR REDIRECCION
-		//redirect(shell->line); //PARA PROBAR QUE DETECTA LA REDIRECCIÖN y crea EL ARCHIVO
+		redirect(shell->line); //PARA PROBAR QUE DETECTA LA REDIRECCIÖN y crea EL ARCHIVO
 		//exit(0);
 
-		if (*pipe_next_line(shell->line))
-		{
-			if (check_pipe_syntax(shell->line))
-			{
-				syntax_error();
-				error = 1;
-			}
-			has_childs = 1;
-		}
-		holder_parent = shell->line;
-		//printf("LINEA DE SHELL ENTRA AL IF [%s]\n", shell->line);
-		while (*holder_parent && has_childs && !error)
-		{
-			//printf("HOLDER PARENT ENTRA AL BUCLE [%s]\n", holder_parent);
-			holder_child = holder_parent;
-			pid = fork();
-			if (pid == 0)
-			{
-				while (holder_child[i] && holder_child[i] != '|')
-					i++;
-				holder_child = ft_substr(holder_child, 0, i);
-				shell->line = holder_child;
-				has_childs = 0;
-				break ;
-			}
-			holder_parent = pipe_next_line(holder_parent);
-		}
-		//printf("PID AL SALIR DEL BUCLE [%i]\n", pid);
-		if (pid)
-			waitpid(pid, NULL, 0);
-		else
-			shell->line = holder_child;
-			//printf("LINEA DE SHELL DE TODO [%s]\n", shell->line);
-		if (!has_childs && !error)
-		{
-			shell->line_walker = shell->line;
-			while (*shell->line_walker && *shell->line_walker == ' ')
-			shell->line_walker++;
-			add_command(shell);
-			split_arguments(shell);
-			
-			if(!find_command(shell))
-				if(!system_commmand(shell, envp))
-				{
-					command_error(shell->command);
-					exit (shell->exit_return);
-				}		
-/* 			if(shell->aux_pointer->final_str)
-				new_free(&shell->aux_pointer->final_str);
-			all_clear(&shell->arg_list); */
-		}
-		if(shell->aux_pointer->final_str)
-			new_free(&shell->aux_pointer->final_str);
-		all_clear(&shell->arg_list);
-		error = 0;
-		if(shell->line)
-		 	free(shell->line);
-		if (pid == 0)
-			exit (shell->exit_return);
-		//free_and_reset_values(shell);
-		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-	}
+		
 	write_history(".history_own");
 	free(shell->line_walker);
-	exit (shell->exit_return);
+	//exit (shell->exit_return);
 }
 
-
+}
 
 
 void	free_all(t_shell *shell)

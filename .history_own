@@ -68,3 +68,6 @@ rm gola
 rm -rf gola
 cg vb
 exit
+echo hola
+./minishell
+echo hola
