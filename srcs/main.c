@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/22 19:10:56 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:51:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,56 @@ int	execute_line(t_shell *shell, char **envp)
 		shell->line_walker++;
 	add_command(shell);
 	split_arguments(shell);
+	//printf("\nprimeroant:[%s]\n", shell->arg_list->content);
 	if (!find_command(shell))
 	{
 		if (!system_commmand(shell, envp))
 			command_error(shell->command);
 	}
 	return (0);
+}
+
+void	del_list(t_shell	*shell)
+{
+	t_arglist *copy;
+	copy = shell->arg_list;
+	while (copy)
+	{
+		if(copy->content)
+		{
+			free(copy->content);
+			copy->content = NULL;
+		}
+		copy = copy->next;	
+	}
+}
+
+void eval_exit(t_shell	*shell)
+{
+	char *copy_line;
+	shell->line_walker = shell->line;
+	copy_line = shell->line;
+
+	while (*shell->line_walker && *shell->line_walker == ' ')
+		shell->line_walker++;
+
+	add_command(shell);
+	split_arguments(shell);
+
+	//printf("\nprimero%s\n", shell->arg_list->content);
+	if(!ft_strcmp(shell->command, "exit"))
+	{
+		exit_minishell(shell);
+		del_list(shell);
+		exit(0);
+	}
+		free(shell->command);
+		shell->command = NULL;
+		del_list(shell);
+		free(shell->arg_list);
+		shell->line = copy_line;
+		shell->line_walker = copy_line;
+		//printf("\nprimero%s\n", shell->arg_list->content);
 }
 
 int	main(int argc, char **argv, char** envp)
@@ -134,8 +178,9 @@ int	main(int argc, char **argv, char** envp)
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
-
-
+		//eval_exit(shell);
+		//printf("\ninea:%s linewalker:%sP\n", shell->line, shell->line_walker);
+		//printf("\nprimero%s\n", shell->arg_list->content);
 		//Se comprueba la sintaxis en los pipes;
 		if (*pipe_next_line(shell->line))
 		{
@@ -178,14 +223,14 @@ int	main(int argc, char **argv, char** envp)
 			//Si es el último pipe, se cierra la escritura
 
 
-			pid = fork();
-			if (pid < 0)
-			{
-				error_child_process();
-				error = 1;
-			}
-			if(pid == 0)
-			{
+		pid = fork();
+		if (pid < 0)
+		{
+				//error_child_process();
+			error = 1;
+		}
+		if(pid == 0)
+		{
 				/*shell->line = holder_child;
 				if (!is_first)
 				{

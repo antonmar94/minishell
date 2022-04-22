@@ -49,7 +49,7 @@ void exit_minishell(t_shell *shell)
 	if (!*shell->arg_list->content)
 	{
 		shell->exit_return = 0;
-		print_header(shell, "thanks for using ");
+		print_header(shell, "thanks for using");
 		shell->exit = 1;
 	}
 	if (shell->arg_list && *shell->arg_list->content)
