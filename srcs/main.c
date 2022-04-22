@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/22 21:59:19 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/22 23:08:36 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ int	main(int argc, char **argv, char** envp)
 		exit(0);
 	}
 	shell = initialice(envp);
-	wellcome_header(shell);
+	printf("\nquepasa HEADER\n");
+	//wellcome_header(shell);
 	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
 	while(!shell->exit)
 	{
