@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/22 21:57:05 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/23 00:33:53 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int	main(int argc, char **argv, char** envp)
 			while (holder_parent[i] && holder_parent[i] != '|')
 				i++;
 			holder_child = ft_substr(holder_parent, 0, i);
-
+			i = 0;
 
 /* 			if (is_first)
 			{
@@ -182,7 +182,8 @@ int	main(int argc, char **argv, char** envp)
 			//printf("El resto de la linea que sigue el padre [%s]\n", holder_parent);
 
 			//Si es el último pipe, se cierra la escritura
-
+			if (is_first)
+				close(fd1[READ_END]);
 			holder_parent = pipe_next_line(holder_parent);
 			pid = fork();
 			if (pid < 0)
@@ -200,26 +201,29 @@ int	main(int argc, char **argv, char** envp)
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
 					close(fd1[WRITE_END]);
 				}
-				if (!is_first)
+				else
 				{
+					printf("Entra uno que no es el primero en el else[%s]\n", shell->line);
 					close(fd1[WRITE_END]);
 					dup2(fd1[READ_END], STDIN_FILENO);
 					close(fd1[READ_END]);
 				}
-				//printf("VA A EJECUTAR en el else\n");
 				execute_line(shell, envp);
 			}
 			else if (*holder_parent)
 			{
+				//holder_parent = pipe_next_line(holder_parent);
 				//printf("Entra alguno con linea a cortar al else [%s]\n", holder_parent);
 				while (holder_parent[i] && holder_parent[i] != '|')
 					i++;
 				holder_child = ft_substr(holder_parent, 0, i);
-				//printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
+				i = 0;
 				holder_parent = pipe_next_line(holder_parent);
-				if (!*holder_parent)
-				{
-					//printf("Entra el ultimo a cerrar el write en el else\n");
+				//printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
+				/* holder_parent = pipe_next_line(holder_parent); */
+  	 			if (!*holder_parent)
+				{ 
+					printf("Entra a cerrar el write en el else\n");
 					close(fd1[WRITE_END]);
 				}
 				pid = fork();
@@ -230,24 +234,34 @@ int	main(int argc, char **argv, char** envp)
 				}
 				if (pid == 0)
 				{
-					if (*holder_parent)
+					shell->line = holder_child;
+  					if (*holder_parent)
 					{
 						close(fd1[READ_END]);
-						printf("Entra uno que no es el último en el else[%s]\n", shell->line);
+						printf("Entra uno que no es el último en el if del else if[%s]\n", shell->line);
 						dup2(fd1[WRITE_END], STDOUT_FILENO);
-						printf("Escribe uno que no es el último en el else\n");
+						printf("Escribe uno que no es el último en el if del else if\n");
 						close(fd1[WRITE_END]);
-						printf("cierra uno que no es el último en el else\n");
+						printf("cierra uno que no es el último en el if del else if\n");
 					}
-					shell->line = holder_child;
-					//printf("Entra uno que no es el primero en el else[%s]\n", shell->line);
-					dup2(fd1[READ_END], STDIN_FILENO);
-					close(fd1[READ_END]);
-					//printf("Lee uno que no es el primero en el else\n");
+					else
+					{
+						close(fd1[WRITE_END]);
+						dup2(fd1[READ_END], STDIN_FILENO);
+						close(fd1[READ_END]);
+						//printf("Lee uno que no es el primero en el else\n");
+					}
 					execute_line(shell, envp);
 				}
+					
+					//close(fd1[WRITE_END]);
 			}
-			i = 0;
+			if (!*holder_parent)
+			{ 
+					//printf("Entra el ultimo a cerrar el write en el else\n");
+				close(fd1[WRITE_END]);
+			}
+			//close(fd1[WRITE_END]);
 			is_first = 0;	
 		}
 		if (pid)
