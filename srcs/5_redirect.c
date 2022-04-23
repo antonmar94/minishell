@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/23 00:36:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:04:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void do_redirect(t_shell *shell, char **envp)
 		}
 		ptr++;
 	}
+	
+	
+	
+	
 
 	if(redirect_flag == 1)
 	{
@@ -57,6 +61,17 @@ void do_redirect(t_shell *shell, char **envp)
 		dup2(fd, 1);
 		execute_line(shell, envp);
 	}
+	/* else if(redirect_flag == 3)
+	{
+		int aux; // variable auxiliar para redirigir 
+		aux = open (entrada , O_CREAT | O_RDONLY); 
+		if(aux == -1){
+			fprintf( stderr , "%s : Error. %s\n" , entrada , strerror(errno)); // Mostrar error , -1 igual a NULL 
+			return 1;
+		} else { 
+			dup2(aux,fileno(stdin)); // Redirreccion de 0, Entrada estandar 
+		}	
+	}  */
 	else
 		execute_line(shell, envp);
 }
