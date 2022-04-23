@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/11 13:31:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:12:16 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int system_commmand(t_shell *shell, char **envp)
 		paths_list = ft_split(env_aux, ':');
 		while (*paths_list)
 		{
-			//redirect(shell->final_line);
 			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
 				shell->command), shell->command_plus_args, envp);
 			paths_list++;

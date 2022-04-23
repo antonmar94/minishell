@@ -71,3 +71,12 @@ exit
 echo hola
 ./minishell
 echo hola
+ls
+echo hola
+echo hola
+ls
+ls -l
+ls -l
+ls
+exit 23
+ls

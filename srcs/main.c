@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:00:57 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/22 19:00:02 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:14:21 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,12 @@ int	main(int argc, char **argv, char** envp)
 
 
 		//PROBAR REDIRECCION
-		redirect(shell->line); //PARA PROBAR QUE DETECTA LA REDIRECCIÖN y crea EL ARCHIVO
+		shell->line_walker=shell->line;
+		while(*shell->line_walker && *shell->line_walker ==' ')
+			shell->line_walker++;
+		add_command(shell);
+		split_arguments(shell);
+		system_commmand(shell, envp);
 		//exit(0);
 
 		
