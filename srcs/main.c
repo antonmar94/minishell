@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 00:38:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/23 20:02:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int	main(int argc, char **argv, char** envp)
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		eval_exit(shell);
+		do_redirect(shell, envp);
 		//printf("\ninea:%s linewalker:%sP\n", shell->line, shell->line_walker);
 		//printf("\nprimero%s\n", shell->arg_list->content);
 		//Se comprueba la sintaxis en los pipes;
@@ -290,7 +291,8 @@ int	main(int argc, char **argv, char** envp)
 				execute_line(shell, envp);	
 			}*/
 			//execute_line(shell, envp);
-			do_redirect(shell, envp);
+			//do_redirect(shell, envp);
+			exit(0);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
