@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1b_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/09 14:00:57 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/23 21:04:41 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,16 +345,20 @@ int	split_arguments(t_shell *shell)
 	while (argument_list_creator(shell))
 		shell->size_args++;
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
+	shell->command_args = malloc(sizeof(char *) * shell->size_args + 1);
 	shell->command_plus_args[0] = shell->command;
 	i++;
 	holder_first = shell->arg_list;
- 	while (shell->arg_list && shell->size_args > 0)
+ 	while (shell->arg_list->content && shell->size_args > 0)
 	{
 		shell->command_plus_args[i] = shell->arg_list->content;
+		shell->command_args[i-1] = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
+		printf("commandarg [%s]\n",shell->command_args[i-1]);
 		i++;
 	}
 	shell->command_plus_args[i] = NULL;
+	shell->command_args[i-1] = NULL;
 	shell->arg_list = holder_first;
 	return (0);
 }
