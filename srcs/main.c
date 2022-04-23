@@ -6,11 +6,13 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 12:04:10 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/23 22:15:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void	leaks(void)
 {
@@ -100,24 +102,31 @@ int	execute_line(t_shell *shell, char **envp)
 	return (0);
 }
 
+void	doprint(int out, char **str)
+{
+	printf("[OUT %i] |%s|\n", out, *str);
+	free(*str);
+	*str = NULL;
+}
+
 int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
 	char	*holder_parent;
 	char	*holder_child;
-	int		has_childs;
 	int 	i;
 	int		pid;
 	int		error;
 	int		fd1[2];
 	int		is_first;
 	int		fd2[2];
+	char	*contenido;
 	//int 	status;
 
+	contenido =	NULL;
 	i = 0;
 	pid = 1;
-	has_childs = 0;
 	error = 0;
 	if (argc != 1)
 	{
@@ -127,6 +136,7 @@ int	main(int argc, char **argv, char** envp)
 	shell = initialice(envp);
 	wellcome_header(shell);
 	read_history(".history_own");
+	fprintf(stderr, "%i", 42);
 	while(!shell->exit)
 	{
 		is_first = 1;
@@ -140,17 +150,22 @@ int	main(int argc, char **argv, char** envp)
 				syntax_error();
 				error = 1;
 			}
-			has_childs = 1;
 		}
 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
+			//printf("HOLDER PARENT [%s]\n", holder_parent);
 			while (holder_parent[i] && holder_parent[i] != '|')
 				i++;
 			holder_child = ft_substr(holder_parent, 0, i);
 			i = 0;
 			holder_parent = pipe_next_line(holder_parent);
+
+			
+			//printf("HOLDER CHILD [%s]\n", holder_child);
+
 			pipe(fd1);
+			
 			pid = fork();
 			if (pid < 0)
 			{
@@ -163,16 +178,23 @@ int	main(int argc, char **argv, char** envp)
 				shell->line = holder_child;
  				if (!is_first)
 				{
+					//printf("ENTRA AQUI WC [%s]\n", holder_child);
+					close(fd2[WRITE_END]);
 					dup2(fd2[READ_END], STDIN_FILENO);
 					close(fd2[READ_END]);
 				}
 				if (*holder_parent)
 				{
+					//printf("ENTRA AQUIII [%s]\n", holder_child);
 					close(fd1[READ_END]);
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
 					close(fd1[WRITE_END]);
+					
+					//printf("ESCRIBE AQUIII [%s]\n", holder_child);
 				}
+				//printf("EJECUTA AQUIII [%s]\n", holder_child);
 				execute_line(shell, envp);
+				
 			}
 			else if (*holder_parent)
 			{
@@ -183,6 +205,7 @@ int	main(int argc, char **argv, char** envp)
 				i = 0;
 				holder_parent = pipe_next_line(holder_parent);
 				pipe(fd2);
+				//close(fd2[READ_END]);
 				close(fd1[WRITE_END]);
 				pid = fork();
 				if (pid < 0)
@@ -193,20 +216,27 @@ int	main(int argc, char **argv, char** envp)
 				if (pid == 0)
 				{
 					shell->line = holder_child;
+ 					//close(fd1[WRITE_END]);
 					dup2(fd1[READ_END], STDIN_FILENO);
+					//doprint(get_next_line(fd1[READ_END], &contenido), &contenido);
 					close(fd1[READ_END]);
-  					if (*holder_parent)
+   					if (*holder_parent)
 					{
+						//printf("ENTRA AQUIII EL GREP [%s]\n", holder_child);
 						close(fd2[READ_END]);
 						dup2(fd2[WRITE_END], STDOUT_FILENO);
 						close(fd2[WRITE_END]);
-					}
+					} 
 					execute_line(shell, envp);
+					
 				}
-
+				close(fd1[READ_END]);
+				close(fd2[WRITE_END]);
+				
 			}
-			close(fd1[READ_END]);
-			close(fd2[WRITE_END]);	
+			if (pid == 0)
+				exit (0);
+			
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
@@ -217,7 +247,6 @@ int	main(int argc, char **argv, char** envp)
 		
 		if (pid == 0)
 			exit (shell->exit_return);
-		has_childs = 0;
 		//free_and_reset_values(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}
