@@ -133,7 +133,7 @@ int echo(t_shell *shell)
 	while (copy)
 	{
 		ft_putstr_fd(copy->content, 1);
-		if (copy->next)
+			if (copy->next)
 			write(1, " ", 1);
 		copy = copy->next;
 	}

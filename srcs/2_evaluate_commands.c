@@ -61,6 +61,7 @@ int system_commmand(t_shell *shell, char **envp)
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
 	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
+	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
 	execute_command = malloc(sizeof(char *) * shell->size_args + 2);
 	execute_command[0] = (ft_strjoin(ft_strjoin(*paths_list, "/"),
 			shell->command));
