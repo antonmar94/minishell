@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 00:33:53 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/04/23 12:04:10 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	execute_line(t_shell *shell, char **envp)
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	add_command(shell);
-	printf("VA A EJECUTAR en el else con comando [%s]\n", shell->command);
+	//printf("VA A EJECUTAR EL COMANDO [%s]\n", shell->command);
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
@@ -112,12 +112,11 @@ int	main(int argc, char **argv, char** envp)
 	int		error;
 	int		fd1[2];
 	int		is_first;
-	//int		fd2[2];
+	int		fd2[2];
 	//int 	status;
 
 	i = 0;
 	pid = 1;
-	is_first = 1;
 	has_childs = 0;
 	error = 0;
 	if (argc != 1)
@@ -127,18 +126,13 @@ int	main(int argc, char **argv, char** envp)
 	}
 	shell = initialice(envp);
 	wellcome_header(shell);
-	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
+	read_history(".history_own");
 	while(!shell->exit)
 	{
-
-
-		//Se lee la line del stdinput y se añade al historial;
+		is_first = 1;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
-
-
-		//Se comprueba la sintaxis en los pipes;
 		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
@@ -148,43 +142,15 @@ int	main(int argc, char **argv, char** envp)
 			}
 			has_childs = 1;
 		}
-
-		//Se inicializa hold parent que recorre la line parando en cada pipe
 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
-			//printf("La linea del padre al iniciar el bucle [%s]\n", holder_parent);
-
-
-
-
-			//Se inicializa hold child que corta el trozo que va a ejecutar cada hijo
-
-			pipe(fd1); //SOLO SE DEBEN CREAR LOS PIPES SI LAS PARTES DE WRITE AND READ ESTAN CERRADAS
-
-			
-			//Si es el primer pipe, se cierra la lectura
-
-			
 			while (holder_parent[i] && holder_parent[i] != '|')
 				i++;
 			holder_child = ft_substr(holder_parent, 0, i);
 			i = 0;
-
-/* 			if (is_first)
-			{
-				printf("Entra el primero a cerrar el read en el padre\n");
-				close(fd1[READ_END]);
-			} */
-			//printf("La linea del hijo [%s]\n", holder_child);
-			
-			//holder_parent = pipe_next_line(holder_parent);
-			//printf("El resto de la linea que sigue el padre [%s]\n", holder_parent);
-
-			//Si es el último pipe, se cierra la escritura
-			if (is_first)
-				close(fd1[READ_END]);
 			holder_parent = pipe_next_line(holder_parent);
+			pipe(fd1);
 			pid = fork();
 			if (pid < 0)
 			{
@@ -195,37 +161,29 @@ int	main(int argc, char **argv, char** envp)
 			if(pid == 0)
 			{
 				shell->line = holder_child;
+ 				if (!is_first)
+				{
+					dup2(fd2[READ_END], STDIN_FILENO);
+					close(fd2[READ_END]);
+				}
 				if (*holder_parent)
 				{
 					close(fd1[READ_END]);
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
 					close(fd1[WRITE_END]);
 				}
-				else
-				{
-					printf("Entra uno que no es el primero en el else[%s]\n", shell->line);
-					close(fd1[WRITE_END]);
-					dup2(fd1[READ_END], STDIN_FILENO);
-					close(fd1[READ_END]);
-				}
 				execute_line(shell, envp);
 			}
 			else if (*holder_parent)
 			{
-				//holder_parent = pipe_next_line(holder_parent);
-				//printf("Entra alguno con linea a cortar al else [%s]\n", holder_parent);
+				is_first = 0;
 				while (holder_parent[i] && holder_parent[i] != '|')
 					i++;
 				holder_child = ft_substr(holder_parent, 0, i);
 				i = 0;
 				holder_parent = pipe_next_line(holder_parent);
-				//printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
-				/* holder_parent = pipe_next_line(holder_parent); */
-  	 			if (!*holder_parent)
-				{ 
-					printf("Entra a cerrar el write en el else\n");
-					close(fd1[WRITE_END]);
-				}
+				pipe(fd2);
+				close(fd1[WRITE_END]);
 				pid = fork();
 				if (pid < 0)
 				{
@@ -235,34 +193,20 @@ int	main(int argc, char **argv, char** envp)
 				if (pid == 0)
 				{
 					shell->line = holder_child;
+					dup2(fd1[READ_END], STDIN_FILENO);
+					close(fd1[READ_END]);
   					if (*holder_parent)
 					{
-						close(fd1[READ_END]);
-						printf("Entra uno que no es el último en el if del else if[%s]\n", shell->line);
-						dup2(fd1[WRITE_END], STDOUT_FILENO);
-						printf("Escribe uno que no es el último en el if del else if\n");
-						close(fd1[WRITE_END]);
-						printf("cierra uno que no es el último en el if del else if\n");
-					}
-					else
-					{
-						close(fd1[WRITE_END]);
-						dup2(fd1[READ_END], STDIN_FILENO);
-						close(fd1[READ_END]);
-						//printf("Lee uno que no es el primero en el else\n");
+						close(fd2[READ_END]);
+						dup2(fd2[WRITE_END], STDOUT_FILENO);
+						close(fd2[WRITE_END]);
 					}
 					execute_line(shell, envp);
 				}
-					
-					//close(fd1[WRITE_END]);
+
 			}
-			if (!*holder_parent)
-			{ 
-					//printf("Entra el ultimo a cerrar el write en el else\n");
-				close(fd1[WRITE_END]);
-			}
-			//close(fd1[WRITE_END]);
-			is_first = 0;	
+			close(fd1[READ_END]);
+			close(fd2[WRITE_END]);	
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);

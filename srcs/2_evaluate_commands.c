@@ -59,9 +59,11 @@ int system_commmand(t_shell *shell, char **envp)
 	while (ft_strncmp(env_aux, "PATH", 4))
 		env_aux++;
 	env_aux += 5;
+	printf("PATH:[%s]\n", env_aux);
 	paths_list = ft_split(env_aux, ':');
 	while (*paths_list)
 	{
+		printf("PATH LIST:[%s]\n", *paths_list);
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
 			shell->command), shell->command_plus_args, envp);
 		paths_list++;
