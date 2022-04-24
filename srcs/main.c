@@ -6,11 +6,13 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 20:02:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/24 12:26:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void	leaks(void)
 {
@@ -89,6 +91,7 @@ int	execute_line(t_shell *shell, char **envp)
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	add_command(shell);
+	//printf("VA A EJECUTAR EL COMANDO [%s]\n", shell->command);
 	split_arguments(shell);
 	//printf("\nprimeroant:[%s]\n", shell->arg_list->content);
 	if (!find_command(shell))
@@ -96,6 +99,7 @@ int	execute_line(t_shell *shell, char **envp)
 		if (!system_commmand(shell, envp))
 			command_error(shell->command);
 	}
+	free_shell(shell);
 	return (0);
 }
 
@@ -144,21 +148,20 @@ int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
-	//char	*holder_parent;
-	//char	*holder_child;
-	int		has_childs;
+	char	*holder_parent;
+	char	*holder_child;
 	int 	i;
 	int		pid;
 	int		error;
-	//int		fd1[2];
+	int		fd1[2];
 	int		is_first;
-	//int		fd2[2];
+	int		fd2[2];
+	char	*contenido;
 	//int 	status;
 
+	contenido =	NULL;
 	i = 0;
 	pid = 1;
-	is_first = 1;
-	has_childs = 0;
 	error = 0;
 	if (argc != 1)
 	{
@@ -166,21 +169,18 @@ int	main(int argc, char **argv, char** envp)
 		exit(0);
 	}
 	shell = initialice(envp);
-	//wellcome_header(shell);
-	read_history(".history_own");//BORRAR ./history cuando guardemos mierda rara
+	wellcome_header(shell);
+	read_history(".history_own");
+	fprintf(stderr, "%i", 42);
 	while(!shell->exit)
 	{
 
-
-		//Se lee la line del stdinput y se añade al historial;
+		is_first = 1;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		eval_exit(shell);
 		do_redirect(shell, envp);
-		//printf("\ninea:%s linewalker:%sP\n", shell->line, shell->line_walker);
-		//printf("\nprimero%s\n", shell->arg_list->content);
-		//Se comprueba la sintaxis en los pipes;
 		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
@@ -188,111 +188,93 @@ int	main(int argc, char **argv, char** envp)
 				syntax_error();
 				error = 1;
 			}
-			has_childs = 1;
 		}
-
-		//Se inicializa hold parent que recorre la line parando en cada pipe
-		//holder_parent = shell->line;
-		/*while (*holder_parent && !error)
+		holder_parent = shell->line;
+		while (*holder_parent && !error)
 		{
-			//printf("La linea del padre al iniciar el bucle [%s]\n", holder_parent);
+			//printf("HOLDER PARENT [%s]\n", holder_parent);
 			while (holder_parent[i] && holder_parent[i] != '|')
-				i++;*/
-
-
-
-			//Se inicializa hold child que corta el trozo que va a ejecutar cada hijo
-
-			//pipe(fd1); //SOLO SE DEBEN CREAR LOS PIPES SI LAS PARTES DE WRITE AND READ ESTAN CERRADAS
+				i++;
+			holder_child = ft_substr(holder_parent, 0, i);
+			i = 0;
+			holder_parent = pipe_next_line(holder_parent);
 
 			
-			//Si es el primer pipe, se cierra la lectura
-/* 			if (is_first)
+			//printf("HOLDER CHILD [%s]\n", holder_child);
+
+			pipe(fd1);
+			
+			pid = fork();
+			if (pid < 0)
 			{
-				printf("Entra el primero con linea a cortar [%s]\n", holder_parent);
-				close(fd1[READ_END]);
+				error_child_process();
+				exit (shell->exit_return);
+				error = 1;
 			}
-			 */
-			//holder_child = ft_substr(holder_parent, 0, i);
-			//printf("La linea del hijo [%s]\n", holder_child);
-			
-			//holder_parent = pipe_next_line(holder_parent);
-			//printf("El resto de la linea que sigue el padre [%s]\n", holder_parent);
-
-			//Si es el último pipe, se cierra la escritura
-
-
-		pid = fork();
-		if (pid < 0)
-		{
-				//error_child_process();
-			error = 1;
-		}
-		if(pid == 0)
-		{
-				/*shell->line = holder_child;
-				if (!is_first)
+			if(pid == 0)
+			{
+				shell->line = holder_child;
+ 				if (!is_first)
 				{
-					printf("Entra uno que no es el primero en el if[%s]\n", shell->line);
-					dup2(fd1[READ_END], STDIN_FILENO);
-					close(fd1[READ_END]);
-					printf("Lee uno que no es el primero en el if\n");
+					//printf("ENTRA AQUI WC [%s]\n", holder_child);
+					close(fd2[WRITE_END]);
+					dup2(fd2[READ_END], STDIN_FILENO);
+					close(fd2[READ_END]);
 				}
 				if (*holder_parent)
 				{
-					printf("Entra uno que no es el último al if [%s]\n", shell->line);
+					//printf("ENTRA AQUIII [%s]\n", holder_child);
+					close(fd1[READ_END]);
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
-					printf("Escribe uno que no es el último en el if\n");
 					close(fd1[WRITE_END]);
-					printf("cierra uno que no es el último en el if\n");
+					
+					//printf("ESCRIBE AQUIII [%s]\n", holder_child);
 				}
-				printf("VA A EJECUTAR en el if\n");
+				//printf("EJECUTA AQUIII [%s]\n", holder_child);
 				execute_line(shell, envp);
+				
 			}
-			else 
+			else if (*holder_parent)
 			{
-				waitpid(pid, NULL, 0);
-				holder_parent = pipe_next_line(holder_parent);
-				printf("Entra alguno al else con llinea a cortar[%s]\n", holder_parent);
+				is_first = 0;
 				while (holder_parent[i] && holder_parent[i] != '|')
 					i++;
 				holder_child = ft_substr(holder_parent, 0, i);
-				printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
+				i = 0;
 				holder_parent = pipe_next_line(holder_parent);
-				if (!*holder_parent)
-				{
-					printf("Entra el último con linea a ejecutar en el else[%s]\n", holder_child);
-					close(fd1[WRITE_END]);
-				}
-				is_first = 0;
+				pipe(fd2);
+				//close(fd2[READ_END]);
+				close(fd1[WRITE_END]);
 				pid = fork();
 				if (pid < 0)
 				{
 					error_child_process();
 					error = 1;
 				}
-				shell->line = holder_child;
-				if (!is_first)
+				if (pid == 0)
 				{
-					printf("Entra uno que no es el primero en el else[%s]\n", shell->line);
+					shell->line = holder_child;
+ 					//close(fd1[WRITE_END]);
 					dup2(fd1[READ_END], STDIN_FILENO);
+					//doprint(get_next_line(fd1[READ_END], &contenido), &contenido);
 					close(fd1[READ_END]);
-					printf("Lee uno que no es el primero en el else\n");
-				} 
-				if (*holder_parent)
-				{
-					printf("Entra uno que no es el último en el else[%s]\n", shell->line);
-					dup2(fd1[WRITE_END], STDOUT_FILENO);
-					printf("Escribe uno que no es el último en el else\n");
-					close(fd1[WRITE_END]);
-					printf("cierra uno que no es el último en el else\n");
+   					if (*holder_parent)
+					{
+						//printf("ENTRA AQUIII EL GREP [%s]\n", holder_child);
+						close(fd2[READ_END]);
+						dup2(fd2[WRITE_END], STDOUT_FILENO);
+						close(fd2[WRITE_END]);
+					} 
+					execute_line(shell, envp);
+					
 				}
-				printf("VA A EJECUTAR en el else\n");
-				execute_line(shell, envp);	
-			}*/
-			//execute_line(shell, envp);
-			//do_redirect(shell, envp);
-			exit(0);
+				close(fd1[READ_END]);
+				close(fd2[WRITE_END]);
+				
+			}
+			if (pid == 0)
+				exit (0);
+			
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
@@ -301,9 +283,9 @@ int	main(int argc, char **argv, char** envp)
 			
 
 		free_shell(shell);
+		
 		if (pid == 0)
 			exit (shell->exit_return);
-		has_childs = 0;
 		//free_and_reset_values(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}

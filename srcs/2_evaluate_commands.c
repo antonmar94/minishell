@@ -45,30 +45,50 @@ void execute_command(t_shell *shell, int i)
 
 int system_commmand(t_shell *shell, char **envp)
 {
-	int ex_res;
-	//int pid;
-	char	*env_aux;
-	char	**paths_list;
+	int 		ex_res;
+	char		*env_aux;
+	char		*env_dup;
+	char		**paths_list;
+	t_arglist	*holder_first;
+	char		**execute_command;
+	int			i;
 
-/* 	pid = fork();
-	if (pid < 0)
-		return (0);
-	if(pid == 0)
-	{ */
+	i = 0;
 	env_aux = *envp;
 	while (ft_strncmp(env_aux, "PATH", 4))
 		env_aux++;
-	env_aux += 5;
-	paths_list = ft_split(env_aux, ':');
+	env_dup = ft_strdup(env_aux);
+	env_dup += 5;
+	paths_list = ft_split(env_dup, ':');
+	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
+	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
+	execute_command = malloc(sizeof(char *) * shell->size_args + 2);
+	execute_command[0] = (ft_strjoin(ft_strjoin(*paths_list, "/"),
+			shell->command));
+	i++;
+	//printf("\nCOMANDO DE LA LISTA [%s]\n", execute_command[0]);
+	holder_first = shell->arg_list;
+ 	while (shell->arg_list && shell->size_args > 0)
+	{
+		execute_command[i] = shell->arg_list->content;
+		//printf("ENTRA");
+		/* printf("ARGUMENTO [%i] ES [%s]\n", i + 1, execute_command[i + 1]);
+		printf("ARGUMENTO [%i] ES [%s]\n", i, execute_command[i]); */
+		
+		shell->arg_list = shell->arg_list->next;
+		i++;
+	}
+	execute_command[i] = NULL;
+	/* printf("\nNUMERO DE ARGUMENTO [%i]\n", i);
+	printf("\nARGUMENTO NULO [%i] ES [%s]\n", i, execute_command[i]); */
+	shell->arg_list = holder_first;
 	while (*paths_list)
 	{
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
-			shell->command), shell->command_plus_args, envp);
+			shell->command), execute_command, envp);
 		paths_list++;
 	}
 	if(ex_res)
 		return (0);
-/* 	}
-	waitpid(pid, NULL, 0); */
 	return (1);
 }
