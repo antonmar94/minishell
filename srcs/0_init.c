@@ -35,6 +35,8 @@ t_shell *initialice(char** envp)
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->command_args = NULL;
+	shell->command = NULL;
+	shell->command_flag = NULL;
 	shell->final_line = NULL;
 	shell->size_c = 11;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);

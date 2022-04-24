@@ -23,9 +23,6 @@ SRCS =	./srcs/main.c \
 		./srcs/z5_aux_lib.c \
 		./srcs/z6_aux_free.c \
 		./srcs/5_redirect.c \
-		./srcs/get_next_line.c \
-
-
 
 OBJS = ${SRCS:.c=.o}
 

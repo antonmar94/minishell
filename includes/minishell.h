@@ -10,7 +10,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
-# include "./get_next_line.h"
 
 # define READ_END	0
 # define WRITE_END	1
@@ -146,7 +145,7 @@ void	clear_console(void);
 int		split_arguments(t_shell *shell);
 int 	line_without_command(t_shell *shell);
 int		arg_listing(t_shell *shell);
-int		add_command(t_shell *shell);
+//int		add_command(t_shell *shell);
 
 
 
@@ -161,6 +160,7 @@ void	execute_command(t_shell *shell, int i);
 void	free_and_reset_values(t_shell *shell);
 
 /*--------------------PARSING----------------------------------------------------*/
+int		check_quotes_error(char	*line);
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
 void	nocontent_runaway(t_aux_pointer *pointer);

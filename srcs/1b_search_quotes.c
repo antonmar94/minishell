@@ -63,28 +63,6 @@ char	check_allquotes(char *line_walker)
 	return (0);
 }
 
-char	jump_quotes(t_shell *shell)
-{
-	int		i;
-	char	quotes;
-
-	i = 0;
-	quotes = check_allquotes(shell->line_walker);
-	while (*shell->line_walker && quotes)
-	{
-		i = size_quotes_arg(shell->line_walker, quotes);
-		if (*shell->line_walker && !i)
-			shell->line_walker += 2;
-		else if (i)
-		{
-			shell->line_walker++;
-			return (quotes);
-		}
-		quotes = check_allquotes(shell->line_walker);
-	}
-	return (0);
-}
-
 char	jump_flag_quotes(char *flag_line)
 {
 	int		i;
@@ -107,128 +85,29 @@ char	jump_flag_quotes(char *flag_line)
 	return (0);
 }
 
-int	get_size_splitted_part(t_shell *shell, char quotes)
+int	check_quotes_error(char	*line)
 {
-	int	size_command;
-
-	size_command = 0;
-	if (quotes)
-	{
-		while (*shell->line_walker && *shell->line_walker != quotes)
-		{
-			shell->line_walker++;
-			size_command++;
-		}
-		shell->line_walker++;
-	}
-	else
-	{
-		while (*shell->line_walker && *shell->line_walker != ' '
-			&& !check_allquotes(shell->line_walker))
-		{
-			shell->line_walker++;
-			size_command++;
-		}
-	}
-	return (size_command);
-}
-
-char	*get_command_part(t_shell *shell)
-{
-	int		size_command;
-	char	*start_command;
-	char	*command;
+	char	*checker;
 	char	quotes;
-	char	*free_command;
 
-	quotes = jump_quotes(shell);
-	start_command = shell->line_walker;
-	size_command = get_size_splitted_part(shell, quotes);
-	command = ft_substr(start_command, 0, size_command);
-	while (*shell->line_walker && *shell->line_walker != ' ')
+	checker = line;
+	while (*checker)
 	{
-		size_command = 0;
-		quotes = jump_quotes(shell);
-		start_command = shell->line_walker;
-		size_command = get_size_splitted_part(shell, quotes);
-		start_command = ft_substr(start_command, 0, size_command);
-		free_command = command;
-		command = ft_strjoin(command, start_command);
-		free(free_command);
-		free(start_command);
-	}
-	while (*shell->line_walker && *shell->line_walker != ' ')
-		shell->line_walker++;
-	return (command);
-}
-
-int	check_flag(t_shell *shell)
-{
-	char	*flag;
-	char	*no_flag;
-
-	no_flag = shell->line_walker;
-	while (*shell->line_walker && *shell->line_walker == ' ')
-		shell->line_walker++;
-	flag = get_command_part(shell);
-	if (!ft_strncmp(flag, "-n", 2))
-	{
-		flag += 1;
-		while (*flag && *flag == 'n')
-			flag++;
-		if (!*flag)
+		if ((*checker == '\"' || *checker == '\''))
 		{
-			flag = "-n";
-			shell->command_flag = flag;
-			return (1);
+			quotes = check_allquotes(checker);
+			if (!quotes)
+				return (1);
+			else
+			{
+				checker++;
+				while (*checker && *checker != quotes)
+					checker++;
+			}
 		}
+		checker++;
 	}
-	shell->command_flag = NULL;
-	shell->line_walker = no_flag;
 	return (0);
-}
-
-/* void	start_command(t_shell *shell)
-{
-	shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
-	if (shell->line && *shell->line)
-		add_history(shell->line);
-	shell->line_walker = shell->line;
-	while (*shell->line_walker && *shell->line_walker == ' ')
-		shell->line_walker++;
-} */
-
-int	add_command(t_shell *shell)
-{
-	char		*aux;
-	int			i;
-
-	i = 0;
-	//start_command(shell);
-	aux = shell->line_walker;
-	if (!jump_quotes(shell)
-		&& (!*shell->line_walker || *shell->line_walker == ' '))
-		return (-1);
-	shell->line_walker = aux;
-	shell->command = get_command_part(shell);
-	if (!ft_strcmp(shell->command, "echo"))
-		check_flag(shell);
-	while (*shell->line_walker && *shell->line_walker == ' ')
-		shell->line_walker++;
-	shell->line_args = shell->line_walker;
-	return (0);
-}
-
-void	add_arg(t_shell *shell, char *start_arg, int size_prev)
-{
-	t_arglist	*this_arg;
-
-	if (size_prev > 0 && *start_arg)
-	{
-		start_arg = ft_substr(start_arg, 0, size_prev);
-		this_arg = arg_node_new(start_arg);
-		arglstadd_back(&shell->arg_list, this_arg);
-	}
 }
 
 int	get_size_splitted_argpart(t_shell *shell, char quotes)
@@ -306,15 +185,55 @@ char	*get_arg_parts(t_shell *shell, char *argument)
 	return (argument);
 }
 
+int	check_list_flag(char *list_arg)
+{
+	char	*flag;
+
+	flag = list_arg;
+	if (!ft_strncmp(flag, "-n", 2))
+	{
+		flag += 1;
+		while (*flag && *flag == 'n')
+			flag++;
+		if (!*flag || *flag == ' ')
+			return (1);
+	}
+	return (0);
+}
+
+void	add_line_command(t_shell *shell)
+{
+	t_arglist	*aux_free;
+
+	if (shell->arg_list)
+	{
+		shell->command = shell->arg_list->content;
+		aux_free = shell->arg_list;
+		
+		shell->arg_list = shell->arg_list->next;
+		
+		free(aux_free);
+		aux_free = NULL;
+		
+		while (check_list_flag(shell->arg_list->content))
+		{
+			shell->command_flag = "-n";
+			aux_free = shell->arg_list;
+			
+			shell->arg_list = shell->arg_list->next;
+ 			free(aux_free);
+			aux_free = NULL;
+		}
+	}
+}
+
 int	argument_list_creator(t_shell *shell)
 {
-	char		*arg_start;
 	char		*argument;
 	char		quotes;
 
 	quotes = jump_arg_quotes(shell);
-	arg_start = shell->line_walker;
-	argument = ft_substr(arg_start, 0,
+	argument = ft_substr(shell->line_walker, 0,
 			get_size_splitted_argpart(shell, quotes));
 	if (check_allquotes(argument) != '\'')
 		argument = change_dollars(shell, argument);
@@ -335,33 +254,40 @@ int	argument_list_creator(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	t_arglist	*holder_first;
+	//t_arglist	*holder_first;
 	int			i;
-	int aux_size;
+	//int aux_size;
 
 	i = 1;
 	shell->size_args = 0;
+	printf("LINE WALKER EN SPLIT ARGUMENTS [%s]\n", shell->line_walker);
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
+	add_line_command(shell);
+	printf("COMANDO A EJECUTAR [%s]\n", shell->command);
+	printf("FLAG DEL COMANDO [%s]\n", shell->command_flag);
+	//holder_first = shell->arg_list;
+/* 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_args = malloc(sizeof(char *) * shell->size_args + 1);
 	shell->command_plus_args[0] = shell->command;
 	holder_first = shell->arg_list;
-	aux_size =shell->size_args;
- 	while (shell->arg_list && shell->size_args > 0 )
+	aux_size =shell->size_args; */
+	 while (shell->arg_list) //&& shell->size_args > 0 )
 	{
-		shell->command_plus_args[i] = shell->arg_list->content;
+		printf("ARGUMENTO DE LA LISTA EN SPLIT ARGUMENTS [%s]\n", shell->arg_list->content);
+/* 		shell->command_plus_args[i] = shell->arg_list->content;
 		shell->command_args[i-1] = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
-		shell->size_args--;
+		shell->size_args--; */
+		shell->arg_list = shell->arg_list->next;
 		i++;
-	}
-	shell->size_args = aux_size;
-	shell->command_plus_args[i] = NULL;
-	shell->command_args[i-1] = NULL;
-	shell->arg_list = holder_first;
+		//shell->size_args = aux_size;
+	} 	
+	//shell->command_plus_args[i] = NULL;
+	//shell->command_args[i-1] = NULL;
+	//shell->arg_list = holder_first; 
 	return (0);
 }
 
