@@ -91,9 +91,7 @@ int	execute_line(t_shell *shell, char **envp)
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	add_command(shell);
-	//printf("VA A EJECUTAR EL COMANDO [%s]\n", shell->command);
 	split_arguments(shell);
-	//printf("\nprimeroant:[%s]\n", shell->arg_list->content);
 	if (!find_command(shell))
 	{
 		if (!system_commmand(shell, envp))
@@ -119,7 +117,7 @@ void	del_list(t_shell	*shell)
 	shell->arg_list = copy;
 }
 
-void eval_exit(t_shell	*shell)
+/* void eval_exit(t_shell	*shell)
 {
 	char *copy_line;
 	shell->line_walker = shell->line;
@@ -142,7 +140,7 @@ void eval_exit(t_shell	*shell)
 		shell->command = NULL;
 		del_list(shell);
 		free(shell->arg_list);
-}
+} */
 
 int	main(int argc, char **argv, char** envp)
 {
@@ -169,9 +167,9 @@ int	main(int argc, char **argv, char** envp)
 		exit(0);
 	}
 	shell = initialice(envp);
-	wellcome_header(shell);
+	//wellcome_header(shell);
 	read_history(".history_own");
-	fprintf(stderr, "%i", 42);
+	//fprintf(stderr, "%i", 42);
 	while(!shell->exit)
 	{
 
@@ -179,8 +177,8 @@ int	main(int argc, char **argv, char** envp)
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
-		eval_exit(shell);
-		do_redirect(shell, envp);
+		//eval_exit(shell);
+		//do_redirect(shell, envp);
 		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
@@ -282,7 +280,7 @@ int	main(int argc, char **argv, char** envp)
 
 			
 
-		free_shell(shell);
+		//free_shell(shell);
 		
 		if (pid == 0)
 			exit (shell->exit_return);

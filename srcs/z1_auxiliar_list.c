@@ -18,16 +18,13 @@ char *cut_env_var_name(char* str_whith_equal_in)
     char *env_var_walking;
     int i;
     env_var_walking = str_whith_equal_in;
-	printf("\n que string pasa:[%s]\n", env_var_walking);
     i=0;
     while (*env_var_walking && *env_var_walking != '=')
     {
-	printf("\nHELLOOOO\n");
         i++;
         env_var_walking++;
     }
     var_name=ft_substr(str_whith_equal_in, 0, i);
-	printf("que pasas222");
     return(var_name);
 }
 

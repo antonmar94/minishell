@@ -345,7 +345,6 @@ int	split_arguments(t_shell *shell)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	//printf("shell->size_args:[%i]\n",shell->size_args);
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_args = malloc(sizeof(char *) * shell->size_args + 1);
 	shell->command_plus_args[0] = shell->command;
@@ -357,16 +356,12 @@ int	split_arguments(t_shell *shell)
 		shell->command_args[i-1] = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
 		shell->size_args--;
-		printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
 		i++;
 	}
-	printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
 	shell->size_args = aux_size;
 	shell->command_plus_args[i] = NULL;
 	shell->command_args[i-1] = NULL;
-	printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
 	shell->arg_list = holder_first;
-	printf("SALGO\n ");
 	return (0);
 }
 

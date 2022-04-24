@@ -60,27 +60,18 @@ int system_commmand(t_shell *shell, char **envp)
 	env_dup = ft_strdup(env_aux);
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
-	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
-	//printf("\nTAMAÑO DE LISTA DE ARGUMENTOS [%i]\n", shell->size_args);
 	execute_command = malloc(sizeof(char *) * shell->size_args + 2);
 	execute_command[0] = (ft_strjoin(ft_strjoin(*paths_list, "/"),
 			shell->command));
 	i++;
-	//printf("\nCOMANDO DE LA LISTA [%s]\n", execute_command[0]);
 	holder_first = shell->arg_list;
- 	while (shell->arg_list && shell->size_args > 0)
+ 	while (shell->arg_list->content && shell->size_args > 0)
 	{
 		execute_command[i] = shell->arg_list->content;
-		//printf("ENTRA");
-		/* printf("ARGUMENTO [%i] ES [%s]\n", i + 1, execute_command[i + 1]);
-		printf("ARGUMENTO [%i] ES [%s]\n", i, execute_command[i]); */
-		
 		shell->arg_list = shell->arg_list->next;
 		i++;
 	}
 	execute_command[i] = NULL;
-	/* printf("\nNUMERO DE ARGUMENTO [%i]\n", i);
-	printf("\nARGUMENTO NULO [%i] ES [%s]\n", i, execute_command[i]); */
 	shell->arg_list = holder_first;
 	while (*paths_list)
 	{
