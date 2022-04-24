@@ -9,3 +9,4 @@ zz*
 libft/*.a
 minishell_debug
 *.dSYM
+test_*
