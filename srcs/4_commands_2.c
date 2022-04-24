@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/05 11:55:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/24 11:32:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int export(t_shell *shell)
 	char *var_name;
 	char *var_content;
 
+	printf("hola\n");
 	var_name = cut_env_var_name(*(shell->command_args));
+	printf("\nPPPPPPPPhola2\n");
+	printf("\nPPPPPPPPhola2\n");
+	printf("\nPPPPPPPPhola2\n");
 	var_content = cut_env_var_content(*(shell->command_args));
 	print_var_content_text(var_name, var_content, shell);//TODO:borrar?
 	if (change_var_content(shell, var_name, var_content))

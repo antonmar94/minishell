@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/05 11:25:58 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/24 11:36:06 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@ char *cut_env_var_name(char* str_whith_equal_in)
     char *var_name;
     char *env_var_walking;
     int i;
-
     env_var_walking = str_whith_equal_in;
+	printf("\n que string pasa:[%s]\n", env_var_walking);
     i=0;
     while (*env_var_walking && *env_var_walking != '=')
     {
+	printf("\nHELLOOOO\n");
         i++;
         env_var_walking++;
     }
     var_name=ft_substr(str_whith_equal_in, 0, i);
+	printf("que pasas222");
     return(var_name);
 }
 

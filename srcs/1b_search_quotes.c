@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 21:04:41 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/04/24 11:09:52 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,29 +337,36 @@ int	split_arguments(t_shell *shell)
 {
 	t_arglist	*holder_first;
 	int			i;
+	int aux_size;
 
-	i = 0;
+	i = 1;
 	shell->size_args = 0;
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
+	//printf("shell->size_args:[%i]\n",shell->size_args);
 	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
 	shell->command_args = malloc(sizeof(char *) * shell->size_args + 1);
 	shell->command_plus_args[0] = shell->command;
-	i++;
 	holder_first = shell->arg_list;
- 	while (shell->arg_list->content && shell->size_args > 0)
+	aux_size =shell->size_args;
+ 	while (shell->arg_list && shell->size_args > 0 )
 	{
 		shell->command_plus_args[i] = shell->arg_list->content;
 		shell->command_args[i-1] = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
-		printf("commandarg [%s]\n",shell->command_args[i-1]);
+		shell->size_args--;
+		printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
 		i++;
 	}
+	printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
+	shell->size_args = aux_size;
 	shell->command_plus_args[i] = NULL;
 	shell->command_args[i-1] = NULL;
+	printf("command_arg [%i][%s]\n",i-1, shell->command_args[i-1]);
 	shell->arg_list = holder_first;
+	printf("SALGO\n ");
 	return (0);
 }
 
