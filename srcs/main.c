@@ -90,7 +90,6 @@ int	execute_line(t_shell *shell, char **envp)
 	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
-	//add_command(shell);
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
@@ -146,14 +145,14 @@ int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
-	//char	*holder_parent;
-	//char	*holder_child;
+	char	*holder_parent;
+	char	*holder_child;
 	int 	i;
 	int		pid;
 	int		error;
-	//int		fd1[2];
+	int		fd1[2];
 	int		is_first;
-	//int		fd2[2];
+	int		fd2[2];
 	char	*contenido;
 	//int 	status;
 
@@ -185,12 +184,11 @@ int	main(int argc, char **argv, char** envp)
 		shell->line_walker = shell->line;
 		while (*shell->line_walker && *shell->line_walker == ' ')
 			shell->line_walker++;
-		//add_command(shell);
-		split_arguments(shell);
-		free_shell(shell);
+		//split_arguments(shell);
+		//free_shell(shell);
 		//eval_exit(shell);
 		//do_redirect(shell, envp);
-		/* if (*pipe_next_line(shell->line))
+		if (*pipe_next_line(shell->line))
 		{
 			if (check_pipe_syntax(shell->line))
 			{
@@ -290,7 +288,7 @@ int	main(int argc, char **argv, char** envp)
 		//free_shell(shell);
 		
 		if (pid == 0)
-			exit (shell->exit_return); */
+			exit (shell->exit_return);
 		//free_and_reset_values(shell);
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}
