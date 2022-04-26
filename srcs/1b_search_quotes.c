@@ -217,7 +217,6 @@ void	add_line_command(t_shell *shell)
 		
 		while (check_list_flag(shell->arg_list->content))
 		{
-			printf("ESTA ENTRANDO\n");
 			shell->command_flag = "-n";
 			aux_free = shell->arg_list;
 			
@@ -228,11 +227,43 @@ void	add_line_command(t_shell *shell)
 	}
 }
 
+int	size_argument(t_shell *shell)
+{
+	char	*arg_sizer;
+	int		size;
+	int		size_quotes;
+	char	quotes;
+
+	size = 0;
+	arg_sizer = shell->line_walker;
+	while (*arg_sizer && *arg_sizer == ' ')
+		arg_sizer++;
+	//printf("RECORRER LA LINEA TAMAÑO [%s]\n", arg_sizer);
+	while (*arg_sizer && *arg_sizer != ' ')
+	{
+		//printf("CADA PASO [%s]\n", arg_sizer);
+		quotes =  check_allquotes(arg_sizer);
+		//printf("QUOTES [%c]\n", quotes);
+		size_quotes = 0;
+		if (quotes)
+		{
+			size_quotes = size_quotes_arg(arg_sizer, quotes);
+			size += size_quotes;
+			arg_sizer += size_quotes;
+		}
+		arg_sizer++;
+		size++;
+	}
+	//printf("TAMAÑO DE LOS ARGUMENTOS [%i]\n", size);
+	return (size);
+}
+
 int	argument_list_creator(t_shell *shell)
 {
 	char		*argument;
 	char		quotes;
 
+	printf("TAMAÑO DE LOS ARGUMENTOS [%i]\n", size_argument(shell));
 	quotes = jump_arg_quotes(shell);
 	argument = ft_substr(shell->line_walker, 0,
 			get_size_splitted_argpart(shell, quotes));
@@ -277,7 +308,7 @@ int	split_arguments(t_shell *shell)
 	aux_size =shell->size_args;
 	 while (shell->arg_list && shell->size_args > 0 )
 	{
-		printf("ARGUMENTO DE LA LISTA [%s]\n", shell->arg_list->content);
+		//printf("ARGUMENTO DE LA LISTA [%s]\n", shell->arg_list->content);
 		shell->command_plus_args[i] = shell->arg_list->content;
 		shell->command_args[i-1] = shell->arg_list->content;
 		shell->size_args--;
@@ -290,17 +321,17 @@ int	split_arguments(t_shell *shell)
 	i = 0;
 	while (shell->command_plus_args[i])
 	{
-		printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
+		//printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
 		i++;
 	}
-	printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
+	//printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
 	i = 0;
 	while (shell->command_args[i])
 	{
-		printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
+		//printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
 		i++;
 	}
-	printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
+	//printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
 	shell->arg_list = holder_first;
 	//printf("COMANDO A EJECUTAR [%s]\n", shell->command);
 	return (0);

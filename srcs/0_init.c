@@ -55,11 +55,6 @@ t_shell *initialice(char** envp)
 	return (shell);
 }
 
-
-
-
-
-
 t_arglist	*arg_node_new(char *first_arg)
 {
 	t_arglist	*arg_list;
