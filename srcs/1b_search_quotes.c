@@ -17,7 +17,7 @@ int	check_quotes(char *line_walker, char quotes)
 	char	*quotes_finder;
 
 	quotes_finder = line_walker;
-	if (*quotes_finder == quotes)
+	if (*quotes_finder && *quotes_finder == quotes)
 	{
 		quotes_finder++;
 		while (*quotes_finder)
@@ -258,29 +258,106 @@ int	size_argument(t_shell *shell)
 	return (size);
 }
 
+char	this_quote(char *line)
+{
+	if (*line == '\'')
+		return ('\'');
+	if (*line == '\"')
+		return ('\"');
+	return (0);
+}
+
+char	*arg_creator(t_shell *shell, char *argument)
+{
+	char	*arg_walker;
+	int		size_part;
+	char	*joined_arg;
+	char	*arg_holder;
+	char	*arg_part;
+	char	quotes;
+
+	joined_arg = NULL;
+	size_part = 0;
+	if (!argument)
+		return (NULL);
+	arg_walker = argument;
+	arg_holder = argument;
+	quotes = 0;
+	arg_part = NULL;
+	while (*arg_holder && this_quote(arg_holder))
+	{
+		quotes = this_quote(arg_walker);
+		arg_holder++;
+		arg_walker++;
+	}
+	while (*arg_walker && !this_quote(arg_walker))
+	{
+		arg_walker++;
+		size_part++;
+	}
+	if (!*arg_walker)
+		return (change_dollars(shell, arg_holder));
+	joined_arg = ft_substr(arg_holder, 0, size_part);
+	if (quotes != '\'')
+		joined_arg = change_dollars(shell, joined_arg);
+	arg_holder = arg_walker;
+	while (*arg_holder)
+	{
+		quotes = this_quote(arg_holder);
+		while (*arg_walker && this_quote(arg_walker))
+			arg_walker++;
+		arg_holder = arg_walker;
+		if (*arg_holder)
+		{
+			while (*arg_walker && !this_quote(arg_walker))
+			{
+				arg_walker++;
+				size_part++;
+			}
+			arg_part = ft_substr(arg_holder, 0, size_part);
+			if (quotes == '\'')
+				arg_part = change_dollars(shell, arg_part);
+			joined_arg = ft_strjoin(joined_arg, arg_part);
+			arg_holder = arg_walker;
+			quotes = 0;
+		}
+	}
+	return (joined_arg);
+}
+
+
 int	argument_list_creator(t_shell *shell)
 {
 	char		*argument;
-	char		quotes;
+	int			size_arg;
+	//char		quotes;
 
-	printf("TAMAÑO DE LOS ARGUMENTOS [%i]\n", size_argument(shell));
-	quotes = jump_arg_quotes(shell);
+	//printf("TAMAÑO DE LOS ARGUMENTOS [%i]\n", size_argument(shell));
+	/* quotes = jump_arg_quotes(shell);
 	argument = ft_substr(shell->line_walker, 0,
-			get_size_splitted_argpart(shell, quotes));
-	if (check_allquotes(argument) != '\'')
-		argument = change_dollars(shell, argument);
-	if (check_allquotes(argument))
-		argument = del_quotes(argument);
-	arglstadd_back(&shell->arg_list,
-		arg_node_new(get_arg_parts(shell, argument)));
-	if (!(*shell->line_walker))
-		return (0);
-	else
+			get_size_splitted_argpart(shell, quotes)); */
+	size_arg = size_argument(shell);
+	printf("SIZE ARGUMENT [%i]\n", size_arg);
+	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
+	printf("ARGUMENTO SIN PARSEAR [%s]\n", argument);
+	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
 	{
 		shell->line_walker++;
-		return (1);
+		size_arg--;
 	}
-	shell->line_walker++;
+	//argument = arg_creator(shell, argument);
+	printf("ARGUMENTO TOTAL [%s]\n", argument);
+	printf("LINE WALKER EN EL SIGUIENTE ARGUMENTO [%s]\n", shell->line_walker);
+/* 	if (check_allquotes(argument) != '\'')
+		argument = change_dollars(shell, argument);
+	if (check_allquotes(argument))
+		argument = del_quotes(argument); 
+		get_arg_parts(shell, argument))*/
+	arglstadd_back(&shell->arg_list,
+		arg_node_new(argument));
+	if (!(*shell->line_walker))
+		return (0);
+	//shell->line_walker++;
 	return (1);
 }
 
@@ -297,7 +374,8 @@ int	split_arguments(t_shell *shell)
 		shell->size_args = 1;
 	while (argument_list_creator(shell))
 		shell->size_args++;
-	add_line_command(shell);
+	if (shell->arg_list)
+		add_line_command(shell);
 	//printf("COMANDO A EJECUTAR [%s]\n", shell->command);
 	//printf("FLAG DEL COMANDO [%s]\n", shell->command_flag);
 	holder_first = shell->arg_list;
