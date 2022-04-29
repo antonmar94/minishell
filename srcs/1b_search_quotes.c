@@ -260,56 +260,40 @@ int	add_arg_tolist(t_shell *shell)
 	return (1);
 }
 
-int	split_arguments(t_shell *shell)
+void	create_array_args(t_shell *shell, int size)
 {
 	t_arglist	*holder_first;
 	int			i;
-	int aux_size;
+
+	i = 0;
+	holder_first = shell->arg_list;
+	shell->command_plus_args = malloc(sizeof(char *) * size + 1);
+	while (holder_first && shell->size_args > 0)
+	{
+		shell->command_plus_args[i] = holder_first->content;
+		holder_first = holder_first->next;
+		i++;
+	}
+	shell->command_plus_args[i] = NULL;
+}
+
+int	split_arguments(t_shell *shell)
+{
+	int			i;
 
 	i = 1;
 	shell->size_args = 0;
-	//printf("LINE WALKER EN SPLIT ARGUMENTS [%s]\n", shell->line_walker);
+		shell->line_walker = shell->line;
+	while (*shell->line_walker && *shell->line_walker == ' ')
+		shell->line_walker++;
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (add_arg_tolist(shell))
 		shell->size_args++;
+  	create_array_args(shell, shell->size_args);
+	shell->command_args = shell->command_plus_args;
+	shell->command_args++;
 	if (shell->arg_list)
 		add_line_command(shell);
-	//printf("COMANDO A EJECUTAR [%s]\n", shell->command);
-	//printf("FLAG DEL COMANDO [%s]\n", shell->command_flag);
-	holder_first = shell->arg_list;
-	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 2);
-	shell->command_args = malloc(sizeof(char *) * shell->size_args + 1);
-	shell->command_plus_args[0] = shell->command;
-	holder_first = shell->arg_list;
-	aux_size =shell->size_args;
-	 while (shell->arg_list && shell->size_args > 0 )
-	{
-		//printf("ARGUMENTO DE LA LISTA [%s]\n", shell->arg_list->content);
-		shell->command_plus_args[i] = shell->arg_list->content;
-		shell->command_args[i-1] = shell->arg_list->content;
-		shell->size_args--;
-		shell->arg_list = shell->arg_list->next;
-		i++;
-		shell->size_args = aux_size;
-	}
-	shell->command_plus_args[i] = NULL;
-	shell->command_args[i-1] = NULL;
-	i = 0;
-	while (shell->command_plus_args[i])
-	{
-		//printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
-		i++;
-	}
-	//printf("COMMAND PLUS ARGS [%s]\n", shell->command_plus_args[i]);
-	i = 0;
-	while (shell->command_args[i])
-	{
-		//printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
-		i++;
-	}
-	//printf("COMMAND ARGS [%s]\n", shell->command_args[i]);
-	shell->arg_list = holder_first;
-	//printf("COMANDO A EJECUTAR [%s]\n", shell->command);
 	return (0);
 }
