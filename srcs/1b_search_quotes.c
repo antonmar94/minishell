@@ -92,9 +92,12 @@ int	check_list_flag(char *list_arg)
 {
 	char	*flag;
 
+	if (!list_arg)
+		return (0);
 	flag = list_arg;
 	if (!ft_strncmp(flag, "-n", 2))
 	{
+		
 		flag += 1;
 		while (*flag && *flag == 'n')
 			flag++;
@@ -117,8 +120,7 @@ void	add_line_command(t_shell *shell)
 		
 		free(aux_free);
 		aux_free = NULL;
-		
-		while (check_list_flag(shell->arg_list->content))
+		if (shell->arg_list && check_list_flag(shell->arg_list->content))
 		{
 			shell->command_flag = "-n";
 			aux_free = shell->arg_list;

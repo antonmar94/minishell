@@ -87,9 +87,6 @@ void	free_shell(t_shell *shell)
 
 int	execute_line(t_shell *shell, char **envp)
 {
-	shell->line_walker = shell->line;
-	while (*shell->line_walker && *shell->line_walker == ' ')
-		shell->line_walker++;
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
