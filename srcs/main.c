@@ -80,9 +80,9 @@ void	free_shell(t_shell *shell)
 {
 	if(shell->aux_pointer->final_str)
 		new_free(&shell->aux_pointer->final_str);
+
 	all_clear(&shell->arg_list);
-	if(shell->line)
-		new_free(&shell->line);
+	free_and_reset_values(shell);
 }
 
 int	execute_line(t_shell *shell, char **envp)
@@ -93,6 +93,7 @@ int	execute_line(t_shell *shell, char **envp)
 		if (!system_commmand(shell, envp))
 			command_error(shell->command);
 	}
+
 	free_shell(shell);
 	return (0);
 }
@@ -178,6 +179,7 @@ int	main(int argc, char **argv, char** envp)
 			syntax_error();
 			error = 1;
 		}
+
 		shell->line_walker = shell->line;
 		while (*shell->line_walker && *shell->line_walker == ' ')
 			shell->line_walker++;
@@ -193,30 +195,32 @@ int	main(int argc, char **argv, char** envp)
 				error = 1;
 			}
 		}
+						
 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
 			//printf("HOLDER PARENT [%s]\n", holder_parent);
 			while (holder_parent[i] && holder_parent[i] != '|')
 				i++;
+			
 			holder_child = ft_substr(holder_parent, 0, i);
 			i = 0;
 			holder_parent = pipe_next_line(holder_parent);
-
 			
-			//printf("HOLDER CHILD [%s]\n", holder_child);
-
+			//printf("HOLDER CHILD [%s]\n", holder_child); //holder child ha de liberarse
 			pipe(fd1);
-			
+
 			pid = fork();
 			if (pid < 0)
 			{
+							
 				error_child_process();
 				exit (shell->exit_return);
 				error = 1;
 			}
 			if(pid == 0)
 			{
+				new_free(&shell->line);
 				shell->line = holder_child;
  				if (!is_first)
 				{
@@ -231,12 +235,10 @@ int	main(int argc, char **argv, char** envp)
 					close(fd1[READ_END]);
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
 					close(fd1[WRITE_END]);
-					
 					//printf("ESCRIBE AQUIII [%s]\n", holder_child);
 				}
 				//printf("EJECUTA AQUIII [%s]\n", holder_child);
 				execute_line(shell, envp);
-				
 			}
 			else if (*holder_parent)
 			{
@@ -257,6 +259,7 @@ int	main(int argc, char **argv, char** envp)
 				}
 				if (pid == 0)
 				{
+					new_free(&shell->line);
 					shell->line = holder_child;
  					//close(fd1[WRITE_END]);
 					dup2(fd1[READ_END], STDIN_FILENO);
@@ -268,9 +271,8 @@ int	main(int argc, char **argv, char** envp)
 						close(fd2[READ_END]);
 						dup2(fd2[WRITE_END], STDOUT_FILENO);
 						close(fd2[WRITE_END]);
-					} 
+					}
 					execute_line(shell, envp);
-					
 				}
 				close(fd1[READ_END]);
 				close(fd2[WRITE_END]);
@@ -278,20 +280,20 @@ int	main(int argc, char **argv, char** envp)
 			}
 			if (pid == 0)
 				exit (0);
-			
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
 		//free_shell(shell);
-		
+		free_shell(shell);
+		new_free(&holder_child);
 		if (pid == 0)
 			exit (shell->exit_return);
-		//free_and_reset_values(shell);
+
 		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}
 	//Se escribe en el historial al terminar el programa y se libera line_walker
 	write_history(".history_own");
-	free(shell->line_walker);
+	//free(shell->line_walker);
 	exit (shell->exit_return);
 }
 

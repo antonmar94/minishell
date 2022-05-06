@@ -237,6 +237,7 @@ char	*arg_creator(t_shell *shell, char **argument)
 	}
 	free(*argument);
 	*argument = NULL;
+
 	return (joined_arg);
 }
 
@@ -291,7 +292,7 @@ int	split_arguments(t_shell *shell)
 	if (*shell->line_walker)
 		shell->size_args = 1;
 	while (add_arg_tolist(shell))
-		shell->size_args++;
+		shell->size_args++;;
   	create_array_args(shell, shell->size_args);
 	shell->command_args = shell->command_plus_args;
 	shell->command_args++;

@@ -85,7 +85,7 @@ fclean: clean
 	$(RM) $(OBJS)
 	$(RM) $(NAME_DEBUG)
 
-re: clean all
+re: fclean all
 
 .PHONY: all clean fclean re
 

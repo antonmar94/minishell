@@ -105,6 +105,7 @@ typedef struct s_shell
 	char *redirect_error;
 }	t_shell;
 
+void	leaks(void);
 
 /*----------------------- header ---------------------------------------------*/
 void	wellcome_header(t_shell *shell);

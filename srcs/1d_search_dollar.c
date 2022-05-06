@@ -127,4 +127,5 @@ void	replace_dollar(t_shell *shell)
 	free(shell->aux_pointer->line_until$);
 	free(shell->aux_pointer->line_until$_joined);
 	free(shell->aux_pointer->first_$_found);
+	//free(shell->aux_pointer);
 }
