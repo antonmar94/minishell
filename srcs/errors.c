@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/04/23 10:02:24 by antonmar         ###   ########.fr       */
+=======
+/*   Updated: 2022/04/11 13:30:26 by albzamor         ###   ########.fr       */
+>>>>>>> 807e1919f49adaf59306c91b8b1965e561cc7392
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +63,10 @@ int	error_not_numeric(void)
 {
 	ft_putstr_fdnl(RED"numeric argument required"RESET, 2);
 	return(1);
+}
+
+int	fd_error(void)
+{
+	ft_putstr_fdnl(RED"fd error"RESET, 2);
+	return (1);
 }

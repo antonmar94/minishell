@@ -67,6 +67,7 @@ typedef struct s_aux_pointer
 }	t_aux_pointer;
 
 
+
 typedef struct s_shell
 {
 	char 			*line;
@@ -85,9 +86,15 @@ typedef struct s_shell
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
 	t_aux_pointer 	*aux_pointer;
+
 }	t_shell;
 
+<<<<<<< HEAD
 void	leaks(void);
+=======
+
+
+>>>>>>> 807e1919f49adaf59306c91b8b1965e561cc7392
 
 /*----------------------- header ---------------------------------------------*/
 void	wellcome_header(t_shell *shell);
@@ -174,7 +181,11 @@ int		error_number_args(void);
 int		error_wrong_path(void);
 int		error_too_many_args(void);
 int		error_not_numeric(void);
+<<<<<<< HEAD
 int		error_child_process(void);
+=======
+int		fd_error(void);
+>>>>>>> 807e1919f49adaf59306c91b8b1965e561cc7392
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 
@@ -207,5 +218,9 @@ int		ft_isdigit_str(char *str);
 int		ft_isalpha_str(char *str, char c);
 
 
+
+/*----------------------- REDIR------------------------------------------*/
+
+void redirect(char *buff);
 
 #endif
