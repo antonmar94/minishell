@@ -89,12 +89,7 @@ typedef struct s_shell
 
 }	t_shell;
 
-<<<<<<< HEAD
 void	leaks(void);
-=======
-
-
->>>>>>> 807e1919f49adaf59306c91b8b1965e561cc7392
 
 /*----------------------- header ---------------------------------------------*/
 void	wellcome_header(t_shell *shell);
@@ -181,11 +176,7 @@ int		error_number_args(void);
 int		error_wrong_path(void);
 int		error_too_many_args(void);
 int		error_not_numeric(void);
-<<<<<<< HEAD
 int		error_child_process(void);
-=======
-int		fd_error(void);
->>>>>>> 807e1919f49adaf59306c91b8b1965e561cc7392
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 
