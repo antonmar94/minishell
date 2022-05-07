@@ -6,11 +6,34 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 17:43:57 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 18:15:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+int	check_char(char *str, char char_tofind)
+{
+
+	while (str && *str)
+	{
+
+	
+		if (*str && *str == char_tofind)
+		{
+			printf("HAY '='\n");
+			return(1);
+		}
+		
+		str++;
+		
+	}
+	printf("NO HAY '='\n");
+	return (0);
+}
+
+
 
 /* if found one return de var content */
 char *search_var_coincident(t_shell *shell, char* str_to_find)

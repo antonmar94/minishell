@@ -187,6 +187,7 @@ void	*del_name_and_contend(t_shell *shell);
 void	free_env_list(t_env_list *envp);
 void	free_aux_pointer(t_aux_pointer *aux_pointer);
 void 	new_free(char **ptr);
+int		check_char(char *str, char char_tofind);
 
 
 

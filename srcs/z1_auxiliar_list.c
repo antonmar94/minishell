@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/24 11:36:06 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 18:01:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char *cut_env_var_name(char* str_whith_equal_in)
         env_var_walking++;
     }
     var_name=ft_substr(str_whith_equal_in, 0, i);
+	printf("VARNAME:[%s]\n", var_name);
     return(var_name);
 }
 
