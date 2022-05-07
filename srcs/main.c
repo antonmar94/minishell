@@ -151,66 +151,53 @@ int	check_error_child(int pid)
 		free(shell->arg_list);
 } */
 
-int	main(int argc, char **argv, char** envp)
+char	*create_child_line(char *holder_parent)
 {
-	(void)argv;
-	t_shell	*shell;
-	char	*holder_parent;
 	char	*holder_child;
-	int 	i;
-	int		pid;
-	int		error;
-	int		fd1[2];
-	int		is_first;
-	int		fd2[2];
-	char	*contenido;
-	//int 	status;
+	int		i;
 
-	contenido =	NULL;
+	holder_child = NULL;
+	
 	i = 0;
-	pid = 1;
-	error = 0;
-	if (argc != 1)
+	while (holder_parent[i] && holder_parent[i] != '|')
+				i++;
+	holder_child = ft_substr(holder_parent, 0, i);
+	return (holder_child);
+}
+
+int	check_syntax(t_shell *shell)
+{
+	int	error;
+
+	error =  0;
+	if (check_quotes_error(shell->line))
 	{
-		error_too_many_args();
-		exit(0);
+		syntax_error();
+		error = 1;
 	}
-	shell = initialice(envp);
-	//wellcome_header(shell);
-	read_history(".history_own");
-	//fprintf(stderr, "%i", 42);
-	while(!shell->exit)
+	if (*pipe_next_line(shell->line))
 	{
-		error = 0;
-		is_first = 1;
-		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
-		if (shell->line && *shell->line)
-			add_history(shell->line);
-		if (check_quotes_error(shell->line))
+		if (check_pipe_syntax(shell->line))
 		{
 			syntax_error();
 			error = 1;
 		}
-		//eval_exit(shell);
-		//do_redirect(shell, envp);
-		if (*pipe_next_line(shell->line))
-		{
-			if (check_pipe_syntax(shell->line))
-			{
-				syntax_error();
-				error = 1;
-			}
-		}			
-		holder_parent = shell->line;
+	}
+	return (error);
+}
+
+/* int	execute_all(t_shell *shell)
+{
+		char	*holder_parent;
+		char	*holder_child;
+ */
+
+	/* 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
-			while (holder_parent[i] && holder_parent[i] != '|')
-				i++;
-			holder_child = ft_substr(holder_parent, 0, i);
-			i = 0;
+			holder_child = create_child_line(holder_parent);
 			holder_parent = pipe_next_line(holder_parent);
-			pipe(fd1);
-			
+			pipe(fd1);	
 			pid = fork();
 			error = check_error_child(pid);
 			if(pid == 0)
@@ -234,11 +221,8 @@ int	main(int argc, char **argv, char** envp)
 				if (*holder_parent)
 				{
 					is_first = 0;
-					while (holder_parent[i] && holder_parent[i] != '|')
-						i++;
 					free(holder_child);
-					holder_child = ft_substr(holder_parent, 0, i);
-					i = 0;
+					holder_child = create_child_line(holder_parent);
 					holder_parent = pipe_next_line(holder_parent);
 					pipe(fd2);
 					pid = fork();
@@ -265,15 +249,113 @@ int	main(int argc, char **argv, char** envp)
 			}
 			close(fd1[READ_END]);
 			close(fd1[WRITE_END]);
+			//new_free(&holder_child);
  			if (pid == 0)
 				exit (0);
+		} */
+//}
+
+int	main(int argc, char **argv, char** envp)
+{
+	(void)argv;
+	t_shell	*shell;
+	char	*holder_parent;
+	char	*holder_child;
+	int		pid;
+	int		error;
+	int		fd1[2];
+	int		is_first;
+	int		fd2[2];
+	char	*contenido;
+	//int 	status;
+
+	contenido =	NULL;
+	pid = 1;
+	error = 0;
+	if (argc != 1)
+	{
+		error_too_many_args();
+		exit(0);
+	}
+	shell = initialice(envp);
+	//wellcome_header(shell);
+	read_history(".history_own");
+	//fprintf(stderr, "%i", 42);
+	while(!shell->exit)
+	{
+		error = 0;
+		is_first = 1;
+		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
+		if (shell->line && *shell->line)
+			add_history(shell->line);
+		error = check_syntax(shell);
+		//eval_exit(shell);
+		//do_redirect(shell, envp);		
+		holder_parent = shell->line;
+		while (*holder_parent && !error)
+		{
+			holder_child = create_child_line(holder_parent);
+			holder_parent = pipe_next_line(holder_parent);
+			pipe(fd1);	
+			pid = fork();
+			error = check_error_child(pid);
+			if(pid == 0)
+			{
+				shell->line = holder_child;
+				close(fd1[READ_END]);
+ 				if (!is_first)
+				{
+					dup2(fd2[READ_END], STDIN_FILENO);
+					close(fd2[READ_END]);
+				}
+				if (*holder_parent)
+					dup2(fd1[WRITE_END], STDOUT_FILENO);
+				close(fd1[WRITE_END]);
+				execute_line(shell, envp);
+			}
+			else 
+			{
+				if (!is_first)
+					close(fd2[READ_END]);
+				if (*holder_parent)
+				{
+					is_first = 0;
+					free(holder_child);
+					holder_child = create_child_line(holder_parent);
+					holder_parent = pipe_next_line(holder_parent);
+					pipe(fd2);
+					pid = fork();
+					error = check_error_child(pid);
+					if (pid == 0)
+					{
+						close(fd1[WRITE_END]);
+						shell->line = holder_child;
+						close(fd2[READ_END]);
+						dup2(fd1[READ_END], STDIN_FILENO);
+						close(fd1[READ_END]);
+						if (*holder_parent)
+							dup2(fd2[WRITE_END], STDOUT_FILENO);	
+						close(fd2[WRITE_END]);
+						execute_line(shell, envp);
+					}
+					else
+					{
+						close(fd2[WRITE_END]);
+						if (!*holder_parent || error)
+							close(fd2[READ_END]);
+					}
+				}
+			}
+			close(fd1[READ_END]);
+			close(fd1[WRITE_END]);
+			//new_free(&holder_child);
+ 			if (pid == 0)
+				exit (shell->exit_return);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
 		free_shell(shell);
-		new_free(&holder_child);
-		if (pid == 0)
-			exit (shell->exit_return);
+		//new_free(&holder_child);
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	//Se escribe en el historial al terminar el programa y se libera line_walker
