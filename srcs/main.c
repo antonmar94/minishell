@@ -186,13 +186,18 @@ int	check_syntax(t_shell *shell)
 	return (error);
 }
 
-/* int	execute_all(t_shell *shell)
+int	execute_all(t_shell *shell, char **envp)
 {
 		char	*holder_parent;
 		char	*holder_child;
- */
+		int		pid;
+		int		error;
+		int		fd1[2];
+		int		is_first;
+		int		fd2[2];
 
-	/* 		holder_parent = shell->line;
+		holder_parent = shell->line;
+		error = 0;
 		while (*holder_parent && !error)
 		{
 			holder_child = create_child_line(holder_parent);
@@ -229,8 +234,8 @@ int	check_syntax(t_shell *shell)
 					error = check_error_child(pid);
 					if (pid == 0)
 					{
-						close(fd1[WRITE_END]);
 						shell->line = holder_child;
+						close(fd1[WRITE_END]);
 						close(fd2[READ_END]);
 						dup2(fd1[READ_END], STDIN_FILENO);
 						close(fd1[READ_END]);
@@ -252,26 +257,19 @@ int	check_syntax(t_shell *shell)
 			//new_free(&holder_child);
  			if (pid == 0)
 				exit (0);
-		} */
-//}
+		}
+		return (pid);
+}
 
 int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
-	char	*holder_parent;
-	char	*holder_child;
-	int		pid;
 	int		error;
-	int		fd1[2];
-	int		is_first;
-	int		fd2[2];
+	int		pid;
 	char	*contenido;
-	//int 	status;
 
 	contenido =	NULL;
-	pid = 1;
-	error = 0;
 	if (argc != 1)
 	{
 		error_too_many_args();
@@ -284,83 +282,19 @@ int	main(int argc, char **argv, char** envp)
 	while(!shell->exit)
 	{
 		error = 0;
-		is_first = 1;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
 		//eval_exit(shell);
-		//do_redirect(shell, envp);		
-		holder_parent = shell->line;
-		while (*holder_parent && !error)
-		{
-			holder_child = create_child_line(holder_parent);
-			holder_parent = pipe_next_line(holder_parent);
-			pipe(fd1);	
-			pid = fork();
-			error = check_error_child(pid);
-			if(pid == 0)
-			{
-				shell->line = holder_child;
-				close(fd1[READ_END]);
- 				if (!is_first)
-				{
-					dup2(fd2[READ_END], STDIN_FILENO);
-					close(fd2[READ_END]);
-				}
-				if (*holder_parent)
-					dup2(fd1[WRITE_END], STDOUT_FILENO);
-				close(fd1[WRITE_END]);
-				execute_line(shell, envp);
-			}
-			else 
-			{
-				if (!is_first)
-					close(fd2[READ_END]);
-				if (*holder_parent)
-				{
-					is_first = 0;
-					free(holder_child);
-					holder_child = create_child_line(holder_parent);
-					holder_parent = pipe_next_line(holder_parent);
-					pipe(fd2);
-					pid = fork();
-					error = check_error_child(pid);
-					if (pid == 0)
-					{
-						close(fd1[WRITE_END]);
-						shell->line = holder_child;
-						close(fd2[READ_END]);
-						dup2(fd1[READ_END], STDIN_FILENO);
-						close(fd1[READ_END]);
-						if (*holder_parent)
-							dup2(fd2[WRITE_END], STDOUT_FILENO);	
-						close(fd2[WRITE_END]);
-						execute_line(shell, envp);
-					}
-					else
-					{
-						close(fd2[WRITE_END]);
-						if (!*holder_parent || error)
-							close(fd2[READ_END]);
-					}
-				}
-			}
-			close(fd1[READ_END]);
-			close(fd1[WRITE_END]);
-			//new_free(&holder_child);
- 			if (pid == 0)
-				exit (shell->exit_return);
-		}
+		//do_redirect(shell, envp);
+		pid = execute_all(shell, envp);	
 		if (pid)
 			waitpid(pid, NULL, 0);
 		free_shell(shell);
-		//new_free(&holder_child);
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
-	//Se escribe en el historial al terminar el programa y se libera line_walker
 	write_history(".history_own");
-	//free(shell->line_walker);
 	exit (shell->exit_return);
 }
 
@@ -372,8 +306,6 @@ void	free_all(t_shell *shell)
 		{
 			if(shell->path->user)
 				new_free(&shell->path->user);
-			if(shell->path->home)
-				new_free(&shell->path->home);
 			if(shell->path->home_user)
 				new_free(&shell->path->home_user);
 			free(shell->path);

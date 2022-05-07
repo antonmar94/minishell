@@ -32,21 +32,13 @@
 typedef struct s_path
 {
 	char 		*user;
-	char		*home;
 	char		*home_user;
 }	t_path;
 
-typedef struct fake_arg_list //TODO:Borrar sólo para desarrollo $
-{
-	char					*content;
-	struct fake_arg_list	*next;
-}	t_fake_arg_list;
-
-
 typedef struct arg_list
 {
-	char			*content;
-	struct arg_list	*next;
+	char				*content;
+	struct arg_list		*next;
 
 }	t_arglist;
 
@@ -54,14 +46,10 @@ typedef struct env_list
 {
 	char				*var_name;
 	char				*var_content;
-	struct env_list	*next;
+	struct env_list		*next;
 
 }	t_env_list;
 
-
-/**
- @param
-*/
 typedef struct s_aux_pointer
 {
 	int		size_arg;
@@ -82,12 +70,10 @@ typedef struct s_aux_pointer
 typedef struct s_shell
 {
 	char 			*line;
-	char			*line_args;
 	char			*command;
 	char			*command_flag;
 	char			**command_args;
 	char			**command_plus_args;
-	char			*final_line;
 	int				size_line;
 	char			*line_walker;
 	int				size_args;
@@ -98,11 +84,7 @@ typedef struct s_shell
 	t_path			*path;
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
-	t_fake_arg_list *fake_arg_list;//Borrar sólo para desarrollo $
 	t_aux_pointer 	*aux_pointer;
-	char *redirect_input;
-	char *redirect_output;
-	char *redirect_error;
 }	t_shell;
 
 void	leaks(void);
@@ -135,23 +117,18 @@ int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
 int 		change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
 
-int del_var_node_coincident(t_shell *shell, char *var_name_to_find);
+int 		del_var_node_coincident(t_shell *shell, char *var_name_to_find);
 
 
-int do_exec(char *buff, t_shell *shell);
+int 		do_exec(char *buff, t_shell *shell);
 
-void	clear_console(void);
-
-
-int		split_arguments(t_shell *shell);
-int 	line_without_command(t_shell *shell);
-int		arg_listing(t_shell *shell);
-//int		add_command(t_shell *shell);
+void		clear_console(void);
 
 
+int			split_arguments(t_shell *shell);
+int 		line_without_command(t_shell *shell);
+int			arg_listing(t_shell *shell);
 
-
-//int		argument_list_creator(t_shell *shell);
 char	check_allquotes(char *line_walker);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
@@ -202,7 +179,6 @@ int		error_child_process(void);
 /*----------------------- AUXILIAR--------------------------------------------*/
 
 int		size_matriz(char **str);
-void	easy_test_line_for_check_export(t_shell *shell);
 void	check_envar(t_shell *shell);
 void	free_all(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
@@ -229,11 +205,7 @@ size_t	ft_desplace_2char(char const *s, char c, char d);
 size_t	ft_lens_2char(char *lens, char c, char d);
 int		ft_isdigit_str(char *str);
 int		ft_isalpha_str(char *str, char c);
-/*----------------------- FAKES DEL------------------------------------------*/
 
-t_fake_arg_list		*fake_init_list_env(t_shell *shell, char** fake_arguments);
-t_fake_arg_list	*fake_args_list_new(char* env_var);
-void			fake_args_add_back(t_fake_arg_list **env_list, t_fake_arg_list *new);
 
 
 #endif

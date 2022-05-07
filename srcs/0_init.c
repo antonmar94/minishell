@@ -16,8 +16,7 @@ t_path *init_path(t_shell *shell)
 {
 
 	shell->path->user = ft_strdup(getenv("USER"));
-	shell->path->home = ft_strdup("/Users/");
-	shell->path->home_user = ft_strjoin(shell->path->home, shell->path->user);
+	shell->path->home_user = ft_strjoin("/Users/", shell->path->user);
 	return(shell->path);
 }
 
@@ -37,7 +36,6 @@ t_shell *initialice(char** envp)
 	shell->command_args = NULL;
 	shell->command = NULL;
 	shell->command_flag = NULL;
-	shell->final_line = NULL;
 	shell->size_c = 11;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
 	shell->list_commands[0]="";
