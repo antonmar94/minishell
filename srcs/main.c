@@ -287,12 +287,21 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	return (pid);
 }
 
+void	child_execution(t_shell *shell, char **envp)
+{
+	int		pid;
+
+	pid = execute_all(shell, shell->pipes_struct, envp);
+	if (pid)
+		waitpid(pid, NULL, 0);
+}
+
 int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
 	t_shell	*shell;
 	int		error;
-	int		pid;
+	
 	char	*contenido;
 
 	contenido =	NULL;
@@ -312,11 +321,9 @@ int	main(int argc, char **argv, char** envp)
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
+		child_execution(shell, envp);
 		//eval_exit(shell);
 		//do_redirect(shell, envp);
-		pid = execute_all(shell, shell->pipes_struct, envp);
-		if (pid)
-			waitpid(pid, NULL, 0);
 		free_shell(shell);
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
