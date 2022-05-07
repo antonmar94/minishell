@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 17:32:35 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 17:43:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void replace_content_runaway(t_aux_pointer *pointer)
 	pointer->new_expanded_str =ft_strjoin(pointer->line_untildollar_joined, pointer->content);
 	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_untildollar + pointer->size_arg + 1;
 	pointer->count_untildollar = 0;
-
 	pointer->shell_line_walker+=pointer->size_arg;
 	if(pointer->new_expanded_str)
 		free(pointer->new_expanded_str);
@@ -89,10 +88,6 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
 	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
 	shell->aux_pointer->count_untildollar = 0;
-
-	//check_envar(shell);//TODO: seguridad comprobacion variables entorno
-	//if (ft_strcmp(shell->line, "exit") == 0)//TODO:Borrar solo para probar leaks aqui
-		//shell->exit = 1;
 	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 	while (shell->aux_pointer->shell_line_walker && *(shell->aux_pointer->shell_line_walker))
 	{
@@ -127,5 +122,4 @@ void	replace_dollar(t_shell *shell)
 	free(shell->aux_pointer->line_untildollar);
 	free(shell->aux_pointer->line_untildollar_joined);
 	free(shell->aux_pointer->first_dollar_found);
-	//free(shell->aux_pointer);
 }
