@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/07 12:09:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 13:18:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,12 +191,6 @@ int	main(int argc, char **argv, char** envp)
 			syntax_error();
 			error = 1;
 		}
-
-		shell->line_walker = shell->line;
-		while (*shell->line_walker && *shell->line_walker == ' ')
-			shell->line_walker++;
-		//split_arguments(shell);
-		//free_shell(shell);
 		//eval_exit(shell);
 		//do_redirect(shell, envp);
 		if (*pipe_next_line(shell->line))
@@ -206,8 +200,7 @@ int	main(int argc, char **argv, char** envp)
 				syntax_error();
 				error = 1;
 			}
-		}
-						
+		}			
 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
@@ -234,38 +227,46 @@ int	main(int argc, char **argv, char** envp)
 				close(fd1[WRITE_END]);
 				execute_line(shell, envp);
 			}
-			else if (*holder_parent)
+			else 
 			{
-				is_first = 0;
-				while (holder_parent[i] && holder_parent[i] != '|')
-					i++;
-				free(holder_child);
-				holder_child = ft_substr(holder_parent, 0, i);
-				i = 0;
-				holder_parent = pipe_next_line(holder_parent);
-				pipe(fd2);
-				pid = fork();
-				error = check_error_child(pid);
-				if (pid == 0)
+				if (!is_first)
+					close(fd2[READ_END]);
+				if (*holder_parent)
 				{
-					close(fd1[WRITE_END]);
-					shell->line = holder_child;
-					close(fd2[READ_END]);
-					dup2(fd1[READ_END], STDIN_FILENO);
-					close(fd1[READ_END]);
-   					if (*holder_parent)
-						dup2(fd2[WRITE_END], STDOUT_FILENO);	
-					close(fd2[WRITE_END]);
-					execute_line(shell, envp);
+					is_first = 0;
+					while (holder_parent[i] && holder_parent[i] != '|')
+						i++;
+					free(holder_child);
+					holder_child = ft_substr(holder_parent, 0, i);
+					i = 0;
+					holder_parent = pipe_next_line(holder_parent);
+					pipe(fd2);
+					pid = fork();
+					error = check_error_child(pid);
+					if (pid == 0)
+					{
+						close(fd1[WRITE_END]);
+						shell->line = holder_child;
+						close(fd2[READ_END]);
+						dup2(fd1[READ_END], STDIN_FILENO);
+						close(fd1[READ_END]);
+						if (*holder_parent)
+							dup2(fd2[WRITE_END], STDOUT_FILENO);	
+						close(fd2[WRITE_END]);
+						execute_line(shell, envp);
+					}
+					else
+					{
+						close(fd2[WRITE_END]);
+						if (!*holder_parent || error)
+							close(fd2[READ_END]);
+					}
 				}
-				close(fd2[WRITE_END]);
-				if (!*holder_parent || error)
-					close(fd2[READ_END]);
 			}
-			if (pid == 0)
-				exit (0);
 			close(fd1[READ_END]);
 			close(fd1[WRITE_END]);
+ 			if (pid == 0)
+				exit (0);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
@@ -273,9 +274,8 @@ int	main(int argc, char **argv, char** envp)
 		new_free(&holder_child);
 		if (pid == 0)
 			exit (shell->exit_return);
-
-		//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	}
+	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	//Se escribe en el historial al terminar el programa y se libera line_walker
 	write_history(".history_own");
 	//free(shell->line_walker);

@@ -49,8 +49,6 @@ int system_commmand(t_shell *shell, char **envp)
 	char		*env_aux;
 	char		*env_dup;
 	char		**paths_list;
-	//t_arglist	*holder_first;
-	//char		**execute_command;
 	int			i;
 
 	i = 0;
@@ -60,19 +58,7 @@ int system_commmand(t_shell *shell, char **envp)
 	env_dup = ft_strdup(env_aux);
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
-/* 	execute_command = malloc(sizeof(char *) * shell->size_args + 2);
-	execute_command[0] = (ft_strjoin(ft_strjoin(*paths_list, "/"),
-			shell->command)); */
-/* 	i++;
-	holder_first = shell->arg_list;
- 	while (shell->arg_list->content && shell->size_args > 0)
-	{
-		execute_command[i] = shell->arg_list->content;
-		shell->arg_list = shell->arg_list->next;
-		i++;
-	} */
-	/* execute_command[i] = NULL; */
-	//shell->arg_list = holder_first;
+
 	while (*paths_list)
 	{
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
