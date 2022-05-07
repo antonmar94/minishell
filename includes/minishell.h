@@ -53,12 +53,12 @@ typedef struct env_list
 typedef struct s_aux_pointer
 {
 	int		size_arg;
-	int		count_until$;
+	int		count_untildollar;
 	char	*shell_line_walker;
 	char	*origin_line_arg;
-	char	*first_$_found;
-	char	*line_until$_joined;
-	char 	*line_until$;
+	char	*first_dollar_found;
+	char	*line_untildollar_joined;
+	char 	*line_untildollar;
 	char 	*new_expanded_str;
 	char 	*content;
 	char	*line_walker;
