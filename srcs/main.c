@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/24 12:26:40 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 12:09:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,18 @@ void	del_list(t_shell	*shell)
 	shell->arg_list = copy;
 }
 
+int	check_error_child(int pid)
+{
+	int	error;
+
+	error = 0;
+	if (pid < 0)
+	{
+		error_child_process();
+		error = 1;
+	}
+	return (error);
+}
 /* void eval_exit(t_shell	*shell)
 {
 	char *copy_line;
@@ -199,45 +211,27 @@ int	main(int argc, char **argv, char** envp)
 		holder_parent = shell->line;
 		while (*holder_parent && !error)
 		{
-			//printf("HOLDER PARENT [%s]\n", holder_parent);
 			while (holder_parent[i] && holder_parent[i] != '|')
 				i++;
-			
 			holder_child = ft_substr(holder_parent, 0, i);
 			i = 0;
 			holder_parent = pipe_next_line(holder_parent);
-			
-			//printf("HOLDER CHILD [%s]\n", holder_child); //holder child ha de liberarse
 			pipe(fd1);
-
+			
 			pid = fork();
-			if (pid < 0)
-			{
-							
-				error_child_process();
-				exit (shell->exit_return);
-				error = 1;
-			}
+			error = check_error_child(pid);
 			if(pid == 0)
 			{
-				new_free(&shell->line);
 				shell->line = holder_child;
+				close(fd1[READ_END]);
  				if (!is_first)
 				{
-					//printf("ENTRA AQUI WC [%s]\n", holder_child);
-					close(fd2[WRITE_END]);
 					dup2(fd2[READ_END], STDIN_FILENO);
 					close(fd2[READ_END]);
 				}
 				if (*holder_parent)
-				{
-					//printf("ENTRA AQUIII [%s]\n", holder_child);
-					close(fd1[READ_END]);
 					dup2(fd1[WRITE_END], STDOUT_FILENO);
-					close(fd1[WRITE_END]);
-					//printf("ESCRIBE AQUIII [%s]\n", holder_child);
-				}
-				//printf("EJECUTA AQUIII [%s]\n", holder_child);
+				close(fd1[WRITE_END]);
 				execute_line(shell, envp);
 			}
 			else if (*holder_parent)
@@ -245,45 +239,36 @@ int	main(int argc, char **argv, char** envp)
 				is_first = 0;
 				while (holder_parent[i] && holder_parent[i] != '|')
 					i++;
+				free(holder_child);
 				holder_child = ft_substr(holder_parent, 0, i);
 				i = 0;
 				holder_parent = pipe_next_line(holder_parent);
 				pipe(fd2);
-				//close(fd2[READ_END]);
-				close(fd1[WRITE_END]);
 				pid = fork();
-				if (pid < 0)
-				{
-					error_child_process();
-					error = 1;
-				}
+				error = check_error_child(pid);
 				if (pid == 0)
 				{
-					new_free(&shell->line);
+					close(fd1[WRITE_END]);
 					shell->line = holder_child;
- 					//close(fd1[WRITE_END]);
+					close(fd2[READ_END]);
 					dup2(fd1[READ_END], STDIN_FILENO);
-					//doprint(get_next_line(fd1[READ_END], &contenido), &contenido);
 					close(fd1[READ_END]);
    					if (*holder_parent)
-					{
-						//printf("ENTRA AQUIII EL GREP [%s]\n", holder_child);
-						close(fd2[READ_END]);
-						dup2(fd2[WRITE_END], STDOUT_FILENO);
-						close(fd2[WRITE_END]);
-					}
+						dup2(fd2[WRITE_END], STDOUT_FILENO);	
+					close(fd2[WRITE_END]);
 					execute_line(shell, envp);
 				}
-				close(fd1[READ_END]);
 				close(fd2[WRITE_END]);
-				
+				if (!*holder_parent || error)
+					close(fd2[READ_END]);
 			}
 			if (pid == 0)
 				exit (0);
+			close(fd1[READ_END]);
+			close(fd1[WRITE_END]);
 		}
 		if (pid)
 			waitpid(pid, NULL, 0);
-		//free_shell(shell);
 		free_shell(shell);
 		new_free(&holder_child);
 		if (pid == 0)
