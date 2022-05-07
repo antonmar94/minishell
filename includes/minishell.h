@@ -50,6 +50,15 @@ typedef struct env_list
 
 }	t_env_list;
 
+typedef struct pipes_struct
+{
+	int		fd1[2];
+	int		fd2[2];
+	char	*holder_parent;
+	int		error;
+
+}	t_pipes;
+
 typedef struct s_aux_pointer
 {
 	int		size_arg;
@@ -65,7 +74,6 @@ typedef struct s_aux_pointer
 	char	*final_str;
 
 }	t_aux_pointer;
-
 
 typedef struct s_shell
 {
@@ -85,6 +93,7 @@ typedef struct s_shell
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
 	t_aux_pointer 	*aux_pointer;
+	t_pipes			*pipes_struct;
 }	t_shell;
 
 void	leaks(void);

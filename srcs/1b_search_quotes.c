@@ -208,7 +208,7 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 	if (**arg_holder && size_part > 0)
 	{
  		arg_part = ft_substr(*arg_holder, 0, size_part);
-		if (quotes == '\'')
+		if (quotes != '\'')
 			arg_part = change_dollars(shell, arg_part);
 	}
 	return (arg_part);
@@ -263,14 +263,14 @@ int	add_arg_tolist(t_shell *shell)
 	return (1);
 }
 
-void	create_array_args(t_shell *shell, int size)
+void	create_array_args(t_shell *shell)
 {
 	t_arglist	*holder_first;
 	int			i;
 
 	i = 0;
 	holder_first = shell->arg_list;
-	shell->command_plus_args = malloc(sizeof(char *) * size + 1);
+	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 1);
 	while (holder_first && shell->size_args > 0)
 	{
 		shell->command_plus_args[i] = holder_first->content;
@@ -293,7 +293,7 @@ int	split_arguments(t_shell *shell)
 		shell->size_args = 1;
 	while (add_arg_tolist(shell))
 		shell->size_args++;;
-  	create_array_args(shell, shell->size_args);
+  	create_array_args(shell);
 	shell->command_args = shell->command_plus_args;
 	shell->command_args++;
 	if (shell->arg_list)

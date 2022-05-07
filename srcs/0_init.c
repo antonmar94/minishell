@@ -31,6 +31,7 @@ t_shell *initialice(char** envp)
 	shell->path = init_path(shell);
 	shell->env_list = init_list_env(shell, envp);
 	shell->aux_pointer = malloc(sizeof(t_aux_pointer));
+	shell->pipes_struct = malloc(sizeof(t_pipes));
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->command_args = NULL;

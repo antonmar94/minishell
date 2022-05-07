@@ -151,17 +151,17 @@ int	check_error_child(int pid)
 		free(shell->arg_list);
 } */
 
-char	*create_child_line(char *holder_parent)
+char	*create_child_line(t_pipes *pipes_struct)
 {
 	char	*holder_child;
 	int		i;
 
 	holder_child = NULL;
-	
 	i = 0;
-	while (holder_parent[i] && holder_parent[i] != '|')
+	while (pipes_struct->holder_parent[i] && pipes_struct->holder_parent[i] != '|')
 				i++;
-	holder_child = ft_substr(holder_parent, 0, i);
+	holder_child = ft_substr(pipes_struct->holder_parent, 0, i);
+	pipes_struct->holder_parent = pipe_next_line(pipes_struct->holder_parent);
 	return (holder_child);
 }
 
@@ -185,80 +185,106 @@ int	check_syntax(t_shell *shell)
 	}
 	return (error);
 }
-
-int	execute_all(t_shell *shell, char **envp)
+void	pipes_first(t_shell *shell, char **envp, int is_first)
 {
-		char	*holder_parent;
-		char	*holder_child;
-		int		pid;
-		int		error;
-		int		fd1[2];
-		int		is_first;
-		int		fd2[2];
+	t_pipes *pipes_struct;
 
-		holder_parent = shell->line;
-		error = 0;
-		while (*holder_parent && !error)
+	pipes_struct = shell->pipes_struct;
+	close(pipes_struct->fd1[READ_END]);
+ 	if (!is_first)
+	{
+		dup2(pipes_struct->fd2[READ_END], STDIN_FILENO);
+		close(pipes_struct->fd2[READ_END]);
+	}
+	if (*pipes_struct->holder_parent)
+		dup2(pipes_struct->fd1[WRITE_END], STDOUT_FILENO);
+	close(pipes_struct->fd1[WRITE_END]);
+	execute_line(shell, envp);
+}
+
+void	pipes_next(t_shell *shell, char **envp, char *holder_child)
+{
+	t_pipes *pipes_struct;
+
+	shell->line = holder_child;
+	pipes_struct = shell->pipes_struct;
+	close(pipes_struct->fd1[WRITE_END]);
+	close(pipes_struct->fd2[READ_END]);
+	dup2(pipes_struct->fd1[READ_END], STDIN_FILENO);
+	close(pipes_struct->fd1[READ_END]);
+	if (*pipes_struct->holder_parent)
+		dup2(pipes_struct->fd2[WRITE_END], STDOUT_FILENO);	
+	close(pipes_struct->fd2[WRITE_END]);
+	execute_line(shell, envp);
+}
+
+int	execute_first(t_shell *shell, char **envp, int is_first)
+{
+	char	*holder_child;
+	int		pid;
+	t_pipes *pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	holder_child = create_child_line(pipes_struct);
+	pipe(pipes_struct->fd1);	
+	pid = fork();
+	pipes_struct->error = check_error_child(pid);
+	if(pid == 0)
+	{
+		shell->line = holder_child;
+		pipes_first(shell, envp, is_first);
+	}
+	return (pid);
+}
+
+int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
+{
+	char	*holder_child;
+	t_pipes *pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	if (!is_first)
+		close(pipes_struct->fd2[READ_END]);
+	if (*pipes_struct->holder_parent)
+	{
+		holder_child = create_child_line(pipes_struct);
+		pipe(pipes_struct->fd2);
+		pid = fork();
+		pipes_struct->error = check_error_child(pid);
+		if (pid == 0)
+			pipes_next(shell, envp, holder_child);
+		else
 		{
-			holder_child = create_child_line(holder_parent);
-			holder_parent = pipe_next_line(holder_parent);
-			pipe(fd1);	
-			pid = fork();
-			error = check_error_child(pid);
-			if(pid == 0)
-			{
-				shell->line = holder_child;
-				close(fd1[READ_END]);
- 				if (!is_first)
-				{
-					dup2(fd2[READ_END], STDIN_FILENO);
-					close(fd2[READ_END]);
-				}
-				if (*holder_parent)
-					dup2(fd1[WRITE_END], STDOUT_FILENO);
-				close(fd1[WRITE_END]);
-				execute_line(shell, envp);
-			}
-			else 
-			{
-				if (!is_first)
-					close(fd2[READ_END]);
-				if (*holder_parent)
-				{
-					is_first = 0;
-					free(holder_child);
-					holder_child = create_child_line(holder_parent);
-					holder_parent = pipe_next_line(holder_parent);
-					pipe(fd2);
-					pid = fork();
-					error = check_error_child(pid);
-					if (pid == 0)
-					{
-						shell->line = holder_child;
-						close(fd1[WRITE_END]);
-						close(fd2[READ_END]);
-						dup2(fd1[READ_END], STDIN_FILENO);
-						close(fd1[READ_END]);
-						if (*holder_parent)
-							dup2(fd2[WRITE_END], STDOUT_FILENO);	
-						close(fd2[WRITE_END]);
-						execute_line(shell, envp);
-					}
-					else
-					{
-						close(fd2[WRITE_END]);
-						if (!*holder_parent || error)
-							close(fd2[READ_END]);
-					}
-				}
-			}
-			close(fd1[READ_END]);
-			close(fd1[WRITE_END]);
-			//new_free(&holder_child);
- 			if (pid == 0)
-				exit (0);
+			close(pipes_struct->fd2[WRITE_END]);
+			if (!*pipes_struct->holder_parent || pipes_struct->error)
+				close(pipes_struct->fd2[READ_END]);
 		}
-		return (pid);
+		new_free(&holder_child);
+	}
+	return (pid);
+}
+
+int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
+{
+	int		pid;
+	int		is_first;
+
+	pipes_struct->holder_parent = shell->line;
+	pid = 0;
+	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
+	{
+		pid = execute_first(shell, envp, is_first);
+		if (pid != 0) 
+		{
+			pid = execute_next(shell, envp, is_first, pid);
+			is_first = 0;
+		}
+		close(pipes_struct->fd1[READ_END]);
+		close(pipes_struct->fd1[WRITE_END]);
+		if (pid == 0)
+			exit (0);
+	}
+	return (pid);
 }
 
 int	main(int argc, char **argv, char** envp)
@@ -288,7 +314,7 @@ int	main(int argc, char **argv, char** envp)
 		error = check_syntax(shell);
 		//eval_exit(shell);
 		//do_redirect(shell, envp);
-		pid = execute_all(shell, envp);	
+		pid = execute_all(shell, shell->pipes_struct, envp);
 		if (pid)
 			waitpid(pid, NULL, 0);
 		free_shell(shell);
