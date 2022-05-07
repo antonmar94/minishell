@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/20 20:12:07 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/05/07 19:47:01 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,17 @@ t_shell *initialice(char** envp)
 	shell->command_args = NULL;
 	shell->command = NULL;
 	shell->command_flag = NULL;
-	shell->size_c = 11;//Numero de comandos actualizar al final
+	shell->size_c = 9;//Numero de comandos actualizar al final
 	shell->list_commands = malloc(sizeof(char*) * shell->size_c);
-	shell->list_commands[0]="";
-	shell->list_commands[1]="pwd";
-	shell->list_commands[2]="hello";
-	shell->list_commands[3]="help";
-	shell->list_commands[4]="cd";
-	shell->list_commands[5]="echo";
-	shell->list_commands[6]="clear";
-	shell->list_commands[7]="export";
-	shell->list_commands[8]="env";// borrar?? solo para comprobar env
-	shell->list_commands[9]="unset";
-	shell->list_commands[10]="exit";
+	shell->list_commands[0]="export";
+	shell->list_commands[1]="env";
+	shell->list_commands[2]="unset";
+	shell->list_commands[3]="hello";
+	shell->list_commands[4]="exit";
+	shell->list_commands[5]="help";
+	shell->list_commands[6]="pwd";
+	shell->list_commands[7]="cd";// borrar?? solo para comprobar env
+	shell->list_commands[8]="echo";
 	// NO AÑADIR COMANDO SI AUMENTAR SIZE_C
 	return (shell);
 }

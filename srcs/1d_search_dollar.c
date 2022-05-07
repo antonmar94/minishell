@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 18:15:43 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 19:54:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,10 @@ int	check_char(char *str, char char_tofind)
 
 	while (str && *str)
 	{
-
-	
 		if (*str && *str == char_tofind)
-		{
-			printf("HAY '='\n");
 			return(1);
-		}
-		
-		str++;
-		
+		str++;	
 	}
-	printf("NO HAY '='\n");
 	return (0);
 }
 

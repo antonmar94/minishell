@@ -6,12 +6,34 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/04/23 12:12:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 19:43:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
+
+
+int find_enviro_command(t_shell *shell)
+{
+	int i;
+
+	i = -1;
+	if(!shell->command)
+		return(0);
+	while (++i < 6)
+	{
+		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
+		{
+			execute_command(shell, i);
+			return(1);
+		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
+	}
+	return(0);
+	//command_error(shell);
+}
+
+
 
 int find_command(t_shell *shell)
 {
@@ -32,28 +54,25 @@ int find_command(t_shell *shell)
 
 void execute_command(t_shell *shell, int i)
 {
+
 	if (i == 0)
-		return;
-	else if (i == 1)
-		print_pwd();
-	else if (i == 2)
-		wellcome_header(shell);//hello
-	else if (i == 3)
-		help(shell);
-	else if (i == 4)
-		cd(shell);
-	else if (i == 5)
-		echo(shell);
-	else if (i == 6)
-		clear_console();
-	else if (i == 7)
 		export(shell);
-	else if (i == 8)
+	else if (i == 1)
 		env(shell);
-	else if (i == 9)
+	else if (i == 2)
 		unset(shell);
-	else if (i == 10)
+	else if (i == 3)
+		wellcome_header(shell);//hello
+	else if (i == 4)
 		exit_minishell(shell);
+	else if (i == 5)
+		help(shell);	
+	else if (i == 6)
+		print_pwd();
+	else if (i == 7)
+		cd(shell);
+	else if (i == 8)
+		echo(shell);
 }
 
 int system_commmand(t_shell *shell, char **envp)

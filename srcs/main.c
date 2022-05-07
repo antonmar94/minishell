@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/07 17:25:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 20:06:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,10 @@ int	execute_all(t_shell *shell, char **envp)
 		return (pid);
 }
 
+
+
+
+
 int	main(int argc, char **argv, char** envp)
 {
 	(void)argv;
@@ -286,39 +290,20 @@ int	main(int argc, char **argv, char** envp)
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
+		split_arguments(shell);
+		if(!find_enviro_command(shell))
+		{
+			pid = execute_all(shell, envp);	
+			if (pid)
+			waitpid(pid, NULL, 0);
+		}
 		//eval_exit(shell);
 		//do_redirect(shell, envp);
-		pid = execute_all(shell, envp);	
-		if (pid)
-			waitpid(pid, NULL, 0);
 		free_shell(shell);
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	write_history(".history_own");
 	exit (shell->exit_return);
-}
-
-void	free_all(t_shell *shell)
-{
-	if(shell)
-	{
-		if (shell->path)
-		{
-			if(shell->path->user)
-				new_free(&shell->path->user);
-			if(shell->path->home_user)
-				new_free(&shell->path->home_user);
-			free(shell->path);
-			shell->path = NULL;
-		}
-		if(shell->list_commands)
-			free(shell->list_commands);
-		if(shell->env_list)
-			free_env_list(shell->env_list);
-		free(shell);
-		shell=NULL;
-	}
-
 }
 
 void	free_aux_pointer(t_aux_pointer *aux_pointer)

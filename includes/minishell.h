@@ -138,6 +138,7 @@ int 	find_command(t_shell *shell);
 int		system_commmand(t_shell *shell, char **envp);
 void	execute_command(t_shell *shell, int i);
 void	free_and_reset_values(t_shell *shell);
+int find_enviro_command(t_shell *shell);
 
 /*--------------------PARSING----------------------------------------------------*/
 int		check_quotes_error(char	*line);
@@ -182,7 +183,6 @@ int		error_child_process(void);
 
 int		size_matriz(char **str);
 void	check_envar(t_shell *shell);
-void	free_all(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
 void	free_env_list(t_env_list *envp);
 void	free_aux_pointer(t_aux_pointer *aux_pointer);

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 18:21:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/07 20:04:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int unset(t_shell *shell)
 
 int env(t_shell *shell)
 {
+	if(*shell->command_args)
+		error_too_many_args();
 	print_env_list(shell->env_list);
 	return(0);
 }
