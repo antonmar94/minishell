@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 13:51:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:43:31 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	create_array_args(t_shell *shell)
 
 	i = 0;
 	holder_first = shell->arg_list;
-	shell->command_plus_args = malloc(sizeof(char *) * shell->size_args + 1);
-	while (holder_first && shell->size_args > 0)
+	shell->command_plus_args = malloc(sizeof(char *) * shell->size_com_args + 1);
+	while (holder_first && shell->size_com_args > 0)
 	{
 		shell->command_plus_args[i] = holder_first->content;
 		holder_first = holder_first->next;
@@ -80,14 +80,14 @@ int	split_arguments(t_shell *shell)
 	int			i;
 
 	i = 1;
-	shell->size_args = 0;
+	shell->size_com_args = 0;
 		shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	if (*shell->line_walker)
-		shell->size_args = 1;
+		shell->size_com_args = 1;
 	while (add_arg_tolist(shell))
-		shell->size_args++;;
+		shell->size_com_args++;;
   	create_array_args(shell);
 	shell->command_args = shell->command_plus_args;
 	shell->command_args++;

@@ -39,53 +39,6 @@ int cd(t_shell *shell)
 	return (0);
 }
 
-void exit_minishell(t_shell *shell)
-{
-
-	//printf("\nARGS: %s ",shell->arg_list->content);
-	//printf("\n\n\n\n\nHOLAA\n");
-	int number;
-		
-	if (!*shell->arg_list->content)
-	{
-		shell->exit_return = 0;
-		print_header(shell, "thanks for using");
-		shell->exit = 1;
-	}
-	if (shell->arg_list && *shell->arg_list->content)
-	{
-		if(shell->arg_list && shell->arg_list->next)
-		{
-			error_too_many_args();//No acaba
-			return;
-		}
-		if(!ft_isdigit_str(shell->arg_list->content))
-		{
-			error_not_numeric();
-			shell->exit_return = 255;
-			shell->exit = 1;
-		}
-		else
-		{
-			number = ft_atoi(shell->arg_list->content);
-			while (number < 0)
-				number+=256;
-			if (number >= 0 && number <= 255)
-			{
-				shell->exit_return = number;
-				print_header(shell, "thanks for using ");
-				shell->exit = 1;
-			}
-			if (number > 255)
-			{
-				number = number%256;
-				shell->exit_return = number;
-				print_header(shell, "thanks for using ");
-				shell->exit = 1;
-			} 
-		}
-	}
-}
 
 void help(t_shell *shell)
 {

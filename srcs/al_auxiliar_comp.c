@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 11:30:37 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:43:31 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	print_all(t_shell *shell)
 
 	if (shell->size_line)
 		printf("\nline's word number: %d\n", shell->size_line);//palabras linbe
-	if(shell->size_args)
-		printf("\nnumero args: %d\n", shell->size_args);
+	if(shell->size_com_args)
+		printf("\nnumero args: %d\n", shell->size_com_args);
 
 	if (shell->command)
 		printf(GREEN"\ncommand: %s\n"RESET, shell->command);// comando
@@ -31,7 +31,7 @@ void	print_all(t_shell *shell)
 		printf(RED"\nNO flag\n"RESET);
 	if(shell->command_args)
 	{
-		while ( ++j < shell->size_args)//imprime solo args
+		while ( ++j < shell->size_com_args)//imprime solo args
 			printf("\narg[%d] %s\n", j, shell->command_args[j] );
 	}
 	else

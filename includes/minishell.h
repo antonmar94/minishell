@@ -84,7 +84,7 @@ typedef struct s_shell
 	char			**command_plus_args;
 	int				size_line;
 	char			*line_walker;
-	int				size_args;
+	int				size_com_args;
 	char			**list_commands;
 	int				size_c;
 	int 			exit;

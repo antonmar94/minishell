@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:19:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:45:12 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,48 @@ int env(t_shell *shell)
 		error_too_many_args();
 	print_env_list(shell->env_list);
 	return(0);
+}
+
+void exit_minishell(t_shell *shell)
+{
+	int number;
+	if (shell->size_com_args == 1)
+	{
+		shell->exit_return = 0;
+		print_header(shell, "thanks for using");
+		shell->exit = 1;
+	}
+	if (shell->arg_list && *shell->arg_list->content)
+	{
+		if(shell->arg_list && shell->arg_list->next)
+		{
+			error_too_many_args();//No acaba
+			return;
+		}
+		if(!ft_isdigit_str(shell->arg_list->content))
+		{
+			error_not_numeric();
+			shell->exit_return = 255;
+			shell->exit = 1;
+		}
+		else
+		{
+			number = ft_atoi(shell->arg_list->content);
+			while (number < 0)
+				number+=256;
+			if (number >= 0 && number <= 255)
+			{
+				shell->exit_return = number;
+				print_header(shell, "thanks for using ");
+				shell->exit = 1;
+			}
+			if (number > 255)
+			{
+				number = number%256;
+				shell->exit_return = number;
+				print_header(shell, "thanks for using ");
+				shell->exit = 1;
+			} 
+		}
+	}
 }
