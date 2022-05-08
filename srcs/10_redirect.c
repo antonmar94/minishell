@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:20:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:04:52 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void do_redirect(t_shell *shell, char **envp)
 	{
 		fd = open(redirect_file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
 		dup2(fd, 1);
-		execute_line(shell, envp);
+		execute_child_line(shell, envp);
 	}
 	else if(redirect_flag == 2)
 	{
 		fd = open(redirect_file, O_WRONLY|O_CREAT|O_APPEND, 0664);
 		dup2(fd, 1);
-		execute_line(shell, envp);
+		execute_child_line(shell, envp);
 	}
 	/* else if(redirect_flag == 3)
 	{
@@ -68,6 +68,6 @@ void do_redirect(t_shell *shell, char **envp)
 		}	
 	}  */
 	else
-		execute_line(shell, envp);
+		execute_child_line(shell, envp);
 }
 

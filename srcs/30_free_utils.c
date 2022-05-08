@@ -6,35 +6,52 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:27:09 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 13:54:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_shell(t_shell *shell)
+void new_free(char **ptr)
+{
+
+    free(*ptr);
+    *ptr = NULL;
+}
+
+void	free_all_struct(t_shell *shell)
 {
 	if(shell->aux_pointer->final_str)
 		new_free(&shell->aux_pointer->final_str);
-
-	all_clear(&shell->arg_list);
-	free_and_reset_values(shell);
+	if(shell->line)
+		free(shell->line);
+	shell->line = NULL;
+	free_parent(shell);
 }
 
-void	del_list(t_shell	*shell)
+void	free_parent(t_shell *shell)
 {
-	t_arglist *copy;
-	copy = shell->arg_list;
-	while (copy)
+	free_arg_list(&shell->arg_list);
+	shell->size_line = 0;
+	shell->size_args = 0;
+	shell->command = NULL;
+	shell->command_flag = NULL;
+	new_free(shell->command_plus_args);
+}
+
+void	free_arg_list(t_arglist **arg_lst)
+{
+	t_arglist *cleaner;
+	t_arglist *aux;
+
+	cleaner = *arg_lst;
+	while (cleaner)
 	{
-		if(copy->content)
-		{
-			free(copy->content);
-			copy->content = NULL;
-		}
-		copy = copy->next;	
+		aux = cleaner->next;
+		free(cleaner);
+		cleaner = aux;
 	}
-	shell->arg_list = copy;
+	*arg_lst = NULL;
 }
 
 void	free_env_list(t_env_list *envp)
@@ -71,18 +88,4 @@ void	free_env_list(t_env_list *envp)
 		copy->var_content = NULL;
 	}
 	free(copy);
-}
-
-void	free_and_reset_values(t_shell *shell)
-{
-	if(shell->line)
-	{
-			if(shell->line)
-				free(shell->line);
-			shell->line = NULL;
-
-	}
-	shell->size_line = 0;
-	shell->size_args = 0;
-	shell->command = NULL;
 }

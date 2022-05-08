@@ -27,7 +27,6 @@ SRCS =	./srcs/00_init.c \
 		./srcs/al_auxiliar_list.c \
 		./srcs/al_check_aux.c \
 		./srcs/al_aux_lib.c \
-		./srcs/al_aux_free.c \
 		./srcs/main.c \
 
 OBJS = ${SRCS:.c=.o}

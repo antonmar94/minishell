@@ -183,9 +183,6 @@ void	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 int 	echo(t_shell *shell);
 int 	export(t_shell *shell);
-void	all_clear(t_arglist **arg_lst);
-
-
 
 /*----------------------- ERRORS ---------------------------------------------*/
 int		syntax_error(void);
@@ -198,7 +195,6 @@ int		error_not_numeric(void);
 int		error_child_process(void);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
-
 int		size_matriz(char **str);
 void	check_envar(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
@@ -211,8 +207,9 @@ void	pipes_next(t_shell *shell, char **envp, char *holder_child);
 char	*pipe_next_line(char *line);
 int		check_pipe_syntax(char *line);
 char	*create_child_line(t_pipes *pipes_struct);
-int		execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
+int		execute_child_line(t_shell *shell, char **envp);
 void	child_execution(t_shell *shell, char **envp);
+int		execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
 
 /*----------------------- AUXILIAR PRINT--------------------------------------*/
 void	print_all(t_shell *shell);
@@ -220,10 +217,10 @@ void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
-
 /*----------------------- FREE--------------------------------------*/
-void	free_and_reset_values(t_shell *shell);
-void	free_shell(t_shell *shell);
+void	free_parent(t_shell *shell);
+void	free_all_struct(t_shell *shell);
+void	free_arg_list(t_arglist **arg_lst);
 void	free_env_list(t_env_list *envp);
 void 	new_free(char **ptr);
 

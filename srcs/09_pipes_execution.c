@@ -6,11 +6,22 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:20:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:00:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	execute_child_line(t_shell *shell, char **envp)
+{
+	split_arguments(shell);
+	if (!find_command(shell))
+	{
+		if (!system_commmand(shell, envp))
+			command_error(shell->command);
+	}
+	exit (0);
+}
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
 {
@@ -81,23 +92,11 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	return (pid);
 }
 
-int	execute_line(t_shell *shell, char **envp)
-{
-	split_arguments(shell);
-	if (!find_command(shell))
-	{
-		if (!system_commmand(shell, envp))
-			command_error(shell->command);
-	}
-
-	free_shell(shell);
-	return (0);
-}
-
 void	child_execution(t_shell *shell, char **envp)
 {
 	int		pid;
 
+	free_parent(shell);
 	pid = execute_all(shell, shell->pipes_struct, envp);
 	if (pid)
 		waitpid(pid, NULL, 0);

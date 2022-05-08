@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 12:17:38 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 13:51:36 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ void	add_line_command(t_shell *shell)
 		aux_free = shell->arg_list;
 		
 		shell->arg_list = shell->arg_list->next;
-		
 		free(aux_free);
 		aux_free = NULL;
 		if (shell->arg_list && check_list_flag(shell->arg_list->content))
 		{
 			shell->command_flag = "-n";
 			aux_free = shell->arg_list;
-			
 			shell->arg_list = shell->arg_list->next;
- 			free(aux_free);
-			aux_free = NULL;
 		}
 	}
 }

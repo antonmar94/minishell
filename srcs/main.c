@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 12:27:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:05:47 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,9 @@ int	main(int argc, char **argv, char** envp)
 		split_arguments(shell);
 		if(!find_enviro_command(shell))
 			child_execution(shell, envp);
-		//eval_exit(shell);
-		//do_redirect(shell, envp);
-		free_shell(shell);
+		free_all_struct(shell);
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	write_history(".history_own");
 	exit (shell->exit_return);
 }
-
-

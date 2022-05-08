@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:21:02 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 13:49:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,6 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 		*arg_lst = (*arg_lst)->next;
 	(*arg_lst)->next = new;
 	*arg_lst = aux;
-}
-
-void	all_clear(t_arglist **arg_lst)
-{
-	t_arglist *cleaner;
-	t_arglist *aux;
-
-	cleaner = *arg_lst;
-	if (*arg_lst)
-	{
-		while (cleaner->content && cleaner->next)
-		{
-			aux = cleaner->next;
-			free(cleaner);
-			cleaner->content = NULL;
-			cleaner->next = NULL;
-			cleaner = aux;
-		}
-		cleaner->content = NULL;
-		cleaner->next = NULL;
-		*arg_lst = NULL;
-	}
 }
 
 /* If found one in a list return de var content */
