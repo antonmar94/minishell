@@ -2,3 +2,18 @@ exit 34
 exit
 exit
 exit
+exit
+exit 34
+exit -44
+exit parara
+git status
+git push
+exit
+make
+exit
+env
+exit
+exit
+echo $0
+bash
+exit

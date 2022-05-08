@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 14:05:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 18:40:23 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int argc, char **argv, char** envp)
 			add_history(shell->line);
 		error = check_syntax(shell);
 		split_arguments(shell);
+		printf("arg:[%s]\n", shell->command_args[0]);
+		//printf("arg:[%s]\n", shell->command_args[1]);
 		if(!find_enviro_command(shell))
 			child_execution(shell, envp);
 		free_all_struct(shell);

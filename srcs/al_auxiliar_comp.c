@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 14:43:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 18:55:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	print_all(t_shell *shell)
 {
 	int j = -1;
 
-	if (shell->size_line)
-		printf("\nline's word number: %d\n", shell->size_line);//palabras linbe
+	if (shell->size_com_args)
+		printf("\nline's word number: %d\n", shell->size_com_args);//palabras linbe
 	if(shell->size_com_args)
 		printf("\nnumero args: %d\n", shell->size_com_args);
 
@@ -65,7 +65,7 @@ void	print_env_list(t_env_list *envp)
 	printf(GREEN"\nvar content:"RESET);
 	printf("%s"RESET, copy->var_content);
 	printf("\n");
-	printf(RED"tamaño lista: %d\n"RESET,i);
+	printf(RED"\nsize enviroment: %d\n"RESET,i);
 }
 
 void print_var_content_text(char *var_name, char *var_content, t_shell *shell)

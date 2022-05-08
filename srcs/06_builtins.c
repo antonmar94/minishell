@@ -26,10 +26,10 @@ int cd(t_shell *shell)
 {
 	int ret = 0;
 
-	if(shell->size_line > 2 )
+	if(shell->size_com_args > 2 )
 		return (error_number_args());
-	if(shell->size_line == 1 ||
-		(shell->size_line == 2 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
+	if(shell->size_com_args == 1 ||
+		(shell->size_com_args == 2 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
 		ret = chdir(shell->path->home_user);
 	else
 		ret = chdir(shell->command_plus_args[1]);
@@ -63,6 +63,8 @@ int echo(t_shell *shell)
 	copy = shell->arg_list;
 	while (copy)
 	{
+		/* if(ft_strcmp(copy->content, "0") == 0 )
+			ft_putstr_fd("minishell", 1); */
 		ft_putstr_fd(copy->content, 1);
 			if (copy->next)
 			write(1, " ", 1);

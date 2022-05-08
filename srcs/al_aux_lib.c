@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   z5_aux_lib.c                                       :+:      :+:    :+:   */
+/*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/14 10:19:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 19:51:24 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 	return (scopy);
 }
 
+size_t	ft_lens_2char_zero(char *lens, char c, char d)
+{
+	size_t	i;
+
+	i = 0;
+	{
+		while (lens[i] != '\0')
+		{
+			if (lens[i] == c || lens[i] == d || lens[i] != '_')
+			{
+				printf("IIIIII [%lu]\n", i);
+				return (i);
+			}
+			i++;
+		}
+		printf("IIIIII [%lu]\n", i);
+		return (i);
+	}
+}
+
 /* modified split to return de first str before a char */
 char	*ft_split_one(char *s, char c, char d)
 
@@ -47,15 +67,18 @@ char	*ft_split_one(char *s, char c, char d)
 
 
 	i = 0;
+
 	if (s == NULL)
 		return (NULL);
 	desplace = 0;
 	scopy = s;
-	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
-
+	//printf("SIZE A CORTAR [%lu]\n", ft_lens_2char(scopy, c, d));
+	pp = ft_substr((const char *)scopy, 0, ft_lens_2char_zero(scopy, c, d));
+	printf("PP EN TU CASA [%s]\n", pp);
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
 	if (ft_isdigit(pp[0]))
 		return (pp + 1);
+	
 	return (pp);
 }
 
@@ -96,6 +119,7 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 		return (i);
 	}
 }
+
 
 int	ft_isalpha_str(char *str, char c)
 {

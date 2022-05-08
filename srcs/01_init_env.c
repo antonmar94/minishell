@@ -6,11 +6,31 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:17:43 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 19:47:37 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void add_hidden_env_var(t_shell *shell)
+{
+	t_env_list	*this_list_var;
+	int i;
+	int size;
+	//ft_strjoin("?=", ft_itoa(shell->exit_return))
+	char *hidden_var[] = { "a=minishell", ft_strjoin("?=", ft_itoa(shell->exit_return)) , NULL};
+
+	i = -1;
+
+	size = size_matriz(hidden_var);
+	printf("size[%d]\n", size);
+	while (++i < size)
+	{
+		this_list_var = env_var_list_new(hidden_var[i]);
+		env_var_add_back(&shell->env_list, this_list_var);
+	}
+	
+}
 
 t_env_list	*init_list_env(t_shell *shell, char** envp)
 {
@@ -33,6 +53,14 @@ t_env_list	*init_list_env(t_shell *shell, char** envp)
 		this_list_var = env_var_list_new(envp[i]);
 		env_var_add_back(&shell->env_list, this_list_var);
 	}
+	add_hidden_env_var(shell);
+
+/* 	while(init->next)
+	{
+		printf("contenido: [%s]\n", init->var_content );
+		init = init->next;
+	}
+	printf("contenido: [%s]\n", init->var_content ); */
 	return (init);
 }
 
