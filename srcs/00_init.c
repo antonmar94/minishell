@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_init.c                                           :+:      :+:    :+:   */
+/*   00_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/07 19:47:01 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 12:18:01 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,57 +50,4 @@ t_shell *initialice(char** envp)
 	shell->list_commands[8]="echo";
 	// NO AÑADIR COMANDO SI AUMENTAR SIZE_C
 	return (shell);
-}
-
-t_arglist	*arg_node_new(char *first_arg)
-{
-	t_arglist	*arg_list;
-
-	arg_list = (t_arglist *)malloc(sizeof(t_arglist));
-	if (!arg_list)
-		return (NULL);
-	arg_list->content = first_arg;
-	arg_list->next = NULL;
-	return (arg_list);
-}
-
-void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
-{
-	t_arglist	*aux;
-
-	aux = *arg_lst;
-	//printf(RED"startarg: %s\n"RESET, new->content);
-	if (!new)
-		return ;
-	if (!*arg_lst)
-	{
-		*arg_lst = new;
-		return ;
-	}
-	while ((*arg_lst)->next)
-		*arg_lst = (*arg_lst)->next;
-	(*arg_lst)->next = new;
-	*arg_lst = aux;
-}
-
-void	all_clear(t_arglist **arg_lst)
-{
-	t_arglist *cleaner;
-	t_arglist *aux;
-
-	cleaner = *arg_lst;
-	if (*arg_lst)
-	{
-		while (cleaner->content && cleaner->next)
-		{
-			aux = cleaner->next;
-			free(cleaner);
-			cleaner->content = NULL;
-			cleaner->next = NULL;
-			cleaner = aux;
-		}
-		cleaner->content = NULL;
-		cleaner->next = NULL;
-		*arg_lst = NULL;
-	}
 }

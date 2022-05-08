@@ -1,48 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1d_search_dollar.c                                 :+:      :+:    :+:   */
+/*   03_search_dollar.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 19:54:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 12:18:54 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
-int	check_char(char *str, char char_tofind)
-{
-
-	while (str && *str)
-	{
-		if (*str && *str == char_tofind)
-			return(1);
-		str++;	
-	}
-	return (0);
-}
-
-
-
-/* if found one return de var content */
-char *search_var_coincident(t_shell *shell, char* str_to_find)
-{
-	t_env_list *copy;
-	copy = shell->env_list;
-
-	while (copy->next)
-	{
-		if (!ft_strcmp(copy->var_name, str_to_find))
-			return(copy->var_content);
-		copy = copy->next;
-	}
-	if (!ft_strcmp(copy->var_name, str_to_find))
-		return(copy->var_content);
-	return(0);
-}
 
 /**
  replace global var(dollar) to his content

@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2_evaluate_commands.c                              :+:      :+:    :+:   */
+/*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 19:43:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 12:19:12 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
-
 
 int find_enviro_command(t_shell *shell)
 {
@@ -32,8 +30,6 @@ int find_enviro_command(t_shell *shell)
 	return(0);
 	//command_error(shell);
 }
-
-
 
 int find_command(t_shell *shell)
 {

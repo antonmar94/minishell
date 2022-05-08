@@ -5,23 +5,30 @@ NAME_DEBUG = minishell_debug
 CODE_DEBUG_EXTERNAL_CONSOLE = true
 LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
-SRCS =	./srcs/main.c \
-		./srcs/header.c \
-		./srcs/errors.c \
-		./srcs/0_init.c \
-		./srcs/0b_init_env.c\
-		./srcs/0c_signal.c \
-		./srcs/1b_search_quotes.c \
-		./srcs/2_evaluate_commands.c \
-		./srcs/3_command_pwd_cd_exit_help_echo.c \
-		./srcs/4_commands_2.c \
-		./srcs/z_auxiliar_comp.c \
-		./srcs/z1_auxiliar_list.c \
-		./srcs/1d_search_dollar.c \
-		./srcs/z4_check_aux.c \
-		./srcs/z5_aux_lib.c \
-		./srcs/z6_aux_free.c \
-		./srcs/5_redirect.c \
+SRCS =	./srcs/00_init.c \
+		./srcs/01_init_env.c \
+		./srcs/02_search_quotes.c \
+		./srcs/02a_search_quotes_utils.c \
+		./srcs/02b_quotes_utils.c \
+		./srcs/03_search_dollar.c\
+		./srcs/04_evaluate_syntax.c \
+		./srcs/05_evaluate_commands.c \
+		./srcs/06_builtins.c \
+		./srcs/07_enviroment_builtins.c \
+		./srcs/08_pipes_utils.c \
+		./srcs/09_pipes_execution.c \
+		./srcs/10_redirect.c \
+		./srcs/20_header.c \
+		./srcs/21_errors.c \
+		./srcs/22_signals.c \
+		./srcs/23_list_utils.c \
+		./srcs/30_free_utils.c \
+		./srcs/al_auxiliar_comp.c \
+		./srcs/al_auxiliar_list.c \
+		./srcs/al_check_aux.c \
+		./srcs/al_aux_lib.c \
+		./srcs/al_aux_free.c \
+		./srcs/main.c \
 
 OBJS = ${SRCS:.c=.o}
 

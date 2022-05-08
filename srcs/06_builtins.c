@@ -83,31 +83,8 @@ void exit_minishell(t_shell *shell)
 				print_header(shell, "thanks for using ");
 				shell->exit = 1;
 			} 
-
-
-
 		}
-
-
-
-
-
-
 	}
-	
-	
-
-
-
-
-
-	//if *copy_arg->content
-	
-	/* else
-	{
-		printf("\n\n\n\n\nMEDIO\n");
-	} */
-	//shell->exit = 1;
 }
 
 void help(t_shell *shell)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0b_init_env.c                                      :+:      :+:    :+:   */
+/*   01_init_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/03 19:18:34 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 12:17:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ t_env_list	*init_list_env(t_shell *shell, char** envp)
 		env_var_add_back(&shell->env_list, this_list_var);
 	}
 	return (init);
-
-
 }
 
 t_env_list	*env_var_list_new(char* env_var)
@@ -68,6 +66,3 @@ void	env_var_add_back(t_env_list **env_list, t_env_list *new)
 	(*env_list)->next = new;
 	*env_list = aux;
 }
-
-
-

@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   4_commands_2.c                                     :+:      :+:    :+:   */
+/*   07_enviroment_builtins.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/07 20:04:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 12:19:55 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 int export(t_shell *shell)
 {
@@ -45,7 +43,6 @@ int unset(t_shell *shell)
 	del_var_node_coincident(shell, var_name);
 	return(0);
 }
-
 
 int env(t_shell *shell)
 {

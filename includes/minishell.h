@@ -96,15 +96,15 @@ typedef struct s_shell
 	t_pipes			*pipes_struct;
 }	t_shell;
 
-void	leaks(void);
+void		leaks(void);
 
 /*----------------------- header ---------------------------------------------*/
-void	wellcome_header(t_shell *shell);
-void	print_header(t_shell *shell, char *custom_head);
+void		wellcome_header(t_shell *shell);
+void		print_header(t_shell *shell, char *custom_head);
 
 
 /*----------------------- signal----------------------------------------------*/
-void	sigint_handler(void);
+void		sigint_handler(void);
 
 /*----------------------- init_commands --------------------------------------*/
 t_path 		*init_path(t_shell *shell);
@@ -138,31 +138,42 @@ int			split_arguments(t_shell *shell);
 int 		line_without_command(t_shell *shell);
 int			arg_listing(t_shell *shell);
 
-char	check_allquotes(char *line_walker);
 int		count_args(t_shell *shell);
 int		split_arguments(t_shell *shell);
 int 	find_command(t_shell *shell);
 int		system_commmand(t_shell *shell, char **envp);
 void	execute_command(t_shell *shell, int i);
-void	free_and_reset_values(t_shell *shell);
-int find_enviro_command(t_shell *shell);
 
-/*--------------------PARSING----------------------------------------------------*/
+int 	find_enviro_command(t_shell *shell);
+
+/*--------------------PARSING AND SYNTAX----------------------------------------------------*/
+int		check_syntax(t_shell *shell);
 int		check_quotes_error(char	*line);
+
+
+
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
 void	nocontent_runaway(t_aux_pointer *pointer);
 void 	replace_content_runaway(t_aux_pointer *pointer);
 void	replace_dollar(t_shell *shell);
 
+char	this_quote(char *line);
+int		check_quotes(char *line_walker, char quotes);
+int		size_quotes_arg(char *line_walker, char quotes);
+char	check_allquotes(char *line_walker);
 int		check_quotes(char *line_walker, char quotes);
 char	check_allquotes(char *line_walker);
-int		size_quotes_arg(char *line_walker, char quotes);
-int		count_quotes(t_shell *shell);
-char 	*del_quotes(char *str_to_del_quotes);
 
-int	execute_line(t_shell *shell, char **envp);
-void do_redirect(t_shell *shell, char **envp);
+int		check_list_flag(char *list_arg);
+int		size_argument(t_shell *shell);
+int		get_size_part(char	**arg_walker, char **arg_holder, char quotes);
+char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder);
+char	*arg_creator(t_shell *shell, char **argument);
+int		size_quotes_arg(char *line_walker, char quotes);
+
+int		execute_line(t_shell *shell, char **envp);
+void 	do_redirect(t_shell *shell, char **envp);
 
 /*----------------------- list_commands --------------------------------------*/
 
@@ -191,12 +202,17 @@ int		error_child_process(void);
 int		size_matriz(char **str);
 void	check_envar(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
-void	free_env_list(t_env_list *envp);
-void	free_aux_pointer(t_aux_pointer *aux_pointer);
-void 	new_free(char **ptr);
 int		check_char(char *str, char char_tofind);
 
-
+/*----------------------- PIPES AND EXECUTION--------------------------------------------*/
+int		check_error_child(int pid);
+void	pipes_first(t_shell *shell, char **envp, int is_first);
+void	pipes_next(t_shell *shell, char **envp, char *holder_child);
+char	*pipe_next_line(char *line);
+int		check_pipe_syntax(char *line);
+char	*create_child_line(t_pipes *pipes_struct);
+int		execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
+void	child_execution(t_shell *shell, char **envp);
 
 /*----------------------- AUXILIAR PRINT--------------------------------------*/
 void	print_all(t_shell *shell);
@@ -205,8 +221,11 @@ void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
 
-
-
+/*----------------------- FREE--------------------------------------*/
+void	free_and_reset_values(t_shell *shell);
+void	free_shell(t_shell *shell);
+void	free_env_list(t_env_list *envp);
+void 	new_free(char **ptr);
 
 /*------------------------ MOD LIFT --------------------------------------*/
 char	*ft_strjoin_whith_space(char const *s1, char const *s2);
