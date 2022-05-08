@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char** envp)
 	if (argc != 1)
 	{
 		error_too_many_args();
-		exit(0);
+		exit(7);
 	}
 	shell = initialice(envp);
 	//wellcome_header(shell);
@@ -42,10 +42,13 @@ int	main(int argc, char **argv, char** envp)
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
-		split_arguments(shell);
-		if(!find_enviro_command(shell))
-			child_execution(shell, envp);
-		free_all_struct(shell);
+		if (error == 0)
+		{
+			split_arguments(shell);
+			if(!find_enviro_command(shell))
+				child_execution(shell, envp);
+			free_all_struct(shell);
+		}
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	write_history(".history_own");

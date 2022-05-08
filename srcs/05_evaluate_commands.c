@@ -64,7 +64,7 @@ void execute_command(t_shell *shell, int i)
 	else if (i == 5)
 		help(shell);	
 	else if (i == 6)
-		print_pwd();
+		print_pwd(shell);
 	else if (i == 7)
 		cd(shell);
 	else if (i == 8)

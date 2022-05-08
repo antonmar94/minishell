@@ -21,8 +21,6 @@ void new_free(char **ptr)
 
 void	free_all_struct(t_shell *shell)
 {
-	if(shell->aux_pointer->final_str)
-		new_free(&shell->aux_pointer->final_str);
 	if(shell->line)
 		free(shell->line);
 	shell->line = NULL;

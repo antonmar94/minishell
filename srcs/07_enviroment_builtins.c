@@ -70,7 +70,7 @@ void exit_minishell(t_shell *shell)
 		}
 		if(!ft_isdigit_str(shell->arg_list->content))
 		{
-			error_not_numeric();
+			error_not_numeric(shell);
 			shell->exit_return = 255;
 			shell->exit = 1;
 		}

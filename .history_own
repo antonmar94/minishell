@@ -3,3 +3,15 @@ exit
 exit
 exit
 exit
+echo hola
+ls
+ls | wc
+ls -l | wc
+ls -l | wc | wc
+ls -l | wc | wc
+exit
+echo hola
+ls | wc
+ls | wc | grep 6
+echo "||"
+exit

@@ -12,14 +12,14 @@
 
 #include "../includes/minishell.h"
 
-int	check_error_child(int pid)
+int	check_error_child(t_shell *shell, int pid)
 {
 	int	error;
 
 	error = 0;
 	if (pid < 0)
 	{
-		error_child_process();
+		error_child_process(shell);
 		error = 1;
 	}
 	return (error);
@@ -48,16 +48,41 @@ char	*pipe_next_line(char *line)
 	return (line);
 }
 
+int		get_size_line(char *size_walker)
+{
+	char	quotes;
+	int		size;
+
+	size = 0;
+	while (*size_walker && *size_walker != '|')
+	{
+		quotes = check_allquotes(size_walker);
+		if (quotes)
+		{
+			size_walker++;
+			size++;
+			while (*size_walker && *size_walker != quotes)
+			{
+				size_walker++;
+				size++;
+			}
+		}
+		size++;
+		size_walker++;
+	}
+	return (size);
+}
+
 char	*create_child_line(t_pipes *pipes_struct)
 {
 	char	*holder_child;
-	int		i;
+	int		size;
+	char	*parent_aux;
 
 	holder_child = NULL;
-	i = 0;
-	while (pipes_struct->holder_parent[i] && pipes_struct->holder_parent[i] != '|')
-				i++;
-	holder_child = ft_substr(pipes_struct->holder_parent, 0, i);
+	parent_aux = pipes_struct->holder_parent;
+	size = get_size_line(parent_aux);
+	holder_child = ft_substr(parent_aux, 0, size);
 	pipes_struct->holder_parent = pipe_next_line(pipes_struct->holder_parent);
 	return (holder_child);
 }
