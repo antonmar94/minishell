@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 14:45:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:19:47 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int export(t_shell *shell)
 		return(0);
 	var_name = cut_env_var_name(*(shell->command_args));
 	var_content = cut_env_var_content(*(shell->command_args));
+	if (ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
+	{
+		identifier_enviro_error(shell);
+		return(0);
+	}
 	print_var_content_text(var_name, var_content, shell);//TODO:borrar?
 	if (change_var_content(shell, var_name, var_content))
 		return (0);
@@ -39,6 +44,11 @@ int unset(t_shell *shell)
 	char *var_name;
 
 	var_name = cut_env_var_name(*(shell->command_args));
+	if (ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
+	{
+		identifier_enviro_error(shell);
+		return(0);
+	}
 	print_var_unset(var_name, shell);
 	del_var_node_coincident(shell, var_name);
 	return(0);
@@ -70,7 +80,7 @@ void exit_minishell(t_shell *shell)
 		}
 		if(!ft_isdigit_str(shell->arg_list->content))
 		{
-			error_not_numeric();
+			error_not_numeric(shell);
 			shell->exit_return = 255;
 			shell->exit = 1;
 		}

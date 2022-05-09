@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 19:13:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:31:11 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,11 @@ char *search_var_coincident(t_shell *shell, char* str_to_find)
 
 	while (copy->next)
 	{
-/* 		printf("COPY VAR_NAME [%s]\n", copy->var_name);
-		printf("A COMPARAR [%s]\n", str_to_find); */
 		if (!ft_strcmp(copy->var_name, str_to_find))
 			return(copy->var_content);
 		copy = copy->next;
 	}
 	if (!ft_strcmp(copy->var_name, str_to_find))
 		return(copy->var_content);
-	//printf("NO ESTS\n");
 	return(0);
 }

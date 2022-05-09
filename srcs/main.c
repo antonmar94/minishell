@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 18:40:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:28:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char** envp)
 	if (argc != 1)
 	{
 		error_too_many_args();
-		exit(0);
+		exit(7);
 	}
 	shell = initialice(envp);
 	//wellcome_header(shell);
@@ -39,15 +39,17 @@ int	main(int argc, char **argv, char** envp)
 	{
 		error = 0;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
+		shell->exit_return = 42;
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
-		split_arguments(shell);
-		printf("arg:[%s]\n", shell->command_args[0]);
-		//printf("arg:[%s]\n", shell->command_args[1]);
-		if(!find_enviro_command(shell))
-			child_execution(shell, envp);
-		free_all_struct(shell);
+		if (error == 0)
+		{
+			split_arguments(shell);
+			if(!find_enviro_command(shell))
+				child_execution(shell, envp);
+			free_all_struct(shell);
+		}
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
 	write_history(".history_own");

@@ -1,6 +1,21 @@
-exit 34
+_HiStOrY_V2_
+env
+bash
+env
+bash
 exit
+env
+echo\040$0
+echo\040$?
+env
 exit
+echo\040$?
+echo\040$0
+env
+unset\0400
+unset\040?
+export\040a=3
+unset\040a
 exit
 exit
 exit 34

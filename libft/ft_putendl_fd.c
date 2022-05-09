@@ -43,5 +43,4 @@ void	ft_putstr_fdnl(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
-	write(1, "aassssaassssdddaa\n", 1);
 }

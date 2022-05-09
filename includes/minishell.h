@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+# include <errno.h>
 
 # define READ_END	0
 # define WRITE_END	1
@@ -91,6 +92,7 @@ typedef struct s_shell
 	t_path			*path;
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
+	t_env_list		*env_list_plus;
 	t_aux_pointer 	*aux_pointer;
 	t_pipes			*pipes_struct;
 }	t_shell;
@@ -147,8 +149,8 @@ int 	find_enviro_command(t_shell *shell);
 
 /*--------------------PARSING AND SYNTAX----------------------------------------------------*/
 int		check_syntax(t_shell *shell);
-int		check_quotes_error(char	*line);
-
+int		check_quotes_syntax(char	*line);
+int		check_redirect_syntax(char *line);
 
 
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
@@ -162,7 +164,6 @@ int		check_quotes(char *line_walker, char quotes);
 int		size_quotes_arg(char *line_walker, char quotes);
 char	check_allquotes(char *line_walker);
 int		check_quotes(char *line_walker, char quotes);
-char	check_allquotes(char *line_walker);
 
 int		check_list_flag(char *list_arg);
 int		size_argument(t_shell *shell);
@@ -176,7 +177,7 @@ void 	do_redirect(t_shell *shell, char **envp);
 
 /*----------------------- list_commands --------------------------------------*/
 
-int		print_pwd(void);
+int 	print_pwd(t_shell *shell);
 void	help(t_shell *shell);
 void	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
@@ -184,14 +185,15 @@ int 	echo(t_shell *shell);
 int 	export(t_shell *shell);
 
 /*----------------------- ERRORS ---------------------------------------------*/
-int		syntax_error(void);
-int		error_system_pwd(void);
-void	command_error(char *error);
-int		error_number_args(void);
-int		error_wrong_path(void);
+int		syntax_error(t_shell *shell);
+int		error_system_pwd(t_shell *shell);
+void	command_error(t_shell *shell, char *command);
+int		error_number_args(t_shell *shell);
+int		error_wrong_path(t_shell *shell);
 int		error_too_many_args(void);
-int		error_not_numeric(void);
-int		error_child_process(void);
+int		error_not_numeric(t_shell *shell);
+int		error_child_process(t_shell *shell);
+int 	identifier_enviro_error(t_shell *shell);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 int		size_matriz(char **str);
@@ -200,7 +202,7 @@ void	*del_name_and_contend(t_shell *shell);
 int		check_char(char *str, char char_tofind);
 
 /*----------------------- PIPES AND EXECUTION--------------------------------------------*/
-int		check_error_child(int pid);
+int		check_error_child(t_shell *shell, int pid);
 void	pipes_first(t_shell *shell, char **envp, int is_first);
 void	pipes_next(t_shell *shell, char **envp, char *holder_child);
 char	*pipe_next_line(char *line);

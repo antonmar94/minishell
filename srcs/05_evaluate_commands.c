@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:19:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:52:13 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void execute_command(t_shell *shell, int i)
 	else if (i == 5)
 		help(shell);	
 	else if (i == 6)
-		print_pwd();
+		print_pwd(shell);
 	else if (i == 7)
 		cd(shell);
 	else if (i == 8)
@@ -86,7 +86,6 @@ int system_commmand(t_shell *shell, char **envp)
 	env_dup = ft_strdup(env_aux);
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
-
 	while (*paths_list)
 	{
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),

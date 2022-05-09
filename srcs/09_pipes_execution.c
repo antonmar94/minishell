@@ -18,7 +18,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 	if (!find_command(shell))
 	{
 		if (!system_commmand(shell, envp))
-			command_error(shell->command);
+			command_error(shell, shell->command);
 	}
 	exit (0);
 }
@@ -33,7 +33,7 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 	holder_child = create_child_line(pipes_struct);
 	pipe(pipes_struct->fd1);	
 	pid = fork();
-	pipes_struct->error = check_error_child(pid);
+	pipes_struct->error = check_error_child(shell, pid);
 	if(pid == 0)
 	{
 		shell->line = holder_child;
@@ -55,7 +55,7 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 		holder_child = create_child_line(pipes_struct);
 		pipe(pipes_struct->fd2);
 		pid = fork();
-		pipes_struct->error = check_error_child(pid);
+		pipes_struct->error = check_error_child(shell, pid);
 		if (pid == 0)
 			pipes_next(shell, envp, holder_child);
 		else

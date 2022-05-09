@@ -30,7 +30,7 @@ int	check_pipe_syntax(char *line)
 	char		*checker;
 
 	checker = line;
-	while (*checker)
+ 	while (*checker)
 	{
 		quotes = check_allquotes(checker);
 		if (quotes)
@@ -38,18 +38,16 @@ int	check_pipe_syntax(char *line)
 			checker++;
 			while (checker && *checker != quotes)
 				checker++;
+			if (*checker)
+				checker++;
 		}
 		if (*checker == '|')
 		{
 			checker++;
+			while (*checker && *checker == ' ')
+				checker++;
 			if (*checker == '|')
 				return (1);
-			while (*checker && *checker == ' ')
-			{
-				if (*checker == '|')
-					return (1);
-				checker++;
-			}
 			if (!*checker)
 				return (1);
 		}
@@ -58,7 +56,7 @@ int	check_pipe_syntax(char *line)
 	return (0);
 }
 
-int	check_quotes_error(char	*line)
+int	check_quotes_syntax(char *line)
 {
 	char	*checker;
 	char	quotes;
@@ -83,23 +81,43 @@ int	check_quotes_error(char	*line)
 	return (0);
 }
 
+int	check_redirect_syntax(char *line)
+{
+	char		*checker;
+
+	checker = line;
+	while (*checker)
+	{
+		if (*checker == '|')
+		{
+			checker++;
+			if (*checker == '|')
+				return (1);
+			while (*checker && *checker == ' ')
+			{
+				if (*checker == '|')
+					return (1);
+				checker++;
+			}
+			if (!*checker)
+				return (1);
+		}
+		checker++;
+	}
+	return (0);
+}
+
 int	check_syntax(t_shell *shell)
 {
-	int	error;
-
-	error =  0;
-	if (check_quotes_error(shell->line))
+	if (check_quotes_syntax(shell->line))
 	{
-		syntax_error();
-		error = 1;
+		syntax_error(shell);
+		return (1);
 	}
-	if (*pipe_next_line(shell->line))
+	if (check_pipe_syntax(shell->line))
 	{
-		if (check_pipe_syntax(shell->line))
-		{
-			syntax_error();
-			error = 1;
-		}
+		syntax_error(shell);
+		return (1);
 	}
-	return (error);
+	return (0);
 }
