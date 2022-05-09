@@ -36,5 +36,5 @@ void	print_header(t_shell *shell, char *custom_head)
 	printf(GREEN " %s our:\n", custom_head);
 	printf(CYAN"█▀▄▀█ █ █▄░█ █ █▀ █░█ █▀▀ █░░ █░░\n");
 	printf(YELLOW"█░▀░█ █ █░▀█ █ ▄█ █▀█ ██▄ █▄▄ █▄\n");
-	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n");
+	printf(GREEN"     by Antonmar🐔 and Albzamor🏴‍☠️\n"RESET);
 }

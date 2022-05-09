@@ -17,3 +17,10 @@ unset\040?
 export\040a=3
 unset\040a
 exit
+ls
+echo $?
+fwe
+echo $?
+echo $0
+exit
+exit
