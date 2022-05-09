@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:20:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:52:47 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void command_error(t_shell *shell, char *command)
 	write(2, RED "minishell: ", 18);
 	write(2, command, ft_strlen(command));
 	write(2, ": command not found\n" RESET, 24);
+}
+
+int identifier_enviro_error(t_shell *shell)
+{
+	shell->exit_return = 153;
+	ft_putstr_fdnl(RED "not a valid identifier" RESET, 2);
+	return (1);
 }
 
 int syntax_error(t_shell *shell)

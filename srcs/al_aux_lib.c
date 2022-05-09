@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   z5_aux_lib.c                                       :+:      :+:    :+:   */
+/*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/03/14 10:19:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:12:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_split_one(char *s, char c, char d)
 	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
-	if (ft_isdigit(pp[0]))
+	if (ft_isdigit(pp[0]) && pp[0] !='0')
 		return (pp + 1);
 	return (pp);
 }
@@ -89,7 +89,7 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 	{
 		while (lens[i] != '\0')
 		{
-			if (lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i]) && lens[i] != '_'))
+			if ((lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i]) && lens[i] != '_')) && ((lens[i] != '?') && (lens[i] != '0')))
 				return (i);
 			i++;
 		}

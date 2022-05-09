@@ -93,6 +93,7 @@ typedef struct s_shell
 	t_path			*path;
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
+	t_env_list		*env_list_plus;
 	t_aux_pointer 	*aux_pointer;
 	t_pipes			*pipes_struct;
 }	t_shell;
@@ -193,6 +194,7 @@ int		error_wrong_path(t_shell *shell);
 int		error_too_many_args(void);
 int		error_not_numeric(t_shell *shell);
 int		error_child_process(t_shell *shell);
+int 	identifier_enviro_error(t_shell *shell);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 int		size_matriz(char **str);

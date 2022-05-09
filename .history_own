@@ -1,17 +1,19 @@
-exit 34
+_HiStOrY_V2_
+env
+bash
+env
+bash
 exit
+env
+echo\040$0
+echo\040$?
+env
 exit
-exit
-exit
-echo hola
-ls
-ls | wc
-ls -l | wc
-ls -l | wc | wc
-ls -l | wc | wc
-exit
-echo hola
-ls | wc
-ls | wc | grep 6
-echo "||"
+echo\040$?
+echo\040$0
+env
+unset\0400
+unset\040?
+export\040a=3
+unset\040a
 exit

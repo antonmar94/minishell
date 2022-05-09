@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 14:05:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:45:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char** envp)
 	{
 		error = 0;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
+		shell->exit_return = 42;
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);

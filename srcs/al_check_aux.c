@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   z4_check_aux.c                                     :+:      :+:    :+:   */
+/*   al_check_aux.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:10:35 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/16 14:10:58 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:16:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_envar(t_shell *shell)
 {
-	if(shell->env_list->var_name)
+	if(shell->env_list_plus->var_name)
 			printf(GREEN"\nENVAR RECIBIDAS ✅\n"RESET);
 		else
 		{

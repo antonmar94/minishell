@@ -59,6 +59,8 @@ int echo(t_shell *shell)
 
 	//printf("\nprimer:[%s]\n", shell->arg_list->next->content);
 	copy = shell->arg_list;
+		
+	shell->exit_return=42;
 	while (copy)
 	{
 		ft_putstr_fd(copy->content, 1);
