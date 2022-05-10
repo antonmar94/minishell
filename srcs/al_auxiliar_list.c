@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 20:16:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:31:17 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int look_for_var_name(t_shell *shell, char *var_name_to_find)
 {
 	t_env_list *copy;
 
-	copy = shell->env_list_plus;
+	copy = shell->env_list;
 	while (copy->next)
 	{
 		if (!ft_strcmp(copy->var_name,var_name_to_find))
@@ -80,7 +80,7 @@ int change_var_content(t_shell *shell, char *var_name_to_find,
 {
 	t_env_list *copy;
 
-	copy = shell->env_list_plus;
+	copy = shell->env_list;
 	while (copy->next)
 	{
 		if (!ft_strcmp(copy->var_name,var_name_to_find))
@@ -104,7 +104,7 @@ int del_var_node_coincident(t_shell *shell, char *var_name_to_find)
 	t_env_list *copy;
 	t_env_list *del_copy;
 
-	copy = shell->env_list_plus;
+	copy = shell->env_list;
 	while (copy->next)
 	{
 		if (!ft_strcmp(copy->next->var_name,var_name_to_find))

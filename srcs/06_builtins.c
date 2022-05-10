@@ -63,6 +63,8 @@ int echo(t_shell *shell)
 	shell->exit_return=42;
 	while (copy)
 	{
+		/* if(ft_strcmp(copy->content, "0") == 0 )
+			ft_putstr_fd("minishell", 1); */
 		ft_putstr_fd(copy->content, 1);
 			if (copy->next)
 			write(1, " ", 1);

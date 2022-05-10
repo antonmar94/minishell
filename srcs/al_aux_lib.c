@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 19:12:48 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/10 23:59:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 	return (scopy);
 }
 
+size_t	ft_lens_2char_zero(char *lens, char c, char d)
+{
+	size_t	i;
+
+	i = 0;
+	{
+		while (lens[i] != '\0')
+		{
+			if (lens[i] == c || lens[i] == d || lens[i] != '_')
+			{
+				return (i);
+			}
+			i++;
+		}
+		return (i);
+	}
+}
+
 /* modified split to return de first str before a char */
 char	*ft_split_one(char *s, char c, char d)
 
@@ -47,15 +65,17 @@ char	*ft_split_one(char *s, char c, char d)
 
 
 	i = 0;
+
 	if (s == NULL)
 		return (NULL);
 	desplace = 0;
 	scopy = s;
-	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
-
+	//printf("SIZE A CORTAR [%lu]\n", ft_lens_2char(scopy, c, d));
+	pp = ft_substr((const char *)scopy, 0, ft_lens_2char_zero(scopy, c, d));
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
 	if (ft_isdigit(pp[0]) && pp[0] !='0')
 		return (pp + 1);
+	
 	return (pp);
 }
 
@@ -96,6 +116,7 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 		return (i);
 	}
 }
+
 
 int	ft_isalpha_str(char *str, char c)
 {

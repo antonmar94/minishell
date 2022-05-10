@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 12:18:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 19:43:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	replace_dollar(t_shell *shell)
 {
 	shell->aux_pointer->shell_line_walker++;
 	shell->aux_pointer->first_dollar_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
+	//printf("PP fewfwefwefwfeefwfefewfe [%s]\n", shell->aux_pointer->first_dollar_found);
 	shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_dollar_found);
 	shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_dollar_found);
 	if (shell->aux_pointer->content)

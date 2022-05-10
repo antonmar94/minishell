@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 20:14:02 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:31:11 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 char *search_var_coincident(t_shell *shell, char* str_to_find)
 {
 	t_env_list *copy;
-	copy = shell->env_list_plus;
+	copy = shell->env_list;
 
 	while (copy->next)
 	{

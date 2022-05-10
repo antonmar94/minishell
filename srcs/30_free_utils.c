@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 14:43:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/08 16:22:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_all_struct(t_shell *shell)
 void	free_parent(t_shell *shell)
 {
 	free_arg_list(&shell->arg_list);
-	shell->size_line = 0;
 	shell->size_com_args = 0;
 	shell->command = NULL;
 	shell->command_flag = NULL;

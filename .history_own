@@ -17,6 +17,7 @@ unset\040?
 export\040a=3
 unset\040a
 exit
+<<<<<<< HEAD
 ls
 echo $?
 fwe
@@ -63,4 +64,20 @@ exit
 ""
 exit
 ""
+=======
+exit
+exit 34
+exit -44
+exit parara
+git status
+git push
+exit
+make
+exit
+env
+exit
+exit
+echo $0
+bash
+>>>>>>> alberto
 exit
