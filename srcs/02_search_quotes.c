@@ -20,7 +20,6 @@ void	add_line_command(t_shell *shell)
 	{
 		shell->command = shell->arg_list->content;
 		aux_free = shell->arg_list;
-		
 		shell->arg_list = shell->arg_list->next;
 		free(aux_free);
 		aux_free = NULL;
@@ -87,10 +86,11 @@ int	split_arguments(t_shell *shell)
 	if (*shell->line_walker)
 		shell->size_com_args = 1;
 	while (add_arg_tolist(shell))
-		shell->size_com_args++;;
+		shell->size_com_args++;
   	create_array_args(shell);
 	shell->command_args = shell->command_plus_args;
-	shell->command_args++;
+	if (shell->command_args)
+		shell->command_args++;
 	if (shell->arg_list)
 		add_line_command(shell);
 	return (0);

@@ -38,6 +38,8 @@ int find_command(t_shell *shell)
 	i = -1;
 	while (++i < shell->size_c)
 	{
+		if (!shell->command)
+			return (0);
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
@@ -86,7 +88,8 @@ int system_commmand(t_shell *shell, char **envp)
 	env_dup = ft_strdup(env_aux);
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
-	while (*paths_list)
+	ex_res = 0;
+	while (*shell->command_plus_args && *paths_list)
 	{
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
 			shell->command), shell->command_plus_args, envp);

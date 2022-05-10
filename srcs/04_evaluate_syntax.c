@@ -24,31 +24,35 @@ int	check_char(char *str, char char_tofind)
 	return (0);
 }
 
-int	check_pipe_syntax(char *line)
+void ignore_quotes(char **line)
 {
 	char		quotes;
+
+	quotes = check_allquotes(*line);
+	if (quotes)
+	{
+		(*line)++;
+		while (**line && **line != quotes)
+			(*line)++;
+		if (*line)
+			(*line)++;
+	}
+}
+
+int	check_pipe_syntax(char *line)
+{
 	char		*checker;
 
 	checker = line;
  	while (*checker)
 	{
-		quotes = check_allquotes(checker);
-		if (quotes)
-		{
-			checker++;
-			while (checker && *checker != quotes)
-				checker++;
-			if (*checker)
-				checker++;
-		}
+		ignore_quotes(&checker);
 		if (*checker == '|')
 		{
 			checker++;
 			while (*checker && *checker == ' ')
 				checker++;
-			if (*checker == '|')
-				return (1);
-			if (!*checker)
+			if (!*checker || *checker == '|')
 				return (1);
 		}
 		checker++;
@@ -69,37 +73,35 @@ int	check_quotes_syntax(char *line)
 			quotes = check_allquotes(checker);
 			if (!quotes)
 				return (1);
-			else
-			{
+			checker++;
+			while (*checker && *checker != quotes)
 				checker++;
-				while (*checker && *checker != quotes)
-					checker++;
-			}
 		}
 		checker++;
 	}
 	return (0);
 }
 
-int	check_redirect_syntax(char *line)
+int	check_arrow_syntax(char *line, char arrow)
 {
 	char		*checker;
 
 	checker = line;
 	while (*checker)
 	{
-		if (*checker == '|')
+		ignore_quotes(&checker);
+		if (*checker == arrow)
 		{
 			checker++;
-			if (*checker == '|')
-				return (1);
+			if (*checker == arrow)
+				checker++;
 			while (*checker && *checker == ' ')
 			{
-				if (*checker == '|')
+				if (*checker == arrow)
 					return (1);
 				checker++;
 			}
-			if (!*checker)
+			if (!*checker || *checker == arrow)
 				return (1);
 		}
 		checker++;
@@ -110,6 +112,16 @@ int	check_redirect_syntax(char *line)
 int	check_syntax(t_shell *shell)
 {
 	if (check_quotes_syntax(shell->line))
+	{
+		syntax_error(shell);
+		return (1);
+	}
+	if (check_arrow_syntax(shell->line, '>'))
+	{
+		syntax_error(shell);
+		return (1);
+	}
+	if (check_arrow_syntax(shell->line, '<'))
 	{
 		syntax_error(shell);
 		return (1);

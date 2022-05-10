@@ -24,3 +24,43 @@ echo $?
 echo $0
 exit
 exit
+echo hola
+>
+>>
+>>>
+exit
+>
+echo > hola
+echo > > hola
+exit
+> > gola
+exit
+exit
+ls > > hola
+ls > > > hola
+ls >> > hola
+ls >> hola
+ls >>> hola
+exit
+ls > HOLA
+hola > > hola
+hola > 
+hola >
+echo ">"
+echo ">>"
+echo ">>>>>"
+exit
+exit
+""echo hola
+exit
+echo hola
+echo ""
+exit
+""
+exit
+""
+exit
+""
+exit
+""
+exit

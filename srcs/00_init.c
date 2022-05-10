@@ -26,6 +26,7 @@ t_shell *initialice(char** envp)
 
 	shell = malloc(sizeof(t_shell));
 	shell->exit = 0;
+	shell->exit_return = 0;
 	shell->size_com_args = 0;
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);

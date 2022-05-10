@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char** envp)
 	{
 		error = 0;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
-		shell->exit_return = 42;
+		
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);
@@ -49,6 +49,7 @@ int	main(int argc, char **argv, char** envp)
 			if(!find_enviro_command(shell))
 				child_execution(shell, envp);
 			free_all_struct(shell);
+			shell->exit_return = 0;
 		}
 	}
 	//easy_test_line_for_check_export(shell);//SOLO TEST ENV EXPORT LISTA
