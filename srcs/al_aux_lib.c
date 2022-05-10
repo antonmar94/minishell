@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 20:28:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/10 23:59:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,10 @@ size_t	ft_lens_2char_zero(char *lens, char c, char d)
 		{
 			if (lens[i] == c || lens[i] == d || lens[i] != '_')
 			{
-				printf("IIIIII [%lu]\n", i);
 				return (i);
 			}
 			i++;
 		}
-		printf("IIIIII [%lu]\n", i);
 		return (i);
 	}
 }
@@ -74,7 +72,6 @@ char	*ft_split_one(char *s, char c, char d)
 	scopy = s;
 	//printf("SIZE A CORTAR [%lu]\n", ft_lens_2char(scopy, c, d));
 	pp = ft_substr((const char *)scopy, 0, ft_lens_2char_zero(scopy, c, d));
-	printf("PP EN TU CASA [%s]\n", pp);
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
 	if (ft_isdigit(pp[0]) && pp[0] !='0')
 		return (pp + 1);
