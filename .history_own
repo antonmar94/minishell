@@ -81,3 +81,29 @@ echo $0
 bash
 >>>>>>> alberto
 exit
+echo "$PWD"
+exit
+echo hola
+ls
+ls | wc
+ls
+""
+ 
+exit
+""
+>
+<
+wfe >
+wfe > fwe
+wfe >> fwe
+wfe >>
+wfe |
+wfe | a
+wfe | a
+wfe |
+wfe || a
+wfe "|" a
+wfe | a
+"
+"""
+exit

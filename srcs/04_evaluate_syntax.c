@@ -116,12 +116,8 @@ int	check_syntax(t_shell *shell)
 		syntax_error(shell);
 		return (1);
 	}
-	if (check_arrow_syntax(shell->line, '>'))
-	{
-		syntax_error(shell);
-		return (1);
-	}
-	if (check_arrow_syntax(shell->line, '<'))
+	if (check_arrow_syntax(shell->line, '>')
+		|| check_arrow_syntax(shell->line, '<'))
 	{
 		syntax_error(shell);
 		return (1);
