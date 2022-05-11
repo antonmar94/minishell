@@ -17,7 +17,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
-		if (!system_commmand(shell, envp))
+		if (!system_commmand(shell, envp) || !shell->command)
 			command_error(shell, shell->command);
 	}
 	exit (0);
