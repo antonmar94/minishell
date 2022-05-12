@@ -14,7 +14,7 @@
 
 void	check_envar(t_shell *shell)
 {
-	if(shell->env_list->var_name)
+	if(shell->env_list_plus->var_name)
 			printf(GREEN"\nENVAR RECIBIDAS ✅\n"RESET);
 		else
 		{

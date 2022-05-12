@@ -60,7 +60,7 @@ void execute_command(t_shell *shell, int i)
 	else if (i == 2)
 		unset(shell);
 	else if (i == 3)
-		wellcome_header(shell);//hello
+		wellcome_header(shell);
 	else if (i == 4)
 		exit_minishell(shell);
 	else if (i == 5)

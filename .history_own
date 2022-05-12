@@ -17,54 +17,6 @@ unset\040?
 export\040a=3
 unset\040a
 exit
-<<<<<<<\040HEAD
-ls
-echo\040$?
-fwe
-echo\040$?
-echo\040$0
-exit
-exit
-echo\040hola
->
->>
->>>
-exit
->
-echo\040>\040hola
-echo\040>\040>\040hola
-exit
->\040>\040gola
-exit
-exit
-ls\040>\040>\040hola
-ls\040>\040>\040>\040hola
-ls\040>>\040>\040hola
-ls\040>>\040hola
-ls\040>>>\040hola
-exit
-ls\040>\040HOLA
-hola\040>\040>\040hola
-hola\040>\040
-hola\040>
-echo\040">"
-echo\040">>"
-echo\040">>>>>"
-exit
-exit
-""echo\040hola
-exit
-echo\040hola
-echo\040""
-exit
-""
-exit
-""
-exit
-""
-exit
-""
-=======
 exit
 exit\04034
 exit\040-44
@@ -79,7 +31,6 @@ exit
 exit
 echo\040$0
 bash
->>>>>>>\040alberto
 exit
 echo\040"$PWD"
 exit
@@ -135,10 +86,49 @@ frwefwe
 <
 <<
 <<<
-<\040<
-<<\040<
-exit\040hola
-exit\040fewfwe
-exit\040hgufjgu
-echo\040$PWD
+< <
+<< <
+exit hola
+exit fewfwe
+exit hgufjgu
+echo $PWD
+exit
+echo ola
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exity
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $$PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+exit
+echo $PWD
+echo $?
+echo $?
+""
+ferw
+echo $?
+echo $0
+exirt
 exit

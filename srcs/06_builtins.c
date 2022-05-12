@@ -25,9 +25,10 @@ int print_pwd(t_shell *shell)
 int cd(t_shell *shell)
 {
 	int ret = 0;
-
-	if(shell->size_line == 1 ||
-		(shell->size_line == 2 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
+	if(shell->size_com_args > 2 )
+		return (error_number_args(shell));
+	if(shell->size_com_args == 1 ||
+		(shell->size_com_args == 2 && ft_strcmp(shell->command_plus_args[1], "~") == 0 ))
 		ret = chdir(shell->path->home_user);
 	else
 		ret = chdir(shell->command_plus_args[1]);

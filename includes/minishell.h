@@ -79,7 +79,6 @@ typedef struct s_aux_pointer
 typedef struct s_shell
 {
 	char 			*line;
-	int				size_line;
 	char			*command;
 	char			*command_flag;
 	char			**command_args;
