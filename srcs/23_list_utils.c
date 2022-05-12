@@ -47,7 +47,7 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 char *search_var_coincident(t_shell *shell, char* str_to_find)
 {
 	t_env_list *copy;
-	copy = shell->env_list;
+	copy = shell->env_list_plus;
 
 	while (copy->next)
 	{

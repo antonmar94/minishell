@@ -96,7 +96,6 @@ void	replace_dollar(t_shell *shell)
 {
 	shell->aux_pointer->shell_line_walker++;
 	shell->aux_pointer->first_dollar_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
-	//printf("PP fewfwefwefwfeefwfefewfe [%s]\n", shell->aux_pointer->first_dollar_found);
 	shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_dollar_found);
 	shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_dollar_found);
 	if (shell->aux_pointer->content)

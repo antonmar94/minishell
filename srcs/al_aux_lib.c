@@ -36,24 +36,6 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 	return (scopy);
 }
 
-size_t	ft_lens_2char_zero(char *lens, char c, char d)
-{
-	size_t	i;
-
-	i = 0;
-	{
-		while (lens[i] != '\0')
-		{
-			if (lens[i] == c || lens[i] == d || lens[i] != '_')
-			{
-				return (i);
-			}
-			i++;
-		}
-		return (i);
-	}
-}
-
 /* modified split to return de first str before a char */
 char	*ft_split_one(char *s, char c, char d)
 
@@ -70,8 +52,7 @@ char	*ft_split_one(char *s, char c, char d)
 		return (NULL);
 	desplace = 0;
 	scopy = s;
-	//printf("SIZE A CORTAR [%lu]\n", ft_lens_2char(scopy, c, d));
-	pp = ft_substr((const char *)scopy, 0, ft_lens_2char_zero(scopy, c, d));
+	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
 	if (ft_isdigit(pp[0]) && pp[0] !='0')
 		return (pp + 1);
