@@ -10,3 +10,4 @@ libft/*.a
 minishell_debug
 *.dSYM
 test_*
+.history_own
