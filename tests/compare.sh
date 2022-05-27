@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    compare.sh                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbueno-g <mbueno-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/07 16:54:53 by mbueno-g          #+#    #+#              #
-#    Updated: 2022/01/28 12:35:58 by albzamor         ###   ########.fr        #
+#    Updated: 2022/03/07 17:41:22 by aperez-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ RESET="\033[0m"
 
 #ECHO TESTS
 
-read -p "Enter your ECHO command: " var
+read -p "Enter your command: " var
 
 touch test1 test2
 
-echo "$var" | ../minishell > test1
+echo "$var" | ../bin/minishell | grep -v "$USER@minishell"* > test1
 echo "$var" | /bin/bash > test2
 
 test1="test1"
@@ -39,5 +39,13 @@ fi
 
 printf $BOLDGREEN"Expected output : \n%.20s\n$(cat -e test2)\n%.20s$RESET\n" "-----------------------------------------" "-----------------------------------------"
 
+if (cmp -s "$test1" "$test2") ; then
+	./starstruck
+else
+	printf "$BOLDRED\n----------------------------------------- DIFF -----------------------------------------\n\n"
+	diff test1 test2
+	printf $RESET
+	./sad
+fi
 
 rm -f test1 test2

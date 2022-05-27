@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 19:43:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:57:26 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,15 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
 	while (shell->aux_pointer->shell_line_walker && *(shell->aux_pointer->shell_line_walker))
 	{
-		if (*shell->aux_pointer->shell_line_walker != '$')
+		if (*shell->aux_pointer->shell_line_walker != '$' || (*shell->aux_pointer->shell_line_walker == '$' && (!shell->aux_pointer->shell_line_walker[1] || shell->aux_pointer->shell_line_walker[1] == ' ')))
 		{
 			shell->aux_pointer->shell_line_walker++;
 			shell->aux_pointer->count_untildollar++;
 		}
 		else
 			replace_dollar(shell);
+		
+		
 	}
 	if (str_to_change_dollar&& (int)ft_strlen(str_to_change_dollar) == shell->aux_pointer->count_untildollar)
 		return(str_to_change_dollar);
