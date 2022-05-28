@@ -75,9 +75,8 @@ char	check_allquotes(char *line_walker)
 char	*find_dollar_quotes(char *argument)
 {
 	char		*aux_arg;
-	char		quotes;
 	int			size_arg;
-	char		*returned_str;
+	char		*arg_part;
 
 	aux_arg = argument;
 	size_arg = 0;
@@ -87,16 +86,8 @@ char	*find_dollar_quotes(char *argument)
 		size_arg++;
 	}
 	aux_arg++;
-	quotes = check_allquotes(aux_arg);
-	if (!quotes)
+	if (!check_allquotes(aux_arg))
 		return (argument);
-	else if (size_quotes_arg(aux_arg, quotes) != 0)
-	{
-		returned_str = ft_substr(argument, 0, size_arg - 1);
-	}
-	returned_str = ft_substr(argument, 0, size_arg);
-	aux_arg += size_arg;
-	returned_str = ft_strjoin(returned_str, aux_arg);
-	aux_arg = argument;
-	return (returned_str);
+	arg_part = ft_substr(argument, 0, size_arg);
+	return (ft_strjoin(arg_part, aux_arg));
 }
