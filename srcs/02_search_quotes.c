@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/08 14:43:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/28 13:57:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	add_arg_tolist(t_shell *shell)
 
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
+	
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
 	{
 		shell->line_walker++;
@@ -46,6 +47,7 @@ int	add_arg_tolist(t_shell *shell)
 	}
 	if (argument)
 	{
+		argument = find_dollar_quotes(argument);
 		argument = arg_creator(shell, &argument);
 		arglstadd_back(&shell->arg_list, arg_node_new(argument));
 	}
@@ -71,9 +73,6 @@ void	create_array_args(t_shell *shell)
 	shell->command_plus_args[i] = NULL;
 }
 
-/*
-	Create argument list and command_plus_args array
-*/
 int	split_arguments(t_shell *shell)
 {
 	int			i;

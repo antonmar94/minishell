@@ -152,7 +152,6 @@ int		check_syntax(t_shell *shell);
 int		check_quotes_syntax(char	*line);
 int		check_redirect_syntax(char *line);
 
-
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
 void	nocontent_runaway(t_aux_pointer *pointer);
@@ -164,6 +163,7 @@ int		check_quotes(char *line_walker, char quotes);
 int		size_quotes_arg(char *line_walker, char quotes);
 char	check_allquotes(char *line_walker);
 int		check_quotes(char *line_walker, char quotes);
+char	*find_dollar_quotes(char *argument);
 
 int		check_list_flag(char *list_arg);
 int		size_argument(t_shell *shell);

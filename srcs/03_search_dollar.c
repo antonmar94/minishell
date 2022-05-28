@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/27 19:57:26 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/28 14:02:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void replace_content_runaway(t_aux_pointer *pointer)
 */
 void	nocontent_runaway(t_aux_pointer *pointer)
 {
-	pointer->line_untildollar = ft_substr(pointer->origin_line_arg, 0, pointer->count_untildollar -1);//
+	pointer->line_untildollar = ft_substr(pointer->origin_line_arg, 0, pointer->count_untildollar);//
 	if(pointer->new_expanded_str)
 	{
 		pointer->line_untildollar_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_untildollar);
@@ -81,10 +81,9 @@ char *change_dollars(t_shell *shell, char *str_to_change_dollar)
 		}
 		else
 			replace_dollar(shell);
-		
-		
 	}
-	if (str_to_change_dollar&& (int)ft_strlen(str_to_change_dollar) == shell->aux_pointer->count_untildollar)
+		
+	if (str_to_change_dollar && (int)ft_strlen(str_to_change_dollar) == shell->aux_pointer->count_untildollar)
 		return(str_to_change_dollar);
 	if 	(shell->aux_pointer->count_untildollar)
 			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );

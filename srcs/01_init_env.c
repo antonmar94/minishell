@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 20:26:02 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/28 13:59:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_env_list *add_hidden_env_var(t_shell *shell)
 	int i;
 	int size;
 	t_env_list *init;
-	char *hidden_name[] = { "0", "?", NULL};
-	char *hidden_content[] = { "minishell", ft_itoa(shell->exit_return), NULL};	
+	char *hidden_name[] = { "0", "?", "~", NULL};
+	char *hidden_content[] = { "minishell", ft_itoa(shell->exit_return), "$~", NULL};	
 	i = -1;
 
 	size= size_matriz(hidden_name);
@@ -69,13 +69,6 @@ t_env_list	*init_list_env(t_shell *shell, char** envp)
 		this_list_var = env_var_list_new(envp[i]);
 		env_var_add_back(&shell->env_list->next->next, this_list_var);
 	}
-
-/* 	while(init->next)
-	{
-		printf("contenido: [%s]\n", init->var_content );
-		init = init->next;
-	}
-	printf("contenido: [%s]\n", init->var_content ); */
 	return (init);
 }
 
