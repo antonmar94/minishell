@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   21_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 19:52:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 12:01:49 by elvmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void command_error(t_shell *shell, char *command)
+void	command_error(t_shell *shell, char *command)
 {
 	shell->exit_return = 127;
 	write(2, RED "minishell: ", 18);
@@ -21,7 +21,7 @@ void command_error(t_shell *shell, char *command)
 	write(2, ": command not found\n" RESET, 24);
 }
 
-int identifier_enviro_error(t_shell *shell)
+int	identifier_enviro_error(t_shell *shell)
 {
 	shell->exit_return = 153;
 	write(2, RED "minishell: ", 18);
@@ -29,7 +29,7 @@ int identifier_enviro_error(t_shell *shell)
 	return (1);
 }
 
-int syntax_error(t_shell *shell)
+int	syntax_error(t_shell *shell)
 {
 	shell->exit_return = 258;
 	write(2, RED "minishell: ", 18);
@@ -37,7 +37,7 @@ int syntax_error(t_shell *shell)
 	return (1);
 }
 
-int error_system_pwd(t_shell *shell)
+int	error_system_pwd(t_shell *shell)
 {
 	shell->exit_return = 992;
 	write(2, RED "minishell: ", 18);
@@ -45,7 +45,7 @@ int error_system_pwd(t_shell *shell)
 	return (1);
 }
 
-int error_child_process(t_shell *shell)
+int	error_child_process(t_shell *shell)
 {
 	shell->exit_return = 67;
 	write(2, RED "minishell: ", 18);
@@ -53,7 +53,7 @@ int error_child_process(t_shell *shell)
 	return (1);
 }
 
-int error_number_args(t_shell *shell)
+int	error_number_args(t_shell *shell)
 {
 	shell->exit_return = 1;
 	write(2, RED "minishell: ", 18);
@@ -61,7 +61,7 @@ int error_number_args(t_shell *shell)
 	return (1);
 }
 
-int error_wrong_path(t_shell *shell)
+int	error_wrong_path(t_shell *shell)
 {
 	shell->exit_return = 1;
 	write(2, RED "minishell: ", 18);
@@ -69,14 +69,14 @@ int error_wrong_path(t_shell *shell)
 	return (1);
 }
 
-int error_too_many_args(void)
+int	error_too_many_args(void)
 {
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fdnl(RED "error too many arguments" RESET, 2);
 	return (1);
 }
 
-int error_not_numeric(t_shell *shell)
+int	error_not_numeric(t_shell *shell)
 {
 	shell->exit_return = 255;
 	write(2, RED "minishell: ", 18);
@@ -86,7 +86,7 @@ int error_not_numeric(t_shell *shell)
 	return (1);
 }
 
-int fd_error(t_shell *shell)
+int	fd_error(t_shell *shell)
 {
 	shell->exit_return = 9;
 	write(2, RED "minishell: ", 18);

@@ -173,7 +173,7 @@ char	*arg_creator(t_shell *shell, char **argument);
 int		size_quotes_arg(char *line_walker, char quotes);
 
 int		execute_line(t_shell *shell, char **envp);
-void 	do_redirect(t_shell *shell, char **envp);
+void 	do_redirect(t_shell *shell);
 
 /*----------------------- list_commands --------------------------------------*/
 

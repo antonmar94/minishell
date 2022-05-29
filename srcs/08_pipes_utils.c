@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_pipes_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 14:00:11 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 12:12:36 by elvmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*pipe_next_line(char *line)
 	return (line);
 }
 
-int		get_size_line(char *size_walker)
+int	get_size_line(char *size_walker)
 {
 	char	quotes;
 	int		size;
@@ -89,11 +89,11 @@ char	*create_child_line(t_pipes *pipes_struct)
 
 void	pipes_first(t_shell *shell, char **envp, int is_first)
 {
-	t_pipes *pipes_struct;
+	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
 	close(pipes_struct->fd1[READ_END]);
- 	if (!is_first)
+	if (!is_first)
 	{
 		dup2(pipes_struct->fd2[READ_END], STDIN_FILENO);
 		close(pipes_struct->fd2[READ_END]);
@@ -101,12 +101,13 @@ void	pipes_first(t_shell *shell, char **envp, int is_first)
 	if (*pipes_struct->holder_parent)
 		dup2(pipes_struct->fd1[WRITE_END], STDOUT_FILENO);
 	close(pipes_struct->fd1[WRITE_END]);
+	do_redirect(shell);
 	execute_child_line(shell, envp);
 }
 
 void	pipes_next(t_shell *shell, char **envp, char *holder_child)
 {
-	t_pipes *pipes_struct;
+	t_pipes	*pipes_struct;
 
 	shell->line = holder_child;
 	pipes_struct = shell->pipes_struct;
@@ -117,5 +118,6 @@ void	pipes_next(t_shell *shell, char **envp, char *holder_child)
 	if (*pipes_struct->holder_parent)
 		dup2(pipes_struct->fd2[WRITE_END], STDOUT_FILENO);	
 	close(pipes_struct->fd2[WRITE_END]);
+	do_redirect(shell);
 	execute_child_line(shell, envp);
 }

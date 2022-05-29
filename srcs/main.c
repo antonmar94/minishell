@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/27 18:37:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:50:27 by elvmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char** envp)
 		if (error == 0)
 		{
 			split_arguments(shell);
-			if(!find_enviro_command(shell))
+			if (!find_enviro_command(shell))
 				child_execution(shell, envp);
 			free_all_struct(shell);
 		}
