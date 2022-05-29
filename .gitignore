@@ -11,3 +11,5 @@ minishell_debug
 *.dSYM
 test_*
 .history_own
+tests/hello
+tests/hola
