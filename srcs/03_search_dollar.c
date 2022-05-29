@@ -6,25 +6,15 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/28 14:02:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 13:00:13 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/**
- replace global var(dollar) to his content
- @param line_untildollar substring (malloc) filled with the chars advanceds count_untildollar
- @param new_expanded_str save the last piece of the string
- @param line_untildollar_joined
- @param content Comtent of the global var
- @param origin_line_arg the string to advance to obtain line_untildollar
-
-*/
-void replace_content_runaway(t_aux_pointer *pointer)
+void	replace_content_runaway(t_aux_pointer *pointer)
 {
 	pointer->line_untildollar = ft_substr(pointer->origin_line_arg, 0, pointer->count_untildollar);
-	//si anteriormente ya hay algo se concatena a lo anterior
 	if(pointer->new_expanded_str)
 	{
 		pointer->line_untildollar_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_untildollar);
