@@ -6,7 +6,7 @@
 #    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/07 16:58:45 by mbueno-g          #+#    #+#              #
-#    Updated: 2022/05/28 14:15:59 by albzamor         ###   ########.fr        #
+#    Updated: 2022/05/29 12:24:14 by albzamor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ if [ "$builtin" = "echo" ] || [ "$builtin" = "all" ] ; then
 	exec_test "echo \$"
 	exec_test "echo \"\"\$"
 	exec_test "echo \$?"
-	exec_test "echo holamecago\$\"PWD\"berb\""
+	exec_test "echo holamecago\$\"PWD\"berb"
 
 	print_result
 fi
