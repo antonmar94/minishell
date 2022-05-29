@@ -3,71 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   10_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/28 13:57:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:14:53 by elvmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void do_redirect(t_shell *shell, char **envp)
-{
-	int redirect_flag = 0;
-	char *redirect_file = NULL;
-	char *ptr = shell->line;
-	int fd;
 
-	while(*ptr != '\0')
+
+int	check_redirect(char **line, char **redirect_file)
+{
+	char	*ptr;
+
+	ptr = *line;
+	while (*ptr)
 	{
-		if(*ptr == '>')
+		if (*ptr == '>')
 		{
 			*ptr++ = '\0';
-			++redirect_flag;
-
-			if(*ptr == '>')
+			*redirect_file = ptr;
+			if (*ptr == '>')
 			{
-				++redirect_flag;
-				ptr++;
+				(*redirect_file)++;
+				return (2);
 			}
-			
-			while(*ptr == ' ' && *ptr != '\0')
-				ptr++;
-
-			redirect_file = ptr;
-
-			while(*ptr != ' ' && *ptr != '\0')
-				ptr++;
-				
-			*ptr = '\0';
+			else
+				return (1);
 		}
+/* 		printf("file [%s]\n", *redirect_file);
+		printf("linea [%s]\n",ptr); */
 		ptr++;
 	}
-	if(redirect_flag == 1)
-	{
-		fd = open(redirect_file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-		dup2(fd, 1);
-		execute_child_line(shell, envp);
-	}
-	else if(redirect_flag == 2)
-	{
-		fd = open(redirect_file, O_WRONLY|O_CREAT|O_APPEND, 0664);
-		dup2(fd, 1);
-		execute_child_line(shell, envp);
-	}
-	/* else if(redirect_flag == 3)
-	{
-		int aux; // variable auxiliar para redirigir 
-		aux = open (entrada , O_CREAT | O_RDONLY); 
-		if(aux == -1){
-			fprintf( stderr , "%s : Error. %s\n" , entrada , strerror(errno)); // Mostrar error , -1 igual a NULL 
-			return 1;
-		} else { 
-			dup2(aux,fileno(stdin)); // Redirreccion de 0, Entrada estandar 
-		}	
-	}  */
-	else
-		execute_child_line(shell, envp);
+	return (0);
 }
 
+void	find_files(char **redirect_file, int redirect_flag)
+{
+	char	*ptr;
+	char	*file_to_create;
+
+	ptr = *redirect_file;
+ 	while (*ptr && *ptr == ' ')
+		ptr++;
+	file_to_create = ptr;
+	redirect_flag = check_redirect(&ptr, &file_to_create);
+	//*redirect_file = ptr;
+/* 	while (*ptr != ' ' && *ptr != '\0')
+		ptr++; */
+/* 	if (ptr)
+	{
+		open(redirect_file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	} */
+	//*ptr = '\0';
+}
+
+void	do_redirect(t_shell *shell)
+{
+	int		redirect_flag;
+	char	*redirect_file;
+	int		fd;
+
+	redirect_file = NULL;
+	redirect_flag = check_redirect(&shell->line, &redirect_file);
+	//find_files(&redirect_file, redirect_flag);
+	if (redirect_flag == 1)
+	{
+		fd = open(redirect_file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+		dup2(fd, 1);
+	}
+	else if (redirect_flag == 2)
+	{
+		fd = open(redirect_file, O_WRONLY | O_CREAT | O_APPEND, 0664);
+		dup2(fd, 1);
+	}
+}

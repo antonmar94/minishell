@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/08 14:00:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:21:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 {
 	char	*holder_child;
 	int		pid;
-	t_pipes *pipes_struct;
+	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
 	holder_child = create_child_line(pipes_struct);
-	pipe(pipes_struct->fd1);	
+	pipe(pipes_struct->fd1);
 	pid = fork();
 	pipes_struct->error = check_error_child(shell, pid);
-	if(pid == 0)
+	if (pid == 0)
 	{
 		shell->line = holder_child;
 		pipes_first(shell, envp, is_first);
@@ -45,7 +45,7 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 {
 	char	*holder_child;
-	t_pipes *pipes_struct;
+	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
 	if (!is_first)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02a_search_quotes_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/28 13:09:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 11:36:40 by elvmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	check_list_flag(char *list_arg)
 	flag = list_arg;
 	if (!ft_strncmp(flag, "-n", 2))
 	{
-		
 		flag += 1;
 		while (*flag && *flag == 'n')
 			flag++;
@@ -44,7 +43,7 @@ int	size_argument(t_shell *shell)
 		arg_sizer++;
 	while (*arg_sizer && *arg_sizer != ' ')
 	{
-		quotes =  check_allquotes(arg_sizer);
+		quotes = check_allquotes(arg_sizer);
 		size_quotes = 0;
 		if (quotes)
 		{
@@ -60,7 +59,7 @@ int	size_argument(t_shell *shell)
 
 int	get_size_part(char	**arg_walker, char **arg_holder, char quotes)
 {
-	int size_part;
+	int	size_part;
 
 	size_part = 0;
 	if (quotes)
@@ -97,7 +96,7 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 	size_part = get_size_part(arg_walker, arg_holder, quotes);
 	if (**arg_holder && size_part > 0)
 	{
- 		arg_part = ft_substr(*arg_holder, 0, size_part);
+		arg_part = ft_substr(*arg_holder, 0, size_part);
 		if (quotes != '\'')
 			arg_part = change_dollars(shell, arg_part);
 	}
@@ -127,6 +126,5 @@ char	*arg_creator(t_shell *shell, char **argument)
 	}
 	free(*argument);
 	*argument = NULL;
-
 	return (joined_arg);
 }
