@@ -1,17 +1,6 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    test.sh                                            :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/11/07 16:58:45 by mbueno-g          #+#    #+#              #
-#    Updated: 2022/05/28 14:15:59 by albzamor         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 
-#!/bin/bash
+!/bin/bash
 
 BOLDRED="\033[1m\033[31m"
 BOLDGREEN="\033[1m\033[32m"
@@ -96,8 +85,7 @@ if [ "$builtin" = "echo" ] || [ "$builtin" = "all" ] ; then
 	exec_test "echo \$"
 	exec_test "echo \"\"\$"
 	exec_test "echo \$?"
-	exec_test "echo holamecago\$\"PWD\"berb\""
-
+	exec_test "echo holamecago\$\"PWD\"berb"
 	print_result
 fi
 
