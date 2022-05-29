@@ -6,94 +6,94 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 13:00:13 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 13:55:36 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	replace_content_runaway(t_aux_pointer *pointer)
+void	replace_content_runaway(t_aux_p *p)
 {
-	pointer->line_untildollar = ft_substr(pointer->origin_line_arg, 0, pointer->count_untildollar);
-	if(pointer->new_expanded_str)
+	p->line_predolar = ft_substr(p->org_ine_arg, 0, p->size_predollar);
+	if (p->new_expanded)
 	{
-		pointer->line_untildollar_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_untildollar);
-		new_free(&pointer->new_expanded_str);
+		p->line_predolar_joined = ft_strjoin(p->new_expanded, p->line_predolar);
+		new_free(&p->new_expanded);
 	}
 	else
-		pointer->line_untildollar_joined = ft_strdup(pointer->line_untildollar);
-	pointer->new_expanded_str =ft_strjoin(pointer->line_untildollar_joined, pointer->content);
-	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_untildollar + pointer->size_arg + 1;
-	pointer->count_untildollar = 0;
-	pointer->shell_line_walker+=pointer->size_arg;
-	if(pointer->new_expanded_str)
-		free(pointer->new_expanded_str);
-	pointer->new_expanded_str = ft_strjoin(pointer->line_untildollar_joined, pointer->content);
+		p->line_predolar_joined = ft_strdup(p->line_predolar);
+	p->new_expanded = ft_strjoin(p->line_predolar_joined, p->content);
+	p->org_ine_arg = p->org_ine_arg + p->size_predollar + p->size_arg + 1;
+	p->size_predollar = 0;
+	p->line_walker += p->size_arg;
+	if (p->new_expanded)
+		free(p->new_expanded);
+	p->new_expanded = ft_strjoin(p->line_predolar_joined, p->content);
 
 }
 
-/**
- replace global var(dollar) to his content
- @param line_untildollar -1 because if del VARdollar save spce after and before. Del one
- @param new_expanded_str save the last piece of the string
- @param line_untildollar_joined
- @param content Comtent of the global var
- @param origin_line_arg the string to advance to obtain line_untildollar
-*/
-void	nocontent_runaway(t_aux_pointer *pointer)
+void	nocontent_runaway(t_aux_p *p)
 {
-	pointer->line_untildollar = ft_substr(pointer->origin_line_arg, 0, pointer->count_untildollar);//
-	if(pointer->new_expanded_str)
+	p->line_predolar = ft_substr(p->org_ine_arg, 0, p->size_predollar);
+	if (p->new_expanded)
 	{
-		pointer->line_untildollar_joined = ft_strjoin(pointer->new_expanded_str, pointer->line_untildollar);
-		new_free(&pointer->new_expanded_str);
+		p->line_predolar_joined = ft_strjoin(p->new_expanded, p->line_predolar);
+		new_free(&p->new_expanded);
 	}
 	else
-		pointer->line_untildollar_joined = ft_strdup(pointer->line_untildollar);
-	pointer->new_expanded_str = ft_strdup(pointer->line_untildollar_joined);
-	pointer->origin_line_arg = pointer->origin_line_arg + pointer->count_untildollar + pointer->size_arg + 1;
-	pointer->count_untildollar = 0;
-	pointer->shell_line_walker+=pointer->size_arg;
+		p->line_predolar_joined = ft_strdup(p->line_predolar);
+	p->new_expanded = ft_strdup(p->line_predolar_joined);
+	p->org_ine_arg = p->org_ine_arg + p->size_predollar + p->size_arg + 1;
+	p->size_predollar = 0;
+	p->line_walker += p->size_arg;
 }
 
-/* Utiliza shell->command_args que no tiene comando y cambia dollar por contenido*/
-char *change_dollars(t_shell *shell, char *str_to_change_dollar)
+/* change dollar to content */
+char	*change_dollars(t_shell *shell, char *str_to_change_dollar)
 {
-	shell->aux_pointer->origin_line_arg = str_to_change_dollar;
-	shell->aux_pointer->count_untildollar = 0;
-	shell->aux_pointer->shell_line_walker = str_to_change_dollar;
-	while (shell->aux_pointer->shell_line_walker && *(shell->aux_pointer->shell_line_walker))
+	shell->aux_p->org_ine_arg = str_to_change_dollar;
+	shell->aux_p->size_predollar = 0;
+	shell->aux_p->line_walker = str_to_change_dollar;
+	while (shell->aux_p->line_walker && *(shell->aux_p->line_walker))
 	{
-		if (*shell->aux_pointer->shell_line_walker != '$' || (*shell->aux_pointer->shell_line_walker == '$' && (!shell->aux_pointer->shell_line_walker[1] || shell->aux_pointer->shell_line_walker[1] == ' ')))
+		if (*shell->aux_p->line_walker != '$' || (*shell->aux_p->line_walker
+				== '$' && (!shell->aux_p->line_walker[1]
+					|| shell->aux_p->line_walker[1] == ' ')))
 		{
-			shell->aux_pointer->shell_line_walker++;
-			shell->aux_pointer->count_untildollar++;
+			shell->aux_p->line_walker++;
+			shell->aux_p->size_predollar++;
 		}
 		else
 			replace_dollar(shell);
 	}
-		
-	if (str_to_change_dollar && (int)ft_strlen(str_to_change_dollar) == shell->aux_pointer->count_untildollar)
-		return(str_to_change_dollar);
-	if 	(shell->aux_pointer->count_untildollar)
-			shell->aux_pointer->final_str = ft_strjoin(shell->aux_pointer->new_expanded_str, shell->aux_pointer->origin_line_arg );
+	if (str_to_change_dollar && (int)ft_strlen(str_to_change_dollar)
+		== shell->aux_p->size_predollar)
+		return (str_to_change_dollar);
+	if (shell->aux_p->size_predollar)
+		shell->aux_p->final_str = ft_strjoin(shell->aux_p->new_expanded,
+				shell->aux_p->org_ine_arg);
 	else
-		shell->aux_pointer->final_str = ft_strdup(shell->aux_pointer->new_expanded_str);
-	new_free(&shell->aux_pointer->new_expanded_str);
-	return(shell->aux_pointer->final_str);
+		shell->aux_p->final_str = ft_strdup(shell->aux_p->new_expanded);
+	new_free(&shell->aux_p->new_expanded);
+	return (shell->aux_p->final_str);
 }
 
 void	replace_dollar(t_shell *shell)
 {
-	shell->aux_pointer->shell_line_walker++;
-	shell->aux_pointer->first_dollar_found = ft_split_one(shell->aux_pointer->shell_line_walker, ' ', '$');
-	shell->aux_pointer->size_arg = ft_strlen(shell->aux_pointer->first_dollar_found);
-	shell->aux_pointer->content= search_var_coincident(shell, shell->aux_pointer->first_dollar_found);
-	if (shell->aux_pointer->content)
-		replace_content_runaway(shell->aux_pointer);
+	char	*lw;
+	char	*first;
+
+	lw = shell->aux_p->line_walker;
+	first = shell->aux_p->first_dollar_found;
+	lw++;
+	first = ft_split_one(shell->aux_p->line_walker, ' ', '$');
+	shell->aux_p->size_arg = ft_strlen(first);
+	shell->aux_p->content = search_var_coincident(shell, first);
+	if (shell->aux_p->content)
+		replace_content_runaway(shell->aux_p);
 	else
-		nocontent_runaway(shell->aux_pointer);
-	free(shell->aux_pointer->line_untildollar);
-	free(shell->aux_pointer->line_untildollar_joined);
-	free(shell->aux_pointer->first_dollar_found);
+		nocontent_runaway(shell->aux_p);
+	free(shell->aux_p->line_predolar);
+	free(shell->aux_p->line_predolar_joined);
+	free(first);
 }
