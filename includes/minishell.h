@@ -60,21 +60,20 @@ typedef struct pipes_struct
 
 }	t_pipes;
 
-typedef struct s_aux_pointer
+typedef struct s_aux_p
 {
 	int		size_arg;
-	int		count_untildollar;
-	char	*shell_line_walker;
-	char	*origin_line_arg;
-	char	*first_dollar_found;
-	char	*line_untildollar_joined;
-	char 	*line_untildollar;
-	char 	*new_expanded_str;
-	char 	*content;
+	int		size_predollar;
 	char	*line_walker;
+	char	*org_ine_arg;
+	char	*first_dollar_found;
+	char	*line_predolar_joined;
+	char 	*line_predolar;
+	char 	*new_expanded;
+	char 	*content;
 	char	*final_str;
 
-}	t_aux_pointer;
+}	t_aux_p;
 
 typedef struct s_shell
 {
@@ -93,7 +92,7 @@ typedef struct s_shell
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
 	t_env_list		*env_list_plus;
-	t_aux_pointer 	*aux_pointer;
+	t_aux_p 	*aux_p;
 	t_pipes			*pipes_struct;
 }	t_shell;
 
@@ -117,7 +116,7 @@ void		arglstadd_back(t_arglist **arg_lst, t_arglist *new);
 int 		env(t_shell *shell);
 int 		unset(t_shell *shell);
 
-/*----------------------- init_env --------------------------------------*/
+/*----------------------- init_env ------------------------------------------*/
 t_env_list	*env_var_list_new(char* env_var);
 void		env_var_add_back(t_env_list **env_list, t_env_list *new);
 t_env_list	*init_list_env(t_shell *shell, char** envp);
@@ -147,15 +146,15 @@ void	execute_command(t_shell *shell, int i);
 
 int 	find_enviro_command(t_shell *shell);
 
-/*--------------------PARSING AND SYNTAX----------------------------------------------------*/
+/*--------------------PARSING AND SYNTAX--------------------------------------*/
 int		check_syntax(t_shell *shell);
 int		check_quotes_syntax(char	*line);
 int		check_redirect_syntax(char *line);
 
 char	*search_var_coincident(t_shell *shell, char* str_to_find);
 char 	*change_dollars(t_shell *shell, char *str_to_change_dollar);
-void	nocontent_runaway(t_aux_pointer *pointer);
-void 	replace_content_runaway(t_aux_pointer *pointer);
+void	nocontent_runaway(t_aux_p *pointer);
+void 	replace_content_runaway(t_aux_p *pointer);
 void	replace_dollar(t_shell *shell);
 
 char	this_quote(char *line);
@@ -183,6 +182,7 @@ void	exit_minishell(t_shell *shell);
 int 	cd(t_shell *shell);
 int 	echo(t_shell *shell);
 int 	export(t_shell *shell);
+void 	exit_return(t_shell *shell);
 
 /*----------------------- ERRORS ---------------------------------------------*/
 int		syntax_error(t_shell *shell);
@@ -201,7 +201,7 @@ void	check_envar(t_shell *shell);
 void	*del_name_and_contend(t_shell *shell);
 int		check_char(char *str, char char_tofind);
 
-/*----------------------- PIPES AND EXECUTION--------------------------------------------*/
+/*----------------------- PIPES AND EXECUTION---------------------------------*/
 int		check_error_child(t_shell *shell, int pid);
 void	pipes_first(t_shell *shell, char **envp, int is_first);
 void	pipes_next(t_shell *shell, char **envp, char *holder_child);
@@ -218,14 +218,14 @@ void	print_env_list(t_env_list *envp);
 void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
-/*----------------------- FREE--------------------------------------*/
+/*----------------------- FREE------------------------------------------------*/
 void	free_parent(t_shell *shell);
 void	free_all_struct(t_shell *shell);
 void	free_arg_list(t_arglist **arg_lst);
 void	free_env_list(t_env_list *envp);
 void 	new_free(char **ptr);
 
-/*------------------------ MOD LIFT --------------------------------------*/
+/*------------------------ MOD LIFT -----------------------------------------*/
 char	*ft_strjoin_whith_space(char const *s1, char const *s2);
 char	*ft_split_one(char *s, char c, char d);
 size_t	ft_desplace_2char(char const *s, char c, char d);
@@ -235,7 +235,7 @@ int		ft_isalpha_str(char *str, char c);
 
 
 
-/*----------------------- REDIR------------------------------------------*/
+/*----------------------- REDIR----------------------------------------------*/
 
 void redirect(char *buff);
 

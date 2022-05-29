@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/05/28 13:57:42 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 13:55:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	add_arg_tolist(t_shell *shell)
 
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
-	
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
 	{
 		shell->line_walker++;

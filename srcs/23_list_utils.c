@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/09 20:31:11 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:08:09 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 	t_arglist	*aux;
 
 	aux = *arg_lst;
-	//printf(RED"startarg: %s\n"RESET, new->content);
 	if (!new)
 		return ;
 	if (!*arg_lst)
@@ -44,18 +43,18 @@ void	arglstadd_back(t_arglist **arg_lst, t_arglist *new)
 }
 
 /* If found one in a list return de var content */
-char *search_var_coincident(t_shell *shell, char* str_to_find)
+char	*search_var_coincident(t_shell *shell, char *str_to_find)
 {
-	t_env_list *copy;
-	copy = shell->env_list_plus;
+	t_env_list	*copy;
 
+	copy = shell->env_list_plus;
 	while (copy->next)
 	{
 		if (!ft_strcmp(copy->var_name, str_to_find))
-			return(copy->var_content);
+			return (copy->var_content);
 		copy = copy->next;
 	}
 	if (!ft_strcmp(copy->var_name, str_to_find))
-		return(copy->var_content);
-	return(0);
+		return (copy->var_content);
+	return (0);
 }

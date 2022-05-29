@@ -6,37 +6,45 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/28 13:59:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/05/29 13:55:10 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env_list	*env_var_list_hidden(char* name, char* content)
+t_env_list	*env_var_list_hidden(char *name, char *content)
 {
 	t_env_list	*env_list;
 
 	env_list = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!env_list)
 		return (NULL);
-	env_list->var_name = name;//pasar funcion para trocear var
-	env_list->var_content = content;//pasar funcion para trocear var
+	env_list->var_name = name;
+	env_list->var_content = content;
 	env_list->next = NULL;
 	return (env_list);
 }
 
-t_env_list *add_hidden_env_var(t_shell *shell)
+t_env_list	*add_hidden_env_var(t_shell *shell)
 {
 	t_env_list	*this_list_var;
-	int i;
-	int size;
-	t_env_list *init;
-	char *hidden_name[] = { "0", "?", "~", NULL};
-	char *hidden_content[] = { "minishell", ft_itoa(shell->exit_return), "$~", NULL};	
-	i = -1;
+	t_env_list	*init;
+	int			i;
+	char		**hidden_name;
+	char		**hidden_content;
 
-	size= size_matriz(hidden_name);
-	while (++i < size)
+	hidden_name = malloc(sizeof(char *) * 4);
+	hidden_content = malloc(sizeof(char *) * 4);
+	hidden_name[0] = "0";
+	hidden_name[1] = "?";
+	hidden_name[2] = "~";
+	hidden_name[3] = NULL;
+	hidden_content[0] = "minishell";
+	hidden_content[1] = ft_itoa(shell->exit_return);
+	hidden_content[2] = "$~";
+	hidden_content[3] = NULL;
+	i = -1;
+	while (++i < size_matriz(hidden_name))
 	{
 		this_list_var = env_var_list_hidden(hidden_name[i], hidden_content[i]);
 		env_var_add_back(&shell->env_list, this_list_var);
@@ -44,25 +52,20 @@ t_env_list *add_hidden_env_var(t_shell *shell)
 			init = this_list_var;
 	}
 	return (init);
-	
 }
 
-t_env_list	*init_list_env(t_shell *shell, char** envp)
+t_env_list	*init_list_env(t_shell *shell, char **envp)
 {
-	t_env_list *init;
+	t_env_list	*init;
 	t_env_list	*this_list_var;
-	int size_envp;
-	int i;
+	int			size_envp;
+	int			i;
 
-
-	size_envp = size_matriz(envp);//
-
-
+	size_envp = size_matriz(envp);
 	shell->env_list_plus = add_hidden_env_var(shell);
 	this_list_var = env_var_list_new(envp[0]);
 	env_var_add_back(&shell->env_list->next->next, this_list_var);
 	init = this_list_var;
-	//init = this_list_var;
 	i = 1;
 	while (++i < size_envp)
 	{
@@ -72,15 +75,15 @@ t_env_list	*init_list_env(t_shell *shell, char** envp)
 	return (init);
 }
 
-t_env_list	*env_var_list_new(char* env_var)
+t_env_list	*env_var_list_new(char *env_var)
 {
 	t_env_list	*env_list;
 
 	env_list = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!env_list)
 		return (NULL);
-	env_list->var_name = cut_env_var_name(env_var);//pasar funcion para trocear var
-	env_list->var_content = cut_env_var_content(env_var);//pasar funcion para trocear var
+	env_list->var_name = cut_env_var_name(env_var);
+	env_list->var_content = cut_env_var_content(env_var);
 	env_list->next = NULL;
 	return (env_list);
 }
