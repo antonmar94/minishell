@@ -1,5 +1,4 @@
 
-
 !/bin/bash
 
 BOLDRED="\033[1m\033[31m"
