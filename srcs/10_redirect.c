@@ -6,11 +6,34 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 23:11:35 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/05/30 21:30:20 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_last_part(char	**line, char **ptr)
+{
+	char	*no_arrow;
+
+	no_arrow = *ptr;
+	no_arrow++;
+	while (*no_arrow && *no_arrow != '>')
+		no_arrow++;
+	if (!*no_arrow)
+	{
+		no_arrow = *ptr;
+		while (*no_arrow && *no_arrow != ' ')
+			no_arrow++;
+		if (*no_arrow == ' ')
+		{
+			*no_arrow++ = '\0';
+			*line = ft_strjoin(*line, " ");
+			*line = ft_strjoin(*line, ft_substr(no_arrow,
+						0, ft_strlen(no_arrow)));
+		}
+	}
+}
 
 int	check_redirect(char **line, char **redirect_file)
 {
@@ -36,39 +59,43 @@ int	check_redirect(char **line, char **redirect_file)
 	return (0);
 }
 
-int	next_file(char **file_to_create)
+int	next_file(char **files, char **file_to_create)
 {
 	char	*ptr;
-	char	*aux;
+	int		size_file;
 
-	ptr = *file_to_create;
-	while (*ptr && *ptr != ' ')
+	ptr = *files;
+	size_file = 0;
+	while (*ptr && *ptr != '>')
+	{
 		ptr++;
-	*ptr++ = '\0';
-	aux = ptr;
-	while (*aux && *aux != '>')
-		aux++;
-	if (!*aux)
+		size_file++;
+	}
+	*file_to_create = ft_substr(*files, 0, size_file);
+	if (!*ptr)
 		return (0);
 	open(*file_to_create, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	*file_to_create = ptr;
+	*files = ptr;
 	return (1);
 }
 
-void	find_files(char **redirect_file, int redirect_flag)
+void	find_files(char **line, char **redirect_file, int redirect_flag)
 {
 	char	*ptr;
+	char	*files;
 	char	*file_to_create;
 
 	ptr = *redirect_file;
-	file_to_create = *redirect_file;
+	files = *redirect_file;
+	file_to_create = NULL;
 	while (redirect_flag)
-	{
+	{		
 		while (*ptr && (*ptr == ' ' || *ptr == '>'))
 			ptr++;
-		file_to_create = ptr;
-		redirect_flag = next_file(&file_to_create);
-		ptr = file_to_create;
+		files = ptr;
+		add_last_part(line, &files);
+		redirect_flag = next_file(&files, &file_to_create);
+		ptr = files;
 	}
 	*redirect_file = file_to_create;
 }
@@ -81,7 +108,7 @@ void	do_redirect(t_shell *shell)
 
 	redirect_file = NULL;
 	redirect_flag = check_redirect(&shell->line, &redirect_file);
-	find_files(&redirect_file, redirect_flag);
+	find_files(&shell->line, &redirect_file, redirect_flag);
 	if (redirect_flag == 1)
 	{
 		fd = open(redirect_file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
