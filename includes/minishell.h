@@ -30,6 +30,7 @@
 /*
 ** minishell variables
 */
+
 typedef struct s_path
 {
 	char 		*user;
@@ -40,7 +41,6 @@ typedef struct arg_list
 {
 	char				*content;
 	struct arg_list		*next;
-
 }	t_arglist;
 
 typedef struct env_list
@@ -48,7 +48,6 @@ typedef struct env_list
 	char				*var_name;
 	char				*var_content;
 	struct env_list		*next;
-
 }	t_env_list;
 
 typedef struct pipes_struct
@@ -57,7 +56,6 @@ typedef struct pipes_struct
 	int		fd2[2];
 	char	*holder_parent;
 	int		error;
-
 }	t_pipes;
 
 typedef struct s_aux_p
