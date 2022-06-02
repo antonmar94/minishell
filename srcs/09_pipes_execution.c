@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 23:11:37 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/02 21:03:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	execute_child_line(t_shell *shell, char **envp)
 {
 	split_arguments(shell);
-	if (!find_command(shell))
+	if (!shell->exit_return && !find_command(shell))
 	{
 		if (!system_commmand(shell, envp) || !shell->command)
 			command_error(shell, shell->command);

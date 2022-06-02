@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   21_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elvmarti <elvmarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 12:01:49 by elvmarti         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:52:54 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	error_number_args(t_shell *shell)
 int	error_wrong_path(t_shell *shell)
 {
 	shell->exit_return = 1;
-	write(2, RED "minishell: ", 18);
+	write(2, RED "minishell: ", 19);
 	ft_putstr_fdnl(RED "No such file or directory" RESET, 2);
 	return (1);
 }

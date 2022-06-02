@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/01 22:18:20 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/02 22:14:06 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	jump_quotes(char **line_to_ignore)
 			size_quotes++;
 		}
 		size_quotes++;
+		return (size_quotes);
 	}
-	return (size_quotes);
+	return (1);
 }
 
 int	check_redirect(char **line, char **rest_of_line)
@@ -45,6 +46,7 @@ int	check_redirect(char **line, char **rest_of_line)
 	num_arrows = 0;
 	while (*arrow_finder)
 	{
+		jump_quotes(&arrow_finder);
 		if (*arrow_finder == '>')
 		{
 			aux_finder = arrow_finder;
@@ -69,7 +71,7 @@ void	get_line_execute (char **line, char **rest_of_line)
 	char		*aux_append;
 	int			size_append;
 
-	while (**rest_of_line == ' ')
+	while (**rest_of_line && **rest_of_line == ' ')
 		(*rest_of_line)++;
 	line_finder = *rest_of_line;
 	while (*line_finder && line_finder)
@@ -78,21 +80,15 @@ void	get_line_execute (char **line, char **rest_of_line)
 		size_append = 0;
 		if (*line_finder && *line_finder == ' ')
 		{
-			if (*line_finder && *line_finder != '>')
+			aux_append = line_finder;
+			while (*aux_append && *aux_append != '>')
 			{
-				aux_append = line_finder;
-				while (*aux_append && *aux_append != '>')
-				{
-					if (check_allquotes(aux_append))
-						size_append += jump_quotes(&aux_append);
-					else
-						size_append++;
-					aux_append++;
-				}
-				*line = ft_strjoin(*line, ft_substr(line_finder,
-							0, size_append));
-				line_finder = aux_append;
+				size_append += jump_quotes(&aux_append);
+				aux_append++;
 			}
+			line_finder = ft_substr(line_finder, 0, size_append);
+			*line = ft_strjoin(*line, line_finder);
+			line_finder = aux_append;
 		}
 		if(*line_finder && *line_finder == '>')
 		{
@@ -105,7 +101,31 @@ void	get_line_execute (char **line, char **rest_of_line)
 	}
 }
 
-int		get_create_files(char **rest_of_line, int num_arrows)
+/* int		get_file_size(char **aux_finder, char **files_finder, int *num_arrows)
+{
+
+	
+	while (*files_finder && *files_finder == '>')
+	{
+		(*num_arrows)++;
+		files_finder++;
+	}
+	while (*files_finder && *files_finder == ' ')
+		files_finder++;
+	aux_finder = files_finder;
+	while (*aux_finder && *aux_finder != ' ')
+	{
+		file_size += jump_quotes(&aux_finder);
+		aux_finder++;
+	}
+	while (*aux_finder && (*aux_finder != '>'))
+	{
+		jump_quotes(&aux_finder);
+		aux_finder++;
+	}
+} */
+
+int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 {
 	char	*files_finder;
 	char	*aux_finder;
@@ -118,22 +138,21 @@ int		get_create_files(char **rest_of_line, int num_arrows)
 		file_size = 0;
 		if (*files_finder && *files_finder == '>')
 		{
-			while (*files_finder && (*files_finder == '>' || *files_finder == ' '))
+			num_arrows = 0;
+			while (*files_finder && *files_finder == '>')
 			{
-				if (*files_finder == '>')
-					num_arrows++;
+				num_arrows++;
 				files_finder++;
 			}
+			while (*files_finder && *files_finder == ' ')
+				files_finder++;
 			aux_finder = files_finder;
-			while (*aux_finder && (*aux_finder != '>' && *aux_finder != ' '))
+			while (*aux_finder && *aux_finder != ' ' && *aux_finder != '>')
 			{
-				if (check_allquotes(aux_finder))
-					file_size += jump_quotes(&aux_finder);
-				else
-					file_size++;
+				file_size += jump_quotes(&aux_finder);
 				aux_finder++;
 			}
-			while (*aux_finder && (*aux_finder != '>'))
+			while (*aux_finder && *aux_finder != '>')
 			{
 				jump_quotes(&aux_finder);
 				aux_finder++;
@@ -143,27 +162,42 @@ int		get_create_files(char **rest_of_line, int num_arrows)
 				*rest_of_line = ft_substr(files_finder, 0, file_size);
 				return (num_arrows);
 			}
-			open(ft_substr(files_finder, 0, file_size), O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			num_arrows = 0;
+			aux_finder = ft_substr(files_finder, 0, file_size);
+			aux_finder = arg_creator(shell, &aux_finder);
+			open(ft_substr(aux_finder, 0, file_size), O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		}
 		files_finder++;
 	}
 	return (num_arrows);
 }
 
-void	do_redirect(t_shell *shell)
+int	get_line_files(t_shell *shell, char **all_files)
+{
+	int		num_arrows;
+
+	num_arrows = check_redirect(&shell->line, all_files);
+	if (num_arrows)
+	{
+		get_line_execute(&shell->line, all_files);
+		num_arrows = get_create_files(shell, all_files, num_arrows);
+		*all_files = arg_creator(shell, all_files);
+		if (!*all_files)
+		{
+			error_wrong_path(shell);
+			return (0);
+		}
+	}
+	return (num_arrows);
+}
+
+int	do_redirect(t_shell *shell)
 {
 	int		num_arrows;
 	char	*all_files;
 	int		fd;
 
 	all_files = NULL;
-	num_arrows = check_redirect(&shell->line, &all_files);
-	if (num_arrows)
-	{
-		get_line_execute(&shell->line, &all_files);
-		num_arrows = get_create_files(&all_files, num_arrows);
-	}
+	num_arrows = get_line_files(shell, &all_files);
 	if (num_arrows == 1)
 	{
 		fd = open(all_files, O_WRONLY | O_CREAT | O_TRUNC, 0664);
@@ -174,4 +208,5 @@ void	do_redirect(t_shell *shell)
 		fd = open(all_files, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		dup2(fd, 1);
 	}
+	return (0);
 }
