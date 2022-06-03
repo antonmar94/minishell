@@ -1,5 +1,4 @@
 
-
 NAME = minishell
 NAME_DEBUG = minishell_debug
 CODE_DEBUG_EXTERNAL_CONSOLE = true
@@ -21,11 +20,14 @@ SRCS =	./srcs/00_init.c \
 		./srcs/10b_redirect_utils.c \
 		./srcs/20_header.c \
 		./srcs/21_errors.c \
-		./srcs/22_signals.c \
+		./srcs/22_errors_2.c \
 		./srcs/23_list_utils.c \
+		./srcs/24_signals.c \
 		./srcs/30_free_utils.c \
+		./srcs/31_free_utils_2.c \
 		./srcs/al_auxiliar_comp.c \
 		./srcs/al_auxiliar_list.c \
+		./srcs/al_auxiliar_list2.c \
 		./srcs/al_check_aux.c \
 		./srcs/al_aux_lib.c \
 		./srcs/main.c \

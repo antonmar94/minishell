@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   al_check_aux.c                                     :+:      :+:    :+:   */
+/*   24_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/16 14:10:35 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:46:00 by albzamor         ###   ########.fr       */
+/*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
+/*   Updated: 2022/06/03 18:54:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_envar(t_shell *shell)
+void	sigint_handler(void)
 {
-	if (shell->env_list_plus->var_name)
-		printf(GREEN"\nENVAR RECIBIDAS ✅\n"RESET);
-	else
-	{
-		printf(RED"\nVARIABES DE ENTORNO NO RECIBIDAS ❌\n"RESET);
-		exit(0);
-	}
+	printf(BLUE"\nAlicornioPrompt$ "RESET);
 }
