@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/02 22:14:06 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:49:00 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 	char	*files_finder;
 	char	*aux_finder;
 	int		file_size;
-	
+
 	files_finder = *rest_of_line;
 	while (*files_finder)
 	{

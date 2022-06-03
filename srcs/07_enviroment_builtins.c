@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 14:07:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:07:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	env(t_shell *shell)
 
 void	exit_minishell(t_shell *shell)
 {
-
 	if (shell->size_com_args == 1)
 	{
 		shell->exit_return = 0;

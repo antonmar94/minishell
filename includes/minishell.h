@@ -63,7 +63,7 @@ typedef struct s_aux_p
 	int		size_arg;
 	int		size_predollar;
 	char	*line_walker;
-	char	*org_ine_arg;
+	char	*org_line_arg;
 	char	*first_dollar_found;
 	char	*line_predolar_joined;
 	char 	*line_predolar;
