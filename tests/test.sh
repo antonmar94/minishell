@@ -85,10 +85,6 @@ if [ "$builtin" = "echo" ] || [ "$builtin" = "all" ] ; then
 	exec_test "echo \"\"\$"
 	exec_test "echo \$?"
 	exec_test "echo holamecago\$\"PWD\"berb"
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 	print_result
 fi
 
