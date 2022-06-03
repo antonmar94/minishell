@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 14:00:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/03 18:54:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	cd(t_shell *shell)
 		return (error_wrong_path(shell));
 	return (0);
 }
-
 
 void	help(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/29 14:10:43 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:35:51 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,39 +48,4 @@ void	free_arg_list(t_arglist **arg_lst)
 		cleaner = aux;
 	}
 	*arg_lst = NULL;
-}
-
-void	free_env_list(t_env_list *envp)
-{
-	t_env_list	*copy;
-	t_env_list	*copy2;
-
-	copy = envp;
-	while (copy->next)
-	{
-		if (copy->var_name)
-		{
-			free(copy->var_name);
-			copy->var_name = NULL;
-		}
-		if (copy->var_content)
-		{
-			free(copy->var_content);
-			copy->var_content = NULL;
-		}
-		copy2 = copy->next;
-		free(copy);
-		copy = copy2;
-	}
-	if (copy->var_name)
-	{
-		free(copy->var_name);
-		copy->var_name = NULL;
-	}
-	if (copy->var_content)
-	{
-		free(copy->var_content);
-		copy->var_content = NULL;
-	}
-	free(copy);
 }
