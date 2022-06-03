@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/05/28 13:58:48 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/03 19:15:45 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,19 +117,4 @@ int	ft_isalpha_str(char *str, char c)
 	return (1);
 }
 
-int	ft_isdigit_str(char *str)
-{
-	int	i;
 
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (ft_isdigit(str[i]))
-			i++;
-		else
-			return (0);
-	}
-	return (1);
-}

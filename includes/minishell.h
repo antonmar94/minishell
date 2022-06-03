@@ -25,16 +25,15 @@
 # define WHITE	"\033[0;37m"
 # define RESET	"\033[0;m"
 # define BOLD	"\033[1;m"
-# define BEGIN(x,y) "\033["#x";"#y"m"    // x: fondo, y: primer plano
 
 /*
 ** minishell variables
 */
 
-typedef struct s_path
+typedef	struct	s_path
 {
-	char 		*user;
-	char		*home_user;
+	char	*user;
+	char	*home_user;
 }	t_path;
 
 typedef struct arg_list
@@ -123,15 +122,9 @@ char 		*cut_env_var_content(char* env_var);
 int 		look_for_var_name(t_shell *shell, char *var_name_to_find);
 int 		change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
-
 int 		del_var_node_coincident(t_shell *shell, char *var_name_to_find);
-
-
 int 		do_exec(char *buff, t_shell *shell);
-
 void		clear_console(void);
-
-
 int			split_arguments(t_shell *shell);
 int 		line_without_command(t_shell *shell);
 int			arg_listing(t_shell *shell);
@@ -213,7 +206,7 @@ int		execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
 /*----------------------- AUXILIAR PRINT--------------------------------------*/
 void	print_all(t_shell *shell);
 void	print_env_list(t_env_list *envp);
-void 	print_var_content_text(char *var_name, char *var_content, t_shell *shell);
+void 	printvar_content_text(char *var_name, char *var_content, t_shell *shell);
 void 	print_var_unset(char *var_name, t_shell *shell);
 
 /*----------------------- FREE------------------------------------------------*/
