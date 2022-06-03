@@ -85,6 +85,9 @@ if [ "$builtin" = "echo" ] || [ "$builtin" = "all" ] ; then
 	exec_test "echo \"\"\$"
 	exec_test "echo \$?"
 	exec_test "echo holamecago\$\"PWD\"berb"
+	exec_test "echo \$PWD\"SERIAMENTE\" > ano me puede > asno \">culomierda>>\" > trambolico >> sepia"
+	exec_test "echo \$PWD\"HOLA\" | wc -l > pedro_vacio2 > aqui_hay_algo2"
+	exec_test "echo \$PWD\"SERIAMENTE\" > ano me puede > asno \">culomierda>>\" > trambolico >> sepia culomierda"
 	print_result
 fi
 
