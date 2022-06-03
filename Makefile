@@ -17,6 +17,7 @@ SRCS =	./srcs/00_init.c \
 		./srcs/08_pipes_utils.c \
 		./srcs/09_pipes_execution.c \
 		./srcs/10_redirect.c \
+		./srcs/10b_redirect_utils.c \
 		./srcs/20_header.c \
 		./srcs/21_errors.c \
 		./srcs/22_errors_2.c \
