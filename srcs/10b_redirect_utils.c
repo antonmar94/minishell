@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10b_redirect_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 20:53:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:44:52 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	jump_quotes(char **line_to_ignore)
 	return (1);
 }
 
-void	append_to_line(char **line, char **line_finder)
+void	append_to_line(char **line, char **line_finder, char arrow)
 {
 	char	*aux_append;
 	int		size_append;
 
 	aux_append = *line_finder;
 	size_append = 0;
-	while (*aux_append && *aux_append != '>')
+	while (*aux_append && *aux_append != arrow)
 	{
 		size_append += jump_quotes(&aux_append);
 		aux_append++;

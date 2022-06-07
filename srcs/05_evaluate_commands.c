@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 18:54:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:05:33 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int find_command(t_shell *shell)
 		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
 	}
 	return(0);
-	//command_error(shell);
 }
 
 void execute_command(t_shell *shell, int i)

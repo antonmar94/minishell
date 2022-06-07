@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   09_pipes_execution.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 17:54:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:44:46 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
 		pid = execute_first(shell, envp, is_first);
-		if (pid != 0) 
+		if (pid != 0)
 		{
 			pid = execute_next(shell, envp, is_first, pid);
 			is_first = 0;

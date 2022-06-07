@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   21_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 18:54:46 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:26:29 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/* Gestiona los errores a través de errno, algunos errores
+deben gestionarse por separado.							*/
+
+int	ft_error (t_shell *shell, char *elem_err, int error_code)
+{
+	shell->exit_return = error_code;
+	perror(ft_strjoin(RED"minishell: ", elem_err));
+	errno = 0;
+	return (1);
+}
 
 void	command_error(t_shell *shell, char *command)
 {
@@ -18,7 +29,7 @@ void	command_error(t_shell *shell, char *command)
 	write(2, RED "minishell: ", 18);
 	if (command)
 		write(2, command, ft_strlen(command));
-	write(2, ": command not found\n" RESET, 24);
+	ft_putstr_fdnl(": command not found" RESET, 2);
 }
 
 int	identifier_enviro_error(t_shell *shell)
@@ -34,30 +45,6 @@ int	syntax_error(t_shell *shell)
 	shell->exit_return = 258;
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fdnl("syntax error in command line" RESET, 2);
-	return (1);
-}
-
-int	error_system_pwd(t_shell *shell)
-{
-	shell->exit_return = 992;
-	write(2, RED "minishell: ", 18);
-	ft_putstr_fdnl(RED "error getting current working directory" RESET, 2);
-	return (1);
-}
-
-int	error_child_process(t_shell *shell)
-{
-	shell->exit_return = 67;
-	write(2, RED "minishell: ", 18);
-	ft_putstr_fdnl(RED "error cannot create child process" RESET, 2);
-	return (1);
-}
-
-int	error_number_args(t_shell *shell)
-{
-	shell->exit_return = 1;
-	write(2, RED "minishell: ", 18);
-	ft_putstr_fdnl(RED "error number of arguments invalid" RESET, 2);
 	return (1);
 }
 

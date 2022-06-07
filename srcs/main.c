@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/03 18:43:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:38:45 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	leaks(void)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	int		error;
 	char	*contenido;
 
 	(void)argv;
@@ -35,12 +34,11 @@ int	main(int argc, char **argv, char **envp)
 	read_history(".history_own");
 	while (!shell->exit)
 	{
-		error = 0;
+		errno = 0;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
 		if (shell->line && *shell->line)
 			add_history(shell->line);
-		error = check_syntax(shell);
-		if (error == 0)
+		if (!check_syntax(shell))
 		{
 			split_arguments(shell);
 			if (!find_enviro_command(shell))
