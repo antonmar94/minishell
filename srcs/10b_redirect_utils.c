@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/07 22:44:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:36:18 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 	char	*aux_finder;
 	int		file_size;
 
-	files_finder = *rest_of_line - 1;
-	while (*files_finder++)
+	files_finder = *rest_of_line;
+	while (*files_finder && !shell->exit_return)
 	{
 		jump_quotes(&files_finder);
 		if (*files_finder && *files_finder == '>')
@@ -109,6 +109,7 @@ int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 			}
 			create_file(shell, files_finder, file_size);
 		}
+		files_finder++;
 	}
 	return (num_arrows);
 }

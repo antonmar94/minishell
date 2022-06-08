@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/07 22:44:48 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:31:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	get_line_execute(char **line, char **rest_of_line, char arrow)
 
 	while (**rest_of_line && **rest_of_line == ' ')
 		(*rest_of_line)++;
+		
 	line_finder = *rest_of_line;
 	while (*line_finder && line_finder)
 	{
@@ -96,14 +97,16 @@ int	do_redirect(t_shell *shell)
 		fd = open(all_files, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (fd < 0)
 			error_wrong_path(shell);
-		dup2(fd, 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	else if (num_arrows == 2 && !shell->exit_return)
 	{
 		fd = open(all_files, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (fd < 0)
 			error_wrong_path(shell);
-		dup2(fd, 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	return (0);
 }

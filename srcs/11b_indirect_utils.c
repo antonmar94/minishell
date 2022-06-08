@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/07 22:53:02 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:39:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	check_file(t_shell *shell, char *file_in_line, int file_size)
     //printf("file nmame clean [%s]\n", file_name_clean);
     if (access(file_name_clean, R_OK) < 0)
     {
+		
         ft_error(shell, file_name_clean, 1);
     }
        
@@ -57,10 +58,9 @@ int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 	char	*aux_finder;
 	int		file_size;
 
-	files_finder = *rest_of_line - 1;
-	while (*files_finder++ && !shell->exit_return)
+	files_finder = *rest_of_line;
+	while (*files_finder && !shell->exit_return)
 	{
-       
 		jump_quotes(&files_finder);
 		if (*files_finder && *files_finder == '<')
 		{
@@ -77,6 +77,7 @@ int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 			}
 			check_file(shell, files_finder, file_size);
 		}
+		files_finder++;
 	}
 	return (num_arrows);
 }
