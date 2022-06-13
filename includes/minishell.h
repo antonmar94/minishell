@@ -14,6 +14,7 @@
 
 # define READ_END	0
 # define WRITE_END	1
+# define O_TMPFILE 020000000
 //# define PIPE_FILE_NAME	"pipe_file.txt"
 # define GRAY	"\033[1;30m"
 # define RED	"\033[1;31m"
@@ -233,6 +234,7 @@ void	append_to_line(char **line, char **line_finder, char arrow);
 void	get_line_execute(char **line, char **rest_of_line, char arrow);
 int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows);
 int		get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
+int		two_arrows(char *all_files);
 int		do_redirect(t_shell *shell);
 int		do_indirect(t_shell *shell);
 

@@ -45,6 +45,48 @@ void	check_file(t_shell *shell, char *file_in_line, int file_size)
         ft_error(shell, file_name_clean, 1);
 }
 
+int	two_pre_arrows(char *all_files)
+{
+	char	*line_in;
+	int		fd[2];
+
+	line_in = NULL;
+	if (pipe(fd) < 0)
+		return (1);
+	line_in = readline("> ");
+	ft_putstr_fd(line_in, fd[WRITE_END]);
+	ft_putchar_fd('\n', fd[WRITE_END]);
+	while (ft_strcmp(all_files, line_in))
+	{
+		new_free(&line_in);
+		line_in = readline("> ");
+		if (ft_strcmp(all_files, line_in))
+		{
+			ft_putstr_fd(line_in, fd[WRITE_END]);
+			ft_putchar_fd('\n', fd[WRITE_END]);
+		}
+	}
+	new_free(&line_in);
+	close(fd[WRITE_END]);
+	close(fd[READ_END]);
+	return (0);
+}
+
+int	open_line(t_shell *shell, char *file_in_line, int file_size)
+{
+	char	*file_name;
+	char	*file_name_clean;
+
+	if (!shell->exit_return)
+	{
+		file_name = ft_substr(file_in_line, 0, file_size);
+		file_name_clean = arg_creator(shell, &file_name);
+		if (two_pre_arrows(file_name_clean))
+			ft_error(shell, file_name_clean, errno);
+	}
+	return (0);
+}
+
 int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 {
 	char	*files_finder;
@@ -68,7 +110,10 @@ int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 				*rest_of_line = ft_substr(files_finder, 0, file_size);
 				return (num_arrows);
 			}
-			check_file(shell, files_finder, file_size);
+			if (num_arrows == 1)
+				check_file(shell, files_finder, file_size);
+			else
+				open_line(shell, files_finder, file_size);
 		}
 		files_finder++;
 	}
