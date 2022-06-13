@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/03 18:43:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/13 13:15:43 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,16 @@ int	main(int argc, char **argv, char **envp)
 		error_too_many_args();
 		exit(7);
 	}
+	signal_handler();
 	shell = initialice(envp);
 	//wellcome_header(shell);
 	read_history(".history_own");
 	while (!shell->exit)
 	{
 		error = 0;
+		interactive = 1;
 		shell->line = readline(BLUE"AlicornioPrompt$ "RESET);
+		interactive = 0;
 		if (shell->line && *shell->line)
 			add_history(shell->line);
 		error = check_syntax(shell);

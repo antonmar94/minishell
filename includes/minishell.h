@@ -101,7 +101,8 @@ void		print_header(t_shell *shell, char *custom_head);
 
 
 /*----------------------- signal----------------------------------------------*/
-void		sigint_handler(void);
+void		sigint_handler(int sig);
+void		signal_handler(void);
 
 /*----------------------- init_commands --------------------------------------*/
 t_path 		*init_path(t_shell *shell);
@@ -231,5 +232,7 @@ int		ft_isalpha_str(char *str, char c);
 int		jump_quotes(char **line_to_ignore);
 void	append_to_line(char **line, char **line_finder);
 int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows);
+
+extern int	interactive;
 
 #endif
