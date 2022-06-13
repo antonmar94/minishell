@@ -6,11 +6,13 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/13 13:15:43 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:40:51 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	interactive = 0;
 
 void	leaks(void)
 {

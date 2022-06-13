@@ -6,11 +6,15 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/13 13:16:34 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:46:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/* Señales, accion por defecto
+				signal(SIGINT , SIG_DFL);
+				signal(SIGQUIT, SIG_DFL); */
 
 void	sigint_handler(int sig)
 {
@@ -18,9 +22,9 @@ void	sigint_handler(int sig)
 	if (!interactive)
 		return ;
 	rl_redisplay();
-	rl_replace_line("", 0);
+	rl_redisplay();
 	printf("\n");
-	printf(CYAN"minishell> "RESET);
+	printf(BLUE"AlicornioPrompt$ "RESET);
 }
 
 void	sigquit_handler(int sig)
@@ -31,7 +35,7 @@ void	sigquit_handler(int sig)
 	if (!interactive)
 	{
 		nbr = ft_itoa(sig);
-		ft_putstr_fd("\nQuit: ", 2);
+		ft_putstr_fd("\nExit: ", 2);
 		ft_putendl_fd(nbr, 2);
 		free(nbr);
 		return ;

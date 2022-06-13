@@ -101,8 +101,9 @@ void		print_header(t_shell *shell, char *custom_head);
 
 
 /*----------------------- signal----------------------------------------------*/
-void		sigint_handler(int sig);
+void	sigint_handler(int sig);
 void		signal_handler(void);
+void	sigquit_handler(int sig);
 
 /*----------------------- init_commands --------------------------------------*/
 t_path 		*init_path(t_shell *shell);
