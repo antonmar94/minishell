@@ -41,13 +41,24 @@ int	check_redirect(char **line, char **rest_of_line, char arrow)
 	return (num_arrows);
 }
 
+int	check_last(char **aux_finder, char arrow)
+{
+	while (**aux_finder && **aux_finder != arrow)
+	{
+		jump_quotes(aux_finder);
+		(*aux_finder)++;
+	}
+	if (!**aux_finder)
+		return (1);
+	return (0);
+}
+
 void	get_line_execute(char **line, char **rest_of_line, char arrow)
 {
 	char		*line_finder;
 
 	while (**rest_of_line && **rest_of_line == ' ')
 		(*rest_of_line)++;
-		
 	line_finder = *rest_of_line;
 	while (*line_finder && line_finder)
 	{

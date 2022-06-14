@@ -97,12 +97,7 @@ int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 		if (*files_finder && *files_finder == '>')
 		{
 			file_size = get_file_size(&aux_finder, &files_finder, &num_arrows);
-			while (*aux_finder && *aux_finder != '>')
-			{
-				jump_quotes(&aux_finder);
-				aux_finder++;
-			}
-			if (!*aux_finder)
+			if (check_last(&aux_finder, '>'))
 			{
 				*rest_of_line = ft_substr(files_finder, 0, file_size);
 				return (num_arrows);

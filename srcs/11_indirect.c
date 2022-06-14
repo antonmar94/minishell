@@ -23,7 +23,7 @@ int	indirect_files(t_shell *shell, char **all_files)
 		num_arrows = get_in_files(shell, all_files, num_arrows);
 		*all_files = arg_creator(shell, all_files);
 		if (**all_files == '>')
-			return (0);
+			return (syntax_error(shell));
 		if (num_arrows == 1 && access(*all_files, R_OK) < 0)
 		{
 			ft_error(shell, *all_files, 1);
@@ -31,6 +31,19 @@ int	indirect_files(t_shell *shell, char **all_files)
 		}
 	}
 	return (num_arrows);
+}
+
+char	*ask_for_line(int *fd, char *all_files)
+{
+	char	*line_in;
+
+	line_in = readline("> ");
+	if (ft_strcmp(all_files, line_in))
+	{
+		ft_putstr_fd(line_in, fd[WRITE_END]);
+		ft_putchar_fd('\n', fd[WRITE_END]);
+	}
+	return (line_in);
 }
 
 int	two_arrows(char *all_files)
@@ -41,21 +54,11 @@ int	two_arrows(char *all_files)
 	line_in = NULL;
 	if (pipe(fd) < 0)
 		return (1);
-	line_in = readline("> ");
-	if (ft_strcmp(all_files, line_in))
-	{
-		ft_putstr_fd(line_in, fd[WRITE_END]);
-		ft_putchar_fd('\n', fd[WRITE_END]);
-	}
+	line_in = ask_for_line(fd, all_files);
 	while (ft_strcmp(all_files, line_in))
 	{
 		new_free(&line_in);
-		line_in = readline("> ");
-		if (ft_strcmp(all_files, line_in))
-		{
-			ft_putstr_fd(line_in, fd[WRITE_END]);
-			ft_putchar_fd('\n', fd[WRITE_END]);
-		}
+		line_in = ask_for_line(fd, all_files);
 	}
 	new_free(&line_in);
 	close(fd[WRITE_END]);
@@ -72,8 +75,6 @@ int	do_indirect(t_shell *shell)
 
 	all_files = NULL;
 	num_arrows = indirect_files(shell, &all_files);
-	if (*all_files == '>')
-		return (syntax_error(shell));
 	if (num_arrows == 1 && !shell->exit_return)
 	{
 		fd = open(all_files, O_RDONLY);

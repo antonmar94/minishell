@@ -89,7 +89,8 @@ void	pipes_first(t_shell *shell, char **envp, int is_first)
 		dup2(pipes_struct->fd1[WRITE_END], STDOUT_FILENO);
 	close(pipes_struct->fd1[WRITE_END]);
 	do_indirect(shell);
-	do_redirect(shell);
+	if (!shell->exit_return)
+		do_redirect(shell);
 	execute_child_line(shell, envp);
 }
 
@@ -107,6 +108,7 @@ void	pipes_next(t_shell *shell, char **envp, char *holder_child)
 		dup2(pipes_struct->fd2[WRITE_END], STDOUT_FILENO);
 	close(pipes_struct->fd2[WRITE_END]);
 	do_indirect(shell);
-	do_redirect(shell);
+	if (!shell->exit_return)
+		do_redirect(shell);
 	execute_child_line(shell, envp);
 }
