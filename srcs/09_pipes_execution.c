@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   09_pipes_execution.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/09 20:11:24 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/16 21:04:12 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 	pipes_struct->error = check_error_child(shell, pid);
 	if (pid == 0)
 	{
+		new_free(&shell->line);
 		shell->line = holder_child;
 		pipes_first(shell, envp, is_first);
 	}
+	new_free(&holder_child);
 	return (pid);
 }
 

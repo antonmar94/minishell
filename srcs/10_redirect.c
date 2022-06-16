@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/09 20:19:09 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/16 21:03:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	get_line_files(t_shell *shell, char **all_files)
 	{
 		get_line_execute(&shell->line, all_files, '>');
 		num_arrows = get_create_files(shell, all_files, num_arrows);
-		*all_files = arg_creator(shell, all_files);
+		if (all_files)
+			*all_files = arg_creator(shell, all_files);
 		if (!*all_files || !**all_files)
 		{
 			error_wrong_path(shell);

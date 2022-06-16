@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 18:35:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/16 21:02:08 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,13 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 	return (arg_part);
 }
 
-char	*arg_creator(t_shell *shell, char **argument)
+char	*arg_creator(t_shell *shell, char **argument) //no se libera lo devuelto por esta función
 {
 	char	*arg_walker;
 	char	*joined_arg;
 	char	*arg_holder;
 	char	*arg_part;
+	char	*free_joined;
 
 	joined_arg = NULL;
 	arg_walker = *argument;
@@ -119,12 +120,14 @@ char	*arg_creator(t_shell *shell, char **argument)
 		if (!joined_arg && arg_part)
 			joined_arg = ft_strdup(arg_part);
 		else if (arg_part)
-			joined_arg = ft_strjoin(joined_arg, arg_part);
-		free(arg_part);
-		arg_part = NULL;
+		{
+			free_joined = joined_arg;
+			joined_arg = ft_strjoin(free_joined, arg_part);
+			new_free(&free_joined);
+		}
+		new_free(&arg_part);
 		arg_holder = arg_walker;
 	}
-	free(*argument);
-	*argument = NULL;
+	new_free(argument);
 	return (joined_arg);
 }
