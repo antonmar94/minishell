@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/13 16:46:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:15:15 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sigint_handler(int sig)
 	if (!interactive)
 		return ;
 	rl_redisplay();
-	rl_redisplay();
+	rl_replace_line("", 0);
 	printf("\n");
 	printf(BLUE"AlicornioPrompt$ "RESET);
 }
