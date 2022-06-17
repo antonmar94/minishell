@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 17:54:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:39:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 	pipes_struct->error = check_error_child(shell, pid);
 	if (pid == 0)
 	{
+		new_free(&shell->line);
 		shell->line = holder_child;
 		pipes_first(shell, envp, is_first);
 	}
+	new_free(&holder_child);
 	return (pid);
 }
 
@@ -79,7 +81,7 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
 		pid = execute_first(shell, envp, is_first);
-		if (pid != 0) 
+		if (pid != 0)
 		{
 			pid = execute_next(shell, envp, is_first, pid);
 			is_first = 0;

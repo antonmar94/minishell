@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:35:51 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:18:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	new_free(char **ptr)
 void	free_all_struct(t_shell *shell)
 {
 	if (shell->line)
-		free(shell->line);
+		new_free(&shell->line);
 	shell->line = NULL;
 	free_parent(shell);
 }
@@ -32,7 +32,8 @@ void	free_parent(t_shell *shell)
 	shell->size_com_args = 0;
 	shell->command = NULL;
 	shell->command_flag = NULL;
-	new_free(shell->command_plus_args);
+/* 	if (shell->command_plus_args)
+		new_free(shell->command_plus_args); */
 }
 
 void	free_arg_list(t_arglist **arg_lst)

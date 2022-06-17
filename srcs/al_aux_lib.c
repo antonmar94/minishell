@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:15:45 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:12:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,13 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 /* modified split to return de first str before a char */
 
 char	*ft_split_one(char *s, char c, char d)
-
 {
 	char	*scopy;
 	size_t	i;
 	size_t	desplace;
 	char *pp;
 
-
 	i = 0;
-
 	if (s == NULL)
 		return (NULL);
 	desplace = 0;

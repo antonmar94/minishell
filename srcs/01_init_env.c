@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:48:36 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/16 20:57:31 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_env_list	*init_list_env(t_shell *shell, char **envp)
 	int			i;
 
 	size_envp = size_matriz(envp);
-	shell->env_list_plus = add_hidden_env_var(shell);
+	shell->env_list_plus = add_hidden_env_var(shell); //aquí se produce un leak
 	this_list_var = env_var_list_new(envp[0]);
 	env_var_add_back(&shell->env_list->next->next, this_list_var);
 	init = this_list_var;

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 18:54:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:30:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int find_enviro_command(t_shell *shell)
 	int i;
 
 	i = -1;
-	if(!shell->command)
+	if(!shell->command || shell->has_pipes)
 		return(0);
-	while (++i < 6)
+	while (++i < 8)
 	{
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
@@ -47,7 +47,6 @@ int find_command(t_shell *shell)
 		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
 	}
 	return(0);
-	//command_error(shell);
 }
 
 void execute_command(t_shell *shell, int i)

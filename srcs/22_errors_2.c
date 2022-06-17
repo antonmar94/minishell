@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   22_errors_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:39:41 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:34:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/04 19:12:49 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	check_error_child(t_shell *shell, int pid)
+{
+	if (pid < 0)
+	{
+		ft_error(shell, "", 67);
+		return (1);
+	}
+	return (0);
+}
 
 int	error_not_numeric(t_shell *shell)
 {

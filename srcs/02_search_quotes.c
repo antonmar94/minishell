@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/03 20:59:24 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:41:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	add_line_command(t_shell *shell)
 
 int	add_arg_tolist(t_shell *shell)
 {
-	char		*argument;
-	int			size_arg;
+	char	*argument;
+	int		size_arg;
 
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
@@ -48,6 +48,11 @@ int	add_arg_tolist(t_shell *shell)
 	{
 		argument = find_dollar_quotes(argument);
 		argument = arg_creator(shell, &argument);
+		if (argument && *argument == '|')
+		{
+			shell->size_com_args--;
+			return (0);
+		}
 		arglstadd_back(&shell->arg_list, arg_node_new(argument));
 	}
 	if (!(*shell->line_walker))
