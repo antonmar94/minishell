@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/17 20:23:23 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:35:47 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	print_pwd(t_shell *shell)
 
 	if (!getcwd(pwd, sizeof(pwd)))
 		return (ft_error(shell, "", 992));
-	printf("%s>\n", pwd);
+	printf("%s\n", pwd);
 	return (0);
 }
 
