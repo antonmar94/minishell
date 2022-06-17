@@ -6,13 +6,13 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 20:05:39 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 20:53:51 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/16 21:03:25 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_redirect(char **line, char **rest_of_line)
+int	check_redirect(char **line, char **rest_of_line, char arrow)
 {
 	char	*arrow_finder;
 	char	*aux_finder;
@@ -25,11 +25,11 @@ int	check_redirect(char **line, char **rest_of_line)
 	while (*arrow_finder)
 	{
 		line_size += jump_quotes(&arrow_finder) - 1;
-		if (*arrow_finder == '>')
+		if (*arrow_finder == arrow)
 		{
 			num_arrows = 1;
 			aux_finder = arrow_finder + 1;
-			if (*aux_finder == '>')
+			if (*aux_finder == arrow)
 				num_arrows = 2;
 			*rest_of_line = arrow_finder;
 			*line = ft_substr(*line, 0, line_size);
@@ -41,7 +41,19 @@ int	check_redirect(char **line, char **rest_of_line)
 	return (num_arrows);
 }
 
-void	get_line_execute(char **line, char **rest_of_line)
+int	check_last(char **aux_finder, char arrow)
+{
+	while (**aux_finder && **aux_finder != arrow)
+	{
+		jump_quotes(aux_finder);
+		(*aux_finder)++;
+	}
+	if (!**aux_finder)
+		return (1);
+	return (0);
+}
+
+void	get_line_execute(char **line, char **rest_of_line, char arrow)
 {
 	char		*line_finder;
 
@@ -52,8 +64,8 @@ void	get_line_execute(char **line, char **rest_of_line)
 	{
 		jump_quotes(&line_finder);
 		if (*line_finder && *line_finder == ' ')
-			append_to_line(line, &line_finder);
-		if (*line_finder && *line_finder == '>')
+			append_to_line(line, &line_finder, arrow);
+		if (*line_finder && *line_finder == arrow)
 		{
 			line_finder++;
 			while (*line_finder && *line_finder == ' ')
@@ -68,12 +80,13 @@ int	get_line_files(t_shell *shell, char **all_files)
 {
 	int		num_arrows;
 
-	num_arrows = check_redirect(&shell->line, all_files);
+	num_arrows = check_redirect(&shell->line, all_files, '>');
 	if (num_arrows)
 	{
-		get_line_execute(&shell->line, all_files);
+		get_line_execute(&shell->line, all_files, '>');
 		num_arrows = get_create_files(shell, all_files, num_arrows);
-		*all_files = arg_creator(shell, all_files);
+		if (all_files)
+			*all_files = arg_creator(shell, all_files);
 		if (!*all_files || !**all_files)
 		{
 			error_wrong_path(shell);
@@ -96,14 +109,16 @@ int	do_redirect(t_shell *shell)
 		fd = open(all_files, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (fd < 0)
 			error_wrong_path(shell);
-		dup2(fd, 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	else if (num_arrows == 2 && !shell->exit_return)
 	{
 		fd = open(all_files, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (fd < 0)
 			error_wrong_path(shell);
-		dup2(fd, 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	return (0);
 }

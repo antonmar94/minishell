@@ -14,6 +14,7 @@
 
 # define READ_END	0
 # define WRITE_END	1
+# define O_TMPFILE 020000000
 //# define PIPE_FILE_NAME	"pipe_file.txt"
 # define GRAY	"\033[1;30m"
 # define RED	"\033[1;31m"
@@ -178,15 +179,15 @@ int 	export(t_shell *shell);
 void 	exit_return(t_shell *shell);
 
 /*----------------------- ERRORS ---------------------------------------------*/
+
+int		ft_error(t_shell *shell, char *elem_err, int error_code);
 int		syntax_error(t_shell *shell);
-int		error_system_pwd(t_shell *shell);
 void	command_error(t_shell *shell, char *command);
-int		error_number_args(t_shell *shell);
 int		error_wrong_path(t_shell *shell);
 int		error_too_many_args(void);
 int		error_not_numeric(t_shell *shell);
-int		error_child_process(t_shell *shell);
 int 	identifier_enviro_error(t_shell *shell);
+int		check_error_child(t_shell *shell, int pid);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 int		size_matriz(char **str);
@@ -195,7 +196,6 @@ void	*del_name_and_contend(t_shell *shell);
 int		check_char(char *str, char char_tofind);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
-int		check_error_child(t_shell *shell, int pid);
 void	pipes_first(t_shell *shell, char **envp, int is_first);
 void	pipes_next(t_shell *shell, char **envp, char *holder_child);
 char	*pipe_next_line(char *line);
@@ -231,8 +231,16 @@ int		ft_isalpha_str(char *str, char c);
 /*----------------------- REDIR----------------------------------------------*/
 
 int		jump_quotes(char **line_to_ignore);
-void	append_to_line(char **line, char **line_finder);
+int		check_redirect(char **line, char **rest_of_line, char arrow);
+void	append_to_line(char **line, char **line_finder, char arrow);
+void	get_line_execute(char **line, char **rest_of_line, char arrow);
 int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows);
+int		get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
+int		two_arrows(char *all_files);
+int		check_last(char **aux_finder, char arrow);
+char	*ask_for_line(int *fd, char *all_files);
+int		do_redirect(t_shell *shell);
+int		do_indirect(t_shell *shell);
 
 extern int	interactive;
 

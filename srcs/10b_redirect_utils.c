@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 20:53:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/16 21:08:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	jump_quotes(char **line_to_ignore)
 	return (1);
 }
 
-void	append_to_line(char **line, char **line_finder)
+void	append_to_line(char **line, char **line_finder, char arrow)
 {
 	char	*aux_append;
 	int		size_append;
 
 	aux_append = *line_finder;
 	size_append = 0;
-	while (*aux_append && *aux_append != '>')
+	while (*aux_append && *aux_append != arrow)
 	{
 		size_append += jump_quotes(&aux_append);
 		aux_append++;
@@ -79,7 +79,8 @@ void	create_file(t_shell *shell, char *file_in_line, int file_size)
 	char	*file_name_clean;
 
 	file_name = ft_substr(file_in_line, 0, file_size);
-	file_name_clean = arg_creator(shell, &file_name);
+	if (file_name)
+		file_name_clean = arg_creator(shell, &file_name);
 	if (open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664) < 0)
 		error_wrong_path(shell);
 }
@@ -90,25 +91,21 @@ int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 	char	*aux_finder;
 	int		file_size;
 
-	files_finder = *rest_of_line - 1;
-	while (*files_finder++)
+	files_finder = *rest_of_line;
+	while (*files_finder && !shell->exit_return)
 	{
 		jump_quotes(&files_finder);
 		if (*files_finder && *files_finder == '>')
 		{
 			file_size = get_file_size(&aux_finder, &files_finder, &num_arrows);
-			while (*aux_finder && *aux_finder != '>')
-			{
-				jump_quotes(&aux_finder);
-				aux_finder++;
-			}
-			if (!*aux_finder)
+			if (check_last(&aux_finder, '>'))
 			{
 				*rest_of_line = ft_substr(files_finder, 0, file_size);
 				return (num_arrows);
 			}
 			create_file(shell, files_finder, file_size);
 		}
+		files_finder++;
 	}
 	return (num_arrows);
 }
