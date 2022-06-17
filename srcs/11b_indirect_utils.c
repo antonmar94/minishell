@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/16 21:09:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:10:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_file(t_shell *shell, char *file_in_line, int file_size)
 		ft_error(shell, file_name_clean, 1);
 }
 
-int	two_pre_arrows(char *all_files)
+int	two_pre_arrows(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	int		fd[2];
@@ -53,11 +53,11 @@ int	two_pre_arrows(char *all_files)
 	line_in = NULL;
 	if (pipe(fd) < 0)
 		return (1);
-	line_in = ask_for_line(fd, all_files);
+	line_in = ask_for_line(shell, fd, all_files);
 	while (ft_strcmp(all_files, line_in))
 	{
 		new_free(&line_in);
-		line_in = ask_for_line(fd, all_files);
+		line_in = ask_for_line(shell, fd, all_files);
 	}
 	new_free(&line_in);
 	close(fd[WRITE_END]);
@@ -74,7 +74,7 @@ int	open_line(t_shell *shell, char *file_in_line, int file_size)
 	{
 		file_name = ft_substr(file_in_line, 0, file_size);
 		file_name_clean = arg_creator(shell, &file_name);
-		if (two_pre_arrows(file_name_clean))
+		if (two_pre_arrows(shell, file_name_clean))
 			ft_error(shell, file_name_clean, errno);
 	}
 	return (0);

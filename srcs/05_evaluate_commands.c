@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/04 19:05:33 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:39:19 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int find_enviro_command(t_shell *shell)
 	int i;
 
 	i = -1;
-	if(!shell->command)
+	if(!shell->command || shell->has_pipes)
 		return(0);
 	while (++i < 6)
 	{

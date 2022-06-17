@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/16 17:15:15 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:39:46 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sigquit_handler(int sig)
 	if (!interactive)
 	{
 		nbr = ft_itoa(sig);
-		ft_putstr_fd("\nExit: ", 2);
+		//ft_putstr_fd("\n", 2);
 		ft_putendl_fd(nbr, 2);
 		free(nbr);
 		return ;
@@ -46,6 +46,11 @@ void	sigquit_handler(int sig)
 
 void	signal_handler(void)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGINT, sigint_handler);//TODO:CtrlC
+	signal(SIGQUIT, sigquit_handler);/*ctrl-\*/  
 }
+
+/* Ni el minishell ni los procesos en background deben finalizar al recibir
+las señales desde teclado SIGINT (CtrlC) y SIGQUIT (Ctrl-) mientras que 
+los procesos que se lancen deben actuar ante ellas, manteniendo la acción por
+defecto. Objetivos parciales */

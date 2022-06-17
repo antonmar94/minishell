@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/16 21:09:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:39:38 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,25 @@ int	indirect_files(t_shell *shell, char **all_files)
 	return (num_arrows);
 }
 
-char	*ask_for_line(int *fd, char *all_files)
+char	*ask_for_line(t_shell *shell, int *fd, char *all_files)
 {
 	char	*line_in;
+	char	*clean_line;
 
 	line_in = readline("> ");
 	if (ft_strcmp(all_files, line_in))
 	{
+		clean_line =  arg_creator(shell, &line_in);
+		new_free(&line_in);
+		line_in = clean_line;
 		ft_putstr_fd(line_in, fd[WRITE_END]);
 		ft_putchar_fd('\n', fd[WRITE_END]);
+		
 	}
 	return (line_in);
 }
 
-int	two_arrows(char *all_files)
+int	two_arrows(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	int		fd[2];
@@ -54,11 +59,11 @@ int	two_arrows(char *all_files)
 	line_in = NULL;
 	if (pipe(fd) < 0)
 		return (1);
-	line_in = ask_for_line(fd, all_files);
+	line_in = ask_for_line(shell, fd, all_files);
 	while (ft_strcmp(all_files, line_in))
 	{
 		new_free(&line_in);
-		line_in = ask_for_line(fd, all_files);
+		line_in = ask_for_line(shell, fd, all_files);
 	}
 	new_free(&line_in);
 	close(fd[WRITE_END]);
@@ -85,7 +90,7 @@ int	do_indirect(t_shell *shell)
 	}
 	if (num_arrows == 2 && !shell->exit_return)
 	{
-		if (two_arrows(all_files))
+		if (two_arrows(shell, all_files))
 			ft_error(shell, all_files, errno);
 	}
 	return (0);

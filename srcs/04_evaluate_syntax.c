@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_evaluate_syntax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/07 20:36:28 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:39:15 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,17 @@ void ignore_quotes(char **line)
 	}
 }
 
-int	check_pipe_syntax(char *line)
+int	check_pipe_syntax(t_shell *shell)
 {
 	char		*checker;
 
-	checker = line;
+	checker = shell->line;
  	while (*checker)
 	{
 		ignore_quotes(&checker);
 		if (*checker == '|')
 		{
+			shell->has_pipes = 1;
 			checker++;
 			while (*checker && *checker == ' ')
 				checker++;
@@ -66,9 +67,11 @@ int	check_quotes_syntax(char *line)
 	char	quotes;
 
 	checker = line;
-	while (*checker)
+	if (!*line)
+		return(0);
+	while (line && *checker)
 	{
-		if ((*checker == '\"' || *checker == '\''))
+		if (*checker == '\"' || *checker == '\'')
 		{
 			quotes = check_allquotes(checker);
 			if (!quotes)
@@ -111,18 +114,20 @@ int	check_arrow_syntax(char *line, char arrow)
 
 int	check_syntax(t_shell *shell)
 {
+	
 	if (check_quotes_syntax(shell->line))
 	{
 		syntax_error(shell);
 		return (1);
 	}
+	
 	if (check_arrow_syntax(shell->line, '>')
 		|| check_arrow_syntax(shell->line, '<'))
 	{
 		syntax_error(shell);
 		return (1);
 	}
-	if (check_pipe_syntax(shell->line))
+	if (check_pipe_syntax(shell))
 	{
 		syntax_error(shell);
 		return (1);

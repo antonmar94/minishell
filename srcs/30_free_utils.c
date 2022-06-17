@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/16 21:08:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:18:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	free_all_struct(t_shell *shell)
 	if (shell->line)
 		new_free(&shell->line);
 	shell->line = NULL;
-	shell->exit_return = 0;
 	free_parent(shell);
 }
 

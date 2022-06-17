@@ -86,6 +86,7 @@ typedef struct s_shell
 	int				size_c;
 	int 			exit;
 	int 			exit_return;
+	int				has_pipes;
 	t_path			*path;
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
@@ -199,7 +200,7 @@ int		check_char(char *str, char char_tofind);
 void	pipes_first(t_shell *shell, char **envp, int is_first);
 void	pipes_next(t_shell *shell, char **envp, char *holder_child);
 char	*pipe_next_line(char *line);
-int		check_pipe_syntax(char *line);
+int		check_pipe_syntax(t_shell *shell);
 char	*create_child_line(t_pipes *pipes_struct);
 int		execute_child_line(t_shell *shell, char **envp);
 void	child_execution(t_shell *shell, char **envp);
@@ -236,9 +237,9 @@ void	append_to_line(char **line, char **line_finder, char arrow);
 void	get_line_execute(char **line, char **rest_of_line, char arrow);
 int		get_create_files(t_shell *shell, char **rest_of_line, int num_arrows);
 int		get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
-int		two_arrows(char *all_files);
+int		two_arrows(t_shell *shell, char *all_files);
 int		check_last(char **aux_finder, char arrow);
-char	*ask_for_line(int *fd, char *all_files);
+char	*ask_for_line(t_shell *shell, int *fd, char *all_files);
 int		do_redirect(t_shell *shell);
 int		do_indirect(t_shell *shell);
 
