@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/17 19:39:15 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:50:52 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 int	check_char(char *str, char char_tofind)
 {
-
 	while (str && *str)
 	{
 		if (*str && *str == char_tofind)
-			return(1);
-		str++;	
+			return (1);
+		str++;
 	}
 	return (0);
 }
 
-void ignore_quotes(char **line)
+void	ignore_quotes(char **line)
 {
 	char		quotes;
 
@@ -44,7 +43,7 @@ int	check_pipe_syntax(t_shell *shell)
 	char		*checker;
 
 	checker = shell->line;
- 	while (*checker)
+	while (*checker)
 	{
 		ignore_quotes(&checker);
 		if (*checker == '|')
@@ -68,7 +67,7 @@ int	check_quotes_syntax(char *line)
 
 	checker = line;
 	if (!*line)
-		return(0);
+		return (0);
 	while (line && *checker)
 	{
 		if (*checker == '\"' || *checker == '\'')
@@ -108,29 +107,6 @@ int	check_arrow_syntax(char *line, char arrow)
 				return (1);
 		}
 		checker++;
-	}
-	return (0);
-}
-
-int	check_syntax(t_shell *shell)
-{
-	
-	if (check_quotes_syntax(shell->line))
-	{
-		syntax_error(shell);
-		return (1);
-	}
-	
-	if (check_arrow_syntax(shell->line, '>')
-		|| check_arrow_syntax(shell->line, '<'))
-	{
-		syntax_error(shell);
-		return (1);
-	}
-	if (check_pipe_syntax(shell))
-	{
-		syntax_error(shell);
-		return (1);
 	}
 	return (0);
 }

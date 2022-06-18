@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 15:54:08 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:47:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	sigint_handler(int sig)
 {
 	signal(sig, sigint_handler);
-	if (!interactive)
+	if (!g_interactive)
 		return ;
 	rl_redisplay();
 	rl_replace_line("", 0);
@@ -32,7 +32,7 @@ void	sigquit_handler(int sig)
 	char	*nbr;
 
 	signal(sig, sigquit_handler);
-	if (!interactive)
+	if (!g_interactive)
 	{
 		nbr = ft_itoa(sig);
 		ft_putendl_fd(nbr, 2);
@@ -45,11 +45,6 @@ void	sigquit_handler(int sig)
 
 void	signal_handler(void)
 {
-	signal(SIGINT, sigint_handler);//TODO:CtrlC
-	signal(SIGQUIT, sigquit_handler);/*ctrl-\*/  
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }
-
-/* Ni el minishell ni los procesos en background deben finalizar al recibir
-las señales desde teclado SIGINT (CtrlC) y SIGQUIT (Ctrl-) mientras que 
-los procesos que se lancen deben actuar ante ellas, manteniendo la acción por
-defecto. Objetivos parciales */

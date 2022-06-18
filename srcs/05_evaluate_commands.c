@@ -6,36 +6,33 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 15:43:05 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:44:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int find_enviro_command(t_shell *shell)
+int	find_enviro_command(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	if(!shell->command || shell->has_pipes)
-		return(0);
-	
+	if (!shell->command || shell->has_pipes)
+		return (0);
 	while (++i < 8)
-	{
-		
+	{		
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
-			return(1);
-		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
+			return (1);
+		}
 	}
-	return(0);
-	//command_error(shell);
+	return (0);
 }
 
-int find_command(t_shell *shell)
+int	find_command(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < shell->size_c)
@@ -45,15 +42,14 @@ int find_command(t_shell *shell)
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
-			return(1);
-		} // comparar para cada comando. Hacer una tabla con todos¿?¿?
+			return (1);
+		}
 	}
-	return(0);
+	return (0);
 }
 
-void execute_command(t_shell *shell, int i)
+void	execute_command(t_shell *shell, int i)
 {
-
 	if (i == 0)
 		export(shell);
 	else if (i == 1)
@@ -65,7 +61,7 @@ void execute_command(t_shell *shell, int i)
 	else if (i == 4)
 		exit_minishell(shell);
 	else if (i == 5)
-		help(shell);	
+		help(shell);
 	else if (i == 6)
 		print_pwd(shell);
 	else if (i == 7)
@@ -74,9 +70,9 @@ void execute_command(t_shell *shell, int i)
 		echo(shell);
 }
 
-int system_commmand(t_shell *shell, char **envp)
+int	system_commmand(t_shell *shell, char **envp)
 {
-	int 		ex_res;
+	int			ex_res;
 	char		*env_aux;
 	char		*env_dup;
 	char		**paths_list;
@@ -93,10 +89,10 @@ int system_commmand(t_shell *shell, char **envp)
 	while (*shell->command_plus_args && *paths_list)
 	{
 		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
-			shell->command), shell->command_plus_args, envp);
+					shell->command), shell->command_plus_args, envp);
 		paths_list++;
 	}
-	if(ex_res)
+	if (ex_res)
 		return (0);
 	return (1);
 }

@@ -11,6 +11,7 @@ SRCS =	./srcs/00_init.c \
 		./srcs/02b_quotes_utils.c \
 		./srcs/03_search_dollar.c\
 		./srcs/04_evaluate_syntax.c \
+		./srcs/04b_evaluate_syntax_2.c \
 		./srcs/05_evaluate_commands.c \
 		./srcs/06_builtins.c \
 		./srcs/07_enviroment_builtins.c \
