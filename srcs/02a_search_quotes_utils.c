@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 17:15:46 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:44:41 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	size_argument(t_shell *shell)
 		if (quotes)
 		{
 			size_quotes = size_quotes_arg(arg_sizer, quotes);
-			size += size_quotes;
-			arg_sizer += size_quotes;
+			size += size_quotes + 2;
+			arg_sizer += size_quotes + 2;
 		}
 		arg_sizer++;
 		size++;

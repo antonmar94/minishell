@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 17:15:52 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:25:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@ void	free_parent(t_shell *shell)
 {
 	free_arg_list(&shell->arg_list);
 	shell->size_com_args = 0;
-	shell->command = NULL;
-	shell->command_flag = NULL;
+	if (shell->command)
+		new_free(&shell->command);
+	if (shell->command_flag)
+	{
+		new_free(&shell->free_aux_list);
+		shell->command_flag = NULL;
+	}
 }
 
 void	free_arg_list(t_arglist **arg_lst)
@@ -44,6 +49,7 @@ void	free_arg_list(t_arglist **arg_lst)
 	while (cleaner)
 	{
 		aux = cleaner->next;
+		free(cleaner->content);
 		free(cleaner);
 		cleaner = aux;
 	}

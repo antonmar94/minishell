@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:49:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:44:52 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_shell
 	int				has_pipes;
 	t_path			*path;
 	t_arglist		*arg_list;
+	char			*free_aux_list;
 	t_env_list		*env_list;
 	t_env_list		*env_list_plus;
 	t_aux_p 		*aux_p;

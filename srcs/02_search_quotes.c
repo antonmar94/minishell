@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 17:15:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:43:54 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	add_line_command(t_shell *shell)
 
 	if (shell->arg_list)
 	{
-		shell->command = shell->arg_list->content;
 		aux_free = shell->arg_list;
+		shell->command = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
 		free(aux_free);
 		aux_free = NULL;
@@ -27,7 +27,9 @@ void	add_line_command(t_shell *shell)
 		{
 			shell->command_flag = "-n";
 			aux_free = shell->arg_list;
+			shell->free_aux_list = shell->arg_list->content;
 			shell->arg_list = shell->arg_list->next;
+			free(aux_free);
 		}
 	}
 }
@@ -50,6 +52,7 @@ int	add_arg_tolist(t_shell *shell)
 		argument = arg_creator(shell, &argument);
 		if (argument && *argument == '|')
 		{
+			new_free(&argument);
 			shell->size_com_args--;
 			return (0);
 		}
@@ -67,8 +70,6 @@ void	create_array_args(t_shell *shell)
 
 	i = 0;
 	holder_first = shell->arg_list;
-/* 	shell->command_plus_args = malloc(sizeof(char *)
-			* shell->size_com_args + 1); */
 	while (holder_first && shell->size_com_args > 0)
 	{
 		shell->command_plus_args[i] = holder_first->content;

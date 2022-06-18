@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 17:15:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:46:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* TODO:
 -**Cambiar la variable global a la estructura
--Eliminar dos leaks existentes
+-Eliminar dos leaks existentes (parece uno eliminado pero quien sabe)
 -Comprobar las dos pipes que se quedan abiertas y cerrarlas si es posible
 -Algunos errores no hacen un cambio de linea
 -**El ctrl-c en "<<" funciona de forma extraña
@@ -60,8 +60,6 @@ int	main(int argc, char **argv, char **envp)
 				child_execution(shell, envp);
 		}
 		free_all_struct(shell);
-		//leaks();
-		//atexit(leaks);
 	}
 	write_history(".history_own");
 	exit(shell->exit_return);
