@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
+/*   Updated: 2022/06/18 16:49:55 by albzamor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBMINISHELL_H
 # define LIBMINISHELL_H
 
@@ -26,7 +38,6 @@
 # define WHITE	"\033[0;37m"
 # define RESET	"\033[0;m"
 # define BOLD	"\033[1;m"
-
 /*
 ** minishell variables
 */
@@ -101,7 +112,6 @@ void		leaks(void);
 void		wellcome_header(t_shell *shell);
 void		print_header(t_shell *shell, char *custom_head);
 
-
 /*----------------------- signal----------------------------------------------*/
 void	sigint_handler(int sig);
 void		signal_handler(void);
@@ -165,6 +175,7 @@ int		get_size_part(char	**arg_walker, char **arg_holder, char quotes);
 char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder);
 char	*arg_creator(t_shell *shell, char **argument);
 int		size_quotes_arg(char *line_walker, char quotes);
+int		check_arrow_syntax(char *line, char arrow);
 
 int		execute_line(t_shell *shell, char **envp);
 int 	do_redirect(t_shell *shell);
@@ -227,8 +238,6 @@ size_t	ft_lens_2char(char *lens, char c, char d);
 int		ft_isdigit_str(char *str);
 int		ft_isalpha_str(char *str, char c);
 
-
-
 /*----------------------- REDIR----------------------------------------------*/
 
 int		jump_quotes(char **line_to_ignore);
@@ -243,6 +252,6 @@ char	*ask_for_line(t_shell *shell, int *fd, char *all_files);
 int		do_redirect(t_shell *shell);
 int		do_indirect(t_shell *shell);
 
-extern int	interactive;
+extern int	g_interactive;
 
 #endif

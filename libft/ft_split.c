@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 14:03:46 by antonmar          #+#    #+#             */
-/*   Updated: 2022/04/23 15:57:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:56:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		wcounter(char const *s, char c)
+int	wcounter(char const *s, char c)
 {
-	size_t i;
-	int wcount;
+	size_t	i;
+	int		wcount;
 
 	wcount = 0;
 	i = 0;
@@ -41,7 +41,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	wcount = wcounter(s, c);
-	str = malloc(wcount * sizeof(char*) + 1);
+	str = malloc(wcount * sizeof(char *) + 1);
 	if (str == NULL)
 		return (NULL);
 	while (++j < wcount)

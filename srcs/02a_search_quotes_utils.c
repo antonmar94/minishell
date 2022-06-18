@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/16 21:02:08 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:45:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 	return (arg_part);
 }
 
-char	*arg_creator(t_shell *shell, char **argument) //no se libera lo devuelto por esta función
+char	*arg_creator(t_shell *shell, char **argument)
 {
 	char	*arg_walker;
 	char	*joined_arg;

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/03 19:16:07 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:42:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_env_list(t_env_list *envp)
 	printf(GREEN"\nvar content:"RESET);
 	printf("%s"RESET, copy->var_content);
 	printf("\n");
-	printf(RED"\nsize enviroment: %d\n"RESET,i);
+	printf(RED"\nsize enviroment: %d\n"RESET, i);
 }
 
 void	printvar_content_text(char *var_name, char *var_content, t_shell *shell)
