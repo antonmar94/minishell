@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 15:27:33 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:13:41 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	export(t_shell *shell)
 		return (0);
 	var_name = cut_env_var_name(*(shell->command_args));
 	var_content = cut_env_var_content(*(shell->command_args));
-	if (ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
+	if (!*var_name || ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
 	{
 		identifier_enviro_error(shell);
 		return (0);
@@ -45,7 +45,7 @@ int	unset(t_shell *shell)
 	char	*var_name;
 
 	var_name = cut_env_var_name(*(shell->command_args));
-	if (ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
+	if (!*var_name || ft_strcmp(var_name, "0") == 0 || ft_strcmp(var_name, "?") == 0)
 	{
 		identifier_enviro_error(shell);
 		return (0);

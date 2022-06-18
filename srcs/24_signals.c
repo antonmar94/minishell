@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 15:44:20 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:54:08 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	sigquit_handler(int sig)
 	if (!interactive)
 	{
 		nbr = ft_itoa(sig);
-		//ft_putstr_fd("\n", 2);
 		ft_putendl_fd(nbr, 2);
 		free(nbr);
 		return ;
