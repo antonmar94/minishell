@@ -59,7 +59,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
+	$(CC) $(CFLAGS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
 
 
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)

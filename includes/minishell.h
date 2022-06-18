@@ -91,7 +91,7 @@ typedef struct s_shell
 	t_arglist		*arg_list;
 	t_env_list		*env_list;
 	t_env_list		*env_list_plus;
-	t_aux_p 	*aux_p;
+	t_aux_p 		*aux_p;
 	t_pipes			*pipes_struct;
 }	t_shell;
 

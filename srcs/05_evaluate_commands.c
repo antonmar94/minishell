@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/17 20:30:29 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:43:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int find_enviro_command(t_shell *shell)
 	i = -1;
 	if(!shell->command || shell->has_pipes)
 		return(0);
+	
 	while (++i < 8)
 	{
+		
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
