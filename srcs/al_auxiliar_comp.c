@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 20:07:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:09:54 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	print_env_list(t_env_list *envp)
 	}
 	i++;
 	printf(BLUE"%s"RESET, copy->var_name);
+	printf("=");
 	printf(GREEN"%s"RESET, copy->var_content);
 	printf("\n");
 }

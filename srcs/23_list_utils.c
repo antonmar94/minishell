@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 17:48:19 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:26:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*search_var_coincident(t_shell *shell, char *str_to_find)
 	copy = shell->env_list_plus;
 	while (copy->next)
 	{
+		if (!ft_strcmp(copy->var_name, "?"))
+			return (ft_itoa(shell->exit_return));
 		if (!ft_strcmp(copy->var_name, str_to_find))
 			return (copy->var_content);
 		copy = copy->next;

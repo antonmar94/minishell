@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:30:12 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 20:08:50 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:45:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	del_var_node_coincident(t_shell *shell, char *var_name_to_find)
 		}
 		copy = copy->next;
 	}
-	if (!ft_strcmp(copy->next->var_name, var_name_to_find))
+	if (copy->next && !ft_strcmp(copy->next->var_name, var_name_to_find))
 	{
 		del_copy = copy->next;
 		copy->next = copy->next->next;

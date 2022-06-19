@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 18:30:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:32:54 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 int	execute_child_line(t_shell *shell, char **envp)
 {
 	split_arguments(shell);
+	
 	if (!shell->exit_return && !find_command(shell))
 	{
 		if (!system_commmand(shell, envp) || !shell->command)
+		{
 			command_error(shell, shell->command);
+			printf("exit return [%i]\n", shell->exit_return);
+		}
 	}
-	exit (0);
+	exit (shell->exit_return);
 }
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
@@ -89,7 +93,7 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 		close(pipes_struct->fd1[READ_END]);
 		close(pipes_struct->fd1[WRITE_END]);
 		if (pid == 0)
-			exit (0);
+			exit (shell->exit_return);
 	}
 	return (pid);
 }
