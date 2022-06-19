@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 18:45:43 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:49:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*find_dollar_quotes(char *argument)
 	char		*aux_arg;
 	int			size_arg;
 	char		*arg_part;
+	char		*arg_return;
 
 	aux_arg = argument;
 	size_arg = 0;
@@ -85,10 +86,13 @@ char	*find_dollar_quotes(char *argument)
 		aux_arg++;
 		size_arg++;
 	}
-	aux_arg++;
+	if (*aux_arg)
+		aux_arg++;
 	if (!check_allquotes(aux_arg))
 		return (argument);
 	arg_part = ft_substr(argument, 0, size_arg);
 	new_free(&argument);
-	return (ft_strjoin(arg_part, aux_arg));
+	arg_return = ft_strjoin(arg_part, aux_arg);
+	new_free(&arg_part);
+	return (arg_return);
 }

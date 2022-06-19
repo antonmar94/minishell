@@ -6,11 +6,29 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 18:43:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:28:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	check_list_flag(char *list_arg)
+{
+	char	*flag;
+
+	if (!list_arg)
+		return (0);
+	flag = list_arg;
+	if (!ft_strncmp(flag, "-n", 2))
+	{
+		flag += 1;
+		while (*flag && *flag == 'n')
+			flag++;
+		if (!*flag || *flag == ' ')
+			return (1);
+	}
+	return (0);
+}
 
 void	add_line_command(t_shell *shell)
 {
@@ -40,7 +58,7 @@ int	add_arg_tolist(t_shell *shell)
 	int		size_arg;
 
 	size_arg = size_argument(shell);
-	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
+	argument = ft_substr(shell->line_walker, 0, size_arg);
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
 	{
 		shell->line_walker++;
@@ -97,6 +115,6 @@ int	split_arguments(t_shell *shell)
 	if (shell->command_args)
 		shell->command_args++;
 	if (shell->arg_list)
-		add_line_command(shell); 
+		add_line_command(shell);
 	return (0);
 }

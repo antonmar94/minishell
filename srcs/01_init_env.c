@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:43:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:54:06 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,27 @@ t_env_list	*env_var_list_hidden(char *name, char *content)
 	return (env_list);
 }
 
-t_env_list	*add_hidden_env_var(t_shell *shell)
+t_env_list	*mount_hidden_env_var(t_shell *shell, char **hidden_name,
+	char **hidden_content)
 {
 	t_env_list	*this_list_var;
 	t_env_list	*init;
 	int			i;
+
+	i = -1;
+	while (++i < size_matriz(hidden_name))
+	{
+		this_list_var = env_var_list_hidden(hidden_name[i], hidden_content[i]);
+		env_var_add_back(&shell->env_list, this_list_var);
+		if (i == 0)
+			init = this_list_var;
+	}
+	return (init);
+}
+
+t_env_list	*add_hidden_env_var(t_shell *shell)
+{
+	t_env_list	*init;
 	char		**hidden_name;
 	char		**hidden_content;
 
@@ -43,14 +59,9 @@ t_env_list	*add_hidden_env_var(t_shell *shell)
 	hidden_content[1] = ft_itoa(shell->exit_return);
 	hidden_content[2] = "$~";
 	hidden_content[3] = NULL;
-	i = -1;
-	while (++i < size_matriz(hidden_name))
-	{
-		this_list_var = env_var_list_hidden(hidden_name[i], hidden_content[i]);
-		env_var_add_back(&shell->env_list, this_list_var);
-		if (i == 0)
-			init = this_list_var;
-	}
+	init = mount_hidden_env_var(shell, hidden_name, hidden_content);
+	free(hidden_name);
+	free(hidden_content);
 	return (init);
 }
 
@@ -63,6 +74,7 @@ t_env_list	*init_list_env(t_shell *shell, char **envp)
 
 	size_envp = size_matriz(envp);
 	shell->env_list_plus = add_hidden_env_var(shell);
+	leaks();
 	this_list_var = env_var_list_new(envp[0]);
 	env_var_add_back(&shell->env_list->next->next, this_list_var);
 	init = this_list_var;

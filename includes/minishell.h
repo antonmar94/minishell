@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 18:44:52 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:27:07 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,11 @@ int		ft_error(t_shell *shell, char *elem_err, int error_code);
 int		syntax_error(t_shell *shell);
 void	command_error(t_shell *shell, char *command);
 int		error_wrong_path(t_shell *shell);
-int		error_too_many_args(void);
+int		error_too_many_args(t_shell *shell);
 int		error_not_numeric(t_shell *shell);
 int 	identifier_enviro_error(t_shell *shell);
 int		check_error_child(t_shell *shell, int pid);
+void	error_args_init(void);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 int		size_matriz(char **str);
@@ -238,6 +239,7 @@ size_t	ft_desplace_2char(char const *s, char c, char d);
 size_t	ft_lens_2char(char *lens, char c, char d);
 int		ft_isdigit_str(char *str);
 int		ft_isalpha_str(char *str, char c);
+int 	ft_strcmp(const char *s1, const char *s2);
 
 /*----------------------- REDIR----------------------------------------------*/
 

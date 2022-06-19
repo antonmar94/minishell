@@ -6,54 +6,44 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 18:44:41 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:55:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_list_flag(char *list_arg)
+int	evaluate_quotes(int size, char **arg_sizer)
 {
-	char	*flag;
+	char	quotes;
+	int		size_quotes;
 
-	if (!list_arg)
-		return (0);
-	flag = list_arg;
-	if (!ft_strncmp(flag, "-n", 2))
+	quotes = check_allquotes(*arg_sizer);
+	size_quotes = 0;
+	if (quotes)
 	{
-		flag += 1;
-		while (*flag && *flag == 'n')
-			flag++;
-		if (!*flag || *flag == ' ')
-			return (1);
+		size_quotes = size_quotes_arg(*arg_sizer, quotes);
+		size += size_quotes + 2;
+		(*arg_sizer) += size_quotes + 2;
 	}
-	return (0);
+	else
+	{
+		(*arg_sizer)++;
+		size++;
+	}
+	return (size);
 }
 
 int	size_argument(t_shell *shell)
 {
 	char	*arg_sizer;
 	int		size;
-	int		size_quotes;
-	char	quotes;
 
 	size = 0;
 	arg_sizer = shell->line_walker;
 	while (*arg_sizer && *arg_sizer == ' ')
 		arg_sizer++;
 	while (*arg_sizer && *arg_sizer != ' ')
-	{
-		quotes = check_allquotes(arg_sizer);
-		size_quotes = 0;
-		if (quotes)
-		{
-			size_quotes = size_quotes_arg(arg_sizer, quotes);
-			size += size_quotes + 2;
-			arg_sizer += size_quotes + 2;
-		}
-		arg_sizer++;
-		size++;
-	}
+		size = evaluate_quotes(size, &arg_sizer);
 	return (size);
 }
 

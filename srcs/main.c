@@ -6,21 +6,18 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 18:46:57 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:55:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /* TODO:
--**Cambiar la variable global a la estructura
--Eliminar dos leaks existentes (parece uno eliminado pero quien sabe)
 -Comprobar las dos pipes que se quedan abiertas y cerrarlas si es posible
--Algunos errores no hacen un cambio de linea
--**El ctrl-c en "<<" funciona de forma extraña
 -Quitar la mierda de alberto
 -Pasar la norminette
  */
+
 int	g_interactive = 0;
 
 void	leaks(void)
@@ -34,10 +31,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	if (argc != 1)
-	{
-		error_too_many_args();
-		exit(7);
-	}
+		error_args_init();
 	signal_handler();
 	shell = initialice(envp);
 	//wellcome_header(shell);

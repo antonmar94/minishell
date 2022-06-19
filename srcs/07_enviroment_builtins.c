@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:44:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:20:32 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	unset(t_shell *shell)
 int	env(t_shell *shell)
 {
 	if (*shell->command_args)
-		error_too_many_args();
+		error_too_many_args(shell);
 	print_env_list(shell->env_list);
 	return (0);
 }
@@ -77,7 +77,7 @@ void	exit_minishell(t_shell *shell)
 	{
 		if (shell->arg_list && shell->arg_list->next)
 		{
-			error_too_many_args();
+			error_too_many_args(shell);
 			return ;
 		}
 		if (!ft_isdigit_str(shell->arg_list->content))

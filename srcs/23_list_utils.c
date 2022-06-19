@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 17:36:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:48:19 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,17 @@ char	*search_var_coincident(t_shell *shell, char *str_to_find)
 	}
 	if (!ft_strcmp(copy->var_name, str_to_find))
 		return (copy->var_content);
+	return (0);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 || *s2)
+	{
+		if (*s1 != *s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+	}
 	return (0);
 }

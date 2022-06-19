@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:39:41 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:41:51 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 18:26:58 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,17 @@ int	fd_error(t_shell *shell)
 	return (1);
 }
 
-int	error_too_many_args(void)
+int	error_too_many_args(t_shell *shell)
 {
+	shell->exit_return = 1;
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fdnl(RED "error too many arguments" RESET, 2);
 	return (1);
+}
+
+void	error_args_init(void)
+{
+	write(2, RED "minishell: ", 18);
+	ft_putstr_fdnl(RED "error too many arguments" RESET, 2);
+	exit (1);
 }
