@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:44:29 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 20:13:24 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	help(t_shell *shell)
 		write(1, shell->list_commands[i], ft_strlen(shell->list_commands[i]));
 		write(1, "\n", 1);
 	}
-	ft_putstr_fd(GREEN"(Pipes are coming..)"RESET, 1);
-	write(1, "\n", 1);
 }
 
 int	echo(t_shell *shell)

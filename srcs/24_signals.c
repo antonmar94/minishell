@@ -6,15 +6,11 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:47:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 20:16:41 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/* Señales, accion por defecto
-				signal(SIGINT , SIG_DFL);
-				signal(SIGQUIT, SIG_DFL); */
 
 void	sigint_handler(int sig)
 {

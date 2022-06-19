@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 18:20:32 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/19 20:05:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	export(t_shell *shell)
 		identifier_enviro_error(shell);
 		return (0);
 	}
-	printvar_content_text(var_name, var_content, shell);
 	if (change_var_content(shell, var_name, var_content))
 		return (0);
 	new_list_var = env_var_list_new(*(shell->command_args));
@@ -52,7 +51,6 @@ int	unset(t_shell *shell)
 		identifier_enviro_error(shell);
 		return (0);
 	}
-	print_var_unset(var_name, shell);
 	del_var_node_coincident(shell, var_name);
 	return (0);
 }
