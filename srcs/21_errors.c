@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 20:29:25 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 22:43:26 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ int	ft_error(t_shell *shell, char *elem_err, int error_code)
 
 void	command_error(t_shell *shell, char *command)
 {
+	shell->exit_return = 127;
+	errno = 127;
+	write(2, RED "minishell: ", 18);
 	if (command)
-	{
-		shell->exit_return = 127;
-		errno = 127;
-		write(2, RED "minishell: ", 18);
 		write(2, command, ft_strlen(command));
-		ft_putstr_fdnl(": command not found" RESET, 2);
-	}
+	ft_putstr_fdnl(": command not found" RESET, 2);
 }
 
 int	identifier_enviro_error(t_shell *shell)

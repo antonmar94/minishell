@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:44:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 22:43:27 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ int	system_commmand(t_shell *shell, char **envp)
 	ex_res = 0;
 	while (*shell->command_plus_args && *paths_list)
 	{
-		ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
-					shell->command), shell->command_plus_args, envp);
+		ex_res = execve (shell->command, shell->command_plus_args, envp);
 		paths_list++;
+		if (ex_res < 0)
+			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
+						shell->command), shell->command_plus_args, envp);
 	}
 	if (ex_res)
 		return (0);
