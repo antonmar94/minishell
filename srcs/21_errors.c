@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 20:59:11 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:45:08 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	identifier_enviro_error(t_shell *shell)
 
 int	syntax_error(t_shell *shell)
 {
+	errno = 258;
 	shell->exit_return = 258;
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fdnl("syntax error in command line" RESET, 2);

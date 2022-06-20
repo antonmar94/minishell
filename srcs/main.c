@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/19 23:46:15 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:45:51 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	shell_execution(t_shell *shell, char **envp)
 		if (!find_enviro_command(shell))
 			child_execution(shell, envp);
 	}
+	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	free_all_struct(shell);
 }
 
