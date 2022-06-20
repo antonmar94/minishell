@@ -83,11 +83,6 @@ compare: all
 del_history:
 	rm -f .history_own
 #rm -f ../../.history
-test: all
-	@cd tests && ./test.sh && cd ..
-
-2test: all
-	@cd tests && ./2test.sh && cd ..
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
