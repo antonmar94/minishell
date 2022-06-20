@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 19:41:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:59:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_env_list	*add_hidden_env_var(t_shell *shell)
 	hidden_name[2] = "~";
 	hidden_name[3] = NULL;
 	hidden_content[0] = "minishell";
-	hidden_content[1] = "caca";
+	hidden_content[1] = "0";
 	hidden_content[2] = "$~";
 	hidden_content[3] = NULL;
 	init = mount_hidden_env_var(shell, hidden_name, hidden_content);

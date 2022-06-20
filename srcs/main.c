@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/20 19:45:51 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 21:26:08 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 int	g_interactive = 0;
 
-/*TODO:
-	-Los errores de comando no existente no asignan bien el valor en el exit_return o se resetean cuando no deben
-	-El unset de elementos no existentes
-*/
-
 void	shell_execution(t_shell *shell, char **envp)
 {
 	shell->exit_return = 0;
 	g_interactive = 1;
-	errno = 0;
 	shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
 	g_interactive = 0;
 	if (!shell->line)
@@ -49,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		error_args_init();
 	signal_handler();
 	shell = initialice(envp);
-	//wellcome_header(shell);
+	wellcome_header(shell);
 	read_history(".history_own");
 	while (!shell->exit)
 		shell_execution(shell, envp);

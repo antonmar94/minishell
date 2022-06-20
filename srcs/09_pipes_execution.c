@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 19:43:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 21:25:24 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 	if (!shell->exit_return && !find_command(shell))
 	{
 		if (!system_commmand(shell, envp) || !shell->command)
-		{
 			command_error(shell, shell->command);
-		}
 	}
 	exit (shell->exit_return);
 }
@@ -98,10 +96,20 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 
 void	child_execution(t_shell *shell, char **envp)
 {
-	int		pid;
+	pid_t		pid;
+	int			exit_child;
 
+	exit_child = 0;
 	free_parent(shell);
 	pid = execute_all(shell, shell->pipes_struct, envp);
 	if (pid)
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &exit_child, 0);
+	if (WIFEXITED(exit_child))
+		errno = WEXITSTATUS(exit_child);
+	if (WIFSIGNALED(exit_child))
+	{
+		errno = WTERMSIG(exit_child);
+		if (errno != 131)
+			errno += 128;
+	}
 }
