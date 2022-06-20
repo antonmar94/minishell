@@ -6,11 +6,29 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/17 19:41:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 22:38:42 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	check_list_flag(char *list_arg)
+{
+	char	*flag;
+
+	if (!list_arg)
+		return (0);
+	flag = list_arg;
+	if (!ft_strncmp(flag, "-n", 2))
+	{
+		flag += 1;
+		while (*flag && *flag == 'n')
+			flag++;
+		if (!*flag || *flag == ' ')
+			return (1);
+	}
+	return (0);
+}
 
 void	add_line_command(t_shell *shell)
 {
@@ -18,8 +36,8 @@ void	add_line_command(t_shell *shell)
 
 	if (shell->arg_list)
 	{
-		shell->command = shell->arg_list->content;
 		aux_free = shell->arg_list;
+		shell->command = shell->arg_list->content;
 		shell->arg_list = shell->arg_list->next;
 		free(aux_free);
 		aux_free = NULL;
@@ -27,7 +45,9 @@ void	add_line_command(t_shell *shell)
 		{
 			shell->command_flag = "-n";
 			aux_free = shell->arg_list;
+			shell->free_aux_list = shell->arg_list->content;
 			shell->arg_list = shell->arg_list->next;
+			free(aux_free);
 		}
 	}
 }
@@ -38,7 +58,7 @@ int	add_arg_tolist(t_shell *shell)
 	int		size_arg;
 
 	size_arg = size_argument(shell);
-	argument = ft_substr(shell->line_walker, 0, size_argument(shell));
+	argument = ft_substr(shell->line_walker, 0, size_arg);
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
 	{
 		shell->line_walker++;
@@ -50,6 +70,7 @@ int	add_arg_tolist(t_shell *shell)
 		argument = arg_creator(shell, &argument);
 		if (argument && *argument == '|')
 		{
+			new_free(&argument);
 			shell->size_com_args--;
 			return (0);
 		}
@@ -67,8 +88,6 @@ void	create_array_args(t_shell *shell)
 
 	i = 0;
 	holder_first = shell->arg_list;
-	shell->command_plus_args = malloc(sizeof(char *)
-			* shell->size_com_args + 1);
 	while (holder_first && shell->size_com_args > 0)
 	{
 		shell->command_plus_args[i] = holder_first->content;

@@ -13,3 +13,4 @@ test_*
 .history_own
 tests/hello
 tests/hola
+.DS_Store

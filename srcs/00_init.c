@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/17 19:26:24 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:41:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,17 @@ t_shell	*initialice(char **envp)
 	shell->command = NULL;
 	shell->command_flag = NULL;
 	return (shell);
+}
+
+t_env_list	*env_var_list_new(char *env_var)
+{
+	t_env_list	*env_list;
+
+	env_list = (t_env_list *)malloc(sizeof(t_env_list));
+	if (!env_list)
+		return (NULL);
+	env_list->var_name = cut_env_var_name(env_var);
+	env_list->var_content = cut_env_var_content(env_var);
+	env_list->next = NULL;
+	return (env_list);
 }

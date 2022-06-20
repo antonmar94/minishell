@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   04b_evaluate_syntax_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 19:49:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/01/05 16:08:09 by albzamor         ###   ########.fr       */
+/*   Created: 2022/06/18 16:35:29 by albzamor          #+#    #+#             */
+/*   Updated: 2022/06/18 16:50:39 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-int     ft_strcmp(const char *s1, const char *s2)
+int	check_syntax(t_shell *shell)
 {
-    while (*s1 || *s2)
-    {
-        if (*s1 != *s2)
-            return ((unsigned char)*s1 - (unsigned char)*s2);
-        s1++;
-        s2++;
-    }
-    return (0);
+	if (check_quotes_syntax(shell->line))
+	{
+		syntax_error(shell);
+		return (1);
+	}
+	if (check_arrow_syntax(shell->line, '>')
+		|| check_arrow_syntax(shell->line, '<'))
+	{
+		syntax_error(shell);
+		return (1);
+	}
+	if (check_pipe_syntax(shell))
+	{
+		syntax_error(shell);
+		return (1);
+	}
+	return (0);
 }

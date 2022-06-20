@@ -11,6 +11,7 @@ SRCS =	./srcs/00_init.c \
 		./srcs/02b_quotes_utils.c \
 		./srcs/03_search_dollar.c\
 		./srcs/04_evaluate_syntax.c \
+		./srcs/04b_evaluate_syntax_2.c \
 		./srcs/05_evaluate_commands.c \
 		./srcs/06_builtins.c \
 		./srcs/07_enviroment_builtins.c \
@@ -30,7 +31,6 @@ SRCS =	./srcs/00_init.c \
 		./srcs/al_auxiliar_comp.c \
 		./srcs/al_auxiliar_list.c \
 		./srcs/al_auxiliar_list2.c \
-		./srcs/al_check_aux.c \
 		./srcs/al_aux_lib.c \
 		./srcs/main.c \
 
@@ -83,11 +83,6 @@ compare: all
 del_history:
 	rm -f .history_own
 #rm -f ../../.history
-test: all
-	@cd tests && ./test.sh && cd ..
-
-2test: all
-	@cd tests && ./2test.sh && cd ..
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean

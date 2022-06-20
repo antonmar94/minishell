@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/04 19:12:42 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/19 20:07:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 		return (NULL);
 	while (i < ft_strlen(s1))
 		scopy[i++] = s1[j++];
-    scopy[i++] = ' ';
+	scopy[i++] = ' ';
 	while (i < (ft_strlen(s1) + ft_strlen(s2) + 1))
 		scopy[i++] = s2[k++];
 	scopy[i] = '\0';
@@ -37,13 +37,12 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 }
 
 /* modified split to return de first str before a char */
-
 char	*ft_split_one(char *s, char c, char d)
 {
 	char	*scopy;
 	size_t	i;
 	size_t	desplace;
-	char *pp;
+	char	*pp;
 
 	i = 0;
 	if (s == NULL)
@@ -52,9 +51,8 @@ char	*ft_split_one(char *s, char c, char d)
 	scopy = s;
 	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
-	if (ft_isdigit(pp[0]) && pp[0] !='0' )
+	if (ft_isdigit(pp[0]) && pp[0] != '0' )
 		return (pp + 1);
-	
 	return (pp);
 }
 
@@ -67,7 +65,8 @@ size_t	ft_desplace_2char(char const *s, char c, char d)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d ) && (s[i] == '\f' || s[i] == '\n' || s[i] == '\r'
+		if ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d) && (s[i] == '\f'
+				|| s[i] == '\n' || s[i] == '\r'
 				|| s[i] == '\t' || s[i] == '\v' || s[i] == ' '))
 			i++;
 		if ((!ft_isalpha(s[i]) || s[i] != d) && s[i] != '\0')
@@ -88,14 +87,15 @@ size_t	ft_lens_2char(char *lens, char c, char d)
 	{
 		while (lens[i] != '\0')
 		{
-			if ((lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i]) && lens[i] != '_')) && ((lens[i] != '?') && (lens[i] != '0') && (lens[i] != '~')))
+			if ((lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i])
+						&& lens[i] != '_')) && ((lens[i] != '?')
+					&& (lens[i] != '0') && (lens[i] != '~')))
 				return (i);
 			i++;
 		}
 		return (i);
 	}
 }
-
 
 int	ft_isalpha_str(char *str, char c)
 {
@@ -113,5 +113,3 @@ int	ft_isalpha_str(char *str, char c)
 	}
 	return (1);
 }
-
-

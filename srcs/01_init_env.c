@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:04:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:59:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,13 @@ t_env_list	*env_var_list_hidden(char *name, char *content)
 	return (env_list);
 }
 
-t_env_list	*add_hidden_env_var(t_shell *shell)
+t_env_list	*mount_hidden_env_var(t_shell *shell, char **hidden_name,
+	char **hidden_content)
 {
 	t_env_list	*this_list_var;
 	t_env_list	*init;
 	int			i;
-	char		**hidden_name;
-	char		**hidden_content;
 
-	hidden_name = malloc(sizeof(char *) * 4);
-	hidden_content = malloc(sizeof(char *) * 4);
-	hidden_name[0] = "0";
-	hidden_name[1] = "?";
-	hidden_name[2] = "~";
-	hidden_name[3] = NULL;
-	hidden_content[0] = "minishell";
-	hidden_content[1] = ft_itoa(shell->exit_return);
-	hidden_content[2] = "$~";
-	hidden_content[3] = NULL;
 	i = -1;
 	while (++i < size_matriz(hidden_name))
 	{
@@ -54,6 +43,28 @@ t_env_list	*add_hidden_env_var(t_shell *shell)
 	return (init);
 }
 
+t_env_list	*add_hidden_env_var(t_shell *shell)
+{
+	t_env_list	*init;
+	char		**hidden_name;
+	char		**hidden_content;
+
+	hidden_name = malloc(sizeof(char *) * 4);
+	hidden_content = malloc(sizeof(char *) * 4);
+	hidden_name[0] = "0";
+	hidden_name[1] = "?";
+	hidden_name[2] = "~";
+	hidden_name[3] = NULL;
+	hidden_content[0] = "minishell";
+	hidden_content[1] = "0";
+	hidden_content[2] = "$~";
+	hidden_content[3] = NULL;
+	init = mount_hidden_env_var(shell, hidden_name, hidden_content);
+	free(hidden_name);
+	free(hidden_content);
+	return (init);
+}
+
 t_env_list	*init_list_env(t_shell *shell, char **envp)
 {
 	t_env_list	*init;
@@ -62,7 +73,7 @@ t_env_list	*init_list_env(t_shell *shell, char **envp)
 	int			i;
 
 	size_envp = size_matriz(envp);
-	shell->env_list_plus = add_hidden_env_var(shell); //aquí se produce un leak
+	shell->env_list_plus = add_hidden_env_var(shell);
 	this_list_var = env_var_list_new(envp[0]);
 	env_var_add_back(&shell->env_list->next->next, this_list_var);
 	init = this_list_var;
@@ -73,19 +84,6 @@ t_env_list	*init_list_env(t_shell *shell, char **envp)
 		env_var_add_back(&shell->env_list->next->next, this_list_var);
 	}
 	return (init);
-}
-
-t_env_list	*env_var_list_new(char *env_var)
-{
-	t_env_list	*env_list;
-
-	env_list = (t_env_list *)malloc(sizeof(t_env_list));
-	if (!env_list)
-		return (NULL);
-	env_list->var_name = cut_env_var_name(env_var);
-	env_list->var_content = cut_env_var_content(env_var);
-	env_list->next = NULL;
-	return (env_list);
 }
 
 void	env_var_add_back(t_env_list **env_list, t_env_list *new)

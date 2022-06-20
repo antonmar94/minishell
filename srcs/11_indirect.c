@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 15:59:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:44:00 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ char	*ask_for_line(t_shell *shell, int *fd, char *all_files)
 	line_in = readline("> ");
 	if (ft_strcmp(all_files, line_in))
 	{
-		clean_line =  arg_creator(shell, &line_in);
+		clean_line = arg_creator(shell, &line_in);
 		new_free(&line_in);
 		line_in = clean_line;
 		ft_putstr_fd(line_in, fd[WRITE_END]);
 		ft_putchar_fd('\n', fd[WRITE_END]);
-		
 	}
 	return (line_in);
 }

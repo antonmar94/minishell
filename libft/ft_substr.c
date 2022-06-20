@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 18:29:10 by albzamor          #+#    #+#             */
-/*   Updated: 2022/02/28 13:15:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:56:09 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = -1;
 	ret = malloc(len + 1);
-	if (ft_strlen((char*)s) <= start)
+	if (ft_strlen((char *) s) <= start)
 		return (ret);
 	if (ret != NULL)
 	{

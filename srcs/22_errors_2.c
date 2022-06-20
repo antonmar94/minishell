@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   22_errors_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:39:41 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/04 19:12:49 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/06/20 19:40:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ int	fd_error(t_shell *shell)
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fdnl(RED "bad file descriptor" RESET, 2);
 	return (1);
+}
+
+int	error_too_many_args(t_shell *shell)
+{
+	shell->exit_return = 1;
+	write(2, RED "minishell: ", 18);
+	ft_putstr_fdnl(RED "error too many arguments" RESET, 2);
+	return (1);
+}
+
+void	error_args_init(void)
+{
+	write(2, RED "minishell: ", 18);
+	ft_putstr_fdnl(RED "error too many arguments" RESET, 2);
+	exit (1);
 }

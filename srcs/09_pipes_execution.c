@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 15:47:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/20 22:39:20 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 		if (!system_commmand(shell, envp) || !shell->command)
 			command_error(shell, shell->command);
 	}
-	exit (0);
+	exit (shell->exit_return);
 }
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
@@ -89,17 +89,27 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 		close(pipes_struct->fd1[READ_END]);
 		close(pipes_struct->fd1[WRITE_END]);
 		if (pid == 0)
-			exit (0);
+			exit (shell->exit_return);
 	}
 	return (pid);
 }
 
 void	child_execution(t_shell *shell, char **envp)
 {
-	int		pid;
+	pid_t		pid;
+	int			exit_child;
 
+	exit_child = 0;
 	free_parent(shell);
 	pid = execute_all(shell, shell->pipes_struct, envp);
 	if (pid)
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &exit_child, 0);
+	if (WIFEXITED(exit_child))
+		errno = WEXITSTATUS(exit_child);
+	if (WIFSIGNALED(exit_child))
+	{
+		errno = WTERMSIG(exit_child);
+		if (errno != 131)
+			errno += 128;
+	}
 }
