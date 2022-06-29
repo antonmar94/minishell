@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 20:15:28 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/29 19:16:59 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	help(t_shell *shell)
 	int	i;
 
 	i = -1;
-	ft_putstr_fdnl(GREEN"Command's List: "RESET, 1);
+	ft_putstr_fd(GREEN"Command's List: \n"RESET, 1);
 	while (++i < shell->size_c)
 	{
 		write(1, shell->list_commands[i], ft_strlen(shell->list_commands[i]));

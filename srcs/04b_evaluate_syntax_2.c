@@ -3,17 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   04b_evaluate_syntax_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:35:29 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/18 16:50:39 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:55:54 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	check_empty(t_shell *shell)
+{
+	char	*aux_line;
+
+	aux_line = shell->line;
+	while (*aux_line && *aux_line == ' ')
+		aux_line++;
+	if (!*aux_line)
+		return (1);
+	return (0);
+}
+
 int	check_syntax(t_shell *shell)
 {
+	if (check_empty(shell))
+		return (1);
 	if (check_quotes_syntax(shell->line))
 	{
 		syntax_error(shell);
