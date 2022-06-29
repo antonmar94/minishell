@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   30_free_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 17:47:58 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/06/29 19:58:00 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_all_struct(t_shell *shell)
 		new_free(&shell->line);
 	shell->line = NULL;
 	shell->has_pipes = 0;
+	new_free(&shell->env_list_plus->next->var_content);
 	free_parent(shell);
 }
 
