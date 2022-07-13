@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02a_search_quotes_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 17:55:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:13:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,22 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 {
 	int		size_part;
 	char	*arg_part;
+	char	*returned_part;
 	char	quotes;
 
 	arg_part = NULL;
+	returned_part = NULL;
 	quotes = this_quote(*arg_walker);
 	size_part = get_size_part(arg_walker, arg_holder, quotes);
 	if (**arg_holder && size_part > 0)
 	{
 		arg_part = ft_substr(*arg_holder, 0, size_part);
 		if (quotes != '\'')
-			arg_part = change_dollars(shell, arg_part);
+			returned_part = change_dollars(shell, arg_part);
+		else
+			returned_part = arg_part;
 	}
-	return (arg_part);
+	return (returned_part);
 }
 
 char	*arg_creator(t_shell *shell, char **argument)
