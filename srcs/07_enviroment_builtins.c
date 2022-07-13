@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_enviroment_builtins.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 19:42:26 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:05:48 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	unset(t_shell *shell)
 		return (0);
 	}
 	del_var_node_coincident(shell, var_name);
+	new_free(&var_name);
 	return (0);
 }
 

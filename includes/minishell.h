@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 19:40:06 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:51:06 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ int			execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
 
 /*----------------------- FREE------------------------------------------------*/
 void		free_parent(t_shell *shell);
-void		free_all_struct(t_shell *shell);
+void		free_all_struct(t_shell *shell, char **envp);
 void		free_arg_list(t_arglist **arg_lst);
 void		free_env_list(t_env_list *envp);
 void		new_free(char **ptr);
