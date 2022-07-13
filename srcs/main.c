@@ -6,13 +6,18 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/13 17:14:27 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/13 20:14:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_interactive = 0;
+
+void leaks()
+{
+	system("leaks minishell");
+}
 
 void	shell_execution(t_shell *shell, char **envp)
 {
@@ -48,5 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	while (!shell->exit)
 		shell_execution(shell, envp);
 	write_history(".history_own");
+	atexit(leaks);
 	exit(shell->exit_return);
 }
