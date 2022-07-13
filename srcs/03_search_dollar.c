@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 17:13:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/13 20:12:57 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*change_dollars(t_shell *shell, char *str_to_change_dollar)
 	}
 	if (str_to_change_dollar && (int)ft_strlen(str_to_change_dollar)
 		== shell->aux_p->size_predollar)
-		return (str_to_change_dollar);
+		return (ft_strdup(str_to_change_dollar));
 	if (shell->aux_p->size_predollar)
 		shell->aux_p->final_str = ft_strjoin(shell->aux_p->new_expanded,
 				shell->aux_p->org_line_arg);

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:55:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 17:13:42 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/13 20:14:58 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ char	*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder)
 	{
 		arg_part = ft_substr(*arg_holder, 0, size_part);
 		if (quotes != '\'')
+		{
 			returned_part = change_dollars(shell, arg_part);
+			free(arg_part);
+		}
 		else
 			returned_part = arg_part;
 	}
