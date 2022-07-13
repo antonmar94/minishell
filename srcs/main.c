@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/13 20:14:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/13 22:12:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,30 @@ void leaks()
 
 void	shell_execution(t_shell *shell, char **envp)
 {
+
+/*ESTO DEBE SER UNA FUNCION A PARTE, da mil millones de leaks*/
+
+	t_env_list	*holder_first;
+	char		*aux_envp;
+	char		**free_aux_env;
+	int			i;
+
+	i = 0;
+	aux_envp = NULL;
+	holder_first = shell->env_list;
+	free_aux_env = envp;
+	while (holder_first)
+	{
+		aux_envp = ft_strjoin(holder_first->var_name, "=");
+		envp[i] = ft_strjoin(aux_envp, holder_first->var_content);
+		new_free(&aux_envp);
+		holder_first = holder_first->next;
+		i++;
+	}
+	envp[i] = NULL;
+
+////////////////////////////////////////////
+
 	shell->exit_return = 0;
 	g_interactive = 1;
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
@@ -36,7 +60,7 @@ void	shell_execution(t_shell *shell, char **envp)
 		if (!find_enviro_command(shell))
 			child_execution(shell, envp);
 	}
-	free_all_struct(shell);
+	free_all_struct(shell, envp);
 }
 
 int	main(int argc, char **argv, char **envp)
