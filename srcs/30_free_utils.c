@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/18 21:02:08 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:55:18 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ void	free_all_struct(t_shell *shell, char **envp)
 	shell->line = NULL;
 	shell->has_pipes = 0;
 	new_free(&shell->env_list_plus->next->var_content);
-	if (shell->command_plus_args)
-		free(shell->command_plus_args);
+	//printf("de mierda [%s]\n", *shell->command_plus_args);
+/* 	if (shell->command_plus_args)
+		free(shell->command_plus_args); */
 	free_matrix(envp);
 	free_parent(shell);
 }
