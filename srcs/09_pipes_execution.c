@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/29 19:49:50 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:10:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 	char	*holder_child;
 	t_pipes	*pipes_struct;
 
+	pipes_struct->child_counter = 0;
 	pipes_struct = shell->pipes_struct;
 	if (!is_first)
 		close(pipes_struct->fd2[READ_END]);
@@ -62,28 +63,32 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 			pipes_next(shell, envp, holder_child);
 		else
 		{
+			pipes_struct->child_counter++;
 			close(pipes_struct->fd2[WRITE_END]);
 			if (!*pipes_struct->holder_parent || pipes_struct->error)
 				close(pipes_struct->fd2[READ_END]);
 		}
 		new_free(&holder_child);
 	}
-	return (pid);
+	return (pipes_struct->child_counter);
 }
 
 int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 {
 	int		pid;
 	int		is_first;
+	int		child_number;
 
 	pipes_struct->holder_parent = shell->line;
 	pid = 0;
+	child_number = 0;
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
 		pid = execute_first(shell, envp, is_first);
+		child_number++;
 		if (pid != 0)
 		{
-			pid = execute_next(shell, envp, is_first, pid);
+			child_number += execute_next(shell, envp, is_first, pid);
 			is_first = 0;
 		}
 		close(pipes_struct->fd1[READ_END]);
@@ -91,19 +96,20 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 		if (pid == 0)
 			exit (shell->exit_return);
 	}
-	return (pid);
+	return (child_number);
 }
 
 void	child_execution(t_shell *shell, char **envp)
 {
-	pid_t		pid;
 	int			exit_child;
+	int			child_number;
 
 	exit_child = 0;
+	child_number = 0;
 	free_parent(shell);
-	pid = execute_all(shell, shell->pipes_struct, envp);
-	if (pid)
-		waitpid(pid, &exit_child, 0);
+	child_number = execute_all(shell, shell->pipes_struct, envp);
+	while (child_number-- > 0)
+		waitpid(-1, &exit_child, 0);
 	if (WIFEXITED(exit_child))
 		errno = WEXITSTATUS(exit_child);
 	if (WIFSIGNALED(exit_child))

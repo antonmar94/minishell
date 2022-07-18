@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/29 19:58:11 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:11:29 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void	sigint_handler(int sig)
 {
+	sig = 1;
 	signal(sig, sigint_handler);
 	if (!g_interactive)
 		return ;
+	rl_on_new_line();
 	rl_redisplay();
 	rl_replace_line("", 0);
-	printf("\n");
-	printf(CYAN"AlicornioPrompt$ "RESET);
+	//printf("\n");
+	//printf(CYAN"AlicornioPrompt$ "RESET);
 }
 
 void	sigquit_handler(int sig)
 {
 	char	*nbr;
 
-	signal(sig, sigquit_handler);
+	//signal(sig, sigquit_handler);
 	if (!g_interactive)
 	{
 		nbr = ft_itoa(sig);

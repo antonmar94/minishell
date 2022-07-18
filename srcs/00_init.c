@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/20 19:41:40 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:04:55 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,27 @@ t_env_list	*env_var_list_new(char *env_var)
 	env_list->var_content = cut_env_var_content(env_var);
 	env_list->next = NULL;
 	return (env_list);
+}
+
+char	**create_env_matrix(t_shell *shell, char **envp)
+{
+	t_env_list	*holder_first;
+	char		*aux_envp;
+	char		**minishell_envp;
+	int			i;
+
+	i = 0;
+	aux_envp = NULL;
+	holder_first = shell->env_list;
+	minishell_envp = malloc (sizeof(char *) * (size_matriz(envp) + 1));
+	while (holder_first)
+	{
+		aux_envp = ft_strjoin(holder_first->var_name, "=");
+		minishell_envp[i] = ft_strjoin(aux_envp, holder_first->var_content);
+		new_free(&aux_envp);
+		holder_first = holder_first->next;
+		i++;
+	}
+	minishell_envp[i] = NULL;
+	return (minishell_envp);
 }

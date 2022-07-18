@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 22:11:43 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:02:08 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@ void	new_free(char **ptr)
 	*ptr = NULL;
 }
 
-void	free_array(char **array)
+void	free_matrix(char **array)
 {
-	char	*array_walker;
+	char	**array_walker;
+	char	**array_aux;
 
-	array_walker = *array;
+	array_walker = array;
 	while(array_walker && *array_walker)
 	{
-		new_free(&array_walker);
+		array_aux = array_walker;
 		array_walker++;
+		new_free(array_aux);
 	}
-	new_free(array);
+	free(*array_walker);
+	free(array);
 }
 
 void	free_all_struct(t_shell *shell, char **envp)
@@ -39,7 +42,9 @@ void	free_all_struct(t_shell *shell, char **envp)
 	shell->line = NULL;
 	shell->has_pipes = 0;
 	new_free(&shell->env_list_plus->next->var_content);
-	//free_array(envp);
+	if (shell->command_plus_args)
+		free(shell->command_plus_args);
+	free_matrix(envp);
 	free_parent(shell);
 }
 

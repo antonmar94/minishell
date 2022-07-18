@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 21:51:06 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:09:05 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct pipes_struct
 	int		fd1[2];
 	int		fd2[2];
 	char	*holder_parent;
+	int		child_counter;
 	int		error;
 }	t_pipes;
 
@@ -145,7 +146,7 @@ int			split_arguments(t_shell *shell);
 int			find_command(t_shell *shell);
 int			system_commmand(t_shell *shell, char **envp);
 void		execute_command(t_shell *shell, int i);
-
+char		**create_env_matrix(t_shell *shell, char **envp);
 int			find_enviro_command(t_shell *shell);
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
@@ -221,6 +222,7 @@ void		free_all_struct(t_shell *shell, char **envp);
 void		free_arg_list(t_arglist **arg_lst);
 void		free_env_list(t_env_list *envp);
 void		new_free(char **ptr);
+void		free_matrix(char **array);
 
 /*------------------------ MOD LIFT -----------------------------------------*/
 char		*ft_strjoin_whith_space(char const *s1, char const *s2);
