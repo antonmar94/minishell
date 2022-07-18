@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/18 21:10:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/18 21:17:27 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 	char	*holder_child;
 	t_pipes	*pipes_struct;
 
-	pipes_struct->child_counter = 0;
 	pipes_struct = shell->pipes_struct;
+	pipes_struct->child_counter = 0;
 	if (!is_first)
 		close(pipes_struct->fd2[READ_END]);
 	if (*pipes_struct->holder_parent)
