@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/18 21:55:18 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:00:32 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	free_matrix(char **array)
 	char	**array_aux;
 
 	array_walker = array;
-	while(array_walker && *array_walker)
+	while (array_walker && *array_walker)
 	{
 		array_aux = array_walker;
 		array_walker++;
 		new_free(array_aux);
 	}
-	free(*array_walker);
-	free(array);
+	new_free(array_walker);
+	new_free(array);
 }
 
 void	free_all_struct(t_shell *shell, char **envp)
@@ -42,11 +42,13 @@ void	free_all_struct(t_shell *shell, char **envp)
 	shell->line = NULL;
 	shell->has_pipes = 0;
 	new_free(&shell->env_list_plus->next->var_content);
-	//printf("de mierda [%s]\n", *shell->command_plus_args);
-/* 	if (shell->command_plus_args)
-		free(shell->command_plus_args); */
+
 	free_matrix(envp);
 	free_parent(shell);
+	if (shell->command_plus_args && *shell->command_plus_args)
+	{
+		free_matrix(shell->command_plus_args);
+	}
 }
 
 void	free_parent(t_shell *shell)
