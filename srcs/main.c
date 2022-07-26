@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/26 18:47:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:56:55 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	shell_execution(t_shell *shell, char **envp)
 {
 	char		**minishell_envp;
 
+	minishell_envp = NULL;
 	minishell_envp = create_env_matrix(shell, envp);
 	shell->exit_return = 0;
 	g_interactive = 1;
@@ -40,6 +41,9 @@ void	shell_execution(t_shell *shell, char **envp)
 			child_execution(shell, minishell_envp);
 	}
 	free_all_struct(shell, minishell_envp);
+	free_matrix(minishell_envp);
+	free(minishell_envp);
+	free(shell->command_plus_args);
 }
 
 int	main(int argc, char **argv, char **envp)

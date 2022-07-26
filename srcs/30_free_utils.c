@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/26 19:00:32 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:55:36 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,9 @@ void	free_all_struct(t_shell *shell, char **envp)
 	shell->line = NULL;
 	shell->has_pipes = 0;
 	new_free(&shell->env_list_plus->next->var_content);
-
-	free_matrix(envp);
 	free_parent(shell);
-	if (shell->command_plus_args && *shell->command_plus_args)
-	{
+ 	if (shell->command_plus_args && *shell->command_plus_args)
 		free_matrix(shell->command_plus_args);
-	}
 }
 
 void	free_parent(t_shell *shell)
