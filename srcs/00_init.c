@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/18 21:52:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/26 21:37:04 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_shell	*initialice(char **envp)
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->command_args = NULL;
+	shell->command_plus_args = NULL;
 	shell->command = NULL;
 	shell->command_flag = NULL;
 	return (shell);

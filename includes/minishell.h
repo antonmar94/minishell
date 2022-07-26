@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/18 21:09:05 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:56:22 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct env_list
 	struct env_list		*next;
 }	t_env_list;
 
-typedef struct pipes_struct
+typedef struct pipes_struct ///32 
 {
 	int		fd1[2];
 	int		fd2[2];
