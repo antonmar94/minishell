@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/26 21:56:55 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/27 21:52:36 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	shell_execution(t_shell *shell, char **envp)
 	g_interactive = 1;
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
-	g_interactive = 0;
+	//g_interactive = 0;
 	if (!shell->line)
 		exit(shell->exit_return);
 	if (shell->line && *shell->line)
