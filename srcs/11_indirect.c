@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/26 18:45:51 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/07/27 21:07:01 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ char	*ask_for_line(t_shell *shell, int *fd, char *all_files)
 	char	*clean_line;
 
 	line_in = readline("> ");
+	if (g_interactive == 0)
+	{
+		printf("EN ESTA PREGUNTA SE SALE PORQUE G_INTERACTIVE ES 0\n");
+		return (0);
+	}
 	if (ft_strcmp(all_files, line_in))
 	{
 		clean_line = arg_creator(shell, &line_in);
@@ -58,16 +63,23 @@ int	two_arrows(t_shell *shell, char *all_files)
 	line_in = NULL;
 	if (pipe(fd) < 0)
 		return (1);
+	g_interactive = 2;
 	line_in = ask_for_line(shell, fd, all_files);
 	while (ft_strcmp(all_files, line_in))
 	{
 		new_free(&line_in);
+		if (g_interactive == 0)
+		{
+			printf("EN ESTE WHILE SE SALE PORQUE G_INTERACTIVE ES 0\n");
+			return (0);
+		}
 		line_in = ask_for_line(shell, fd, all_files);
 	}
 	new_free(&line_in);
 	close(fd[WRITE_END]);
 	dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]);
+	//g_interactive = 1;
 	return (0);
 }
 
