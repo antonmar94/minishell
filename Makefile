@@ -47,7 +47,7 @@ else
 READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include #-g3 -fsanitize=address
-DEBUGGER = lldb
+DEBUGGER = gdb
 READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif
 
@@ -67,6 +67,9 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 
 	make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
+
+	@echo "set enable-bracketed-paste off" > .inputrc
+	export INPUTRC=$PWD/.inputrc
 
 debug:
 	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME)  $(READLINE) -g -o $(NAME_DEBUG)

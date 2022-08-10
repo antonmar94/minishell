@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/26 21:42:58 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/10 21:42:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,9 @@ void	create_array_args(t_shell *shell)
 
 	i = 0;
 	holder_first = shell->arg_list;
-	shell->command_plus_args = malloc(sizeof(char *)
+	if (!holder_first->content)
+		return ;
+	shell->command_plus_args = (char **)malloc(sizeof(char *)
 			* shell->size_com_args + 1);
 	while (holder_first && shell->size_com_args > 0)
 	{
