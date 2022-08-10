@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/27 21:52:36 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/10 21:42:36 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 int	g_interactive = 0;
 
-void leaks()
-{
-	system("leaks minishell");
-}
-/*señales heredoc e historial*/
 void	shell_execution(t_shell *shell, char **envp)
 {
 	char		**minishell_envp;
@@ -26,10 +21,13 @@ void	shell_execution(t_shell *shell, char **envp)
 	minishell_envp = NULL;
 	minishell_envp = create_env_matrix(shell, envp);
 	shell->exit_return = 0;
-	g_interactive = 1;
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
-	shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
-	//g_interactive = 0;
+	g_interactive = 1;
+	if (errno == 1)
+		shell->line = readline("");
+	else
+		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
+	g_interactive = 0;
 	if (!shell->line)
 		exit(shell->exit_return);
 	if (shell->line && *shell->line)
@@ -43,7 +41,6 @@ void	shell_execution(t_shell *shell, char **envp)
 	free_all_struct(shell, minishell_envp);
 	free_matrix(minishell_envp);
 	free(minishell_envp);
-	free(shell->command_plus_args);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -60,6 +57,5 @@ int	main(int argc, char **argv, char **envp)
 	while (!shell->exit)
 		shell_execution(shell, envp);
 	write_history(".history_own");
-	atexit(leaks);
 	exit(shell->exit_return);
 }

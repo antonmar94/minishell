@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/27 21:54:41 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/10 21:42:37 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,17 @@
 
 void	sigint_handler(int sig)
 {
-	//sig = 0;
-	//signal(sig, sigint_handler);
-/* 	if (!g_interactive)
-		return ; */
-	//printf("EL SIG QUE ENTRA ES ESTE [%d]\n",sig);
- 	if ((sig == SIGINT || sig == SIGQUIT) && g_interactive != 2)
-	{ 
-		sig = 42;
-		g_interactive = 0;
-		printf("\n");
-		rl_on_new_line();
+	if ((sig == SIGINT || sig == SIGQUIT) && g_interactive != 2)
+	{
 		rl_replace_line("", 0);
+		rl_on_new_line();
+		printf("\n");
 		rl_redisplay();
 		errno = 1;
 		return ;
 	}
-	else if (sig != 42)
+	else
 	{
-		g_interactive = 0;
 		errno = 1;
 		exit(errno);
 	}
