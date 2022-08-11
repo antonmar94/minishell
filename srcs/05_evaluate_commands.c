@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 22:43:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/11 19:47:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_new_line(t_shell *shell)
+{
+	g_interactive = 1;
+	if (errno == 130)
+	{
+		shell->line = readline("");
+		if (!*shell->line)
+			printf("\n");
+	}
+	else
+		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
+	g_interactive = 0;
+	signal(SIGQUIT, sigquit_handler);
+}
 
 int	find_enviro_command(t_shell *shell)
 {
