@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/12 12:22:33 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:04:00 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ int			size_matriz(char **str);
 void		*del_name_and_contend(t_shell *shell);
 int			check_char(char *str, char char_tofind);
 void		print_env_list(t_env_list *envp);
+void		print_env_list_export(t_env_list *envp);
+int			env_export(t_shell *shell);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 void		pipes_first(t_shell *shell, char **envp, int is_first);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_enviroment_builtins.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 21:05:48 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:58:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	export(t_shell *shell)
 
 	if (!*shell->command_args)
 	{
-		env(shell);
+		env_export(shell);
 		return (0);
 	}
 	if (!check_char(*shell->command_args, '='))
@@ -63,6 +63,8 @@ int	env(t_shell *shell)
 	print_env_list(shell->env_list);
 	return (0);
 }
+
+
 
 void	exit_minishell(t_shell *shell)
 {
