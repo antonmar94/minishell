@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/12 15:15:28 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:43:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ void	sigint_handler(int sig)
 		rl_on_new_line();
 		printf("\n");
 		rl_redisplay();
-		errno = 130;
+		errno = 1;
 		return ;
 	}
 	else
-	{
-		errno = 130;
-		exit(errno);
-	}
+		exit(1);
 }
 
 void	sigquit_handler(int sig)
