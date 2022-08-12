@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/07/26 21:37:04 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:03:46 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_shell	*initialice(char **envp)
 	shell->aux_p = malloc(sizeof(t_aux_p));
 	init_list_command(shell);
 	shell->pipes_struct = malloc(sizeof(t_pipes));
+	shell->pipes_struct->pid = 0;
 	shell->line = NULL;
 	shell->line_walker = NULL;
 	shell->command_args = NULL;

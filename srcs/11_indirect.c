@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/11 19:47:15 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:15:24 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	two_arrows(t_shell *shell, char *all_files)
 	int		fd[2];
 
 	line_in = NULL;
+	kill(shell->pipes_struct->pid, SIGUSR1);
 	g_interactive = 2;
 	if (pipe(fd) < 0)
 		return (1);

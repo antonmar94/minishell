@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/11 17:51:55 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:22:33 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct env_list
 
 typedef struct pipes_struct ///32 
 {
+	pid_t	pid;
 	int		fd1[2];
 	int		fd2[2];
 	char	*holder_parent;

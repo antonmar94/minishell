@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/11 19:47:11 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:13:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_new_line(t_shell *shell)
 	if (errno == 130)
 	{
 		shell->line = readline("");
-		if (!*shell->line)
+		if (shell->line && !*shell->line)
 			printf("\n");
 	}
 	else

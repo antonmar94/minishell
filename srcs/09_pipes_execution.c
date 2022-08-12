@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/11 19:52:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:13:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,24 @@ int	execute_child_line(t_shell *shell, char **envp)
 int	execute_first(t_shell *shell, char **envp, int is_first)
 {
 	char	*holder_child;
-	int		pid;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
 	holder_child = create_child_line(pipes_struct);
 	pipe(pipes_struct->fd1);
-	pid = fork();
-	pipes_struct->error = check_error_child(shell, pid);
-	if (pid == 0)
+	pipes_struct->pid = fork();
+	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
+	if (pipes_struct->pid == 0)
 	{
 		new_free(&shell->line);
 		shell->line = holder_child;
 		pipes_first(shell, envp, is_first);
 	}
 	new_free(&holder_child);
-	return (pid);
+	return (pipes_struct->pid);
 }
 
-int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
+int	execute_next(t_shell *shell, char **envp, int is_first)
 {
 	char	*holder_child;
 	t_pipes	*pipes_struct;
@@ -57,9 +56,9 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 	{
 		holder_child = create_child_line(pipes_struct);
 		pipe(pipes_struct->fd2);
-		pid = fork();
-		pipes_struct->error = check_error_child(shell, pid);
-		if (pid == 0)
+		pipes_struct->pid = fork();
+		pipes_struct->error = check_error_child(shell, pipes_struct->pid);
+		if (pipes_struct->pid == 0)
 			pipes_next(shell, envp, holder_child);
 		else
 		{
@@ -75,25 +74,24 @@ int	execute_next(t_shell *shell, char **envp, int is_first, int pid)
 
 int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 {
-	int		pid;
 	int		is_first;
 	int		child_number;
 
 	pipes_struct->holder_parent = shell->line;
-	pid = 0;
+	pipes_struct->pid = 0;
 	child_number = 0;
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
-		pid = execute_first(shell, envp, is_first);
+		pipes_struct->pid = execute_first(shell, envp, is_first);
 		child_number++;
-		if (pid != 0)
+		if (pipes_struct->pid != 0)
 		{
-			child_number += execute_next(shell, envp, is_first, pid);
+			child_number += execute_next(shell, envp, is_first);
 			is_first = 0;
 		}
 		close(pipes_struct->fd1[READ_END]);
 		close(pipes_struct->fd1[WRITE_END]);
-		if (pid == 0)
+		if (pipes_struct->pid == 0)
 			exit (shell->exit_return);
 	}
 	return (child_number);
