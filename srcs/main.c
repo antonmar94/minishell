@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/12 15:42:41 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:34:37 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	shell_execution(t_shell *shell, char **envp)
 
 	minishell_envp = NULL;
 	minishell_envp = create_env_matrix(shell, envp);
-	shell->exit_return = 0;
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	ft_new_line(shell);
 	if (!shell->line)
