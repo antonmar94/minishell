@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 17:25:22 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:06:23 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	export(t_shell *shell)
 	t_env_list	*new_list_var;
 	char		*var_name;
 	char		*var_content;
-	char 		**tofree =NULL;
+	char		**tofree;
 
 	if (!*shell->command_args)
 	{
@@ -28,19 +28,16 @@ int	export(t_shell *shell)
 		return (0);
 	var_name = cut_env_var_name(*(shell->command_args));
 	var_content = cut_env_var_content(*(shell->command_args));
-	if (!*var_name || ft_strcmp(var_name, "0") == 0
-		|| ft_strcmp(var_name, "?") == 0)
-	{
-		identifier_enviro_error(shell);
-		return (0);
-	}
-	if (change_var_content(shell, var_name, var_content))
+	if (varname_found(&var_name, &var_content, &tofree, shell))
 		return (0);
 	new_list_var = env_var_list_new(*(shell->command_args));
 	env_var_add_back(&shell->env_list, new_list_var);
 	tofree = shell->minishell_envp;
 	shell->minishell_envp = create_env_matrix(shell);
-	free_matrix(tofree);//comentado
+	new_free(&var_name);
+	new_free(&var_content);
+	free_matrix(tofree);
+	free(tofree);
 	return (0);
 }
 
@@ -70,8 +67,6 @@ int	env(t_shell *shell)
 	print_env_list(shell->env_list);
 	return (0);
 }
-
-
 
 void	exit_minishell(t_shell *shell)
 {

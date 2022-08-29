@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 17:37:47 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:07:19 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,35 @@ int	change_var_content(t_shell *shell, char *var_name_to_find,
 	{
 		if (!ft_strcmp(copy->var_name, var_name_to_find))
 		{
+			new_free(&copy->var_content);
 			copy->var_content = var_content_to_change;
-			new_free(&copy->var_name);//test
-			new_free(&copy->var_content);//test
 			return (1);
 		}
 		copy = copy->next;
 	}
 	if (!ft_strcmp(copy->var_name, var_name_to_find))
 	{
+		new_free(&copy->var_content);
 		copy->var_content = var_content_to_change;
-		new_free(&copy->var_name);//test
-		new_free(&copy->var_content);//test
 		return (1);
 	}
-	new_free(&copy->var_name);
-	new_free(&copy->var_content);
+	return (0);
+}
+
+int	varname_found(char **var_name, char	**var_content, char ***tofree,
+			t_shell *shell)
+{
+	tofree = NULL;
+	if (!**var_name || ft_strcmp(*var_name, "0") == 0
+		|| ft_strcmp(*var_name, "?") == 0)
+	{
+		identifier_enviro_error(shell);
+		return (1);
+	}
+	if (change_var_content(shell, *var_name, *var_content))
+	{
+		new_free(&*var_name);
+		return (1);
+	}
 	return (0);
 }
