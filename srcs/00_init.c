@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/29 18:52:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:24:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,4 @@ int	ft_lst_env_size(t_env_list *lst)
 		i++;
 	}
 	return (i);
-}
-
-char	**create_env_matrix(t_shell *shell)
-{
-	t_env_list	*holder_first;
-	char		*aux_envp;
-	char		**minishell_envp;
-	int			i;
-
-	i = 0;
-	aux_envp = NULL;
-	holder_first = shell->env_list;
-	minishell_envp = malloc (sizeof(char *) * (  ft_lst_env_size(shell->env_list)) + 1);
-	while (holder_first)
-	{
-		aux_envp = ft_strjoin(holder_first->var_name, "=");
-		minishell_envp[i] = ft_strjoin(aux_envp, holder_first->var_content);
-		new_free(&aux_envp);
-		holder_first = holder_first->next;
-		i++;
-	}
-	minishell_envp[i] = NULL;
-	return (minishell_envp);
 }

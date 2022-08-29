@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 18:48:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:29:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	free_matrix(char **array)
 	}
 	new_free(array_walker);
 	new_free(array);
-	
 }
 
 void	free_all_struct(t_shell *shell, char **envp)

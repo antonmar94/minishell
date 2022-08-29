@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/29 18:56:31 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:34:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	shell_execution(t_shell *shell, char **envp)
 	}
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
-	free(shell->minishell_envp);//estaba comentado
+	free(shell->minishell_envp);
 }
 
-void leaks()
+void	leaks(void)
 {
 	system("leaks minishell");
 }

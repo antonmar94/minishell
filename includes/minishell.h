@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:05:37 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:28:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_shell
 	t_env_list		*env_list_plus;
 	t_aux_p			*aux_p;
 	t_pipes			*pipes_struct;
-	char 			**minishell_envp;
+	char			**minishell_envp;
 }	t_shell;
 
 void		leaks(void);
@@ -212,6 +212,7 @@ int			check_char(char *str, char char_tofind);
 void		print_env_list(t_env_list *envp);
 void		print_env_list_export(t_env_list *envp);
 int			env_export(t_shell *shell);
+int			ft_lst_env_size(t_env_list *lst);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 void		pipes_first(t_shell *shell, char **envp, int is_first);

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/12 17:04:41 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:29:54 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	env_export(t_shell *shell)
 	return (0);
 }
 
-void		print_env_list_export(t_env_list *envp)
+void	print_env_list_export(t_env_list *envp)
 {
 	t_env_list	*copy;
 	int			i;
