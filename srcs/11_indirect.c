@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/12 16:29:06 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/29 15:41:02 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ char	*ask_for_line(t_shell *shell, int *fd, char *all_files)
 
 	line_in = NULL;
 	line_in = readline("> ");
-	//printf("linein: [%s]\n", line_in);
-	if (ft_strcmp(all_files, line_in)) //|| !line_in || ft_strcmp("\n", line_in))
+	if (ft_strcmp(all_files, line_in))
 	{
 		clean_line = arg_creator(shell, &line_in);
 		new_free(&line_in);
