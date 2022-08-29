@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/12 13:03:46 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/29 17:03:01 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,21 @@ t_env_list	*env_var_list_new(char *env_var)
 	return (env_list);
 }
 
-char	**create_env_matrix(t_shell *shell, char **envp)
+int	ft_lst_env_size(t_env_list *lst)
+
+{
+	int	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
+char	**create_env_matrix(t_shell *shell)
 {
 	t_env_list	*holder_first;
 	char		*aux_envp;
@@ -82,7 +96,7 @@ char	**create_env_matrix(t_shell *shell, char **envp)
 	i = 0;
 	aux_envp = NULL;
 	holder_first = shell->env_list;
-	minishell_envp = malloc (sizeof(char *) * (size_matriz(envp) + 1));
+	minishell_envp = malloc (sizeof(char *) * (  ft_lst_env_size(shell->env_list))   + 1)     ;
 	while (holder_first)
 	{
 		aux_envp = ft_strjoin(holder_first->var_name, "=");

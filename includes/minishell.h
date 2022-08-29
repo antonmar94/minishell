@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/12 17:04:00 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/17 16:07:24 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_shell
 	t_env_list		*env_list_plus;
 	t_aux_p			*aux_p;
 	t_pipes			*pipes_struct;
+	char 			**minishell_envp;
 }	t_shell;
 
 void		leaks(void);
@@ -148,7 +149,7 @@ int			split_arguments(t_shell *shell);
 int			find_command(t_shell *shell);
 int			system_commmand(t_shell *shell, char **envp);
 void		execute_command(t_shell *shell, int i);
-char		**create_env_matrix(t_shell *shell, char **envp);
+char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/

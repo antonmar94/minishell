@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/12 16:58:59 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/29 17:25:22 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	export(t_shell *shell)
 	t_env_list	*new_list_var;
 	char		*var_name;
 	char		*var_content;
+	char 		**tofree =NULL;
 
 	if (!*shell->command_args)
 	{
@@ -37,6 +38,9 @@ int	export(t_shell *shell)
 		return (0);
 	new_list_var = env_var_list_new(*(shell->command_args));
 	env_var_add_back(&shell->env_list, new_list_var);
+	tofree = shell->minishell_envp;
+	shell->minishell_envp = create_env_matrix(shell);
+	free_matrix(tofree);//comentado
 	return (0);
 }
 
@@ -59,7 +63,10 @@ int	unset(t_shell *shell)
 int	env(t_shell *shell)
 {
 	if (*shell->command_args)
+	{
 		error_too_many_args(shell);
+		return (0);
+	}
 	print_env_list(shell->env_list);
 	return (0);
 }
