@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/30 18:34:51 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 21:27:33 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	create_array_args(t_shell *shell)
 	if (!holder_first->content)
 		return ;
 	shell->command_plus_args = (char **)malloc(sizeof(char *)
-			* shell->size_com_args + 1);
+			* (shell->size_com_args + 1));
 	while (holder_first && shell->size_com_args > 0)
 	{
 		shell->command_plus_args[i] = ft_strdup(holder_first->content);

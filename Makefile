@@ -46,7 +46,7 @@ DEBUGGER = lldb
 else
 READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include #-g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include -g3 -fsanitize=address
 DEBUGGER = gdb
 READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 20:52:54 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 23:04:08 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 	char	*var_content;
 	char	*env_var_walking;
 	int		start;
-	int		end;
 
 	env_var_walking = str_whith_equal_in;
 	start = 0;
@@ -44,14 +43,11 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 		env_var_walking++;
 	}
 	start++;
-	end = start;
 	env_var_walking++;
-	while (*env_var_walking)
-	{
-		end++;
-		env_var_walking++;
-	}
-	var_content = ft_substr(str_whith_equal_in, start, end);
+		printf("hiden var content %s\n", env_var_walking);
+		dprintf(2, "hiden var content err\n");
+		//exit(0);
+	var_content = ft_strdup(env_var_walking);//ft_substr(str_whith_equal_in, start, end);
 	return (var_content);
 }
 
@@ -83,6 +79,7 @@ int	change_var_content(t_shell *shell, char *var_name_to_find,
 	{
 		if (!ft_strcmp(copy->var_name, var_name_to_find))
 		{
+			new_free(&copy->var_content);
 			copy->var_content = var_content_to_change;
 			return (1);
 		}
@@ -90,7 +87,26 @@ int	change_var_content(t_shell *shell, char *var_name_to_find,
 	}
 	if (!ft_strcmp(copy->var_name, var_name_to_find))
 	{
+		new_free(&copy->var_content);
 		copy->var_content = var_content_to_change;
+		return (1);
+	}
+	return (0);
+}
+
+int	varname_found(char **var_name, char	**var_content, char ***tofree,
+			t_shell *shell)
+{
+	tofree = NULL;
+	if (!**var_name || ft_strcmp(*var_name, "0") == 0
+		|| ft_strcmp(*var_name, "?") == 0)
+	{
+		identifier_enviro_error(shell);
+		return (1);
+	}
+	if (change_var_content(shell, *var_name, *var_content))
+	{
+		new_free(&*var_name);
 		return (1);
 	}
 	return (0);

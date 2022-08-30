@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/30 18:26:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 23:10:20 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ t_shell	*initialice(char **envp)
 	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
+	memset(shell, 0, sizeof(t_shell));
+	shell->arg_list = NULL;
+	shell->env_list = NULL;
 	shell->exit = 0;
 	shell->has_pipes = 0;
 	shell->exit_return = 0;
+	shell->arg_list = NULL;
 	shell->size_com_args = 0;
 	shell->path = malloc(sizeof(t_path));
 	shell->path = init_path(shell);
@@ -49,6 +53,7 @@ t_shell	*initialice(char **envp)
 	shell->aux_p = malloc(sizeof(t_aux_p));
 	init_list_command(shell);
 	shell->pipes_struct = malloc(sizeof(t_pipes));
+	memset(shell->pipes_struct, 0, sizeof(t_pipes));
 	shell->pipes_struct->pid = 0;
 	shell->line = NULL;
 	shell->line_walker = NULL;
@@ -72,25 +77,16 @@ t_env_list	*env_var_list_new(char *env_var)
 	return (env_list);
 }
 
-char	**create_env_matrix(t_shell *shell, char **envp)
+int	ft_lst_env_size(t_env_list *lst)
+
 {
-	t_env_list	*holder_first;
-	char		*aux_envp;
-	char		**minishell_envp;
-	int			i;
+	int	i;
 
 	i = 0;
-	aux_envp = NULL;
-	holder_first = shell->env_list;
-	minishell_envp = malloc (sizeof(char *) * (size_matriz(envp) + 1));
-	while (holder_first)
+	while (lst != NULL)
 	{
-		aux_envp = ft_strjoin(holder_first->var_name, "=");
-		minishell_envp[i] = ft_strjoin(aux_envp, holder_first->var_content);
-		new_free(&aux_envp);
-		holder_first = holder_first->next;
+		lst = lst->next;
 		i++;
 	}
-	minishell_envp[i] = NULL;
-	return (minishell_envp);
+	return (i);
 }

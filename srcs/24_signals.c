@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 18:21:18 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 22:46:25 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	sigint_handler(int sig)
 	}
 	else
 	{
-		printf("\33[2K\r");
+		//printf("\33[2K\r");
 		exit(1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   31_free_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:05:22 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 19:44:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/30 23:08:05 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,28 @@ void	free_env_list(t_env_list *envp)
 		copy->var_content = NULL;
 	}
 	free(copy);
+}
+
+char	**create_env_matrix(t_shell *shell)
+{
+	t_env_list	*holder_first;
+	char		*aux_envp;
+	char		**minishell_envp;
+	int			i;
+
+	i = 0;
+	aux_envp = NULL;
+	holder_first = shell->env_list;
+	minishell_envp = malloc (sizeof(char *)
+			* (ft_lst_env_size(shell->env_list) + 1));
+	while (holder_first)
+	{
+		aux_envp = ft_strjoin(holder_first->var_name, "=");
+		minishell_envp[i] = ft_strjoin(aux_envp, holder_first->var_content);
+		new_free(&aux_envp);
+		holder_first = holder_first->next;
+		i++;
+	}
+	minishell_envp[i] = NULL;
+	return (minishell_envp);
 }
