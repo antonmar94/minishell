@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:40:40 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:11:48 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ int	echo(t_shell *shell)
 	if (shell->command_flag && ft_strcmp(shell->command_flag, "-n") == 0)
 		return (0);
 	write(1, "\n", 1);
-	//errno = 0;
+	errno = 0;
 	return (0);
 }
