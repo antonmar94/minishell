@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/30 18:12:12 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:37:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,11 @@ void	shell_execution(t_shell *shell, char **envp)
 	free(shell->minishell_envp);
 }
 
-void	leaks(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
 	(void)argv;
-	atexit(leaks);
 	if (argc != 1)
 		error_args_init();
 	signal_handler();
