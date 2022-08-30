@@ -6,13 +6,13 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/29 21:34:37 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:21:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_interactive = 0;
+int	g_interactive;
 
 void	shell_execution(t_shell *shell, char **envp)
 {
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
+	g_interactive = 0;
 	(void)argv;
 	if (argc != 1)
 		error_args_init();

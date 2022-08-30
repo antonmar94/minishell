@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:59:03 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:34:46 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ void	ft_new_line(t_shell *shell)
 	if (errno == 130)
 		printf("\33[2K\r");
 	shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
-	//printf("errno es esto %i\n", errno);
-	if (errno == 1)
-		shell->exit_return = 1;
-	g_interactive = 0;
 	signal(SIGQUIT, sigquit_handler);
 }
 
