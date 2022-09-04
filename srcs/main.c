@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/30 22:48:04 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:19:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 int	g_interactive = 0;
 
-void	shell_execution(t_shell *shell, char **envp)
+void leaks()
 {
-	shell->minishell_envp = envp;
+	system("leaks minishell");
+}
+
+void	shell_execution(t_shell *shell)
+{
 	shell->minishell_envp = create_env_matrix(shell);
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	ft_new_line(shell);
@@ -33,6 +37,7 @@ void	shell_execution(t_shell *shell, char **envp)
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
 	free(shell->minishell_envp);
+	//leaks();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -40,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 
 	(void)argv;
+	//atexit(leaks);
 	if (argc != 1)
 		error_args_init();
 	signal_handler();
@@ -47,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 	wellcome_header(shell);
 	read_history(".history_own");
 	while (!shell->exit)
-		shell_execution(shell, envp);
+		shell_execution(shell);
 	write_history(".history_own");
 	exit(shell->exit_return);
 }

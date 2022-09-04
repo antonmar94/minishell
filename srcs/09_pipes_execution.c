@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 21:43:02 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 15:16:47 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 	if (pipes_struct->pid == 0)
 	{
-		//new_free(&shell->line);
 		shell->line = holder_child;
 		pipes_first(shell, envp, is_first);
 	}

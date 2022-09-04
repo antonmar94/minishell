@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 22:55:36 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 15:33:17 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ t_env_list	*add_hidden_env_var(t_shell *shell)
 	char		**hidden_name;
 	char		**hidden_content;
 
-	
 	hidden_name = malloc(sizeof(char *) * 4);
 	hidden_content = malloc(sizeof(char *) * 4);
+	ft_memset(hidden_name, 0, sizeof(char *));
+	ft_memset(hidden_content, 0, sizeof(char *));
 	hidden_name[0] = "0";
 	hidden_name[1] = "?";
 	hidden_name[2] = "~";
@@ -95,7 +96,6 @@ void	env_var_add_back(t_env_list **env_list, t_env_list *new)
 	aux = *env_list;
 	if (!new)
 		return ;
-
 	if (!*env_list)
 	{
 		*env_list = new;
@@ -105,5 +105,4 @@ void	env_var_add_back(t_env_list **env_list, t_env_list *new)
 		*env_list = (*env_list)->next;
 	(*env_list)->next = new;
 	*env_list = aux;
-	
 }

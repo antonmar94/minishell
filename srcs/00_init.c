@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/30 23:10:20 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:07:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,18 @@ t_shell	*initialice(char **envp)
 {
 	t_shell	*shell;
 
+	(void)envp;
 	shell = malloc(sizeof(t_shell));
-	memset(shell, 0, sizeof(t_shell));
-	shell->arg_list = NULL;
-	shell->env_list = NULL;
-	shell->exit = 0;
-	shell->has_pipes = 0;
-	shell->exit_return = 0;
-	shell->arg_list = NULL;
-	shell->size_com_args = 0;
+	ft_memset(shell, 0, sizeof(t_shell));
 	shell->path = malloc(sizeof(t_path));
+	ft_memset(shell->path, 0, sizeof(t_path));
 	shell->path = init_path(shell);
-	shell->env_list = init_list_env(shell, envp);
 	shell->aux_p = malloc(sizeof(t_aux_p));
+	ft_memset(shell->aux_p, 0, sizeof(t_aux_p));
+	shell->env_list = init_list_env(shell, envp);
 	init_list_command(shell);
 	shell->pipes_struct = malloc(sizeof(t_pipes));
-	memset(shell->pipes_struct, 0, sizeof(t_pipes));
-	shell->pipes_struct->pid = 0;
-	shell->line = NULL;
-	shell->line_walker = NULL;
-	shell->command_args = NULL;
-	shell->command_plus_args = NULL;
-	shell->command = NULL;
-	shell->command_flag = NULL;
+	ft_memset(shell->pipes_struct, 0, sizeof(t_pipes));
 	return (shell);
 }
 

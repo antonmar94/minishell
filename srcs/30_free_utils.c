@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   30_free_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:29:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:14:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void	free_matrix(char **array)
 		new_free(array_aux);
 		array_walker++;
 	}
-	new_free(array_walker);
-	new_free(array);
+	if (array)
+	{
+		new_free(array);
+		new_free(array_walker);
+	}
 }
 
 void	free_all_struct(t_shell *shell, char **envp)
@@ -47,11 +50,7 @@ void	free_all_struct(t_shell *shell, char **envp)
 	new_free(&shell->env_list_plus->next->var_content);
 	free_parent(shell);
 	shell->command_args = shell->command_plus_args;
-	while (shell->command_plus_args && shell->command_plus_args[i])
-	{
-		free(shell->command_plus_args[i]);
-		i++;
-	}
+	free_matrix(shell->command_plus_args);
 	free(shell->command_plus_args);
 	shell->command_plus_args = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 23:04:08 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:14:07 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 	}
 	start++;
 	env_var_walking++;
-		printf("hiden var content %s\n", env_var_walking);
-		dprintf(2, "hiden var content err\n");
-		//exit(0);
-	var_content = ft_strdup(env_var_walking);//ft_substr(str_whith_equal_in, start, end);
+	var_content = ft_strdup(env_var_walking);
 	return (var_content);
 }
 

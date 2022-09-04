@@ -46,8 +46,9 @@ DEBUGGER = lldb
 else
 READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include -g3 -fsanitize=address
-DEBUGGER = gdb
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
+CFLAGS2 = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include -g3 -fsanitize=address
+DEBUGGER = lldb
 READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif
 
@@ -61,7 +62,6 @@ $(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
 
-
 $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	make bonus -C $(LIBFT_DIR)
 
@@ -71,8 +71,12 @@ $(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
 	@echo "set enable-bracketed-paste off" > .inputrc
 	export INPUTRC=$PWD/.inputrc
 
-debug:
-	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME)  $(READLINE) -g -o $(NAME_DEBUG)
+debug: 
+	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE)  -g -o $(NAME_DEBUG)
+
+sani: $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
+	$(MAKE) bonus -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS2) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
 
 create_code_folder:
 	rm -rf .vscode
