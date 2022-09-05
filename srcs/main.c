@@ -21,6 +21,7 @@ void leaks()
 
 void	shell_execution(t_shell *shell)
 {
+	
 	shell->minishell_envp = create_env_matrix(shell);
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	ft_new_line(shell);
@@ -31,6 +32,7 @@ void	shell_execution(t_shell *shell)
 	if (shell->line && !check_syntax(shell))
 	{
 		split_arguments(shell);
+		double_indirect(shell);
 		if (!find_enviro_command(shell))
 			child_execution(shell, shell->minishell_envp);
 	}
