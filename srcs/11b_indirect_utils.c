@@ -45,7 +45,7 @@ void	check_file(t_shell *shell, char *file_in_line, int file_size)
 		ft_error(shell, file_name_clean, 1);
 }
 
-int	two_pre_arrows(t_shell *shell, char *all_files)
+/* int	two_pre_arrows(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	int		fd[2];
@@ -63,7 +63,7 @@ int	two_pre_arrows(t_shell *shell, char *all_files)
 	close(fd[WRITE_END]);
 	close(fd[READ_END]);
 	return (0);
-}
+} */
 
 int	open_line(t_shell *shell, char *file_in_line, int file_size)
 {
@@ -74,8 +74,8 @@ int	open_line(t_shell *shell, char *file_in_line, int file_size)
 	{
 		file_name = ft_substr(file_in_line, 0, file_size);
 		file_name_clean = arg_creator(shell, &file_name);
-		if (two_pre_arrows(shell, file_name_clean))
-			ft_error(shell, file_name_clean, errno);
+/* 		if (two_pre_arrows(shell, file_name_clean))
+			ft_error(shell, file_name_clean, errno); */
 	}
 	return (0);
 }
@@ -100,8 +100,8 @@ int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 			}
 			if (num_arrows == 1)
 				check_file(shell, files_finder, file_size);
-			else
-				open_line(shell, files_finder, file_size);
+/* 			else
+				open_line(shell, files_finder, file_size); */
 		}
 		files_finder++;
 	}

@@ -32,7 +32,6 @@ void	shell_execution(t_shell *shell)
 	if (shell->line && !check_syntax(shell))
 	{
 		split_arguments(shell);
-		double_indirect(shell);
 		if (!find_enviro_command(shell))
 			child_execution(shell, shell->minishell_envp);
 	}
