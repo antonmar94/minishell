@@ -88,7 +88,8 @@ void	pipes_first(t_shell *shell, char **envp, int is_first)
 	if (*pipes_struct->holder_parent)
 		dup2(pipes_struct->fd1[WRITE_END], STDOUT_FILENO);
 	close(pipes_struct->fd1[WRITE_END]);
-	do_indirect(shell);
+	//do_indirect(shell);
+	//printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", shell->line);
 	if (!shell->exit_return)
 		do_redirect(shell);
 	execute_child_line(shell, envp);
@@ -107,7 +108,7 @@ void	pipes_next(t_shell *shell, char **envp, char *holder_child)
 	if (*pipes_struct->holder_parent)
 		dup2(pipes_struct->fd2[WRITE_END], STDOUT_FILENO);
 	close(pipes_struct->fd2[WRITE_END]);
-	do_indirect(shell);
+	//do_indirect(shell);
 	if (!shell->exit_return)
 		do_redirect(shell);
 	execute_child_line(shell, envp);

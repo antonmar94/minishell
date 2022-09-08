@@ -251,7 +251,7 @@ int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
 int			get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
 //int			two_arrows(t_shell *shell, char *all_files);
-int			two_arrows(t_shell *shell, char **all_lines, char **all_files);
+char		*two_arrows(t_shell *shell, char **all_lines, char **all_files);
 int			check_last(char **aux_finder, char arrow);
 char		*ask_for_line(t_shell *shell, /* int *fd, */ char *all_files);
 int			do_redirect(t_shell *shell);

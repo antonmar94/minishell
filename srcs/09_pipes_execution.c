@@ -31,6 +31,7 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 	pipes_struct = shell->pipes_struct;
 	holder_child = create_child_line(pipes_struct);
 	double_indirect(shell, holder_child);
+	//holder_child = shell->line;
 	pipe(pipes_struct->fd1);
 	pipes_struct->pid = fork();
 	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
@@ -56,6 +57,7 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 	{
 		holder_child = create_child_line(pipes_struct);
 		double_indirect(shell, holder_child);
+		//holder_child = shell->line;
 		pipe(pipes_struct->fd2);
 		pipes_struct->pid = fork();
 		pipes_struct->error = check_error_child(shell, pipes_struct->pid);

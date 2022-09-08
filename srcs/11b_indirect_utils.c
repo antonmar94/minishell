@@ -63,7 +63,7 @@ void	check_file(t_shell *shell, char *file_in_line, int file_size)
 	close(fd[WRITE_END]);
 	close(fd[READ_END]);
 	return (0);
-} */
+}
 
 int	open_line(t_shell *shell, char *file_in_line, int file_size)
 {
@@ -74,11 +74,11 @@ int	open_line(t_shell *shell, char *file_in_line, int file_size)
 	{
 		file_name = ft_substr(file_in_line, 0, file_size);
 		file_name_clean = arg_creator(shell, &file_name);
-/* 		if (two_pre_arrows(shell, file_name_clean))
-			ft_error(shell, file_name_clean, errno); */
+		if (two_pre_arrows(shell, file_name_clean))
+			ft_error(shell, file_name_clean, errno);
 	}
 	return (0);
-}
+} */
 
 int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
 {

@@ -54,7 +54,7 @@ char	*ask_for_line(t_shell *shell, /* int *fd,  */char *all_files)
 }
 
 /* Obtener las lineas introducidas por el usuario juntandolas todas en "all_lines" */
-int	two_arrows(t_shell *shell, char **holder_child, char **all_files)
+char	*two_arrows(t_shell *shell, char **holder_child, char **all_files)
 {
 	char	*line_in;
 	char 	*free_aux;
@@ -75,22 +75,22 @@ int	two_arrows(t_shell *shell, char **holder_child, char **all_files)
 		free_aux = all_lines;
 		//new_free(&line_in);
 		line_in = ask_for_line(shell, /*  fd,  */*all_files);
-		printf("LA LINEA ES: %s\n", line_in);
+		//printf("LA LINEA ES: %s\n", line_in);
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
 		else
 		{
 			all_lines = ft_strjoin(all_lines, ft_strjoin(line_in, "\n"));
-			printf("TODAS LAS LINEAS ES: %s", all_lines);
+			//printf("TODAS LAS LINEAS ES: %s", all_lines);
 		}	
 		//free(free_aux);
 	}
-	printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", all_lines);
+	//printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", all_lines);
 	//new_free(&line_in);
 /* 	close(fd[WRITE_END]);
 	dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]); */
-	return (0);
+	return (all_lines);
 }
 
 int	do_indirect(t_shell *shell)
@@ -171,17 +171,27 @@ char	**get_files_matrix(t_shell *shell, char *holder_child)
 
 int	double_indirect(t_shell *shell, char *holder_child) //en el primer "<<" de cada pipe sustituir la segunda "<" de line por un archivo con todos los "line_in" + '\n
 {
-	//int		num_arrows;
 	char	**all_files;
-	//int		fd;
+	char	*all_lines;
+	//char	*nop;
+	int		fd;
 
+	all_lines = NULL;
 	all_files = get_files_matrix(shell, holder_child);
-	
-	//num_arrows = indirect_files(shell, &all_files);
 	if (*all_files)
 	{
-		if (two_arrows(shell, &holder_child, all_files))
+		fd = open(*all_files, O_RDWR);
+		all_lines = two_arrows(shell, &holder_child, all_files);
+		//printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", all_lines);
+		if (!all_lines)
 			ft_error(shell, "no such file or directory", errno);
+		else
+		{
+			ft_putstr_fd(all_lines, fd);
+			dup2(fd, STDIN_FILENO);
+		}
+		//indirect_files(shell, &nop);
+		close(fd);
 	}
 	return (0);
 }
