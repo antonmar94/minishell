@@ -45,8 +45,6 @@ char	*ask_for_line(t_shell *shell, /* int *fd,  */char *all_files)
 		clean_line = arg_creator(shell, &line_in);
 		new_free(&line_in);
 		line_in = clean_line;
-/* 		ft_putstr_fd(line_in, fd[WRITE_END]);
-		ft_putchar_fd('\n', fd[WRITE_END]); */
 	}
 	if (!line_in)
 		line_in = "";
@@ -54,42 +52,24 @@ char	*ask_for_line(t_shell *shell, /* int *fd,  */char *all_files)
 }
 
 /* Obtener las lineas introducidas por el usuario juntandolas todas en "all_lines" */
-char	*two_arrows(t_shell *shell, char **holder_child, char **all_files)
+char	*two_arrows(t_shell *shell, char **all_files)
 {
 	char	*line_in;
-	char 	*free_aux;
 	char	*all_lines;
-	//int		fd[2];
 
-	(void)holder_child;
 	line_in = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
-	g_interactive = 2;
-/* 	if (pipe(fd) < 0)
-		return (1); */
-	//free_aux = holder_child;
-	line_in = ask_for_line(shell, /* fd, */ *all_files);
+	line_in = ask_for_line(shell, *all_files);
 	all_lines = ft_strjoin(line_in, "\n");
-	while (*all_files)
+	while (*all_files /* && errno != 1 */)
 	{
-		free_aux = all_lines;
-		//new_free(&line_in);
-		line_in = ask_for_line(shell, /*  fd,  */*all_files);
-		//printf("LA LINEA ES: %s\n", line_in);
+		new_free(&line_in);
+		line_in = ask_for_line(shell, *all_files);
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
 		else
-		{
 			all_lines = ft_strjoin(all_lines, ft_strjoin(line_in, "\n"));
-			//printf("TODAS LAS LINEAS ES: %s", all_lines);
-		}	
-		//free(free_aux);
 	}
-	//printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", all_lines);
-	//new_free(&line_in);
-/* 	close(fd[WRITE_END]);
-	dup2(fd[READ_END], STDIN_FILENO);
-	close(fd[READ_END]); */
 	return (all_lines);
 }
 
@@ -109,11 +89,6 @@ int	do_indirect(t_shell *shell)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-/* 	if (num_arrows == 2 && !shell->exit_return)
-	{
-		if (two_arrows(shell, all_files))
-			ft_error(shell, all_files, errno);
-	} */
 	return (0);
 }
 
@@ -152,46 +127,52 @@ char	**get_files_matrix(t_shell *shell, char *holder_child)
 				elem_size++;
 			}
 			aux_line = ft_substr(holder_child, 0, elem_size);
-			//printf("NOMBRE DE ARCHIVO SUB: [%s]\n", clean_line);
 			all_files[i] = arg_creator(shell, &aux_line);
 			i++;
 		}
 		holder_child++;
 	}
 	all_files[i] = NULL;
-	//char **aux = all_files;
-/* 	while (all_files && *all_files)
-	{
-		printf("NOMBRE DE ARCHIVO: [%s]\n", *all_files);
-		all_files++;
-	} */
-	//all_files = aux;
 	return (all_files);
 }
 
-int	double_indirect(t_shell *shell, char *holder_child) //en el primer "<<" de cada pipe sustituir la segunda "<" de line por un archivo con todos los "line_in" + '\n
+int	get_clean_line(t_pipes	*pipes_struct)
 {
-	char	**all_files;
-	char	*all_lines;
-	//char	*nop;
-	int		fd;
+	char	*arrow_finder;
+	char	*aux_finder;
+	int		line_size;
 
-	all_lines = NULL;
-	all_files = get_files_matrix(shell, holder_child);
-	if (*all_files)
+	arrow_finder = pipes_struct->child_line;
+	line_size = 0;
+	while (*arrow_finder)
 	{
-		fd = open(*all_files, O_RDWR);
-		all_lines = two_arrows(shell, &holder_child, all_files);
-		//printf("TODAS LAS LINEAS ES CUANDO SALE: %s\n", all_lines);
-		if (!all_lines)
-			ft_error(shell, "no such file or directory", errno);
-		else
+		if (!ft_strncmp(arrow_finder, "<<", 2))
 		{
-			ft_putstr_fd(all_lines, fd);
-			dup2(fd, STDIN_FILENO);
+			aux_finder = arrow_finder;
+			aux_finder += 2;
+			while (*aux_finder && *aux_finder == ' ')
+				aux_finder++;
+			while (*aux_finder && *aux_finder != ' ' && ft_strncmp(aux_finder, "<<", 2))
+				aux_finder++;
+			pipes_struct->child_line = ft_substr(pipes_struct->child_line, 0, line_size);
+			pipes_struct->child_line = ft_strjoin(pipes_struct->child_line, aux_finder);
+			arrow_finder = pipes_struct->child_line;
+			line_size = 0;
 		}
-		//indirect_files(shell, &nop);
-		close(fd);
+		line_size++;
+		arrow_finder++;
 	}
+	return (0);
+}
+
+int	double_indirect(t_shell *shell)
+{
+	t_pipes	*pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	pipes_struct->all_files = get_files_matrix(shell, pipes_struct->child_line);
+	get_clean_line(pipes_struct);
+	if (*pipes_struct->all_files)
+		pipes_struct->heardoc_lines = two_arrows(shell, pipes_struct->all_files);
 	return (0);
 }

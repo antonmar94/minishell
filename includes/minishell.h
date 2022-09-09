@@ -60,9 +60,13 @@ typedef struct env_list
 typedef struct pipes_struct ///32 
 {
 	pid_t	pid;
+	int		fd_red[2];
 	int		fd1[2];
 	int		fd2[2];
+	char	*heardoc_lines;
+	char	**all_files;
 	char	*holder_parent;
+	char	*child_line;
 	int		child_counter;
 	int		error;
 }	t_pipes;
@@ -251,12 +255,12 @@ int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
 int			get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
 //int			two_arrows(t_shell *shell, char *all_files);
-char		*two_arrows(t_shell *shell, char **all_lines, char **all_files);
+char		*two_arrows(t_shell *shell, /* char **all_lines, */ char **all_files);
 int			check_last(char **aux_finder, char arrow);
 char		*ask_for_line(t_shell *shell, /* int *fd, */ char *all_files);
 int			do_redirect(t_shell *shell);
 int			do_indirect(t_shell *shell);
-int			double_indirect(t_shell *shell, char *holder_child);
+int			double_indirect(t_shell *shell);
 
 extern int	g_interactive;
 

@@ -16,6 +16,7 @@ void	sigint_handler(int sig)
 {
 	if ((sig == SIGINT || sig == SIGQUIT) && g_interactive != 2)
 	{
+		printf("entra\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		printf("\n");

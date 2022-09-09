@@ -14,10 +14,24 @@
 
 int	execute_child_line(t_shell *shell, char **envp)
 {
+	int	*fd;
+	t_pipes	*pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	if (pipes_struct->heardoc_lines)
+	{
+		fd = pipes_struct->fd_red;
+		if (pipe(fd) < 0)
+			return (errno);
+		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
+		close(fd[WRITE_END]);
+		dup2(fd[READ_END], STDIN_FILENO);
+		close(fd[READ_END]);
+	}
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
-		if (!system_commmand(shell, envp) || !shell->command)
+		if (!system_commmand(shell, envp)/*  || !shell->command */)
 			command_error(shell, shell->command);
 	}
 	exit (shell->exit_return);
@@ -25,28 +39,25 @@ int	execute_child_line(t_shell *shell, char **envp)
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
 {
-	char	*holder_child;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	holder_child = create_child_line(pipes_struct);
-	double_indirect(shell, holder_child);
-	//holder_child = shell->line;
+	pipes_struct->child_line= create_child_line(pipes_struct);
+	double_indirect(shell);
 	pipe(pipes_struct->fd1);
 	pipes_struct->pid = fork();
 	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 	if (pipes_struct->pid == 0)
 	{
-		shell->line = holder_child;
+		shell->line = pipes_struct->child_line;
 		pipes_first(shell, envp, is_first);
 	}
-	new_free(&holder_child);
+	new_free(&pipes_struct->child_line);
 	return (pipes_struct->pid);
 }
 
 int	execute_next(t_shell *shell, char **envp, int is_first)
 {
-	char	*holder_child;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
@@ -55,14 +66,13 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 		close(pipes_struct->fd2[READ_END]);
 	if (*pipes_struct->holder_parent)
 	{
-		holder_child = create_child_line(pipes_struct);
-		double_indirect(shell, holder_child);
-		//holder_child = shell->line;
+		pipes_struct->child_line = create_child_line(pipes_struct);
+		double_indirect(shell);
 		pipe(pipes_struct->fd2);
 		pipes_struct->pid = fork();
 		pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 		if (pipes_struct->pid == 0)
-			pipes_next(shell, envp, holder_child);
+			pipes_next(shell, envp, pipes_struct->child_line);
 		else
 		{
 			pipes_struct->child_counter++;
@@ -70,7 +80,7 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 			if (!*pipes_struct->holder_parent || pipes_struct->error)
 				close(pipes_struct->fd2[READ_END]);
 		}
-		new_free(&holder_child);
+		new_free(&pipes_struct->child_line);
 	}
 	return (pipes_struct->child_counter);
 }
