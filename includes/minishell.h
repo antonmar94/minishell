@@ -220,7 +220,7 @@ int			ft_lst_env_size(t_env_list *lst);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 void		pipes_first(t_shell *shell, char **envp, int is_first);
-void		pipes_next(t_shell *shell, char **envp, char *holder_child);
+void		pipes_next(t_shell *shell, char **envp, char *child_line);
 char		*pipe_next_line(char *line);
 int			check_pipe_syntax(t_shell *shell);
 char		*create_child_line(t_pipes *pipes_struct);
@@ -254,10 +254,9 @@ void		get_line_execute(char **line, char **rest_of_line, char arrow);
 int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
 int			get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
-//int			two_arrows(t_shell *shell, char *all_files);
-char		*two_arrows(t_shell *shell, /* char **all_lines, */ char **all_files);
+char		*two_arrows(t_shell *shell, char **all_files);
 int			check_last(char **aux_finder, char arrow);
-char		*ask_for_line(t_shell *shell, /* int *fd, */ char *all_files);
+char		*ask_for_line(t_shell *shell, char *all_files);
 int			do_redirect(t_shell *shell);
 int			do_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);

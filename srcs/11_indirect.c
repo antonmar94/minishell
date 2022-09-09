@@ -46,29 +46,36 @@ char	*ask_for_line(t_shell *shell, /* int *fd,  */char *all_files)
 		new_free(&line_in);
 		line_in = clean_line;
 	}
-	if (!line_in)
-		line_in = "";
 	return (line_in);
 }
 
-/* Obtener las lineas introducidas por el usuario juntandolas todas en "all_lines" */
+/* Obtener las lineas introducidas por el usuario
+	juntandolas todas en "all_lines" */
 char	*two_arrows(t_shell *shell, char **all_files)
 {
 	char	*line_in;
 	char	*all_lines;
 
-	line_in = NULL;
+	//line_in = NULL;
+	all_lines = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
 	line_in = ask_for_line(shell, *all_files);
-	all_lines = ft_strjoin(line_in, "\n");
-	while (*all_files /* && errno != 1 */)
+	if (line_in && !ft_strcmp(*all_files, line_in))
+		all_files++;
+	else if (line_in)
+		all_lines = ft_strjoin(line_in, "\n");
+	else
+		all_lines = "\n";
+	while (*all_files)
 	{
 		new_free(&line_in);
 		line_in = ask_for_line(shell, *all_files);
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
-		else
+		else if (line_in)
 			all_lines = ft_strjoin(all_lines, ft_strjoin(line_in, "\n"));
+		else
+			all_lines = ft_strjoin(all_lines, "\n");
 	}
 	return (all_lines);
 }
@@ -92,45 +99,67 @@ int	do_indirect(t_shell *shell)
 	return (0);
 }
 
-/* Obtener una matriz con la cantidad de heardocs a abrir y el nombre por el que se cierran */
-char	**get_files_matrix(t_shell *shell, char *holder_child)
+int	get_matrix_size(char *line)
 {
-	char	**all_files;
 	char	*aux_line;
 	int		matrix_size;
-	int		elem_size;
-	int		i;
 
-	i = 0;
 	matrix_size = 0;
-	aux_line = holder_child;
+	aux_line = line;
 	while (aux_line && *aux_line)
 	{
 		if (!ft_strncmp(aux_line, "<<", 2))
 			matrix_size++;
 		aux_line++;
 	}
+	return (matrix_size);
+}
+
+char	*get_file_name(t_shell *shell, char *child_line)
+{
+	int		elem_size;
+	char	*file_name;
+	char	*aux_line;
+
+	elem_size = 0;
+	file_name = NULL;
+	aux_line = child_line;
+	while (*aux_line && *aux_line != ' ' && *aux_line != '<')
+	{
+		aux_line++;
+		elem_size++;
+	}
+	aux_line = ft_substr(child_line, 0, elem_size);
+	if (aux_line)
+		file_name = arg_creator(shell, &aux_line);
+	return (file_name);
+}
+
+/* Obtener una matriz con la cantidad de heardocs a abrir
+	y el nombre por el que se cierran */
+char	**get_files_matrix(t_shell *shell, char *child_line)
+{
+	char	**all_files;
+	int		matrix_size;
+	int		elem_size;
+	int		i;
+
+	i = 0;
+	matrix_size = get_matrix_size(child_line);
 	all_files = (char **)malloc(sizeof(char *) * (matrix_size + 1));
 	ft_memset(all_files, 0, matrix_size + 1);
-	while (*holder_child && i <= matrix_size)
+	while (*child_line && i <= matrix_size)
 	{
 		elem_size = 0;
-		if (!ft_strncmp(holder_child, "<<", 2))
+		if (!ft_strncmp(child_line, "<<", 2))
 		{
-			holder_child += 2;
-			while (*holder_child && *holder_child == ' ')
-				holder_child++;
-			aux_line = holder_child;
-			while (*aux_line && *aux_line != ' ' && *aux_line != '<')
-			{
-				aux_line++;
-				elem_size++;
-			}
-			aux_line = ft_substr(holder_child, 0, elem_size);
-			all_files[i] = arg_creator(shell, &aux_line);
+			child_line += 2;
+			while (*child_line && *child_line == ' ')
+				child_line++;
+			all_files[i] = get_file_name(shell, child_line);
 			i++;
 		}
-		holder_child++;
+		child_line++;
 	}
 	all_files[i] = NULL;
 	return (all_files);

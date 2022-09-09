@@ -18,16 +18,14 @@ int	execute_child_line(t_shell *shell, char **envp)
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
+	fd = pipes_struct->fd_red;
+	if (pipe(fd) < 0)
+		return (errno);
 	if (pipes_struct->heardoc_lines)
-	{
-		fd = pipes_struct->fd_red;
-		if (pipe(fd) < 0)
-			return (errno);
 		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-		close(fd[WRITE_END]);
-		dup2(fd[READ_END], STDIN_FILENO);
-		close(fd[READ_END]);
-	}
+	close(fd[WRITE_END]);
+	dup2(fd[READ_END], STDIN_FILENO);
+	close(fd[READ_END]);	
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
