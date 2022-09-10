@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 15:31:16 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:25:47 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	sigquit_handler(int sig)
 void	siguser_handler(int sig)
 {
 	(void)sig;
+	printf("LA IGNORA\n");
 	signal(SIGQUIT, SIG_IGN);
 }
 

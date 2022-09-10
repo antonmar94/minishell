@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 16:14:19 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 10:29:52 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_all_struct(t_shell *shell, char **envp)
 	(void)envp;
 	if (shell->line)
 		new_free(&shell->line);
+	if (shell->pipes_struct->heardoc_lines)
+		new_free(&shell->pipes_struct->heardoc_lines);
 	shell->line = NULL;
 	shell->has_pipes = 0;
 	new_free(&shell->env_list_plus->next->var_content);

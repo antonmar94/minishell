@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 15:16:47 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 10:30:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ int	execute_child_line(t_shell *shell, char **envp)
 
 	pipes_struct = shell->pipes_struct;
 	fd = pipes_struct->fd_red;
-	if (pipe(fd) < 0)
-		return (errno);
 	if (pipes_struct->heardoc_lines)
+	{
+		if (pipe(fd) < 0)
+			return (errno);
 		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-	close(fd[WRITE_END]);
-	dup2(fd[READ_END], STDIN_FILENO);
-	close(fd[READ_END]);	
+		close(fd[WRITE_END]);
+		dup2(fd[READ_END], STDIN_FILENO);
+		close(fd[READ_END]);
+	}
 	split_arguments(shell);
 	if (!find_command(shell))
 	{

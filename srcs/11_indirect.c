@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/29 15:41:02 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:29:32 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,24 @@ int	indirect_files(t_shell *shell, char **all_files)
 	return (num_arrows);
 }
 
-char	*ask_for_line(t_shell *shell, /* int *fd,  */char *all_files)
+char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	char	*clean_line;
 
 	line_in = NULL;
 	line_in = readline("> ");
-	if (ft_strcmp(all_files, line_in))
+	if (line_in && ft_strcmp(all_files, line_in))
 	{
-		clean_line = arg_creator(shell, &line_in);
-		new_free(&line_in);
-		line_in = clean_line;
+		if (*line_in)
+		{
+			clean_line = arg_creator(shell, &line_in);
+			new_free(&line_in);
+			line_in = clean_line;
+			line_in = ft_strjoin(line_in, "\n");
+		}
+		else
+			line_in = ft_strdup("\n");
 	}
 	return (line_in);
 }
@@ -56,47 +62,26 @@ char	*two_arrows(t_shell *shell, char **all_files)
 	char	*line_in;
 	char	*all_lines;
 
-	//line_in = NULL;
 	all_lines = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
+	//printf("PETA EN ESTA PARTE\n");
 	line_in = ask_for_line(shell, *all_files);
-	if (line_in && !ft_strcmp(*all_files, line_in))
+	//printf("PETA EN ESTA PARTE\n");
+ 	if (line_in && !ft_strcmp(*all_files, line_in))
 		all_files++;
 	else if (line_in)
-		all_lines = ft_strjoin(line_in, "\n");
-	else
-		all_lines = "\n";
-	while (*all_files)
+		all_lines = ft_strdup(line_in);
+	while (all_files && *all_files && !errno)
 	{
+		//AQUI VA A HABER LEAKS
 		new_free(&line_in);
 		line_in = ask_for_line(shell, *all_files);
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
 		else if (line_in)
-			all_lines = ft_strjoin(all_lines, ft_strjoin(line_in, "\n"));
-		else
-			all_lines = ft_strjoin(all_lines, "\n");
+			all_lines = ft_strjoin(all_lines, line_in);
 	}
 	return (all_lines);
-}
-
-int	do_indirect(t_shell *shell)
-{
-	int		num_arrows;
-	char	*all_files;
-	int		fd;
-
-	all_files = NULL;
-	num_arrows = indirect_files(shell, &all_files);
-	if (num_arrows == 1 && !shell->exit_return)
-	{
-		fd = open(all_files, O_RDONLY);
-		if (fd < 0)
-			error_wrong_path(shell);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	return (0);
 }
 
 int	get_matrix_size(char *line)
@@ -137,7 +122,7 @@ char	*get_file_name(t_shell *shell, char *child_line)
 
 /* Obtener una matriz con la cantidad de heardocs a abrir
 	y el nombre por el que se cierran */
-char	**get_files_matrix(t_shell *shell, char *child_line)
+char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 {
 	char	**all_files;
 	int		matrix_size;
@@ -151,9 +136,9 @@ char	**get_files_matrix(t_shell *shell, char *child_line)
 	while (*child_line && i <= matrix_size)
 	{
 		elem_size = 0;
-		if (!ft_strncmp(child_line, "<<", 2))
+		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
 		{
-			child_line += 2;
+			child_line += ft_strlen(arrows);
 			while (*child_line && *child_line == ' ')
 				child_line++;
 			all_files[i] = get_file_name(shell, child_line);
@@ -165,31 +150,53 @@ char	**get_files_matrix(t_shell *shell, char *child_line)
 	return (all_files);
 }
 
-int	get_clean_line(t_pipes	*pipes_struct)
+int	get_clean_line(char **line, char *arrows)
 {
 	char	*arrow_finder;
 	char	*aux_finder;
 	int		line_size;
 
-	arrow_finder = pipes_struct->child_line;
+	arrow_finder = *line;
 	line_size = 0;
 	while (*arrow_finder)
 	{
-		if (!ft_strncmp(arrow_finder, "<<", 2))
+		if (!ft_strncmp(arrow_finder, arrows, ft_strlen(arrows)))
 		{
 			aux_finder = arrow_finder;
-			aux_finder += 2;
+			aux_finder += ft_strlen(arrows);
 			while (*aux_finder && *aux_finder == ' ')
 				aux_finder++;
-			while (*aux_finder && *aux_finder != ' ' && ft_strncmp(aux_finder, "<<", 2))
+			while (*aux_finder && *aux_finder != ' '
+					&& ft_strncmp(aux_finder, arrows, ft_strlen(arrows)))
 				aux_finder++;
-			pipes_struct->child_line = ft_substr(pipes_struct->child_line, 0, line_size);
-			pipes_struct->child_line = ft_strjoin(pipes_struct->child_line, aux_finder);
-			arrow_finder = pipes_struct->child_line;
+			//AQUI VA A HABER LEAKS
+			*line = ft_substr(*line, 0, line_size);
+			*line = ft_strjoin(*line, aux_finder);
+			arrow_finder = *line;
 			line_size = 0;
 		}
 		line_size++;
 		arrow_finder++;
+	}
+	return (0);
+}
+
+int	do_indirect(t_shell *shell)
+{
+	int		fd;
+	t_pipes	*pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	pipes_struct->all_files = get_files_matrix(shell, shell->line, "<");
+	get_clean_line(&shell->line, "<");
+	
+	if (*pipes_struct->all_files && !shell->exit_return)
+	{
+		fd = open(*pipes_struct->all_files, O_RDONLY);
+ 		if (fd < 0)
+			error_wrong_path(shell);
+		dup2(fd, STDIN_FILENO);
+		close(fd); 
 	}
 	return (0);
 }
@@ -199,8 +206,8 @@ int	double_indirect(t_shell *shell)
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	pipes_struct->all_files = get_files_matrix(shell, pipes_struct->child_line);
-	get_clean_line(pipes_struct);
+	pipes_struct->all_files = get_files_matrix(shell, pipes_struct->child_line, "<<");
+	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
 		pipes_struct->heardoc_lines = two_arrows(shell, pipes_struct->all_files);
 	return (0);
