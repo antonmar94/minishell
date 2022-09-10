@@ -27,7 +27,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 		return (errno);
 	if (pipes_struct->heardoc_lines)
 		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-	else
+	if (!pipes_struct->heardoc_lines || pipes_struct->last_arrows == 1)
 	{
 		fd_file = open(*pipes_struct->all_files, O_RDONLY);
 		dup2(fd_file, fd[READ_END]);

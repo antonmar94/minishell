@@ -12,6 +12,26 @@
 
 #include "../includes/minishell.h"
 
+int last_num_arrows(char *line)
+{
+	while (*line)
+		line++;
+	line--;
+	while (*line)
+	{
+		if (*line == '<')
+		{
+			line--;
+			if (*line == '<')
+				return (2);
+			else
+				return (1);
+		}
+		line--;
+	}	
+	return (0);
+}
+
 char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
@@ -19,8 +39,8 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 
 	line_in = NULL;
 	line_in = readline("> ");
-	if (!line_in)
-		printf("\n");
+/* 	if (!line_in)
+		printf("\n"); */
 	if (line_in && ft_strcmp(all_files, line_in))
 	{
 		if (*line_in)
@@ -70,66 +90,4 @@ char	*get_file_name(t_shell *shell, char *child_line)
 	if (aux_line)
 		file_name = arg_creator(shell, &aux_line);
 	return (file_name);
-}
-
-/* Obtener una matriz con la cantidad de heardocs a abrir
-	y el nombre por el que se cierran */
-char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
-{
-	char	**all_files;
-	int		matrix_size;
-	int		elem_size;
-	int		i;
-
-	i = 0;
-	matrix_size = get_matrix_size(child_line, arrows);
-	all_files = (char **)malloc(sizeof(char *) * (matrix_size + 1));
-	ft_memset(all_files, 0, matrix_size + 1);
-	while (*child_line && i <= matrix_size)
-	{
-		elem_size = 0;
-		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
-		{
-			
-			child_line += ft_strlen(arrows);
-			while (*child_line && *child_line == ' ')
-				child_line++;
-			all_files[i] = get_file_name(shell, child_line);
-			i++;
-		}
-		child_line++;
-	}
-	all_files[i] = NULL;
-	return (all_files);
-}
-
-int	get_clean_line(char **line, char *arrows)
-{
-	char	*arrow_finder;
-	char	*aux_finder;
-	int		line_size;
-
-	arrow_finder = *line;
-	line_size = 0;
-	while (*arrow_finder)
-	{
-		if (!ft_strncmp(arrow_finder, arrows, ft_strlen(arrows)))
-		{
-			aux_finder = arrow_finder;
-			aux_finder += ft_strlen(arrows);
-			while (*aux_finder && *aux_finder == ' ')
-				aux_finder++;
-			while (*aux_finder && *aux_finder != ' '
-					&& ft_strncmp(aux_finder, arrows, ft_strlen(arrows)))
-				aux_finder++;
-			//AQUI VA A HABER LEAKS
-			*line = ft_substr(*line, 0, line_size);
-			*line = ft_strjoin(*line, aux_finder);
-			arrow_finder = *line;
-			line_size = 0;
-		}
-		line_size++;
-		arrow_finder++;
-	}
-	return (0);
 }

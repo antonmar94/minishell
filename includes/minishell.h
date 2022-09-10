@@ -64,6 +64,7 @@ typedef struct pipes_struct ///32
 	int		fd_in[2];
 	int		fd1[2];
 	int		fd2[2];
+	int		last_arrows;
 	char	*heardoc_lines;
 	char	**all_files;
 	char	*holder_parent;
@@ -261,6 +262,7 @@ int			get_matrix_size(char *line, char *arrows);
 char		*get_file_name(t_shell *shell, char *child_line);
 char		**get_files_matrix(t_shell *shell, char *child_line, char *arrows);
 int			get_clean_line(char **line, char *arrows);
+int			last_num_arrows(char *line);
 int			do_redirect(t_shell *shell);
 int			do_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);

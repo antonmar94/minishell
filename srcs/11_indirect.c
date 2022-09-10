@@ -12,6 +12,68 @@
 
 #include "../includes/minishell.h"
 
+/* Obtener una matriz con la cantidad de heardocs a abrir
+	y el nombre por el que se cierran */
+char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
+{
+	char	**all_files;
+	int		matrix_size;
+	int		elem_size;
+	int		i;
+
+	i = 0;
+	matrix_size = get_matrix_size(child_line, arrows);
+	all_files = (char **)malloc(sizeof(char *) * (matrix_size + 1));
+	ft_memset(all_files, 0, matrix_size + 1);
+	while (*child_line && i <= matrix_size)
+	{
+		elem_size = 0;
+		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
+		{
+			
+			child_line += ft_strlen(arrows);
+			while (*child_line && *child_line == ' ')
+				child_line++;
+			all_files[i] = get_file_name(shell, child_line);
+			i++;
+		}
+		child_line++;
+	}
+	all_files[i] = NULL;
+	return (all_files);
+}
+
+int	get_clean_line(char **line, char *arrows)
+{
+	char	*arrow_finder;
+	char	*aux_finder;
+	int		line_size;
+
+	arrow_finder = *line;
+	line_size = 0;
+	while (*arrow_finder)
+	{
+		if (!ft_strncmp(arrow_finder, arrows, ft_strlen(arrows)))
+		{
+			aux_finder = arrow_finder;
+			aux_finder += ft_strlen(arrows);
+			while (*aux_finder && *aux_finder == ' ')
+				aux_finder++;
+			while (*aux_finder && *aux_finder != ' '
+					&& ft_strncmp(aux_finder, arrows, ft_strlen(arrows)))
+				aux_finder++;
+			//AQUI VA A HABER LEAKS
+			*line = ft_substr(*line, 0, line_size);
+			*line = ft_strjoin(*line, aux_finder);
+			arrow_finder = *line;
+			line_size = 0;
+		}
+		line_size++;
+		arrow_finder++;
+	}
+	return (0);
+}
+
 /* Obtener las lineas introducidas por el usuario
 	juntandolas todas en "all_lines" */
 char	*two_arrows(t_shell *shell, char **all_files)
@@ -62,6 +124,7 @@ int	double_indirect(t_shell *shell)
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
+	pipes_struct->last_arrows = last_num_arrows(pipes_struct->child_line);
 	pipes_struct->all_files = get_files_matrix(shell, pipes_struct->child_line, "<<");
 	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
