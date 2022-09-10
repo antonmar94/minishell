@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/10 10:30:43 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:23:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 int	execute_child_line(t_shell *shell, char **envp)
 {
 	int	*fd;
+	int fd_file;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	fd = pipes_struct->fd_red;
 	if (pipes_struct->heardoc_lines)
-	{
-		if (pipe(fd) < 0)
-			return (errno);
+		fd = pipes_struct->fd_red;
+	else
+		fd = pipes_struct->fd_in;
+	if (pipe(fd) < 0)
+		return (errno);
+	if (pipes_struct->heardoc_lines)
 		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-		close(fd[WRITE_END]);
-		dup2(fd[READ_END], STDIN_FILENO);
-		close(fd[READ_END]);
+	else
+	{
+		fd_file = open(*pipes_struct->all_files, O_RDONLY);
+		dup2(fd_file, fd[READ_END]);
+		close(fd_file);
 	}
+	close(fd[WRITE_END]);
+	dup2(fd[READ_END], STDIN_FILENO);
+	close(fd[READ_END]);
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
@@ -96,6 +104,8 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
 		pipes_struct->pid = execute_first(shell, envp, is_first);
+		if (pipes_struct->pid < 0)
+			return (-1);
 		child_number++;
 		if (pipes_struct->pid != 0)
 		{
@@ -119,6 +129,8 @@ void	child_execution(t_shell *shell, char **envp)
 	child_number = 0;
 	free_parent(shell);
 	child_number = execute_all(shell, shell->pipes_struct, envp);
+	if (child_number < 0)
+		return ;
 	while (child_number-- > 0)
 		waitpid(-1, &exit_child, 0);
 	if (WIFEXITED(exit_child))

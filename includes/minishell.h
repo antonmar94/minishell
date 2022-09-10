@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/10 09:30:32 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:35:34 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct pipes_struct ///32
 {
 	pid_t	pid;
 	int		fd_red[2];
+	int		fd_in[2];
 	int		fd1[2];
 	int		fd2[2];
 	char	*heardoc_lines;
@@ -253,10 +254,13 @@ void		append_to_line(char **line, char **line_finder, char arrow);
 void		get_line_execute(char **line, char **rest_of_line, char arrow);
 int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
-int			get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
 char		*two_arrows(t_shell *shell, char **all_files);
 int			check_last(char **aux_finder, char arrow);
 char		*ask_for_line(t_shell *shell, char *all_files);
+int			get_matrix_size(char *line, char *arrows);
+char		*get_file_name(t_shell *shell, char *child_line);
+char		**get_files_matrix(t_shell *shell, char *child_line, char *arrows);
+int			get_clean_line(char **line, char *arrows);
 int			do_redirect(t_shell *shell);
 int			do_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);

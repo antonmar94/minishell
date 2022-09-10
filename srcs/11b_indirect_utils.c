@@ -6,104 +6,130 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/10 21:42:39 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:38:57 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	in_file_size(char **aux_finder, char **files_finder, int *num_arrows)
-{
-	int	file_size;
-
-	*num_arrows = 0;
-	file_size = 0;
-	while (**files_finder && **files_finder == '<')
-	{
-		(*num_arrows)++;
-		(*files_finder)++;
-	}
-	while (**files_finder && **files_finder == ' ')
-		(*files_finder)++;
-	*aux_finder = *files_finder;
-	while (**aux_finder && **aux_finder != ' ' && **aux_finder != '<')
-	{
-		file_size += jump_quotes(aux_finder);
-		(*aux_finder)++;
-	}
-	return (file_size);
-}
-
-void	check_file(t_shell *shell, char *file_in_line, int file_size)
-{	
-	char	*file_name;
-	char	*file_name_clean;
-
-	file_name = ft_substr(file_in_line, 0, file_size);
-	file_name_clean = arg_creator(shell, &file_name);
-	if (access(file_name_clean, R_OK) < 0)
-		ft_error(shell, file_name_clean, 1);
-}
-
-/* int	two_pre_arrows(t_shell *shell, char *all_files)
+char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
-	int		fd[2];
+	char	*clean_line;
 
 	line_in = NULL;
-	if (pipe(fd) < 0)
-		return (1);
-	line_in = ask_for_line(shell, fd, all_files);
-	while (ft_strcmp(all_files, line_in))
+	line_in = readline("> ");
+	if (!line_in)
+		printf("\n");
+	if (line_in && ft_strcmp(all_files, line_in))
 	{
-		new_free(&line_in);
-		line_in = ask_for_line(shell, fd, all_files);
+		if (*line_in)
+		{
+			clean_line = arg_creator(shell, &line_in);
+			new_free(&line_in);
+			line_in = clean_line;
+			line_in = ft_strjoin(line_in, "\n");
+		}
+		else
+			line_in = ft_strdup("\n");
 	}
-	new_free(&line_in);
-	close(fd[WRITE_END]);
-	close(fd[READ_END]);
-	return (0);
+	return (line_in);
 }
 
-int	open_line(t_shell *shell, char *file_in_line, int file_size)
+int	get_matrix_size(char *line, char *arrows)
 {
-	char	*file_name;
-	char	*file_name_clean;
+	char	*aux_line;
+	int		matrix_size;
 
-	if (!shell->exit_return)
+	matrix_size = 0;
+	aux_line = line;
+	while (aux_line && *aux_line)
 	{
-		file_name = ft_substr(file_in_line, 0, file_size);
-		file_name_clean = arg_creator(shell, &file_name);
-		if (two_pre_arrows(shell, file_name_clean))
-			ft_error(shell, file_name_clean, errno);
+		if (!ft_strncmp(aux_line, arrows, ft_strlen(arrows)))
+			matrix_size++;
+		aux_line++;
+	}
+	return (matrix_size);
+}
+
+char	*get_file_name(t_shell *shell, char *child_line)
+{
+	int		elem_size;
+	char	*file_name;
+	char	*aux_line;
+
+	elem_size = 0;
+	file_name = NULL;
+	aux_line = child_line;
+	while (*aux_line && *aux_line != ' ' && *aux_line != '<')
+	{
+		aux_line++;
+		elem_size++;
+	}
+	aux_line = ft_substr(child_line, 0, elem_size);
+	if (aux_line)
+		file_name = arg_creator(shell, &aux_line);
+	return (file_name);
+}
+
+/* Obtener una matriz con la cantidad de heardocs a abrir
+	y el nombre por el que se cierran */
+char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
+{
+	char	**all_files;
+	int		matrix_size;
+	int		elem_size;
+	int		i;
+
+	i = 0;
+	matrix_size = get_matrix_size(child_line, arrows);
+	all_files = (char **)malloc(sizeof(char *) * (matrix_size + 1));
+	ft_memset(all_files, 0, matrix_size + 1);
+	while (*child_line && i <= matrix_size)
+	{
+		elem_size = 0;
+		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
+		{
+			
+			child_line += ft_strlen(arrows);
+			while (*child_line && *child_line == ' ')
+				child_line++;
+			all_files[i] = get_file_name(shell, child_line);
+			i++;
+		}
+		child_line++;
+	}
+	all_files[i] = NULL;
+	return (all_files);
+}
+
+int	get_clean_line(char **line, char *arrows)
+{
+	char	*arrow_finder;
+	char	*aux_finder;
+	int		line_size;
+
+	arrow_finder = *line;
+	line_size = 0;
+	while (*arrow_finder)
+	{
+		if (!ft_strncmp(arrow_finder, arrows, ft_strlen(arrows)))
+		{
+			aux_finder = arrow_finder;
+			aux_finder += ft_strlen(arrows);
+			while (*aux_finder && *aux_finder == ' ')
+				aux_finder++;
+			while (*aux_finder && *aux_finder != ' '
+					&& ft_strncmp(aux_finder, arrows, ft_strlen(arrows)))
+				aux_finder++;
+			//AQUI VA A HABER LEAKS
+			*line = ft_substr(*line, 0, line_size);
+			*line = ft_strjoin(*line, aux_finder);
+			arrow_finder = *line;
+			line_size = 0;
+		}
+		line_size++;
+		arrow_finder++;
 	}
 	return (0);
-} */
-
-int	get_in_files(t_shell *shell, char **rest_of_line, int num_arrows)
-{
-	char	*files_finder;
-	char	*aux_finder;
-	int		file_size;
-
-	files_finder = *rest_of_line;
-	while (*files_finder && !shell->exit_return)
-	{
-		jump_quotes(&files_finder);
-		if (*files_finder && *files_finder == '<')
-		{
-			file_size = in_file_size(&aux_finder, &files_finder, &num_arrows);
-			if (check_last(&aux_finder, '<'))
-			{
-				*rest_of_line = ft_substr(files_finder, 0, file_size);
-				return (num_arrows);
-			}
-			if (num_arrows == 1)
-				check_file(shell, files_finder, file_size);
-/* 			else
-				open_line(shell, files_finder, file_size); */
-		}
-		files_finder++;
-	}
-	return (num_arrows);
 }
