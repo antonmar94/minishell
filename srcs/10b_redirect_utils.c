@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10b_redirect_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/20 19:44:06 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:49:17 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	create_file(t_shell *shell, char *file_in_line, int file_size)
 	if (file_name)
 		file_name_clean = arg_creator(shell, &file_name);
 	if (open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664) < 0)
-		error_wrong_path(shell);
+		error_wrong_path(shell, file_name);
 }
 
 int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)

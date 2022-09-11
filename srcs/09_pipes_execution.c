@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 13:37:50 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:58:27 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ int	execute_child_line(t_shell *shell, char **envp)
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	//printf("LA LINEA ES %s\n", shell->line);
-	//dprintf(2, "EL FINAL ES %s\n", *pipes_struct->all_files);
 	if (*pipes_struct->all_files)
 	{
-		if (/* pipes_struct->heardoc_lines */pipes_struct->last_arrows == 2)
+		if (pipes_struct->last_arrows == 2)
 			fd = pipes_struct->fd_red;
 		else
 			fd = pipes_struct->fd_in;
@@ -31,27 +29,26 @@ int	execute_child_line(t_shell *shell, char **envp)
 			return (errno);
 		if (pipes_struct->heardoc_lines)
 			ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-		if (!pipes_struct->heardoc_lines || pipes_struct->last_arrows == 1)
+		if (*pipes_struct->simple_files)
 		{
-			//dprintf(2, "EL FINAL ES %s\n", *pipes_struct->all_files);
-			fd_file = open(*pipes_struct->all_files, O_RDONLY);
-/* 			printf("errno %i\n", errno);
-			printf("fdgile %i\n", fd_file); */
-			if (fd_file < 0 && pipes_struct->last_arrows == 1)
-				error_wrong_path(shell, *pipes_struct->all_files);
-			dup2(fd_file, fd[READ_END]);
+			fd_file = open(*pipes_struct->simple_files, O_RDONLY);
+			if (fd_file < 0)
+			{
+				new_free(&shell->line);
+				error_wrong_path(shell, *pipes_struct->simple_files);
+			}
+			if (pipes_struct->last_arrows == 1)
+				dup2(fd_file, fd[READ_END]);
 			close(fd_file);
 		}
 		close(fd[WRITE_END]);
 		dup2(fd[READ_END], STDIN_FILENO);
 		close(fd[READ_END]);
 	}
-	//dprintf(2, "LA LINEA DESPUES %s\n", shell->line);
 	split_arguments(shell);
-	
 	if (!find_command(shell))
 	{
-		if (!system_commmand(shell, envp)/*  || !shell->command */)
+		if (!system_commmand(shell, envp))
 			command_error(shell, shell->command);
 	}
 	exit (shell->exit_return);

@@ -90,14 +90,14 @@ clean:
 	@echo "\033[0;31mCleaning libft..."
 	@make clean -C libft/
 	@echo "\nRemoving objects..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "\033[0m"
 
 fclean:
 	@echo "\033[0;31mCleaning libft..."
 	@make fclean -C libft/
 	@echo "\nDeleting objects..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "\nDeleting executable..."
 	@rm -f $(NAME)
 	@echo "\033[0m"

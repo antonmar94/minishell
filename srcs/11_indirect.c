@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/11 13:33:41 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:50:11 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ int	do_indirect(t_shell *shell)
 
 	pipes_struct = shell->pipes_struct;
 	start_line = shell->line;
+	files_matrix = get_files_matrix(shell, start_line, "<");
+	pipes_struct->simple_files = files_matrix;
 	get_clean_line(&shell->line, "<");
 	if (pipes_struct->last_arrows == 1)
 	{

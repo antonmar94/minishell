@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 13:33:24 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:47:22 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct pipes_struct ///32
 	int		last_arrows;
 	char	*heardoc_lines;
 	char	**all_files;
+	char	**simple_files;
 	char	*holder_parent;
 	char	*child_line;
 	int		child_counter;
