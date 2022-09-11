@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 10:43:19 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 12:55:52 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	execute_child_line(t_shell *shell, char **envp)
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
+	//printf("LA LINEA ES %s\n", shell->line);
+	//dprintf(2, "EL FINAL ES %s\n", *pipes_struct->all_files);
 	if (*pipes_struct->all_files)
 	{
 		if (pipes_struct->heardoc_lines)
@@ -31,8 +33,11 @@ int	execute_child_line(t_shell *shell, char **envp)
 			ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
 		if (!pipes_struct->heardoc_lines || pipes_struct->last_arrows == 1)
 		{
+			//dprintf(2, "EL FINAL ES %s\n", *pipes_struct->all_files);
 			fd_file = open(*pipes_struct->all_files, O_RDONLY);
-			if (fd_file < 0)
+/* 			printf("errno %i\n", errno);
+			printf("fdgile %i\n", fd_file); */
+			if (fd_file < 0 && pipes_struct->last_arrows == 1)
 				error_wrong_path(shell);
 			dup2(fd_file, fd[READ_END]);
 			close(fd_file);
@@ -41,7 +46,9 @@ int	execute_child_line(t_shell *shell, char **envp)
 		dup2(fd[READ_END], STDIN_FILENO);
 		close(fd[READ_END]);
 	}
+	//dprintf(2, "LA LINEA DESPUES %s\n", shell->line);
 	split_arguments(shell);
+	
 	if (!find_command(shell))
 	{
 		if (!system_commmand(shell, envp)/*  || !shell->command */)

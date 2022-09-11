@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 10:43:31 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 12:23:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ void	sigint_handler(int sig)
 	if ((sig == SIGINT || sig == SIGQUIT) /* && g_interactive != 2 */)
 	{
 		//printf("entra\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
+/* 		rl_replace_line("", 0);
+		rl_on_new_line(); */
 		printf("\n");
 		printf(CYAN"AlicornioPrompt$ "RESET);
-		rl_redisplay();
+		//rl_redisplay();
+		g_interactive = 2;
 		errno = 1;
 		return ;
 	}
@@ -50,7 +51,6 @@ void	sigquit_handler(int sig)
 void	siguser_handler(int sig)
 {
 	(void)sig;
-	//printf("IGNORA SIGQUIT\n");
 	signal(SIGQUIT, SIG_IGN);
 }
 
