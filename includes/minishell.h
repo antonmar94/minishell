@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 13:47:22 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 14:30:04 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int			split_arguments(t_shell *shell);
 int			line_without_command(t_shell *shell);
 int			arg_listing(t_shell *shell);
 
+void		shell_execution(t_shell *shell);
 void		ft_new_line(t_shell *shell);
 int			count_args(t_shell *shell);
 int			split_arguments(t_shell *shell);
@@ -160,6 +161,7 @@ int			system_commmand(t_shell *shell, char **envp);
 void		execute_command(t_shell *shell, int i);
 char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
+
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);

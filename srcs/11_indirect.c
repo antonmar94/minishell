@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/11 13:50:11 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 14:53:57 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,11 @@ char	*two_arrows(t_shell *shell, char **all_files)
 		line_in = ask_for_line(shell, *all_files);
 		if (g_interactive == 2)
 		{
-			//AQUI VA A HABER LEAKS
+			//AQUI VA A HABER LEAKS Y ESTO NO FUNCIONA EN EL CASO DE SIGUIENTE LINEA CON DOBLE REDIRECCIONES
 			free(shell->pipes_struct->all_files);
 			line_in = ft_split(line_in, '\n')[0];
 			shell->pipes_struct->child_line = line_in;
+			double_indirect(shell);
 			break;
 		}
 		if (line_in && !ft_strcmp(*all_files, line_in))
