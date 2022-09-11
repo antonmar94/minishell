@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 14:03:46 by antonmar          #+#    #+#             */
-/*   Updated: 2022/06/18 16:56:58 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/31 20:24:03 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	wcount = wcounter(s, c);
-	str = malloc(wcount * sizeof(char *) + 1);
+	str = malloc((wcount + 1) * sizeof(char *));
 	if (str == NULL)
 		return (NULL);
 	while (++j < wcount)

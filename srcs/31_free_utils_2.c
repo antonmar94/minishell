@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   31_free_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:05:22 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:29:00 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/08/30 23:08:05 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**create_env_matrix(t_shell *shell)
 	aux_envp = NULL;
 	holder_first = shell->env_list;
 	minishell_envp = malloc (sizeof(char *)
-			* (ft_lst_env_size(shell->env_list)) + 1);
+			* (ft_lst_env_size(shell->env_list) + 1));
 	while (holder_first)
 	{
 		aux_envp = ft_strjoin(holder_first->var_name, "=");

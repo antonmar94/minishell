@@ -1,4 +1,3 @@
-
 NAME = minishell
 NAME_DEBUG = minishell_debug
 CODE_DEBUG_EXTERNAL_CONSOLE = true
@@ -46,33 +45,33 @@ DEBUGGER = lldb
 else
 READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include #-g3 -fsanitize=address
-DEBUGGER = gdb
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
+CFLAGS2 = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include -g3 -fsanitize=address
+DEBUGGER = lldb
 READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif
 
-RM = rm -f
-
 all: $(NAME)
 %.o: %.c
-	$(CC)  $(CFLAGS) -c $< -o $@
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	@${CC} ${CFLAGS} -c $< -o $@
 
-$(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
-	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
-
-
-$(LIBFT_DIR)$(LIBFT_NAME): $(LIBFT_DIR)
-	make bonus -C $(LIBFT_DIR)
-
-	make -C $(LIBFT_DIR) clean
-	$(RM) $(OBJS)
+$(NAME): $(OBJS)
+	@echo "\n"
+	@make -C $(LIBFT_DIR)
+	@echo "\033[0;32mCompiling minishell..."
+	@$(CC) $(CFLAGS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
+	@echo "\n\033[0mDone !"
 
 	@echo "set enable-bracketed-paste off" > .inputrc
-	export INPUTRC=$PWD/.inputrc
+	@export INPUTRC=$PWD/.inputrc
 
-debug:
-	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME)  $(READLINE) -g -o $(NAME_DEBUG)
+debug: 
+	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE)  -g -o $(NAME_DEBUG)
+
+sani: $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
+	$(MAKE) bonus -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS2) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
 
 create_code_folder:
 	rm -rf .vscode
@@ -87,15 +86,44 @@ del_history:
 	rm -f .history_own
 #rm -f ../../.history
 
-fclean: clean
-	make -C $(LIBFT_DIR) fclean
-	$(RM) $(NAME)
-	$(RM) $(OBJS)
-	$(RM) $(NAME_DEBUG)
+clean:
+	@echo "\033[0;31mCleaning libft..."
+	@make clean -C libft/
+	@echo "\nRemoving objects..."
+	@rm -f $(OBJ)
+	@echo "\033[0m"
+
+fclean:
+	@echo "\033[0;31mCleaning libft..."
+	@make fclean -C libft/
+	@echo "\nDeleting objects..."
+	@rm -f $(OBJ)
+	@echo "\nDeleting executable..."
+	@rm -f $(NAME)
+	@echo "\033[0m"
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+#Colors
+BLACK		:="\033[0;30m"
+RED			:="\033[0;31m"
+GREEN		:="\033[0;32m"
+BROWN		:="\033[0;33m"
+BLUE		:="\033[0;34m"
+PURPLE		:="\033[0;35m"
+CYAN		:="\033[0;36m"
+LIGHT_GRAY	:="\033[0;37m"
+DARK_GRAY	:="\033[1;30m"
+LIGHT_RED	:="\033[1;31m"
+LIGHT_GREEN	:="\033[1;32m"
+YELLOW		:="\033[1;33m"
+LIGHT_BLUE	:="\033[1;34m"
+LIGHT_PURPLE:="\033[1;35m"
+LIGHT_CYAN	:="\033[1;36m"
+WHITE		:="\033[1;37m"
+RESET		:="\x1b[0m"
 
 # shell uname -m architecture
 # cp $(MLX_DIR)libmlx.dylib need to cp to the root

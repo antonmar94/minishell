@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 18:11:06 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/11 10:43:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,37 @@
 
 int	execute_child_line(t_shell *shell, char **envp)
 {
+	int	*fd;
+	int fd_file;
+	t_pipes	*pipes_struct;
+
+	pipes_struct = shell->pipes_struct;
+	if (*pipes_struct->all_files)
+	{
+		if (pipes_struct->heardoc_lines)
+			fd = pipes_struct->fd_red;
+		else
+			fd = pipes_struct->fd_in;
+		if (pipe(fd) < 0)
+			return (errno);
+		if (pipes_struct->heardoc_lines)
+			ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
+		if (!pipes_struct->heardoc_lines || pipes_struct->last_arrows == 1)
+		{
+			fd_file = open(*pipes_struct->all_files, O_RDONLY);
+			if (fd_file < 0)
+				error_wrong_path(shell);
+			dup2(fd_file, fd[READ_END]);
+			close(fd_file);
+		}
+		close(fd[WRITE_END]);
+		dup2(fd[READ_END], STDIN_FILENO);
+		close(fd[READ_END]);
+	}
 	split_arguments(shell);
 	if (!find_command(shell))
 	{
-		if (!system_commmand(shell, envp) || !shell->command)
+		if (!system_commmand(shell, envp)/*  || !shell->command */)
 			command_error(shell, shell->command);
 	}
 	exit (shell->exit_return);
@@ -25,27 +52,25 @@ int	execute_child_line(t_shell *shell, char **envp)
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
 {
-	char	*holder_child;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	holder_child = create_child_line(pipes_struct);
+	pipes_struct->child_line= create_child_line(pipes_struct);
+	double_indirect(shell);
 	pipe(pipes_struct->fd1);
 	pipes_struct->pid = fork();
 	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 	if (pipes_struct->pid == 0)
 	{
-		new_free(&shell->line);
-		shell->line = holder_child;
+		shell->line = pipes_struct->child_line;
 		pipes_first(shell, envp, is_first);
 	}
-	new_free(&holder_child);
+	new_free(&pipes_struct->child_line);
 	return (pipes_struct->pid);
 }
 
 int	execute_next(t_shell *shell, char **envp, int is_first)
 {
-	char	*holder_child;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
@@ -54,12 +79,13 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 		close(pipes_struct->fd2[READ_END]);
 	if (*pipes_struct->holder_parent)
 	{
-		holder_child = create_child_line(pipes_struct);
+		pipes_struct->child_line = create_child_line(pipes_struct);
+		double_indirect(shell);
 		pipe(pipes_struct->fd2);
 		pipes_struct->pid = fork();
 		pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 		if (pipes_struct->pid == 0)
-			pipes_next(shell, envp, holder_child);
+			pipes_next(shell, envp, pipes_struct->child_line);
 		else
 		{
 			pipes_struct->child_counter++;
@@ -67,7 +93,7 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 			if (!*pipes_struct->holder_parent || pipes_struct->error)
 				close(pipes_struct->fd2[READ_END]);
 		}
-		new_free(&holder_child);
+		new_free(&pipes_struct->child_line);
 	}
 	return (pipes_struct->child_counter);
 }
@@ -83,6 +109,8 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	while (*(pipes_struct->holder_parent) && !pipes_struct->error)
 	{
 		pipes_struct->pid = execute_first(shell, envp, is_first);
+		if (pipes_struct->pid < 0)
+			return (-1);
 		child_number++;
 		if (pipes_struct->pid != 0)
 		{
@@ -106,6 +134,8 @@ void	child_execution(t_shell *shell, char **envp)
 	child_number = 0;
 	free_parent(shell);
 	child_number = execute_all(shell, shell->pipes_struct, envp);
+	if (child_number < 0)
+		return ;
 	while (child_number-- > 0)
 		waitpid(-1, &exit_child, 0);
 	if (WIFEXITED(exit_child))

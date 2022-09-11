@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:28:28 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:35:34 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,15 @@ typedef struct env_list
 typedef struct pipes_struct ///32 
 {
 	pid_t	pid;
+	int		fd_red[2];
+	int		fd_in[2];
 	int		fd1[2];
 	int		fd2[2];
+	int		last_arrows;
+	char	*heardoc_lines;
+	char	**all_files;
 	char	*holder_parent;
+	char	*child_line;
 	int		child_counter;
 	int		error;
 }	t_pipes;
@@ -216,7 +222,7 @@ int			ft_lst_env_size(t_env_list *lst);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 void		pipes_first(t_shell *shell, char **envp, int is_first);
-void		pipes_next(t_shell *shell, char **envp, char *holder_child);
+void		pipes_next(t_shell *shell, char **envp, char *child_line);
 char		*pipe_next_line(char *line);
 int			check_pipe_syntax(t_shell *shell);
 char		*create_child_line(t_pipes *pipes_struct);
@@ -249,12 +255,17 @@ void		append_to_line(char **line, char **line_finder, char arrow);
 void		get_line_execute(char **line, char **rest_of_line, char arrow);
 int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
-int			get_in_files(t_shell *shell, char **rest_of_line, int num_arrows);
-int			two_arrows(t_shell *shell, char *all_files);
+char		*two_arrows(t_shell *shell, char **all_files);
 int			check_last(char **aux_finder, char arrow);
-char		*ask_for_line(t_shell *shell, int *fd, char *all_files);
+char		*ask_for_line(t_shell *shell, char *all_files);
+int			get_matrix_size(char *line, char *arrows);
+char		*get_file_name(t_shell *shell, char *child_line);
+char		**get_files_matrix(t_shell *shell, char *child_line, char *arrows);
+int			get_clean_line(char **line, char *arrows);
+int			last_num_arrows(char *line);
 int			do_redirect(t_shell *shell);
 int			do_indirect(t_shell *shell);
+int			double_indirect(t_shell *shell);
 
 extern int	g_interactive;
 

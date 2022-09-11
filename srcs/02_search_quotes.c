@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/08/10 21:42:43 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:16:01 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,29 @@ int	add_arg_tolist(t_shell *shell)
 void	create_array_args(t_shell *shell)
 {
 	t_arglist	*holder_first;
-	int			i;
+	char		**begin_matrix;
 
-	i = 0;
 	holder_first = shell->arg_list;
-	if (!holder_first->content)
+	if (!holder_first)
 		return ;
 	shell->command_plus_args = (char **)malloc(sizeof(char *)
-			* shell->size_com_args + 1);
-	while (holder_first && shell->size_com_args > 0)
+			* (shell->size_com_args + 1));
+	ft_memset(shell->command_plus_args, 0, sizeof(char **));
+	begin_matrix = shell->command_plus_args;
+	while (holder_first && holder_first->content && shell->size_com_args > 0)
 	{
-		shell->command_plus_args[i] = ft_strdup(holder_first->content);
+		*shell->command_plus_args = ft_strdup(holder_first->content);
 		holder_first = holder_first->next;
-		i++;
+		shell->command_plus_args++;
 	}
-	shell->command_plus_args[i] = NULL;
+	*shell->command_plus_args = NULL;
+	shell->command_plus_args = begin_matrix;
 }
 
 int	split_arguments(t_shell *shell)
 {
 	int			i;
+	char		**to_free;
 
 	i = 1;
 	shell->size_com_args = 0;
@@ -114,7 +117,9 @@ int	split_arguments(t_shell *shell)
 		shell->size_com_args = 1;
 	while (add_arg_tolist(shell))
 		shell->size_com_args++;
+	to_free = shell->command_plus_args;
 	create_array_args(shell);
+	free_matrix(to_free);
 	shell->command_args = shell->command_plus_args;
 	if (shell->command_args)
 		shell->command_args++;

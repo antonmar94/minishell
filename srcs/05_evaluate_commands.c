@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 18:10:35 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/10 15:43:50 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	find_enviro_command(t_shell *shell)
 	if (!shell->command || shell->has_pipes)
 		return (0);
 	while (++i < 8)
-	{		
+	{
 		if (ft_strcmp(shell->command, shell->list_commands[i]) == 0)
 		{
 			execute_command(shell, i);
@@ -85,26 +85,26 @@ void	execute_command(t_shell *shell, int i)
 int	system_commmand(t_shell *shell, char **envp)
 {
 	int			ex_res;
-	char		*env_aux;
+	char		**env_aux;
 	char		*env_dup;
 	char		**paths_list;
 	int			i;
 
 	i = 0;
-	env_aux = *envp;
-	while (ft_strncmp(env_aux, "PATH", 4))
+	env_aux = envp;
+	while (*env_aux && ft_strncmp(*env_aux, "PATH", 4))
 		env_aux++;
-	env_dup = ft_strdup(env_aux);
+	env_dup = ft_strdup(*env_aux);
 	env_dup += 5;
 	paths_list = ft_split(env_dup, ':');
 	ex_res = 0;
 	while (*shell->command_plus_args && *paths_list)
 	{
 		ex_res = execve (shell->command, shell->command_plus_args, envp);
-		paths_list++;
 		if (ex_res < 0)
 			ex_res = execve (ft_strjoin(ft_strjoin(*paths_list, "/"),
 						shell->command), shell->command_plus_args, envp);
+		paths_list++;
 	}
 	if (ex_res)
 		return (0);

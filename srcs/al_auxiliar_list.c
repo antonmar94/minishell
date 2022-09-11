@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:07:19 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:14:07 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 	char	*var_content;
 	char	*env_var_walking;
 	int		start;
-	int		end;
 
 	env_var_walking = str_whith_equal_in;
 	start = 0;
@@ -44,14 +43,8 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 		env_var_walking++;
 	}
 	start++;
-	end = start;
 	env_var_walking++;
-	while (*env_var_walking)
-	{
-		end++;
-		env_var_walking++;
-	}
-	var_content = ft_substr(str_whith_equal_in, start, end);
+	var_content = ft_strdup(env_var_walking);
 	return (var_content);
 }
 
