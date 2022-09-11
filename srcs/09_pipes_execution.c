@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 12:55:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:37:50 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 	//dprintf(2, "EL FINAL ES %s\n", *pipes_struct->all_files);
 	if (*pipes_struct->all_files)
 	{
-		if (pipes_struct->heardoc_lines)
+		if (/* pipes_struct->heardoc_lines */pipes_struct->last_arrows == 2)
 			fd = pipes_struct->fd_red;
 		else
 			fd = pipes_struct->fd_in;
@@ -38,7 +38,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 /* 			printf("errno %i\n", errno);
 			printf("fdgile %i\n", fd_file); */
 			if (fd_file < 0 && pipes_struct->last_arrows == 1)
-				error_wrong_path(shell);
+				error_wrong_path(shell, *pipes_struct->all_files);
 			dup2(fd_file, fd[READ_END]);
 			close(fd_file);
 		}

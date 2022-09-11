@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 11:50:06 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/29 21:48:37 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:35:32 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ int	syntax_error(t_shell *shell)
 	return (1);
 }
 
-int	error_wrong_path(t_shell *shell)
+int	error_wrong_path(t_shell *shell, char *file)
 {
 	shell->exit_return = 1;
 	write(2, RED "minishell: ", 19);
-	ft_putstr_fd(RED "No such file or directory\n" RESET, 2);
+	if (file)
+		write(2, file, ft_strlen(file));
+	ft_putstr_fd(RED ": No such file or directory\n" RESET, 2);
 	return (1);
 }

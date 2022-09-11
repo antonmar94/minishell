@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/10 15:35:34 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/11 13:33:24 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void		exit_return(t_shell *shell);
 int			ft_error(t_shell *shell, char *elem_err, int error_code);
 int			syntax_error(t_shell *shell);
 void		command_error(t_shell *shell, char *command);
-int			error_wrong_path(t_shell *shell);
+int			error_wrong_path(t_shell *shell, char *line);
 int			error_too_many_args(t_shell *shell);
 int			error_not_numeric(t_shell *shell);
 int			identifier_enviro_error(t_shell *shell);
