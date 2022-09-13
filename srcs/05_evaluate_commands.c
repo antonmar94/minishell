@@ -17,7 +17,13 @@ void	ft_new_line(t_shell *shell)
 	g_interactive = 1;
 	if (errno == 130)
 		printf("\33[2K\r");
-	shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
+	if (shell->sig_int_line)
+	{
+		shell->line = ft_strdup(shell->sig_int_line);
+		free(shell->sig_int_line);
+	}
+	else
+		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
 	if (errno == 1)
 		shell->exit_return = 1;
 	g_interactive = 0;

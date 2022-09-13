@@ -60,7 +60,8 @@ int	execute_first(t_shell *shell, char **envp, int is_first)
 
 	pipes_struct = shell->pipes_struct;
 	pipes_struct->child_line= create_child_line(pipes_struct);
-	double_indirect(shell);
+	if (double_indirect(shell) < 0)
+		return (-1);
 	pipe(pipes_struct->fd1);
 	pipes_struct->pid = fork();
 	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
@@ -84,7 +85,8 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 	if (*pipes_struct->holder_parent)
 	{
 		pipes_struct->child_line = create_child_line(pipes_struct);
-		double_indirect(shell);
+		if (double_indirect(shell) < 0)
+			return (-1);
 		pipe(pipes_struct->fd2);
 		pipes_struct->pid = fork();
 		pipes_struct->error = check_error_child(shell, pipes_struct->pid);
@@ -119,6 +121,8 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 		if (pipes_struct->pid != 0)
 		{
 			child_number += execute_next(shell, envp, is_first);
+			if (child_number < 0)
+				return (-1);
 			is_first = 0;
 		}
 		close(pipes_struct->fd1[READ_END]);

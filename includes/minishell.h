@@ -92,6 +92,7 @@ typedef struct s_aux_p
 typedef struct s_shell
 {
 	char			*line;
+	char			*sig_int_line;
 	char			*command;
 	char			*command_flag;
 	char			**command_args;

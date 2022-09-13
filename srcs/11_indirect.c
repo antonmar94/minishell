@@ -85,6 +85,7 @@ char	*two_arrows(t_shell *shell, char **all_files)
 	all_lines = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
 	line_in = ask_for_line(shell, *all_files);
+	
  	if (line_in && !ft_strcmp(*all_files, line_in))
 		all_files++;
 	else if (line_in)
@@ -93,9 +94,10 @@ char	*two_arrows(t_shell *shell, char **all_files)
 	{
 		//AQUI VA A HABER LEAKS
 		free(shell->pipes_struct->all_files);
-		line_in = ft_split(line_in, '\n')[0];
-		shell->pipes_struct->child_line = line_in;
-		return (all_lines);
+		shell->sig_int_line = ft_strdup(line_in);
+		new_free(&line_in);
+		//g_interactive = 3;
+		return (NULL);
 	}
 	while (line_in && all_files && *all_files)
 	{
@@ -106,10 +108,10 @@ char	*two_arrows(t_shell *shell, char **all_files)
 		{
 			//AQUI VA A HABER LEAKS Y ESTO NO FUNCIONA EN EL CASO DE SIGUIENTE LINEA CON DOBLE REDIRECCIONES
 			free(shell->pipes_struct->all_files);
-			line_in = ft_split(line_in, '\n')[0];
-			shell->pipes_struct->child_line = line_in;
-			double_indirect(shell);
-			break;
+			shell->sig_int_line = ft_strdup(line_in);
+			new_free(&line_in);
+			//g_interactive = 3;
+			return (NULL);
 		}
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
@@ -154,5 +156,7 @@ int	double_indirect(t_shell *shell)
 	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
 		pipes_struct->heardoc_lines = two_arrows(shell, pipes_struct->all_files);
+	if (!*pipes_struct->heardoc_lines)
+		return (-1);
 	return (0);
 }
