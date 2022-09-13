@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_indirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/11 14:53:57 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/13 20:08:46 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*two_arrows(t_shell *shell, char **all_files)
 		free(shell->pipes_struct->all_files);
 		shell->sig_int_line = ft_strdup(line_in);
 		new_free(&line_in);
-		//g_interactive = 3;
+		g_interactive = 3;
 		return (NULL);
 	}
 	while (line_in && all_files && *all_files)
@@ -110,7 +110,7 @@ char	*two_arrows(t_shell *shell, char **all_files)
 			free(shell->pipes_struct->all_files);
 			shell->sig_int_line = ft_strdup(line_in);
 			new_free(&line_in);
-			//g_interactive = 3;
+			g_interactive = 3;
 			return (NULL);
 		}
 		if (line_in && !ft_strcmp(*all_files, line_in))
@@ -156,7 +156,10 @@ int	double_indirect(t_shell *shell)
 	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
 		pipes_struct->heardoc_lines = two_arrows(shell, pipes_struct->all_files);
-	if (!*pipes_struct->heardoc_lines)
+	if (g_interactive == 3)
+	{
+		g_interactive = 0;
 		return (-1);
+	}
 	return (0);
 }

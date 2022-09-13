@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   24_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 14:50:03 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/13 20:33:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
 
 void	sigint_handler(int sig)
 {
