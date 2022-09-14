@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_indirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/13 20:08:46 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:01:24 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,34 +85,19 @@ char	*two_arrows(t_shell *shell, char **all_files)
 	all_lines = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
 	line_in = ask_for_line(shell, *all_files);
-	
  	if (line_in && !ft_strcmp(*all_files, line_in))
 		all_files++;
 	else if (line_in)
 		all_lines = ft_strdup(line_in);
-	if (g_interactive == 2)
-	{
-		//AQUI VA A HABER LEAKS
-		free(shell->pipes_struct->all_files);
-		shell->sig_int_line = ft_strdup(line_in);
-		new_free(&line_in);
-		g_interactive = 3;
+	if (g_interactive == 3)
 		return (NULL);
-	}
 	while (line_in && all_files && *all_files)
 	{
 		//AQUI VA A HABER LEAKS
 		new_free(&line_in);
 		line_in = ask_for_line(shell, *all_files);
-		if (g_interactive == 2)
-		{
-			//AQUI VA A HABER LEAKS Y ESTO NO FUNCIONA EN EL CASO DE SIGUIENTE LINEA CON DOBLE REDIRECCIONES
-			free(shell->pipes_struct->all_files);
-			shell->sig_int_line = ft_strdup(line_in);
-			new_free(&line_in);
-			g_interactive = 3;
+		if (g_interactive == 3)
 			return (NULL);
-		}
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
 		else if (line_in)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/13 20:04:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:01:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	ft_new_line(t_shell *shell)
 {
 	g_interactive = 1;
-/* 	if (errno == 130)
-		printf("\33[2K\r"); */
+	if (errno == 130)
+		printf("\33[2K\r");
 	if (shell->sig_int_line && *shell->sig_int_line)
 	{
 		shell->line = ft_strdup(shell->sig_int_line);
