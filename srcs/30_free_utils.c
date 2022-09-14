@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/10 10:29:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 20:18:24 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ void	free_matrix(char **array)
 
 void	free_all_struct(t_shell *shell, char **envp)
 {
-	int	i;
-
-	i = 0;
 	(void)envp;
 	if (shell->line)
 		new_free(&shell->line);

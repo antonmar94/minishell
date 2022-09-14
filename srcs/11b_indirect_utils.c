@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/14 19:11:57 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 21:01:36 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	char	*clean_line;
+	//char	*line_aux;
 
 	line_in = NULL;
 	line_in = readline("> ");
@@ -59,12 +60,15 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 		{
 			clean_line = arg_creator(shell, &line_in);
 			new_free(&line_in);
-			line_in = clean_line;
-			line_in = ft_strjoin(line_in, "\n");
+			//line_in = clean_line;
+			line_in = ft_strjoin(clean_line, "\n");
+			new_free(&clean_line);
+
 		}
 		else
 			line_in = ft_strdup("\n");
 	}
+	
 	return (line_in);
 }
 

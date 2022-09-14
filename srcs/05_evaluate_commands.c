@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 19:01:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:56:04 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_new_line(t_shell *shell)
 	g_interactive = 1;
 	if (errno == 130)
 		printf("\33[2K\r");
+	
 	if (shell->sig_int_line && *shell->sig_int_line)
 	{
 		shell->line = ft_strdup(shell->sig_int_line);
@@ -24,6 +25,7 @@ void	ft_new_line(t_shell *shell)
 	}
 	else
 		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
+	
 	if (errno == 1)
 		shell->exit_return = 1;
 	g_interactive = 0;
@@ -94,9 +96,7 @@ int	system_commmand(t_shell *shell, char **envp)
 	char		**env_aux;
 	char		*env_dup;
 	char		**paths_list;
-	int			i;
 
-	i = 0;
 	env_aux = envp;
 	while (*env_aux && ft_strncmp(*env_aux, "PATH", 4))
 		env_aux++;

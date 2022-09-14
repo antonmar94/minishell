@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 14:30:04 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 20:15:38 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,7 @@ char		*cut_env_var_content(char *env_var);
 int			look_for_var_name(t_shell *shell, char *var_name_to_find);
 int			change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
-int			varname_found(char **var_name, char	**var_content, char ***tofree,
-				t_shell *shell);
+int			varname_found(char **var_name, char	**var_content, t_shell *shell);
 int			del_var_node_coincident(t_shell *shell, char *var_name_to_find);
 int			do_exec(char *buff, t_shell *shell);
 void		clear_console(void);

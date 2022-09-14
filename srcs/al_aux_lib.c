@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/06/19 20:07:59 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:49:08 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ char	*ft_strjoin_whith_space(char const *s1, char const *s2)
 char	*ft_split_one(char *s, char c, char d)
 {
 	char	*scopy;
-	size_t	i;
-	size_t	desplace;
 	char	*pp;
 
-	i = 0;
 	if (s == NULL)
 		return (NULL);
-	desplace = 0;
 	scopy = s;
 	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 	scopy = scopy + ft_desplace_2char(scopy, c, d);
@@ -59,9 +55,7 @@ char	*ft_split_one(char *s, char c, char d)
 size_t	ft_desplace_2char(char const *s, char c, char d)
 {
 	size_t	i;
-	size_t	count_word;
 
-	count_word = 0;
 	i = 0;
 	while (s[i] != '\0')
 	{

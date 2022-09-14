@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 16:14:07 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:48:07 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ int	change_var_content(t_shell *shell, char *var_name_to_find,
 	return (0);
 }
 
-int	varname_found(char **var_name, char	**var_content, char ***tofree,
-			t_shell *shell)
+int	varname_found(char **var_name, char	**var_content, t_shell *shell)
 {
-	tofree = NULL;
 	if (!**var_name || ft_strcmp(*var_name, "0") == 0
 		|| ft_strcmp(*var_name, "?") == 0)
 	{
