@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/10 15:35:34 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:46:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct pipes_struct ///32
 	int		last_arrows;
 	char	*heardoc_lines;
 	char	**all_files;
+	char	**simple_files;
 	char	*holder_parent;
 	char	*child_line;
 	int		child_counter;
@@ -91,6 +92,7 @@ typedef struct s_aux_p
 typedef struct s_shell
 {
 	char			*line;
+	char			*sig_int_line;
 	char			*command;
 	char			*command_flag;
 	char			**command_args;
@@ -142,8 +144,7 @@ char		*cut_env_var_content(char *env_var);
 int			look_for_var_name(t_shell *shell, char *var_name_to_find);
 int			change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
-int			varname_found(char **var_name, char	**var_content, char ***tofree,
-				t_shell *shell);
+int			varname_found(char **var_name, char	**var_content, t_shell *shell);
 int			del_var_node_coincident(t_shell *shell, char *var_name_to_find);
 int			do_exec(char *buff, t_shell *shell);
 void		clear_console(void);
@@ -151,6 +152,7 @@ int			split_arguments(t_shell *shell);
 int			line_without_command(t_shell *shell);
 int			arg_listing(t_shell *shell);
 
+void		shell_execution(t_shell *shell);
 void		ft_new_line(t_shell *shell);
 int			count_args(t_shell *shell);
 int			split_arguments(t_shell *shell);
@@ -159,6 +161,7 @@ int			system_commmand(t_shell *shell, char **envp);
 void		execute_command(t_shell *shell, int i);
 char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
+
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);
@@ -204,7 +207,7 @@ void		exit_return(t_shell *shell);
 int			ft_error(t_shell *shell, char *elem_err, int error_code);
 int			syntax_error(t_shell *shell);
 void		command_error(t_shell *shell, char *command);
-int			error_wrong_path(t_shell *shell);
+int			error_wrong_path(t_shell *shell, char *line);
 int			error_too_many_args(t_shell *shell);
 int			error_not_numeric(t_shell *shell);
 int			identifier_enviro_error(t_shell *shell);

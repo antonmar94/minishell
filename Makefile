@@ -33,49 +33,42 @@ SRCS =	./srcs/00_init.c \
 		./srcs/al_aux_lib.c \
 		./srcs/main.c \
 
+READLINE_INSTALL_LOCATION=$(shell brew --prefix readline)
 OBJS = ${SRCS:.c=.o}
-
-UNAME :=$(shell uname -m)
-ifeq ($(UNAME), arm64)
-CC = arch -x86_64 cc
 CFLAGS = -Wall -Werror -Wextra
-READLINE = -lreadline
 MAKE = arch -x86_64 make
 DEBUGGER = lldb
-else
-READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
+OBJECT_FLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
+COMP_FLAGS = -Wall -Werror -Wextra -L $(READLINE_INSTALL_LOCATION)/lib #-g3 -fsanitize=address
+READLINE = -lreadline
+
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
-CFLAGS2 = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include -g3 -fsanitize=address
-DEBUGGER = lldb
-READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
-endif
 
 all: $(NAME)
 %.o: %.c
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	@${CC} ${CFLAGS} -c $< -o $@
+	@${CC} ${OBJECT_FLAGS} -c $< -o $@
 
 $(NAME): $(OBJS)
 	@echo "\n"
 	@make -C $(LIBFT_DIR)
 	@echo "\033[0;32mCompiling minishell..."
-	@$(CC) $(CFLAGS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
+	@$(CC) $(COMP_FLAGS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
 	@echo "\n\033[0mDone !"
 
 	@echo "set enable-bracketed-paste off" > .inputrc
 	@export INPUTRC=$PWD/.inputrc
 
 debug: 
-	$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE)  -g -o $(NAME_DEBUG)
+	@$(CC) $(SRCS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline  -g -o $(NAME_DEBUG)
 
 sani: $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
-	$(MAKE) bonus -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS2) $(LIBFT_DIR)$(LIBFT_NAME) $(READLINE) -o $(NAME) $^
+	@$(MAKE) bonus -C $(LIBFT_DIR)
+	@$(CC) $(CFLAGS2) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
 
 create_code_folder:
-	rm -rf .vscode
-	mkdir .vscode
+	@rm -rf .vscode
+	@mkdir .vscode
 	@echo "{\"tasks\":[{\"type\":\"cppbuild\",\"label\":\"Make debug\",\"command\":\"/usr/bin/make\",\"args\":[\"debug\"],\"options\":{\"cwd\":\"\$${workspaceFolder}\"},\"problemMatcher\":[\"\$$gcc\"],\"group\":{\"kind\":\"build\",\"isDefault\":true}}],\"version\":\"2.0.0\"}" > .vscode/tasks.json
 	@echo "{\"version\": \"0.2.0\",\"configurations\": [{\"name\": \"gcc - Build and debug active file\",\"type\": \"$(DEBUGGER)\",\"request\": \"launch\",\"program\": \"\$${workspaceFolder}/${NAME_DEBUG}\",\"args\": [],\"stopAtEntry\": false,\"cwd\": \"\$${workspaceFolder}\",\"environment\": [],\"externalConsole\": $(CODE_DEBUG_EXTERNAL_CONSOLE),\"MIMode\": \"lldb\",\"preLaunchTask\": \"Make debug\"}]}" > .vscode/launch.json
 
@@ -90,14 +83,14 @@ clean:
 	@echo "\033[0;31mCleaning libft..."
 	@make clean -C libft/
 	@echo "\nRemoving objects..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "\033[0m"
 
 fclean:
 	@echo "\033[0;31mCleaning libft..."
 	@make fclean -C libft/
 	@echo "\nDeleting objects..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "\nDeleting executable..."
 	@rm -f $(NAME)
 	@echo "\033[0m"

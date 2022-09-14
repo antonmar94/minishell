@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+         #
+#    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 19:27:37 by albzamor          #+#    #+#              #
-#    Updated: 2022/09/10 14:27:32 by antonmar         ###   ########.fr        #
+#    Updated: 2022/09/14 20:43:32 by albzamor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC	= 	ft_putstr_fd.c ft_putchar_fd.c ft_strmapi.c ft_itoa.c ft_split.c ft_strtr
 			ft_strnstr.c ft_toupper.c ft_putendl_fd.c ft_putnbr_fd.c\
 			ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c\
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
-
+CFLAGS = -Wall -Werror -Wextra
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
 
@@ -34,7 +34,7 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@printf "\033[0;33mGenerating libft objects... %-33.33s\r" $@
-	@${CC} ${CFLAGS} -c $< -o $@
+	@cc ${CFLAGS} -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

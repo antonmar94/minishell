@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 16:07:18 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:47:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	export(t_shell *shell)
 		return (0);
 	var_name = cut_env_var_name(*(shell->command_args));
 	var_content = cut_env_var_content(*(shell->command_args));
-	if (varname_found(&var_name, &var_content, &tofree, shell))
+	if (varname_found(&var_name, &var_content, shell))
 		return (0);
 	new_list_var = env_var_list_new(*(shell->command_args));
 	env_var_add_back(&shell->env_list, new_list_var);

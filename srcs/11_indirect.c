@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_indirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/10 15:43:11 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:17:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,15 @@ char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 {
 	char	**all_files;
 	int		matrix_size;
-	int		elem_size;
 	int		i;
 
 	i = 0;
 	matrix_size = get_matrix_size(child_line, arrows);
 	all_files = (char **)malloc(sizeof(char *) * (matrix_size + 1));
+	
 	ft_memset(all_files, 0, matrix_size + 1);
 	while (*child_line && i <= matrix_size)
 	{
-		elem_size = 0;
 		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
 		{
 			
@@ -83,18 +82,20 @@ char	*two_arrows(t_shell *shell, char **all_files)
 
 	all_lines = NULL;
 	kill(shell->pipes_struct->pid, SIGUSR1);
-	//printf("PETA EN ESTA PARTE\n");
 	line_in = ask_for_line(shell, *all_files);
-	//printf("PETA EN ESTA PARTE\n");
  	if (line_in && !ft_strcmp(*all_files, line_in))
 		all_files++;
 	else if (line_in)
 		all_lines = ft_strdup(line_in);
+	if (g_interactive == 3)
+		return (NULL);
 	while (line_in && all_files && *all_files)
 	{
 		//AQUI VA A HABER LEAKS
 		new_free(&line_in);
 		line_in = ask_for_line(shell, *all_files);
+		if (g_interactive == 3)
+			return (NULL);
 		if (line_in && !ft_strcmp(*all_files, line_in))
 			all_files++;
 		else if (line_in)
@@ -107,15 +108,24 @@ int	do_indirect(t_shell *shell)
 {
 	t_pipes	*pipes_struct;
 	char	**last_file;
+	char	**files_matrix;
+	char	*start_line;
 
 	pipes_struct = shell->pipes_struct;
-	pipes_struct->all_files = get_files_matrix(shell, shell->line, "<");
+	start_line = shell->line;
+	files_matrix = get_files_matrix(shell, start_line, "<");
+	pipes_struct->simple_files = files_matrix;
 	get_clean_line(&shell->line, "<");
-	//AQUI VA A HABER LEAKS
-	last_file  = pipes_struct->all_files;
-	while(last_file[1])
-		last_file++;
-	pipes_struct->all_files = last_file;
+	if (pipes_struct->last_arrows == 1)
+	{
+		files_matrix = get_files_matrix(shell, start_line, "<");
+		pipes_struct->all_files = files_matrix;
+		//AQUI VA A HABER LEAKS
+		last_file  = pipes_struct->all_files;
+		while(last_file[1])
+			last_file++;
+		pipes_struct->all_files = last_file;
+	}
 	return (0);
 }
 
@@ -129,5 +139,10 @@ int	double_indirect(t_shell *shell)
 	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
 		pipes_struct->heardoc_lines = two_arrows(shell, pipes_struct->all_files);
+	if (g_interactive == 3)
+	{
+		g_interactive = 0;
+		return (-1);
+	}
 	return (0);
 }
