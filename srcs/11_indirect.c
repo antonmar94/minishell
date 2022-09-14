@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_indirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/14 19:01:24 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:17:30 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 {
 	char	**all_files;
 	int		matrix_size;
-	int		elem_size;
 	int		i;
 
 	i = 0;
@@ -28,7 +27,6 @@ char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 	ft_memset(all_files, 0, matrix_size + 1);
 	while (*child_line && i <= matrix_size)
 	{
-		elem_size = 0;
 		if (!ft_strncmp(child_line, arrows, ft_strlen(arrows)))
 		{
 			

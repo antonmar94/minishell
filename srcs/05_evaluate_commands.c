@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_evaluate_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 19:01:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:16:50 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ int	system_commmand(t_shell *shell, char **envp)
 	char		**env_aux;
 	char		*env_dup;
 	char		**paths_list;
-	int			i;
 
-	i = 0;
 	env_aux = envp;
 	while (*env_aux && ft_strncmp(*env_aux, "PATH", 4))
 		env_aux++;

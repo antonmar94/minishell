@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_search_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/04 16:16:01 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:16:21 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,8 @@ void	create_array_args(t_shell *shell)
 
 int	split_arguments(t_shell *shell)
 {
-	int			i;
 	char		**to_free;
 
-	i = 1;
 	shell->size_com_args = 0;
 		shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
