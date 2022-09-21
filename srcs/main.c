@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/14 20:26:25 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:01:44 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	shell_execution(t_shell *shell)
 		exit(shell->exit_return);
 	if (shell->line && *shell->line)
 		add_history(shell->line);
-		
 	if (shell->line && !check_syntax(shell))
 	{
 		split_arguments(shell);

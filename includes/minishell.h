@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 20:15:38 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:14:43 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void		execute_command(t_shell *shell, int i);
 char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
 
-
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);
 int			check_quotes_syntax(char	*line);
@@ -271,5 +270,4 @@ int			do_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);
 
 extern int	g_interactive;
-
 #endif

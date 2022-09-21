@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/14 21:01:36 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:03:05 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int last_num_arrows(char *line)
 				return (1);
 		}
 		line--;
-	}	
+	}
 	return (0);
 }
 
@@ -36,13 +36,11 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	char	*clean_line;
-	//char	*line_aux;
 
 	line_in = NULL;
 	line_in = readline("> ");
 	if (g_interactive == 2)
 	{
-		//AQUI VA A HABER LEAKS
 		free(shell->pipes_struct->all_files);
 		if (line_in)
 		{
@@ -60,15 +58,12 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 		{
 			clean_line = arg_creator(shell, &line_in);
 			new_free(&line_in);
-			//line_in = clean_line;
 			line_in = ft_strjoin(clean_line, "\n");
 			new_free(&clean_line);
-
 		}
 		else
 			line_in = ft_strdup("\n");
 	}
-	
 	return (line_in);
 }
 
