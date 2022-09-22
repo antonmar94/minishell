@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/11 14:29:54 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:16:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,8 @@
 
 int	g_interactive = 0;
 
-void leaks()
-{
-	system("leaks minishell");
-}
-
 void	shell_execution(t_shell *shell)
 {
-	
 	shell->minishell_envp = create_env_matrix(shell);
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	ft_new_line(shell);
@@ -38,7 +32,6 @@ void	shell_execution(t_shell *shell)
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
 	free(shell->minishell_envp);
-	//leaks();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -46,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 
 	(void)argv;
-	//atexit(leaks);
 	if (argc != 1)
 		error_args_init();
 	signal_handler();

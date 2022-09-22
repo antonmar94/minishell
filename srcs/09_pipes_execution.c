@@ -6,44 +6,52 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 14:50:06 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:17:14 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	redirect_resolution(t_pipes *pipes_struct)
+{
+	int		*fd;
+	int		fd_file;
+
+	if (pipes_struct->last_arrows == 2)
+		fd = pipes_struct->fd_red;
+	else
+		fd = pipes_struct->fd_in;
+	if (pipe(fd) < 0)
+		return (-1);
+	if (pipes_struct->heardoc_lines)
+		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
+	if (*pipes_struct->simple_files)
+	{
+		fd_file = open(*pipes_struct->simple_files, O_RDONLY);
+		if (fd_file < 0)
+			return (-1);
+		if (pipes_struct->last_arrows == 1)
+			dup2(fd_file, fd[READ_END]);
+		close(fd_file);
+	}
+	close(fd[WRITE_END]);
+	dup2(fd[READ_END], STDIN_FILENO);
+	close(fd[READ_END]);
+	return (0);
+}
+
 int	execute_child_line(t_shell *shell, char **envp)
 {
-	int	*fd;
-	int fd_file;
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
 	if (*pipes_struct->all_files)
 	{
-		if (pipes_struct->last_arrows == 2)
-			fd = pipes_struct->fd_red;
-		else
-			fd = pipes_struct->fd_in;
-		if (pipe(fd) < 0)
-			return (errno);
-		if (pipes_struct->heardoc_lines)
-			ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-		if (*pipes_struct->simple_files)
+		if (redirect_resolution(pipes_struct) < 0)
 		{
-			fd_file = open(*pipes_struct->simple_files, O_RDONLY);
-			if (fd_file < 0)
-			{
-				new_free(&shell->line);
-				error_wrong_path(shell, *pipes_struct->simple_files);
-			}
-			if (pipes_struct->last_arrows == 1)
-				dup2(fd_file, fd[READ_END]);
-			close(fd_file);
+			error_wrong_path(shell, *pipes_struct->simple_files);
+			exit (shell->exit_return);
 		}
-		close(fd[WRITE_END]);
-		dup2(fd[READ_END], STDIN_FILENO);
-		close(fd[READ_END]);
 	}
 	split_arguments(shell);
 	if (!find_command(shell))
@@ -54,17 +62,28 @@ int	execute_child_line(t_shell *shell, char **envp)
 	exit (shell->exit_return);
 }
 
+int	create_child(t_shell *shell, t_pipes *pipes_struct, int fd)
+{
+	free(pipes_struct->child_line);
+	pipes_struct->child_line = create_child_line(pipes_struct);
+	if (double_indirect(shell) < 0)
+		return (-1);
+	if (fd == 1)
+		pipe(pipes_struct->fd1);
+	else
+		pipe(pipes_struct->fd2);
+	pipes_struct->pid = fork();
+	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
+	return (0);
+}
+
 int	execute_first(t_shell *shell, char **envp, int is_first)
 {
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	pipes_struct->child_line= create_child_line(pipes_struct);
-	if (double_indirect(shell) < 0)
+	if (create_child(shell, pipes_struct, 1) < 0)
 		return (-1);
-	pipe(pipes_struct->fd1);
-	pipes_struct->pid = fork();
-	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 	if (pipes_struct->pid == 0)
 	{
 		shell->line = pipes_struct->child_line;
@@ -84,12 +103,8 @@ int	execute_next(t_shell *shell, char **envp, int is_first)
 		close(pipes_struct->fd2[READ_END]);
 	if (*pipes_struct->holder_parent)
 	{
-		pipes_struct->child_line = create_child_line(pipes_struct);
-		if (double_indirect(shell) < 0)
+		if (create_child(shell, pipes_struct, 2) < 0)
 			return (-1);
-		pipe(pipes_struct->fd2);
-		pipes_struct->pid = fork();
-		pipes_struct->error = check_error_child(shell, pipes_struct->pid);
 		if (pipes_struct->pid == 0)
 			pipes_next(shell, envp, pipes_struct->child_line);
 		else

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 19:48:50 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:29:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*ft_split_one(char *s, char c, char d)
 
 	if (s == NULL)
 		return (NULL);
-
 	scopy = s;
 	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
 	scopy = scopy + ft_desplace_2char(scopy, c, d);

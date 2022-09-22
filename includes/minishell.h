@@ -6,7 +6,11 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/14 19:46:49 by albzamor         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/21 18:14:43 by antonmar         ###   ########.fr       */
+>>>>>>> limpieza_redirecciones
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +166,6 @@ void		execute_command(t_shell *shell, int i);
 char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
 
-
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);
 int			check_quotes_syntax(char	*line);
@@ -271,5 +274,4 @@ int			do_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);
 
 extern int	g_interactive;
-
 #endif

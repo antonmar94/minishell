@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 19:16:50 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:30:28 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ int	system_commmand(t_shell *shell, char **envp)
 {
 	int			ex_res;
 	char		**env_aux;
-	char		*env_dup;
 	char		**paths_list;
 
 	env_aux = envp;
 	while (*env_aux && ft_strncmp(*env_aux, "PATH", 4))
 		env_aux++;
-	env_dup = ft_strdup(*env_aux);
-	env_dup += 5;
-	paths_list = ft_split(env_dup, ':');
+	if (!*env_aux)
+		command_error(shell, shell->command);
+	*env_aux += 5;
+	paths_list = ft_split(*env_aux, ':');
 	ex_res = 0;
 	while (*shell->command_plus_args && *paths_list)
 	{
