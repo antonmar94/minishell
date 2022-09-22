@@ -6,13 +6,13 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/21 20:03:05 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:39:44 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int last_num_arrows(char *line)
+int	last_num_arrows(char *line)
 {
 	while (*line)
 		line++;
@@ -32,32 +32,33 @@ int last_num_arrows(char *line)
 	return (0);
 }
 
+int	check_interactive(t_shell *shell, char **line_in)
+{
+	if (g_interactive == 3)
+	{
+		if (*line_in)
+			shell->sig_int_line = ft_strdup(*line_in);
+		else
+			exit (1);
+		free(*line_in);
+		return (1);
+	}
+	return (0);
+}
+
 char	*ask_for_line(t_shell *shell, char *all_files)
 {
 	char	*line_in;
 	char	*clean_line;
 
-	line_in = NULL;
 	line_in = readline("> ");
-	if (g_interactive == 2)
-	{
-		free(shell->pipes_struct->all_files);
-		if (line_in)
-		{
-			shell->sig_int_line = ft_strdup(line_in);
-			new_free(&line_in);
-		}
-		else
-			exit (1);
-		g_interactive = 3;
+	if (check_interactive(shell, &line_in))
 		return (NULL);
-	}
 	if (line_in && ft_strcmp(all_files, line_in))
 	{
 		if (*line_in)
 		{
-			clean_line = arg_creator(shell, &line_in);
-			new_free(&line_in);
+			clean_line = line_in;
 			line_in = ft_strjoin(clean_line, "\n");
 			new_free(&clean_line);
 		}
@@ -71,7 +72,6 @@ int	get_matrix_size(char *line, char *arrows)
 {
 	char	*aux_line;
 	int		matrix_size;
-
 
 	matrix_size = 0;
 	aux_line = line;

@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/21 20:01:47 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:16:51 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sigint_handler(int sig)
 		printf("\n");	
 		ft_putstr_fd(CYAN"AlicornioPrompt$ "RESET, STDIN_FILENO);
 		//printf(CYAN"AlicornioPrompt$ "RESET);
-		g_interactive = 2;
+		g_interactive = 3;
 		errno = 1;
 		return ;
 	}

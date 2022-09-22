@@ -6,18 +6,13 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/21 20:01:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:16:42 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	g_interactive = 0;
-
-void leaks()
-{
-	system("leaks minishell");
-}
 
 void	shell_execution(t_shell *shell)
 {
@@ -37,7 +32,6 @@ void	shell_execution(t_shell *shell)
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
 	free(shell->minishell_envp);
-	//leaks();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -45,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 
 	(void)argv;
-	//atexit(leaks);
 	if (argc != 1)
 		error_args_init();
 	signal_handler();

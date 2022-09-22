@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/21 20:00:46 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:17:14 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 
 int	create_child(t_shell *shell, t_pipes *pipes_struct, int fd)
 {
+	free(pipes_struct->child_line);
 	pipes_struct->child_line = create_child_line(pipes_struct);
 	if (double_indirect(shell) < 0)
 		return (-1);

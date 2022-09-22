@@ -6,14 +6,12 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/21 20:02:37 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:18:13 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/* Obtener una matriz con la cantidad de heardocs a abrir
-	y el nombre por el que se cierran */
 char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 {
 	char	**all_files;
@@ -83,44 +81,69 @@ int	get_clean_line(char **line, char *arrows)
 	return (0);
 }
 
-/* Obtener las lineas introducidas por el usuario
-	juntandolas todas en "all_lines" */
+char	*first_line_in(t_shell *shell, char ***all_files, char **all_lines)
+{
+	char	*free_aux;
+	char	*line_in;
+
+	kill(shell->pipes_struct->pid, SIGUSR1);
+	line_in = ask_for_line(shell, **all_files);
+	if (line_in && !ft_strcmp(**all_files, line_in))
+	{
+		free(line_in);
+		free_aux = **all_files;
+		(*all_files)++;
+		free(free_aux);
+	}
+	else if (line_in)
+	{
+		free(*all_lines);
+		*all_lines = ft_strdup(line_in);
+	}
+	return (line_in);
+}
+
+char	*next_line_in(t_shell *shell, char ***all_files, char **all_lines)
+{
+	char	*free_aux;
+	char	*line_in;
+
+	line_in = ask_for_line(shell, **all_files);
+	if (g_interactive == 3)
+		return (NULL);
+	if (line_in && !ft_strcmp(**all_files, line_in))
+	{
+		free(line_in);
+		free_aux = **all_files;
+		(*all_files)++;
+		free(free_aux);
+	}
+	else if (line_in)
+	{
+		free_aux = *all_lines;
+		*all_lines = ft_strjoin(*all_lines, line_in);
+		free(free_aux);
+	}
+	return (line_in);
+}
+
 char	*two_arrows(t_shell *shell, char **all_files)
 {
 	char	*line_in;
 	char	*all_lines;
-	char	*free_aux;
 
 	all_lines = NULL;
-	kill(shell->pipes_struct->pid, SIGUSR1);
-	line_in = ask_for_line(shell, *all_files);
-	if (line_in && !ft_strcmp(*all_files, line_in))
-	{
-		free_aux = *all_files;
-		all_files++;
-		free(free_aux);
-	}
-	else if (line_in)
-		all_lines = ft_strdup(line_in);
+	line_in = first_line_in(shell, &all_files, &all_lines);
 	if (g_interactive == 3)
 		return (NULL);
 	while (line_in && all_files && *all_files)
 	{
 		new_free(&line_in);
-		line_in = ask_for_line(shell, *all_files);
+		line_in = next_line_in(shell, &all_files, &all_lines);
 		if (g_interactive == 3)
+		{
+			free(all_lines);
 			return (NULL);
-		if (line_in && !ft_strcmp(*all_files, line_in))
-		{
-			free_aux = *all_files;
-			all_files++;
-			free(free_aux);
-		}
-		else if (line_in)
-		{
-			free_aux = all_lines;
-			all_lines = ft_strjoin(all_lines, line_in);
-			free(free_aux);
 		}
 	}
 	return (all_lines);
@@ -142,8 +165,8 @@ int	do_indirect(t_shell *shell)
 	if (pipes_struct->last_arrows == 1)
 	{
 		files_matrix = get_files_matrix(shell, start_line, "<");
-		if (pipes_struct->all_files)
-			free(pipes_struct->all_files);
+		if (pipes_struct->all_files && *pipes_struct->all_files)
+			free_matrix(pipes_struct->all_files);
 		pipes_struct->all_files = files_matrix;
 		last_file = pipes_struct->all_files;
 		while (last_file[1])
@@ -159,15 +182,19 @@ int	double_indirect(t_shell *shell)
 
 	pipes_struct = shell->pipes_struct;
 	pipes_struct->last_arrows = last_num_arrows(pipes_struct->child_line);
-	//leaks();
+	free(pipes_struct->all_files);
 	pipes_struct->all_files
 		= get_files_matrix(shell, pipes_struct->child_line, "<<");
 	get_clean_line(&pipes_struct->child_line, "<<");
 	if (*pipes_struct->all_files)
+	{
+		free(pipes_struct->heardoc_lines);
 		pipes_struct->heardoc_lines
 			= two_arrows(shell, pipes_struct->all_files);
+	}
 	if (g_interactive == 3)
 	{
+		free_matrix(pipes_struct->all_files);
 		g_interactive = 0;
 		return (-1);
 	}
