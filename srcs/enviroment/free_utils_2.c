@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   31_free_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:05:22 by albzamor          #+#    #+#             */
-/*   Updated: 2022/08/30 23:08:05 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 13:18:40 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_isdigit_str(char *str)
 {

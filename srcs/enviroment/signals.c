@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   24_signals.c                                       :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 11:54:12 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:35:05 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	sigint_handler(int sig)
 {
 	if ((sig == SIGINT || sig == SIGQUIT))
 	{
-		//rl_redisplay();
 		rl_replace_line("", 0);
-		//rl_on_new_line();
-		printf("\n");	
-		ft_putstr_fd(CYAN"AlicornioPrompt$ "RESET, STDIN_FILENO);
-		//printf(CYAN"AlicornioPrompt$ "RESET);
+		printf("\n");
+		rl_redisplay();
+		printf("\r%-2s", CYAN"AlicornioPrompt$ "RESET);
 		g_interactive = 3;
 		errno = 1;
 		return ;

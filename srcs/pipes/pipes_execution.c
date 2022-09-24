@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   09_pipes_execution.c                               :+:      :+:    :+:   */
+/*   pipes_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 11:32:46 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:31:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	pipes_first(t_shell *shell, char **envp, int is_first)
 {
@@ -121,5 +121,3 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	}
 	return (child_number);
 }
-
-

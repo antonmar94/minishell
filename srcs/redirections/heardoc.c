@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   11a_heardoc.c                                      :+:      :+:    :+:   */
+/*   heardoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:33:47 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 11:38:49 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:32:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ask_for_line(t_shell *shell, char *all_files)
 {

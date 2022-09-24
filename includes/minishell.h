@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 11:51:54 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:36:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ char		*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder);
 char		*arg_creator(t_shell *shell, char **argument);
 int			size_quotes_arg(char *line_walker, char quotes);
 int			check_arrow_syntax(char *line, char arrow);
-
 int			execute_line(t_shell *shell, char **envp);
 int			do_redirect(t_shell *shell);
 
@@ -222,6 +221,7 @@ int			env_export(t_shell *shell);
 int			ft_lst_env_size(t_env_list *lst);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
+int			get_size_line(char *size_walker);
 void		pipes_first(t_shell *shell, char **envp, int is_first);
 void		pipes_next(t_shell *shell, char **envp, char *child_line);
 char		*pipe_next_line(char *line);
@@ -269,9 +269,11 @@ int			do_redirect(t_shell *shell);
 int			simple_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);
 
-/*----------------------- HEARDOC----------------------------------------------*/
-char	*first_line_in(t_shell *shell, char ***all_files, char **all_lines);
-char	*next_line_in(t_shell *shell, char ***all_files, char **all_lines);
+/*----------------------- HEARDOC--------------------------------------------*/
+char		*first_line_in(t_shell *shell, char ***all_files,
+				char **all_lines);
+char		*next_line_in(t_shell *shell, char ***all_files, char **all_lines);
+int			check_interactive(t_shell *shell, char **line_in);
 
 extern int	g_interactive;
 #endif

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   al_auxiliar_list.c                                 :+:      :+:    :+:   */
+/*   auxiliar_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 11:53:54 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 14:55:32 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*cut_env_var_name(char *str_whith_equal_in)
 {

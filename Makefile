@@ -3,38 +3,12 @@ NAME_DEBUG = minishell_debug
 CODE_DEBUG_EXTERNAL_CONSOLE = true
 LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
-SRCS =	./srcs/00_init.c \
-		./srcs/01_init_env.c \
-		./srcs/02_search_quotes.c \
-		./srcs/02a_search_quotes_utils.c \
-		./srcs/02b_quotes_utils.c \
-		./srcs/03_search_dollar.c\
-		./srcs/04_evaluate_syntax.c \
-		./srcs/04b_evaluate_syntax_2.c \
-		./srcs/05_evaluate_commands.c \
-		./srcs/06_builtins.c \
-		./srcs/07_enviroment_builtins.c \
-		./srcs/08_pipes_utils.c \
-		./srcs/09_pipes_execution.c \
-		./srcs/10_redirect.c \
-		./srcs/10b_redirect_utils.c \
-		./srcs/11_indirect.c \
-		./srcs/11b_indirect_utils.c \
-		./srcs/20_header.c \
-		./srcs/21_errors.c \
-		./srcs/22_errors_2.c \
-		./srcs/23_list_utils.c \
-		./srcs/24_signals.c \
-		./srcs/30_free_utils.c \
-		./srcs/31_free_utils_2.c \
-		./srcs/al_auxiliar_comp.c \
-		./srcs/al_auxiliar_list.c \
-		./srcs/al_auxiliar_list2.c \
-		./srcs/al_aux_lib.c \
-		./srcs/main.c \
 
-READLINE_INSTALL_LOCATION=$(shell brew --prefix readline)
-OBJS = ${SRCS:.c=.o}
+
+SRCS = $(wildcard *.c) $(wildcard srcs/*/*.c)
+OBJS = $(SRCS:.c=.o)
+
+READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
 CFLAGS = -Wall -Werror -Wextra
 MAKE = arch -x86_64 make
 DEBUGGER = lldb
@@ -45,17 +19,17 @@ READLINE = -lreadline
 CC = cc
 
 all: $(NAME)
-%.o: %.c
+
+%.o:$(SRC_DIR)%.c
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
 	@${CC} ${OBJECT_FLAGS} -c $< -o $@
 
 $(NAME): $(OBJS)
 	@echo "\n"
 	@make -C $(LIBFT_DIR)
-	@echo "\033[0;32mCompiling minishell..."
+	@echo "\033[0;35mCompiling minishell..."
 	@$(CC) $(COMP_FLAGS) $(LIBFT_DIR)$(LIBFT_NAME) -lreadline -o $(NAME) $^
-	@echo "\n\033[0mDone !"
-
+	@echo "\n\033[0;32mDone !"
 	@echo "set enable-bracketed-paste off" > .inputrc
 	@export INPUTRC=$PWD/.inputrc
 
@@ -76,14 +50,17 @@ compare: all
 	@cd tests && ./compare.sh && cd ..
 
 del_history:
-	rm -f .history_own
-#rm -f ../../.history
+	@echo "\033[0;33mDeleting History..."
+	@rm -f .history_own
+	@echo "\033[0;32mDone !"
+	@echo "\033[0m"
 
 clean:
 	@echo "\033[0;31mCleaning libft..."
 	@make clean -C libft/
 	@echo "\nRemoving objects..."
 	@rm -f $(OBJS)
+	@echo "\n\033[0;32mDone !"
 	@echo "\033[0m"
 
 fclean:
@@ -93,6 +70,7 @@ fclean:
 	@rm -f $(OBJS)
 	@echo "\nDeleting executable..."
 	@rm -f $(NAME)
+	@echo "\n\033[0;32mDone !"
 	@echo "\033[0m"
 
 re: fclean all
@@ -118,6 +96,7 @@ LIGHT_CYAN	:="\033[1;36m"
 WHITE		:="\033[1;37m"
 RESET		:="\x1b[0m"
 
+#.PHONY only execute somethhing not create files
 # shell uname -m architecture
 # cp $(MLX_DIR)libmlx.dylib need to cp to the root
 # m1 rule to compile en m1: firstime copy manual libmlx.dylib

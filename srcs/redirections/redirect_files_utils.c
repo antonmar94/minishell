@@ -1,54 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   10b_redirect_utils.c                               :+:      :+:    :+:   */
+/*   redirect_files_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/11 13:49:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:29:34 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	jump_quotes(char **line_to_ignore)
-{
-	char	quotes;
-	int		size_quotes;
+void	create_file(t_shell *shell, char *file_in_line, int file_size)
+{	
+	char	*file_name;
+	char	*file_name_clean;
 
-	size_quotes = 0;
-	quotes = check_allquotes(*line_to_ignore);
-	if (quotes)
-	{
-		(*line_to_ignore)++;
-		size_quotes++;
-		while (**line_to_ignore != quotes)
-		{
-			(*line_to_ignore)++;
-			size_quotes++;
-		}
-		size_quotes++;
-		return (size_quotes);
-	}
-	return (1);
-}
-
-void	append_to_line(char **line, char **line_finder, char arrow)
-{
-	char	*aux_append;
-	int		size_append;
-
-	aux_append = *line_finder;
-	size_append = 0;
-	while (*aux_append && *aux_append != arrow)
-	{
-		size_append += jump_quotes(&aux_append);
-		aux_append++;
-	}
-	*line_finder = ft_substr(*line_finder, 0, size_append);
-	*line = ft_strjoin(*line, *line_finder);
-	*line_finder = aux_append;
+	file_name = ft_substr(file_in_line, 0, file_size);
+	if (file_name)
+		file_name_clean = arg_creator(shell, &file_name);
+	if (open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664) < 0)
+		error_wrong_path(shell, file_name);
 }
 
 int	get_file_size(char **aux_finder, char **files_finder, int *num_arrows)
@@ -71,18 +44,6 @@ int	get_file_size(char **aux_finder, char **files_finder, int *num_arrows)
 		(*aux_finder)++;
 	}
 	return (file_size);
-}
-
-void	create_file(t_shell *shell, char *file_in_line, int file_size)
-{	
-	char	*file_name;
-	char	*file_name_clean;
-
-	file_name = ft_substr(file_in_line, 0, file_size);
-	if (file_name)
-		file_name_clean = arg_creator(shell, &file_name);
-	if (open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664) < 0)
-		error_wrong_path(shell, file_name);
 }
 
 int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)

@@ -6,7 +6,7 @@
 #    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 19:27:37 by albzamor          #+#    #+#              #
-#    Updated: 2022/09/13 19:34:50 by albzamor         ###   ########.fr        #
+#    Updated: 2022/09/24 15:22:10 by albzamor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,6 @@ DEBUGGER = lldb
 READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
 endif
 
-
-
-
-
-
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
 
@@ -48,7 +43,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "\n\n\033[0;32mCompiling libft..."
+	@echo "\n\n\033[0;35mCompiling libft..."
 	@ar rc $(NAME) $^
 	@ranlib $(NAME)
 	@echo "\033[0m"

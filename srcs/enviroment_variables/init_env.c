@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   01_init_env.c                                      :+:      :+:    :+:   */
+/*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/04 15:33:17 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:31:16 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_env_list	*env_var_list_hidden(char *name, char *content)
 {
@@ -36,7 +36,8 @@ t_env_list	*mount_hidden_env_var(t_shell *shell, char **hidden_name,
 	i = -1;
 	while (++i < size_matriz(hidden_name))
 	{
-		this_list_var = env_var_list_hidden(hidden_name[i], hidden_content[i]);
+		this_list_var = env_var_list_hidden(hidden_name[i],
+				hidden_content[i]);
 		env_var_add_back(&shell->env_list, this_list_var);
 		if (i == 0)
 			init = this_list_var;

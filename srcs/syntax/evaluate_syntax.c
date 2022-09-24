@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   04b_evaluate_syntax_2.c                            :+:      :+:    :+:   */
+/*   evaluate_syntax_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:35:29 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 11:59:00 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 14:53:59 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_empty(t_shell *shell)
 {

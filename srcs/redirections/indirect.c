@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   11_indirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 11:38:32 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 13:38:26 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	**get_files_matrix(t_shell *shell, char *child_line, char *arrows)
 {
