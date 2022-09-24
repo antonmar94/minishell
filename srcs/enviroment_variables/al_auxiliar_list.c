@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:52:46 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/14 19:48:07 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:53:54 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,6 @@ char	*cut_env_var_content(char *str_whith_equal_in)
 	env_var_walking++;
 	var_content = ft_strdup(env_var_walking);
 	return (var_content);
-}
-
-/* boolean to find a variable */
-int	look_for_var_name(t_shell *shell, char *var_name_to_find)
-{
-	t_env_list	*copy;
-
-	copy = shell->env_list_plus;
-	while (copy->next)
-	{
-		if (!ft_strcmp(copy->var_name, var_name_to_find))
-			return (1);
-		copy = copy->next;
-	}
-	if (!ft_strcmp(copy->var_name, var_name_to_find))
-		return (1);
-	return (0);
 }
 
 /* modify variable content if it already exists otherwise returns 1*/

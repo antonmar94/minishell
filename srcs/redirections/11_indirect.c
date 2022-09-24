@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/22 22:18:13 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:38:32 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,75 +81,7 @@ int	get_clean_line(char **line, char *arrows)
 	return (0);
 }
 
-char	*first_line_in(t_shell *shell, char ***all_files, char **all_lines)
-{
-	char	*free_aux;
-	char	*line_in;
-
-	kill(shell->pipes_struct->pid, SIGUSR1);
-	line_in = ask_for_line(shell, **all_files);
-	if (line_in && !ft_strcmp(**all_files, line_in))
-	{
-		free(line_in);
-		free_aux = **all_files;
-		(*all_files)++;
-		free(free_aux);
-	}
-	else if (line_in)
-	{
-		free(*all_lines);
-		*all_lines = ft_strdup(line_in);
-	}
-	return (line_in);
-}
-
-char	*next_line_in(t_shell *shell, char ***all_files, char **all_lines)
-{
-	char	*free_aux;
-	char	*line_in;
-
-	line_in = ask_for_line(shell, **all_files);
-	if (g_interactive == 3)
-		return (NULL);
-	if (line_in && !ft_strcmp(**all_files, line_in))
-	{
-		free(line_in);
-		free_aux = **all_files;
-		(*all_files)++;
-		free(free_aux);
-	}
-	else if (line_in)
-	{
-		free_aux = *all_lines;
-		*all_lines = ft_strjoin(*all_lines, line_in);
-		free(free_aux);
-	}
-	return (line_in);
-}
-
-char	*two_arrows(t_shell *shell, char **all_files)
-{
-	char	*line_in;
-	char	*all_lines;
-
-	all_lines = NULL;
-	line_in = first_line_in(shell, &all_files, &all_lines);
-	if (g_interactive == 3)
-		return (NULL);
-	while (line_in && all_files && *all_files)
-	{
-		new_free(&line_in);
-		line_in = next_line_in(shell, &all_files, &all_lines);
-		if (g_interactive == 3)
-		{
-			free(all_lines);
-			return (NULL);
-		}
-	}
-	return (all_lines);
-}
-
-int	do_indirect(t_shell *shell)
+int	simple_indirect(t_shell *shell)
 {
 	t_pipes	*pipes_struct;
 	char	**last_file;
@@ -190,7 +122,7 @@ int	double_indirect(t_shell *shell)
 	{
 		free(pipes_struct->heardoc_lines);
 		pipes_struct->heardoc_lines
-			= two_arrows(shell, pipes_struct->all_files);
+			= get_heardoc_lines(shell, pipes_struct->all_files);
 	}
 	if (g_interactive == 3)
 	{

@@ -6,75 +6,49 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/22 22:17:14 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:32:46 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	redirect_resolution(t_pipes *pipes_struct)
-{
-	int		*fd;
-	int		fd_file;
-
-	if (pipes_struct->last_arrows == 2)
-		fd = pipes_struct->fd_red;
-	else
-		fd = pipes_struct->fd_in;
-	if (pipe(fd) < 0)
-		return (-1);
-	if (pipes_struct->heardoc_lines)
-		ft_putstr_fd(pipes_struct->heardoc_lines, fd[WRITE_END]);
-	if (*pipes_struct->simple_files)
-	{
-		fd_file = open(*pipes_struct->simple_files, O_RDONLY);
-		if (fd_file < 0)
-			return (-1);
-		if (pipes_struct->last_arrows == 1)
-			dup2(fd_file, fd[READ_END]);
-		close(fd_file);
-	}
-	close(fd[WRITE_END]);
-	dup2(fd[READ_END], STDIN_FILENO);
-	close(fd[READ_END]);
-	return (0);
-}
-
-int	execute_child_line(t_shell *shell, char **envp)
+void	pipes_first(t_shell *shell, char **envp, int is_first)
 {
 	t_pipes	*pipes_struct;
 
 	pipes_struct = shell->pipes_struct;
-	if (*pipes_struct->all_files)
+	close(pipes_struct->fd1[READ_END]);
+	if (!is_first)
 	{
-		if (redirect_resolution(pipes_struct) < 0)
-		{
-			error_wrong_path(shell, *pipes_struct->simple_files);
-			exit (shell->exit_return);
-		}
+		dup2(pipes_struct->fd2[READ_END], STDIN_FILENO);
+		close(pipes_struct->fd2[READ_END]);
 	}
-	split_arguments(shell);
-	if (!find_command(shell))
-	{
-		if (!system_commmand(shell, envp))
-			command_error(shell, shell->command);
-	}
-	exit (shell->exit_return);
+	if (*pipes_struct->holder_parent)
+		dup2(pipes_struct->fd1[WRITE_END], STDOUT_FILENO);
+	close(pipes_struct->fd1[WRITE_END]);
+	simple_indirect(shell);
+	if (!shell->exit_return)
+		do_redirect(shell);
+	execute_child_line(shell, envp);
 }
 
-int	create_child(t_shell *shell, t_pipes *pipes_struct, int fd)
+void	pipes_next(t_shell *shell, char **envp, char *child_line)
 {
-	free(pipes_struct->child_line);
-	pipes_struct->child_line = create_child_line(pipes_struct);
-	if (double_indirect(shell) < 0)
-		return (-1);
-	if (fd == 1)
-		pipe(pipes_struct->fd1);
-	else
-		pipe(pipes_struct->fd2);
-	pipes_struct->pid = fork();
-	pipes_struct->error = check_error_child(shell, pipes_struct->pid);
-	return (0);
+	t_pipes	*pipes_struct;
+
+	shell->line = child_line;
+	pipes_struct = shell->pipes_struct;
+	close(pipes_struct->fd1[WRITE_END]);
+	close(pipes_struct->fd2[READ_END]);
+	dup2(pipes_struct->fd1[READ_END], STDIN_FILENO);
+	close(pipes_struct->fd1[READ_END]);
+	if (*pipes_struct->holder_parent)
+		dup2(pipes_struct->fd2[WRITE_END], STDOUT_FILENO);
+	close(pipes_struct->fd2[WRITE_END]);
+	simple_indirect(shell);
+	if (!shell->exit_return)
+		do_redirect(shell);
+	execute_child_line(shell, envp);
 }
 
 int	execute_first(t_shell *shell, char **envp, int is_first)
@@ -148,25 +122,4 @@ int	execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp)
 	return (child_number);
 }
 
-void	child_execution(t_shell *shell, char **envp)
-{
-	int			exit_child;
-	int			child_number;
 
-	exit_child = 0;
-	child_number = 0;
-	free_parent(shell);
-	child_number = execute_all(shell, shell->pipes_struct, envp);
-	if (child_number < 0)
-		return ;
-	while (child_number-- > 0)
-		waitpid(-1, &exit_child, 0);
-	if (WIFEXITED(exit_child))
-		errno = WEXITSTATUS(exit_child);
-	if (WIFSIGNALED(exit_child))
-	{
-		errno = WTERMSIG(exit_child);
-		if (errno != 131)
-			errno += 128;
-	}
-}

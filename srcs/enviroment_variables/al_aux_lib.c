@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   al_auxiliar_list2.c                                :+:      :+:    :+:   */
+/*   al_aux_lib.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:30:12 by albzamor          #+#    #+#             */
-/*   Updated: 2022/07/13 20:42:41 by antonmar         ###   ########.fr       */
+/*   Created: 2022/02/17 00:25:49 by albzamor          #+#    #+#             */
+/*   Updated: 2022/09/24 11:54:07 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,59 @@ int	del_var_node_coincident(t_shell *shell, char *var_name_to_find)
 		return (1);
 	}
 	return (0);
+}
+
+/* modified split to return de first str before a char */
+char	*ft_split_one(char *s, char c, char d)
+{
+	char	*scopy;
+	char	*pp;
+
+	if (s == NULL)
+		return (NULL);
+	scopy = s;
+	pp = ft_substr((const char *)scopy, 0, ft_lens_2char(scopy, c, d));
+	scopy = scopy + ft_desplace_2char(scopy, c, d);
+	if (ft_isdigit(pp[0]) && pp[0] != '0' )
+		return (pp + 1);
+	return (pp);
+}
+
+size_t	ft_desplace_2char(char const *s, char c, char d)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d) && (s[i] == '\f'
+				|| s[i] == '\n' || s[i] == '\r'
+				|| s[i] == '\t' || s[i] == '\v' || s[i] == ' '))
+			i++;
+		if ((!ft_isalpha(s[i]) || s[i] != d) && s[i] != '\0')
+			return (i);
+		while ((!ft_isalpha(s[i]) || s[i] != c || s[i] != d) && s[i] != '\0')
+		{
+			i++;
+		}
+	}
+	return (i);
+}
+
+size_t	ft_lens_2char(char *lens, char c, char d)
+{
+	size_t	i;
+
+	i = 0;
+	{
+		while (lens[i] != '\0')
+		{
+			if ((lens[i] == c || lens[i] == d || (!ft_isalpha(lens[i])
+						&& lens[i] != '_')) && ((lens[i] != '?')
+					&& (lens[i] != '0') && (lens[i] != '~')))
+				return (i);
+			i++;
+		}
+		return (i);
+	}
 }

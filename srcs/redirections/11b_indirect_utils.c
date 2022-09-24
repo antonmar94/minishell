@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:38:53 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/22 20:39:44 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:37:02 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,6 @@ int	check_interactive(t_shell *shell, char **line_in)
 		return (1);
 	}
 	return (0);
-}
-
-char	*ask_for_line(t_shell *shell, char *all_files)
-{
-	char	*line_in;
-	char	*clean_line;
-
-	line_in = readline("> ");
-	if (check_interactive(shell, &line_in))
-		return (NULL);
-	if (line_in && ft_strcmp(all_files, line_in))
-	{
-		if (*line_in)
-		{
-			clean_line = line_in;
-			line_in = ft_strjoin(clean_line, "\n");
-			new_free(&clean_line);
-		}
-		else
-			line_in = ft_strdup("\n");
-	}
-	return (line_in);
 }
 
 int	get_matrix_size(char *line, char *arrows)
