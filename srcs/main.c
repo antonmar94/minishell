@@ -6,11 +6,11 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 15:32:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:50:21 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int	g_interactive = 0;
 

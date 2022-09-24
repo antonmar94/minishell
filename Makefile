@@ -5,7 +5,7 @@ LIBFT_NAME = libft.a
 LIBFT_DIR = ./libft/
 
 
-SRCS = $(wildcard *.c) $(wildcard srcs/*/*.c)
+SRCS = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS = $(SRCS:.c=.o)
 
 READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
