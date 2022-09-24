@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 15:50:21 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/24 17:51:36 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ void	shell_execution(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-
+	if (*envp == NULL)
+	{
+		write(2, "NOT FOUND ENV", 14);
+		return 0;
+	}
 	(void)argv;
 	if (argc != 1)
 		error_args_init();
