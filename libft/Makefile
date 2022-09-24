@@ -6,7 +6,7 @@
 #    By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/14 19:27:37 by albzamor          #+#    #+#              #
-#    Updated: 2022/09/14 20:43:32 by albzamor         ###   ########.fr        #
+#    Updated: 2022/09/24 15:22:10 by albzamor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,18 @@ SRC	= 	ft_putstr_fd.c ft_putchar_fd.c ft_strmapi.c ft_itoa.c ft_split.c ft_strtr
 			ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c\
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 CFLAGS = -Wall -Werror -Wextra
+READLINE = -lreadline
+MAKE = arch -x86_64 make
+DEBUGGER = lldb
+else
+READLINE_INSTALL_LOCATION = $(shell brew --prefix readline)
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include
+CFLAGS2 = -Wall -Werror -Wextra -I $(READLINE_INSTALL_LOCATION)/include #-g3 -fsanitize=address
+DEBUGGER = lldb
+READLINE = -lreadline -L $(READLINE_INSTALL_LOCATION)/lib
+endif
+
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
 
@@ -27,7 +39,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "\n\n\033[0;32mCompiling libft..."
+	@echo "\n\n\033[0;35mCompiling libft..."
 	@ar rc $(NAME) $^
 	@ranlib $(NAME)
 	@echo "\033[0m"

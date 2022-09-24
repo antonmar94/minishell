@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/22 22:31:38 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/24 15:36:53 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ void		env_var_add_back(t_env_list **env_list, t_env_list *new);
 t_env_list	*init_list_env(t_shell *shell, char **envp);
 char		*cut_env_var_name(char *env_var);
 char		*cut_env_var_content(char *env_var);
-int			look_for_var_name(t_shell *shell, char *var_name_to_find);
 int			change_var_content(t_shell *shell, char *var_name_to_find,
 				char *var_content_to_change);
 int			varname_found(char **var_name, char	**var_content, t_shell *shell);
@@ -187,7 +186,6 @@ char		*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder);
 char		*arg_creator(t_shell *shell, char **argument);
 int			size_quotes_arg(char *line_walker, char quotes);
 int			check_arrow_syntax(char *line, char arrow);
-
 int			execute_line(t_shell *shell, char **envp);
 int			do_redirect(t_shell *shell);
 
@@ -223,6 +221,7 @@ int			env_export(t_shell *shell);
 int			ft_lst_env_size(t_env_list *lst);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
+int			get_size_line(char *size_walker);
 void		pipes_first(t_shell *shell, char **envp, int is_first);
 void		pipes_next(t_shell *shell, char **envp, char *child_line);
 char		*pipe_next_line(char *line);
@@ -230,6 +229,7 @@ int			check_pipe_syntax(t_shell *shell);
 char		*create_child_line(t_pipes *pipes_struct);
 int			execute_child_line(t_shell *shell, char **envp);
 void		child_execution(t_shell *shell, char **envp);
+int			create_child(t_shell *shell, t_pipes *pipes_struct, int fd);
 int			execute_all(t_shell *shell, t_pipes *pipes_struct, char **envp);
 
 /*----------------------- FREE------------------------------------------------*/
@@ -241,12 +241,10 @@ void		new_free(char **ptr);
 void		free_matrix(char **array);
 
 /*------------------------ MOD LIFT -----------------------------------------*/
-char		*ft_strjoin_whith_space(char const *s1, char const *s2);
 char		*ft_split_one(char *s, char c, char d);
 size_t		ft_desplace_2char(char const *s, char c, char d);
 size_t		ft_lens_2char(char *lens, char c, char d);
 int			ft_isdigit_str(char *str);
-int			ft_isalpha_str(char *str, char c);
 int			ft_strcmp(const char *s1, const char *s2);
 
 /*----------------------- REDIR----------------------------------------------*/
@@ -257,7 +255,7 @@ void		append_to_line(char **line, char **line_finder, char arrow);
 void		get_line_execute(char **line, char **rest_of_line, char arrow);
 int			get_create_files(t_shell *shell, char **rest_of_line,
 				int num_arrows);
-char		*two_arrows(t_shell *shell, char **all_files);
+char		*get_heardoc_lines(t_shell *shell, char **all_files);
 int			check_last(char **aux_finder, char arrow);
 char		*ask_for_line(t_shell *shell, char *all_files);
 int			get_matrix_size(char *line, char *arrows);
@@ -265,9 +263,17 @@ char		*get_file_name(t_shell *shell, char *child_line);
 char		**get_files_matrix(t_shell *shell, char *child_line, char *arrows);
 int			get_clean_line(char **line, char *arrows);
 int			last_num_arrows(char *line);
+void		create_file(t_shell *shell, char *file_in_line, int file_size);
+int			redirect_resolution(t_pipes *pipes_struct);
 int			do_redirect(t_shell *shell);
-int			do_indirect(t_shell *shell);
+int			simple_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);
+
+/*----------------------- HEARDOC--------------------------------------------*/
+char		*first_line_in(t_shell *shell, char ***all_files,
+				char **all_lines);
+char		*next_line_in(t_shell *shell, char ***all_files, char **all_lines);
+int			check_interactive(t_shell *shell, char **line_in);
 
 extern int	g_interactive;
 #endif
