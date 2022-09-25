@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 17:51:36 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:23:55 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,16 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	if (*envp == NULL)
 	{
-		write(2, "NOT FOUND ENV", 14);
-		return 0;
+		write(2, "NOT FOUND ENV\n\n", 14);
+
+		envp = malloc(sizeof(char *)*4);
+		envp[0]="PWD=/Users/albzamor/Desktop";
+		envp[1]="SHLVL=1";
+		envp[2]="_=/usr/bin/env";
+		envp[3]=NULL;
+
+		//while(*envp)
+        	//printf("%s\n",*envp++);
 	}
 	(void)argv;
 	if (argc != 1)

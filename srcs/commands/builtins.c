@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 16:59:52 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:28:00 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,15 @@ int	cd(t_shell *shell)
 	if (shell->size_com_args == 1
 		|| (shell->size_com_args == 2
 			&& ft_strcmp(shell->command_plus_args[1], "~") == 0))
-				ret = chdir(shell->path->home_user);
+				{
+					if (ft_strcmp(shell->path->home_user, "Not Set") != 0)
+						ret = chdir(shell->path->home_user);
+					else
+					{
+						printf("HOME not set\n");
+						shell->exit_return = 1;
+					}
+				}
 	else
 		ret = chdir(shell->command_plus_args[1]);
 	if (ret)
