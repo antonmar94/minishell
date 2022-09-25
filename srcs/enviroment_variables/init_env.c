@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 18:17:21 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 15:31:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:45:51 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,11 @@ t_env_list	*init_list_env(t_shell *shell, char **envp)
 	env_var_add_back(&shell->env_list->next->next, this_list_var);
 	init = this_list_var;
 	i = 1;
-	while (++i < size_envp)
+	while (i < size_envp)
 	{
 		this_list_var = env_var_list_new(envp[i]);
 		env_var_add_back(&shell->env_list->next->next, this_list_var);
+		i++;
 	}
 	return (init);
 }

@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 15:36:53 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 03:34:44 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void		signal_handler(void);
 void		sigquit_handler(int sig);
 
 /*----------------------- init_commands --------------------------------------*/
+char 		**mini_enviro(void);
 t_path		*init_path(t_shell *shell);
 t_shell		*initialice(char **envp);
 void		separate_args_flag(t_shell *shell);
@@ -160,6 +161,8 @@ int			system_commmand(t_shell *shell, char **envp);
 void		execute_command(t_shell *shell, int i);
 char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
+int			export_util(char *name, char *content, t_shell *shell);
+t_env_list	*env_var_list_new_char(char *var_name, char *var_content);
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);

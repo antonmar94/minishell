@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/25 02:23:55 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 02:51:46 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	if (*envp == NULL)
-	{
-		write(2, "NOT FOUND ENV\n\n", 14);
-
-		envp = malloc(sizeof(char *)*4);
-		envp[0]="PWD=/Users/albzamor/Desktop";
-		envp[1]="SHLVL=1";
-		envp[2]="_=/usr/bin/env";
-		envp[3]=NULL;
-
-		//while(*envp)
-        	//printf("%s\n",*envp++);
-	}
+		envp =mini_enviro();
 	(void)argv;
 	if (argc != 1)
 		error_args_init();
@@ -62,3 +51,16 @@ int	main(int argc, char **argv, char **envp)
 	write_history(".history_own");
 	exit(shell->exit_return);
 }
+
+char ** mini_enviro(void)
+{
+	char **envp;
+
+	envp = malloc(sizeof(char *)*4);
+	envp[0]="PWD=/Users/albzamor/Desktop";
+	envp[1]="SHLVL=1";
+	envp[2]="_=/usr/bin/env";
+	envp[3]=NULL;
+	return(envp);
+}
+
