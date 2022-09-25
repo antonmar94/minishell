@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 21:15:34 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 21:41:49 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	export(t_shell *shell)
 		env_export(shell);
 		return (0);
 	}
-	while (shell->command_args)
+	while (*shell->command_args)
 	{
 		if (!check_char(*shell->command_args, '='))
 			return (0);
@@ -47,17 +47,19 @@ int	export(t_shell *shell)
 
 int	unset(t_shell *shell)
 {
-	char	*var_name;
 
-	var_name = cut_env_var_name(*(shell->command_args));
-	if (!*var_name || ft_strcmp(var_name, "0") == 0
-		|| ft_strcmp(var_name, "?") == 0)
+	while (*shell->command_args)
 	{
-		identifier_enviro_error(shell);
-		return (0);
+		if (!*shell->command_args || ft_strcmp(*shell->command_args, "0") == 0
+			|| ft_strcmp(*shell->command_args, "?") == 0)
+		{
+			identifier_enviro_error(shell);
+			return (0);
+		}
+		del_var_node_coincident(shell, *shell->command_args);
+		new_free(&*shell->command_args);
+		shell->command_args++;
 	}
-	del_var_node_coincident(shell, var_name);
-	new_free(&var_name);
 	return (0);
 }
 
