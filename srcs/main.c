@@ -16,6 +16,7 @@ int	g_interactive = 0;
 
 void	shell_execution(t_shell *shell)
 {
+	
 	shell->minishell_envp = create_env_matrix(shell);
 	shell->env_list_plus->next->var_content = ft_itoa(errno);
 	ft_new_line(shell);

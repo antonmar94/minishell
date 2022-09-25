@@ -43,7 +43,7 @@ char	*first_line_in(t_shell *shell, char ***all_files, char **all_lines)
 	line_in = ask_for_line(shell, **all_files);
 	if (line_in && !ft_strcmp(**all_files, line_in))
 	{
-		free(line_in);
+		//free(line_in);
 		free_aux = **all_files;
 		(*all_files)++;
 		free(free_aux);
@@ -66,7 +66,7 @@ char	*next_line_in(t_shell *shell, char ***all_files, char **all_lines)
 		return (NULL);
 	if (line_in && !ft_strcmp(**all_files, line_in))
 	{
-		free(line_in);
+		//free(line_in);
 		free_aux = **all_files;
 		(*all_files)++;
 		free(free_aux);
@@ -91,7 +91,7 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 		return (NULL);
 	while (line_in && all_files && *all_files)
 	{
-		new_free(&line_in);
+		free(line_in);
 		line_in = next_line_in(shell, &all_files, &all_lines);
 		if (g_interactive == 3)
 		{

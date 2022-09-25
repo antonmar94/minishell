@@ -12,6 +12,19 @@
 
 #include "../../includes/minishell.h"
 
+char	*last_arg(t_arglist *arg_list)
+{
+	t_arglist *aux;
+
+	aux = arg_list;
+	if (aux != NULL)
+	{
+		while (aux->next != NULL)
+			aux = aux->next;
+	}
+	return (aux->content);
+}
+
 t_arglist	*arg_node_new(char *first_arg)
 {
 	t_arglist	*arg_list;

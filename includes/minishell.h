@@ -176,6 +176,7 @@ void		replace_content_runaway(t_aux_p *pointer);
 void		replace_dollar(t_shell *shell);
 
 char		this_quote(char *line);
+char		*last_arg(t_arglist *arg_list);
 int			check_quotes(char *line_walker, char quotes);
 int			size_quotes_arg(char *line_walker, char quotes);
 char		check_allquotes(char *line_walker);
@@ -213,6 +214,7 @@ int			error_not_numeric(t_shell *shell);
 int			identifier_enviro_error(t_shell *shell);
 int			check_error_child(t_shell *shell, int pid);
 void		error_args_init(void);
+void		error_permission(t_shell *shell, char *file);
 
 /*----------------------- AUXILIAR--------------------------------------------*/
 int			size_matriz(char **str);
@@ -252,6 +254,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 
 /*----------------------- REDIR----------------------------------------------*/
 
+int			check_file_error(t_shell *shell, int fd, char *all_files);
 int			jump_quotes(char **line_to_ignore);
 int			check_redirect(char **line, char **rest_of_line, char arrow);
 void		append_to_line(char **line, char **line_finder, char arrow);
@@ -266,8 +269,8 @@ char		*get_file_name(t_shell *shell, char *child_line);
 char		**get_files_matrix(t_shell *shell, char *child_line, char *arrows);
 int			get_clean_line(char **line, char *arrows);
 int			last_num_arrows(char *line);
-void		create_file(t_shell *shell, char *file_in_line, int file_size);
-int			redirect_resolution(t_pipes *pipes_struct);
+int			create_file(t_shell *shell, char *file_in_line, int file_size);
+int			redirect_resolution(t_shell *shell, t_pipes *pipes_struct);
 int			do_redirect(t_shell *shell);
 int			simple_indirect(t_shell *shell);
 int			double_indirect(t_shell *shell);

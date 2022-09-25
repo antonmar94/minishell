@@ -12,16 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	check_error_child(t_shell *shell, int pid)
-{
-	if (pid < 0)
-	{
-		ft_error(shell, "", 67);
-		return (1);
-	}
-	return (0);
-}
-
 int	error_not_numeric(t_shell *shell)
 {
 	shell->exit_return = 255;
@@ -53,4 +43,13 @@ void	error_args_init(void)
 	write(2, RED "minishell: ", 18);
 	ft_putstr_fd(RED "error too many arguments\n" RESET, 2);
 	exit (1);
+}
+
+void	error_permission(t_shell *shell, char *file)
+{
+	shell->exit_return = 13;
+	write(2, RED "minishell: ", 18);
+	if (file)
+		write(2, file, ft_strlen(file));
+	ft_putstr_fd(": permission denied\n" RESET, 2);
 }

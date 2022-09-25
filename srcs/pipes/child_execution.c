@@ -12,6 +12,16 @@
 
 #include "../../includes/minishell.h"
 
+int	check_error_child(t_shell *shell, int pid)
+{
+	if (pid < 0)
+	{
+		ft_error(shell, "", 67);
+		return (1);
+	}
+	return (0);
+}
+
 char	*create_child_line(t_pipes *pipes_struct)
 {
 	char	*child_line;
@@ -44,13 +54,17 @@ int	create_child(t_shell *shell, t_pipes *pipes_struct, int fd)
 int	execute_child_line(t_shell *shell, char **envp)
 {
 	t_pipes	*pipes_struct;
+	int		resolution_return;
 
 	pipes_struct = shell->pipes_struct;
+	resolution_return = 0;
 	if (*pipes_struct->all_files)
 	{
-		if (redirect_resolution(pipes_struct) < 0)
+		resolution_return = redirect_resolution(shell,pipes_struct);
+		if (resolution_return != 0)
 		{
-			error_wrong_path(shell, *pipes_struct->simple_files);
+			if (resolution_return < 0)
+				error_wrong_path(shell, *pipes_struct->simple_files);
 			exit (shell->exit_return);
 		}
 	}

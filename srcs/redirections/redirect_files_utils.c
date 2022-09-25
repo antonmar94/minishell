@@ -12,16 +12,19 @@
 
 #include "../../includes/minishell.h"
 
-void	create_file(t_shell *shell, char *file_in_line, int file_size)
+int	create_file(t_shell *shell, char *file_in_line, int file_size)
 {	
 	char	*file_name;
 	char	*file_name_clean;
+	int		fd;
 
 	file_name = ft_substr(file_in_line, 0, file_size);
 	if (file_name)
 		file_name_clean = arg_creator(shell, &file_name);
-	if (open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664) < 0)
-		error_wrong_path(shell, file_name);
+	fd = open(file_name_clean, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (check_file_error(shell, fd, file_name))
+		return (1);
+	return (0);
 }
 
 int	get_file_size(char **aux_finder, char **files_finder, int *num_arrows)
@@ -64,7 +67,8 @@ int	get_create_files(t_shell *shell, char **rest_of_line, int num_arrows)
 				*rest_of_line = ft_substr(files_finder, 0, file_size);
 				return (num_arrows);
 			}
-			create_file(shell, files_finder, file_size);
+			if (create_file(shell, files_finder, file_size))
+				return (-1);
 		}
 		files_finder++;
 	}
