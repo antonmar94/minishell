@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   07_enviroment_builtins.c                           :+:      :+:    :+:   */
+/*   enviroment_builtins.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 13:51:27 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 21:15:34 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,24 @@ int	export(t_shell *shell)
 		env_export(shell);
 		return (0);
 	}
-	if (!check_char(*shell->command_args, '='))
-		return (0);
-	var_name = cut_env_var_name(*(shell->command_args));
-	var_content = cut_env_var_content(*(shell->command_args));
-	if (varname_found(&var_name, &var_content, shell))
-		return (0);
-	new_list_var = env_var_list_new(*(shell->command_args));
-	env_var_add_back(&shell->env_list, new_list_var);
-	tofree = shell->minishell_envp;
-	shell->minishell_envp = create_env_matrix(shell);
-	new_free(&var_name);
-	new_free(&var_content);
-	free_matrix(tofree);
-	free(tofree);
+	while (shell->command_args)
+	{
+		if (!check_char(*shell->command_args, '='))
+			return (0);
+		var_name = cut_env_var_name(*(shell->command_args));
+		var_content = cut_env_var_content(*(shell->command_args));
+		if (varname_found(&var_name, &var_content, shell))
+			return (0);
+		new_list_var = env_var_list_new(*(shell->command_args));
+		env_var_add_back(&shell->env_list, new_list_var);
+		tofree = shell->minishell_envp;
+		shell->minishell_envp = create_env_matrix(shell);
+		new_free(&var_name);
+		new_free(&var_content);
+		free_matrix(tofree);
+		free(tofree);
+		shell->command_args++;
+	}
 	return (0);
 }
 
