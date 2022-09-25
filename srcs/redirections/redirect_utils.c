@@ -51,7 +51,7 @@ void	append_to_line(char **line, char **line_finder, char arrow)
 	*line_finder = aux_append;
 }
 
-int	redirect_resolution(t_pipes *pipes_struct)
+int	redirect_resolution(t_shell *shell, t_pipes *pipes_struct)
 {
 	int		*fd;
 	int		fd_file;
@@ -67,8 +67,8 @@ int	redirect_resolution(t_pipes *pipes_struct)
 	if (*pipes_struct->simple_files)
 	{
 		fd_file = open(*pipes_struct->simple_files, O_RDONLY);
-		if (fd_file < 0)
-			return (-1);
+		if (check_file_error(shell, fd_file, *pipes_struct->simple_files))
+			return (1);
 		if (pipes_struct->last_arrows == 1)
 			dup2(fd_file, fd[READ_END]);
 		close(fd_file);

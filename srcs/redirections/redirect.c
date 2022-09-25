@@ -12,6 +12,19 @@
 
 #include "../../includes/minishell.h"
 
+int	check_file_error(t_shell *shell, int fd, char *all_files)
+{
+	if (fd < 0)
+	{
+		if (errno == EACCES)
+			error_permission(shell, all_files);
+		else
+			error_wrong_path(shell, all_files);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_redirect(char **line, char **rest_of_line, char arrow)
 {
 	char	*arrow_finder;
@@ -85,6 +98,8 @@ int	get_line_files(t_shell *shell, char **all_files)
 	{
 		get_line_execute(&shell->line, all_files, '>');
 		num_arrows = get_create_files(shell, all_files, num_arrows);
+		if (num_arrows < 0)
+			return (-1);
 		if (all_files)
 			*all_files = arg_creator(shell, all_files);
 		if (!*all_files || !**all_files)
@@ -104,19 +119,21 @@ int	do_redirect(t_shell *shell)
 
 	all_files = NULL;
 	num_arrows = get_line_files(shell, &all_files);
+	if (num_arrows < 0)
+		exit (shell->exit_return);
 	if (num_arrows == 1 && !shell->exit_return)
 	{
 		fd = open(all_files, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (fd < 0)
-			error_wrong_path(shell, all_files);
+		if (check_file_error(shell, fd, all_files))
+			exit (shell->exit_return);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 	else if (num_arrows == 2 && !shell->exit_return)
 	{
 		fd = open(all_files, O_WRONLY | O_CREAT | O_APPEND, 0664);
-		if (fd < 0)
-			error_wrong_path(shell, all_files);
+		if (check_file_error(shell, fd, all_files))
+			exit (shell->exit_return);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}

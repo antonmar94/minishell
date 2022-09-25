@@ -21,11 +21,17 @@ int	check_list_flag(char *list_arg)
 	flag = list_arg;
 	if (!ft_strncmp(flag, "-n", 2))
 	{
-		flag += 1;
+		flag ++;
 		while (*flag && *flag == 'n')
 			flag++;
-		if (!*flag || *flag == ' ')
-			return (1);
+		while (!*flag || *flag == ' ')
+		{
+			if (!ft_strncmp(flag, "-n", 2))
+				return (0);
+			else if (*flag != ' ')
+				return (1);
+			flag ++;	
+		}
 	}
 	return (0);
 }
@@ -41,6 +47,7 @@ void	add_line_command(t_shell *shell)
 		shell->arg_list = shell->arg_list->next;
 		free(aux_free);
 		aux_free = NULL;
+		
 		if (shell->arg_list && check_list_flag(shell->arg_list->content))
 		{
 			shell->command_flag = "-n";
@@ -52,11 +59,12 @@ void	add_line_command(t_shell *shell)
 	}
 }
 
-int	add_arg_tolist(t_shell *shell)
+int	add_arg_tolist(t_shell *shell, int no_add_flag)
 {
 	char	*argument;
 	int		size_arg;
 
+	(void)no_add_flag;
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_arg);
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))
@@ -73,6 +81,14 @@ int	add_arg_tolist(t_shell *shell)
 			new_free(&argument);
 			shell->size_com_args--;
 			return (0);
+		}
+		if (check_list_flag(argument) && no_add_flag == 1)
+		{
+			new_free(&argument);
+			shell->size_com_args--;
+			if (!(*shell->line_walker))
+				return (0);
+			return (1);
 		}
 		arglstadd_back(&shell->arg_list, arg_node_new(argument));
 	}
@@ -106,15 +122,25 @@ void	create_array_args(t_shell *shell)
 int	split_arguments(t_shell *shell)
 {
 	char		**to_free;
+	int			no_add_flag;
 
+	no_add_flag = 0;
 	shell->size_com_args = 0;
-		shell->line_walker = shell->line;
+	shell->line_walker = shell->line;
 	while (*shell->line_walker && *shell->line_walker == ' ')
 		shell->line_walker++;
 	if (*shell->line_walker)
 		shell->size_com_args = 1;
-	while (add_arg_tolist(shell))
+	while (add_arg_tolist(shell, no_add_flag))
+	{
+		if (shell->size_com_args > 1 && !check_list_flag(last_arg(shell->arg_list)))
+			no_add_flag = -1;
+		if (no_add_flag >= 0 && check_list_flag(last_arg(shell->arg_list)))
+			no_add_flag = 1;
+		else if (no_add_flag == 1)
+			no_add_flag = -1;
 		shell->size_com_args++;
+	}
 	to_free = shell->command_plus_args;
 	create_array_args(shell);
 	free_matrix(to_free);
