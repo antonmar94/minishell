@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 03:37:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:52:14 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	cd(t_shell *shell)
 	if (ret)
 		ft_error(shell, shell->command_plus_args[1], 1);
 
-	if (getenv("PWD"))
+	if (search_var_coincident(shell, "PWD"))
 	{
-		export_util("OLDPWD", getenv("PWD"), shell);
+		export_util("OLDPWD", search_var_coincident(shell, "PWD"), shell);
 		getcwd(pwd, sizeof(pwd));
 		export_util("PWD", pwd, shell);
 	}

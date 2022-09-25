@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   al_auxiliar_comp.c                                 :+:      :+:    :+:   */
+/*   auxiliar_comp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 13:19:03 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:58:57 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_env_list_export(t_env_list *envp)
 		printf("declare -x ");
 		printf(BLUE"%s"RESET, copy->var_name);
 		printf("=");
-		printf(GREEN"%s"RESET, copy->var_content);
+		printf(GREEN"\"%s\""RESET, copy->var_content);
 		printf("\n");
 		copy = copy->next;
 		i++;
@@ -79,6 +79,6 @@ void	print_env_list_export(t_env_list *envp)
 	printf("declare -x ");
 	printf(BLUE"%s"RESET, copy->var_name);
 	printf("=");
-	printf(GREEN"%s"RESET, copy->var_content);
+	printf(GREEN"\"%s\""RESET, copy->var_content);
 	printf("\n");
 }
