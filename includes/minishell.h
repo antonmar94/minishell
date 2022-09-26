@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 03:34:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/26 22:57:56 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ char		**create_env_matrix(t_shell *shell);
 int			find_enviro_command(t_shell *shell);
 int			export_util(char *name, char *content, t_shell *shell);
 t_env_list	*env_var_list_new_char(char *var_name, char *var_content);
+int			env_list_len(t_shell *shell);
+void		sort_env(t_shell *shell, int env_list_len);
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);
@@ -202,6 +204,7 @@ int			cd(t_shell *shell);
 int			echo(t_shell *shell);
 int			export(t_shell *shell);
 void		exit_return(t_shell *shell);
+int			unset_util(char *var_to_unset, t_shell *shell);
 
 /*----------------------- ERRORS ---------------------------------------------*/
 
@@ -224,6 +227,7 @@ void		print_env_list(t_env_list *envp);
 void		print_env_list_export(t_env_list *envp);
 int			env_export(t_shell *shell);
 int			ft_lst_env_size(t_env_list *lst);
+void		check_new_minishell(t_shell *shell);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 int			get_size_line(char *size_walker);

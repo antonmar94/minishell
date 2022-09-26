@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 21:41:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/26 22:54:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ int	unset(t_shell *shell)
 	}
 	return (0);
 }
+
+int	unset_util(char *var_to_unset, t_shell *shell)
+{
+
+	
+	del_var_node_coincident(shell, var_to_unset);
+	//new_free(&var_to_unset);
+	return (0);
+}
+
 
 int	env(t_shell *shell)
 {

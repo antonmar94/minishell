@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 21:15:05 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/26 22:11:04 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,26 @@ int	find_command(t_shell *shell)
 	}
 	return (0);
 }
+void exec_my_minishell(t_shell *shell)
+{
+	int		n_open;
+	
+	
+	if (search_var_coincident(shell, "SHLVL"))
+	{
+		n_open = ft_atoi(search_var_coincident(shell, "SHLVL"));
+		n_open ++;
+		unset_util("SHLVL", shell);
+		export_util("SHLVL", ft_itoa(n_open), shell);
+	}
+	execve (shell->command, shell->command_plus_args, shell->minishell_envp);
+
+
+}
 
 void	execute_command(t_shell *shell, int i)
 {
+	//check_new_minishell(shell);
 	if (i == 0)
 		export(shell);
 	else if (i == 1)
@@ -86,6 +103,24 @@ void	execute_command(t_shell *shell, int i)
 		cd(shell);
 	else if (i == 8)
 		echo(shell);
+	else if (i == 9)
+		exec_my_minishell(shell);
+
+}
+
+void	check_new_minishell(t_shell *shell)
+{
+	//int		n_open;
+	//char	*char_open;
+	
+
+	//char_open = NULL;
+	
+	/* s */
+		unset_util("SHLVL", shell);
+		export_util("SHLVL", "ocho", shell);
+	
+	
 }
 
 int	system_commmand(t_shell *shell, char **envp)
