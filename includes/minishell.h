@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/26 22:57:56 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/27 02:07:02 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,8 @@ int			export_util(char *name, char *content, t_shell *shell);
 t_env_list	*env_var_list_new_char(char *var_name, char *var_content);
 int			env_list_len(t_shell *shell);
 void		sort_env(t_shell *shell, int env_list_len);
+t_env_list  *order_env_list(t_env_list *env_list);
+t_env_list *return_copy_order_list(t_env_list *env_list);
 
 /*--------------------PARSING AND SYNTAX--------------------------------------*/
 int			check_syntax(t_shell *shell);

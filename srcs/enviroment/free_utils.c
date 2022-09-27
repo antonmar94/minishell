@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   30_free_utils.c                                    :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:02:23 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/24 13:19:38 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/27 01:09:16 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,19 @@ void	free_arg_list(t_arglist **arg_lst)
 	}
 	*arg_lst = NULL;
 }
+
+/* void free_env_list(t_env_list *env_list)
+{
+	t_env_list *aux;
+	while (env_list->next)
+	{
+		aux = env_list->next;
+		free(env_list->var_name);
+		free(env_list->var_content);
+		free(env_list);
+		env_list = aux;
+	}
+	free(env_list->var_name);
+	free(env_list->var_content);
+	free(env_list);
+} */
