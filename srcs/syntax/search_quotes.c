@@ -64,7 +64,6 @@ int	add_arg_tolist(t_shell *shell, int no_add_flag)
 	char	*argument;
 	int		size_arg;
 
-	(void)no_add_flag;
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_arg);
 	while (*shell->line_walker && (*shell->line_walker == ' ' || size_arg > 0))

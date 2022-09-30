@@ -24,6 +24,8 @@ void	ft_new_line(t_shell *shell)
 	}
 	else
 		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
+	if (g_interactive == 3)
+		errno = 1;
 	if (errno == 1)
 		shell->exit_return = 1;
 	g_interactive = 0;

@@ -88,13 +88,17 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 	all_lines = NULL;
 	line_in = first_line_in(shell, &all_files, &all_lines);
 	if (g_interactive == 3)
+	{
+		errno = 1;
 		return (NULL);
+	}		
 	while (line_in && all_files && *all_files)
 	{
 		free(line_in);
 		line_in = next_line_in(shell, &all_files, &all_lines);
 		if (g_interactive == 3)
 		{
+			errno = 1;
 			free(all_lines);
 			return (NULL);
 		}
