@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:37:28 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/30 20:38:34 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/09/30 21:07:08 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ int	double_indirect(t_shell *shell)
 		g_interactive = 0;
 		return (-1);
 	}
+	g_interactive = 0;
 	return (0);
 }

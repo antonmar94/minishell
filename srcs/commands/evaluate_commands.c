@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 20:44:55 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/09/30 21:22:11 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_new_line(t_shell *shell)
 {
-	if (shell->exit_return == 130)
-		printf("\33[2K\r"); 
+/* 	if (shell->exit_return == 130)
+		printf("\33[2K\r");  */
 	g_interactive = 1;
 	if (shell->sig_int_line && *shell->sig_int_line)
 	{

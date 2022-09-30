@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:33:47 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/30 19:33:38 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/09/30 21:06:41 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 	char	*all_lines;
 
 	all_lines = NULL;
+	g_interactive = 2;
 	line_in = first_line_in(shell, &all_files, &all_lines);
 	if (g_interactive == 3)
 	{

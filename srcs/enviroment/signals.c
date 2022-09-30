@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 20:37:55 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/09/30 21:22:09 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	sigint_handler(int sig)
 		rl_replace_line("", 0);
 		printf("\n");
 		rl_redisplay();
-		printf("\r%-2s", CYAN"AlicornioPrompt$ "RESET);
+		if (g_interactive != 0)
+			printf("\r%-2s", CYAN"AlicornioPrompt$ "RESET);
 		g_interactive = 3;
 		return ;
 	}
@@ -34,6 +35,7 @@ void	sigquit_handler(int sig)
 {
 	char	*nbr;
 
+	nbr = ft_itoa(sig);
 	if (g_interactive == 0)
 	{
 		nbr = ft_itoa(sig);
