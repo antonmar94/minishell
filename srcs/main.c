@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/26 00:11:57 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 20:25:37 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	g_interactive = 0;
 
 void	shell_execution(t_shell *shell)
 {
-	
 	shell->minishell_envp = create_env_matrix(shell);
-	shell->env_list_plus->next->var_content = ft_itoa(errno);
+	shell->env_list_plus->next->var_content = ft_itoa(shell->exit_return);
+	g_interactive = 1;
 	ft_new_line(shell);
 	if (!shell->line)
 		exit(shell->exit_return);
@@ -30,6 +30,7 @@ void	shell_execution(t_shell *shell)
 		if (!find_enviro_command(shell))
 			child_execution(shell, shell->minishell_envp);
 	}
+	g_interactive = 0;
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
 	free(shell->minishell_envp);

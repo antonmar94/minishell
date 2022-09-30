@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heardoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:33:47 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 15:32:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:33:38 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 	line_in = first_line_in(shell, &all_files, &all_lines);
 	if (g_interactive == 3)
 	{
-		errno = 1;
+		shell->exit_return = 1;
 		return (NULL);
 	}		
 	while (line_in && all_files && *all_files)
@@ -98,7 +98,7 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 		line_in = next_line_in(shell, &all_files, &all_lines);
 		if (g_interactive == 3)
 		{
-			errno = 1;
+			shell->exit_return = 1;
 			free(all_lines);
 			return (NULL);
 		}

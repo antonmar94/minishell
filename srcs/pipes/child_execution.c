@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:28:01 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/25 23:41:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 20:28:38 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ void	child_execution(t_shell *shell, char **envp)
 	while (child_number-- > 0)
 		waitpid(-1, &exit_child, 0);
 	if (WIFEXITED(exit_child))
-		errno = WEXITSTATUS(exit_child);
+		shell->exit_return = WEXITSTATUS(exit_child);
 	if (WIFSIGNALED(exit_child))
 	{
-		errno = WTERMSIG(exit_child);
-		if (errno != 131)
-			errno += 128;
+		shell->exit_return = WTERMSIG(exit_child);
+		if (shell->exit_return != 131)
+			shell->exit_return += 128;
 	}
 }

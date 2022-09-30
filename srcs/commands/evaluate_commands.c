@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/26 22:11:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 20:44:55 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_new_line(t_shell *shell)
 {
+	if (shell->exit_return == 130)
+		printf("\33[2K\r"); 
 	g_interactive = 1;
-	if (errno == 130)
-		printf("\33[2K\r");
 	if (shell->sig_int_line && *shell->sig_int_line)
 	{
 		shell->line = ft_strdup(shell->sig_int_line);
@@ -25,8 +25,6 @@ void	ft_new_line(t_shell *shell)
 	else
 		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
 	if (g_interactive == 3)
-		errno = 1;
-	if (errno == 1)
 		shell->exit_return = 1;
 	g_interactive = 0;
 	signal(SIGQUIT, sigquit_handler);
@@ -71,7 +69,6 @@ void exec_my_minishell(t_shell *shell)
 {
 	int		n_open;
 	
-	
 	if (search_var_coincident(shell, "SHLVL"))
 	{
 		n_open = ft_atoi(search_var_coincident(shell, "SHLVL"));
@@ -80,8 +77,6 @@ void exec_my_minishell(t_shell *shell)
 		export_util("SHLVL", ft_itoa(n_open), shell);
 	}
 	execve (shell->command, shell->command_plus_args, shell->minishell_envp);
-
-
 }
 
 void	execute_command(t_shell *shell, int i)

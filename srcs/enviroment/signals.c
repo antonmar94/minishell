@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/25 23:08:16 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 20:37:55 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	sigint_handler(int sig)
 		rl_redisplay();
 		printf("\r%-2s", CYAN"AlicornioPrompt$ "RESET);
 		g_interactive = 3;
-		errno = 1;
 		return ;
 	}
 	else

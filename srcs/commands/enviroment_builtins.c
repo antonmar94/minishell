@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_builtins.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/26 22:54:04 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:52:25 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,11 @@ int	unset(t_shell *shell)
 
 int	unset_util(char *var_to_unset, t_shell *shell)
 {
-
-	
+	//REVISAR
 	del_var_node_coincident(shell, var_to_unset);
-	//new_free(&var_to_unset);
+	new_free(&var_to_unset);
 	return (0);
 }
-
 
 int	env(t_shell *shell)
 {

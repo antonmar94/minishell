@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 19:05:54 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:38:40 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	*search_var_coincident(t_shell *shell, char *str_to_find)
 		if (!ft_strcmp("?", str_to_find))
 			return (ft_itoa(shell->exit_return));
 		copy = copy->next;
-
 		if (!ft_strcmp(copy->var_name, str_to_find))
 			return (copy->var_content);
 		copy = copy->next;
