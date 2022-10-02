@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 12:16:27 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 20:24:11 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/02 22:21:18 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,6 @@ int	cd(t_shell *shell)
 		getcwd(pwd, sizeof(pwd));
 		export_util("PWD", pwd, shell);
 	}
-	return (0);
-}
-
-int		export_util(char *name, char *content, t_shell *shell)
-{
-	t_env_list	*new_list_var;
-	char		**tofree;
-	char 		*var_name;
-	char 		*var_content;
-
-	var_name = ft_strdup(name);
-	var_content= ft_strdup(content);
-	if (varname_found(&var_name, &var_content, shell))
-		return (0);
-	new_list_var = env_var_list_new_char(var_name, var_content);
-	env_var_add_back(&shell->env_list, new_list_var);
-	tofree = shell->minishell_envp;
-	shell->minishell_envp = create_env_matrix(shell);
-	new_free(&var_name);
-	new_free(&var_content);
-	free_matrix(tofree);
-	free(tofree);
 	return (0);
 }
 

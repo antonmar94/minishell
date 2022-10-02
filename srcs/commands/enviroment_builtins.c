@@ -3,47 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_builtins.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 19:52:25 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/02 22:21:35 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	export(t_shell *shell)
-{
-	t_env_list	*new_list_var;
-	char		*var_name;
-	char		*var_content;
-	char		**tofree;
 
-	if (!*shell->command_args)
-	{
-		env_export(shell);
-		return (0);
-	}
-	while (*shell->command_args)
-	{
-		if (!check_char(*shell->command_args, '='))
-			return (0);
-		var_name = cut_env_var_name(*(shell->command_args));
-		var_content = cut_env_var_content(*(shell->command_args));
-		if (varname_found(&var_name, &var_content, shell))
-			return (0);
-		new_list_var = env_var_list_new(*(shell->command_args));
-		env_var_add_back(&shell->env_list, new_list_var);
-		tofree = shell->minishell_envp;
-		shell->minishell_envp = create_env_matrix(shell);
-		new_free(&var_name);
-		new_free(&var_content);
-		free_matrix(tofree);
-		free(tofree);
-		shell->command_args++;
-	}
-	return (0);
-}
 
 int	unset(t_shell *shell)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 20:15:53 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/02 21:50:29 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_shell
 	char			*free_aux_list;
 	t_env_list		*env_list;
 	t_env_list		*env_list_plus;
+	t_env_list		*env_list_ordered;
 	t_aux_p			*aux_p;
 	t_pipes			*pipes_struct;
 	char			**minishell_envp;
