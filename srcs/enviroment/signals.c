@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 12:16:16 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/03 21:50:38 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/03 22:18:32 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@ void	sigint_handler(int sig)
 void	sigquit_handler(int sig)
 {
 	char	*nbr;
+	char	*output;
 
 	nbr = ft_itoa(sig);
+	output = NULL;
 	if (g_interactive == 0)
 	{
 		nbr = ft_itoa(sig);
-		ft_putendl_fd(ft_strjoin("Quit: ", nbr), 2);
+		output = ft_strjoin("Quit: ", nbr);
+		ft_putendl_fd(output, 2);
+		free(output);
 		g_interactive = 1;
 		free(nbr);
 		return ;
