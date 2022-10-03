@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:33:47 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/30 21:06:41 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/03 21:49:32 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ char	*ask_for_line(t_shell *shell, char *all_files)
 			new_free(&clean_line);
 		}
 		else
+		{
+			free(line_in);
 			line_in = ft_strdup("\n");
+		}
 	}
 	return (line_in);
 }
@@ -43,7 +46,6 @@ char	*first_line_in(t_shell *shell, char ***all_files, char **all_lines)
 	line_in = ask_for_line(shell, **all_files);
 	if (line_in && !ft_strcmp(**all_files, line_in))
 	{
-		//free(line_in);
 		free_aux = **all_files;
 		(*all_files)++;
 		free(free_aux);
@@ -66,7 +68,6 @@ char	*next_line_in(t_shell *shell, char ***all_files, char **all_lines)
 		return (NULL);
 	if (line_in && !ft_strcmp(**all_files, line_in))
 	{
-		//free(line_in);
 		free_aux = **all_files;
 		(*all_files)++;
 		free(free_aux);
@@ -92,10 +93,10 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 	{
 		shell->exit_return = 1;
 		return (NULL);
-	}		
+	}
+	free(line_in);
 	while (line_in && all_files && *all_files)
 	{
-		free(line_in);
 		line_in = next_line_in(shell, &all_files, &all_lines);
 		if (g_interactive == 3)
 		{
@@ -103,6 +104,7 @@ char	*get_heardoc_lines(t_shell *shell, char **all_files)
 			free(all_lines);
 			return (NULL);
 		}
+		free(line_in);
 	}
 	return (all_lines);
 }

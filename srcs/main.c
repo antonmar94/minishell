@@ -6,7 +6,7 @@
 /*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:11:21 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/30 20:25:37 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/03 21:48:56 by antoniojose      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	shell_execution(t_shell *shell)
 		if (!find_enviro_command(shell))
 			child_execution(shell, shell->minishell_envp);
 	}
-	g_interactive = 0;
 	free_all_struct(shell, shell->minishell_envp);
 	free_matrix(shell->minishell_envp);
 	free(shell->minishell_envp);
