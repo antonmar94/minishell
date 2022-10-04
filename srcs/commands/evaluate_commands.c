@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/03 22:06:17 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/04 18:09:21 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

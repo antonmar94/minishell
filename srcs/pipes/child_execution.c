@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 11:28:01 by antonmar          #+#    #+#             */
-/*   Updated: 2022/10/02 22:29:52 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/04 19:01:30 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	execute_child_line(t_shell *shell, char **envp)
 	resolution_return = 0;
 	if (*pipes_struct->all_files)
 	{
-		resolution_return = redirect_resolution(shell,pipes_struct);
+		resolution_return = redirect_resolution(shell, pipes_struct);
 		if (resolution_return != 0)
 		{
 			if (resolution_return < 0)

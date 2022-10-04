@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoniojose <antoniojose@student.42.fr>    +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 11:11:52 by albzamor          #+#    #+#             */
-/*   Updated: 2022/09/30 20:27:59 by antoniojose      ###   ########.fr       */
+/*   Updated: 2022/10/04 18:09:54 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
