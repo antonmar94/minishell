@@ -6,7 +6,7 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 18:09:46 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:14:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*last_arg(t_arglist *arg_list)
 {
-	t_arglist *aux;
+	t_arglist	*aux;
 
 	aux = arg_list;
 	if (aux != NULL)

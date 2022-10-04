@@ -6,28 +6,11 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:28:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 18:09:21 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:17:19 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ft_new_line(t_shell *shell)
-{
-	signal(SIGQUIT, SIG_IGN);
-	g_interactive = 1;
-	if (shell->sig_int_line && *shell->sig_int_line)
-	{
-		shell->line = ft_strdup(shell->sig_int_line);
-		new_free(&shell->sig_int_line);
-	}
-	else
-		shell->line = readline(CYAN"AlicornioPrompt$ "RESET);
-	if (g_interactive == 3)
-		shell->exit_return = 1;
-	g_interactive = 0;
-	signal(SIGQUIT, sigquit_handler);
-}
 
 int	find_enviro_command(t_shell *shell)
 {
@@ -64,10 +47,11 @@ int	find_command(t_shell *shell)
 	}
 	return (0);
 }
-void exec_my_minishell(t_shell *shell)
+
+void	exec_my_minishell(t_shell *shell)
 {
 	int		n_open;
-	
+
 	if (search_var_coincident(shell, "SHLVL"))
 	{
 		n_open = ft_atoi(search_var_coincident(shell, "SHLVL"));
@@ -80,7 +64,6 @@ void exec_my_minishell(t_shell *shell)
 
 void	execute_command(t_shell *shell, int i)
 {
-	//check_new_minishell(shell);
 	if (i == 0)
 		export(shell);
 	else if (i == 1)
@@ -101,22 +84,6 @@ void	execute_command(t_shell *shell, int i)
 		echo(shell);
 	else if (i == 9)
 		exec_my_minishell(shell);
-
-}
-
-void	check_new_minishell(t_shell *shell)
-{
-	//int		n_open;
-	//char	*char_open;
-	
-
-	//char_open = NULL;
-	
-	/* s */
-		unset_util("SHLVL", shell);
-		export_util("SHLVL", "ocho", shell);
-	
-	
 }
 
 int	system_commmand(t_shell *shell, char **envp)

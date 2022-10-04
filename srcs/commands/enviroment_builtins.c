@@ -6,17 +6,14 @@
 /*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 18:09:23 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:17:18 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-
 int	unset(t_shell *shell)
 {
-
 	while (*shell->command_args)
 	{
 		if (!*shell->command_args || ft_strcmp(*shell->command_args, "0") == 0
