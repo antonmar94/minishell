@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_files_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 20:22:58 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 18:54:14 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:17:27 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_file_error(t_shell *shell, int fd, char *all_files)
+{
+	if (fd < 0)
+	{
+		if (errno == EACCES)
+			error_permission(shell, all_files);
+		else
+			error_wrong_path(shell, all_files);
+		return (1);
+	}
+	return (0);
+}
 
 int	create_file(t_shell *shell, char *file_in_line, int file_size)
 {	

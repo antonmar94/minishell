@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   search_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 19:13:39 by antonmar          #+#    #+#             */
-/*   Updated: 2022/09/24 13:39:10 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:58:47 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_list_flag(char *list_arg)
-{
-	char	*flag;
-
-	if (!list_arg)
-		return (0);
-	flag = list_arg;
-	if (!ft_strncmp(flag, "-n", 2))
-	{
-		flag ++;
-		while (*flag && *flag == 'n')
-			flag++;
-		while (!*flag || *flag == ' ')
-		{
-			if (!ft_strncmp(flag, "-n", 2))
-				return (0);
-			else if (*flag != ' ')
-				return (1);
-			flag ++;	
-		}
-	}
-	return (0);
-}
 
 void	add_line_command(t_shell *shell)
 {
@@ -47,7 +23,6 @@ void	add_line_command(t_shell *shell)
 		shell->arg_list = shell->arg_list->next;
 		free(aux_free);
 		aux_free = NULL;
-		
 		if (shell->arg_list && check_list_flag(shell->arg_list->content))
 		{
 			shell->command_flag = "-n";
@@ -59,10 +34,22 @@ void	add_line_command(t_shell *shell)
 	}
 }
 
+int	get_add_flag(int no_add_flag, t_shell *shell)
+{
+	if (shell->size_com_args > 1 && !check_list_flag(last_arg(shell->arg_list)))
+		no_add_flag = -1;
+	if (no_add_flag >= 0 && check_list_flag(last_arg(shell->arg_list)))
+		no_add_flag = 1;
+	else if (no_add_flag == 1)
+		no_add_flag = -1;
+	return (no_add_flag);
+}
+
 int	add_arg_tolist(t_shell *shell, int no_add_flag)
 {
 	char	*argument;
 	int		size_arg;
+	int		check_arg;
 
 	size_arg = size_argument(shell);
 	argument = ft_substr(shell->line_walker, 0, size_arg);
@@ -75,20 +62,11 @@ int	add_arg_tolist(t_shell *shell, int no_add_flag)
 	{
 		argument = find_dollar_quotes(argument);
 		argument = arg_creator(shell, &argument);
-		if (argument && *argument == '|')
-		{
-			new_free(&argument);
-			shell->size_com_args--;
+		check_arg = check_arg_flag(shell, argument, no_add_flag);
+		if (check_arg < 0)
 			return (0);
-		}
-		if (check_list_flag(argument) && no_add_flag == 1)
-		{
-			new_free(&argument);
-			shell->size_com_args--;
-			if (!(*shell->line_walker))
-				return (0);
+		else if (check_arg)
 			return (1);
-		}
 		arglstadd_back(&shell->arg_list, arg_node_new(argument));
 	}
 	if (!(*shell->line_walker))
@@ -132,12 +110,7 @@ int	split_arguments(t_shell *shell)
 		shell->size_com_args = 1;
 	while (add_arg_tolist(shell, no_add_flag))
 	{
-		if (shell->size_com_args > 1 && !check_list_flag(last_arg(shell->arg_list)))
-			no_add_flag = -1;
-		if (no_add_flag >= 0 && check_list_flag(last_arg(shell->arg_list)))
-			no_add_flag = 1;
-		else if (no_add_flag == 1)
-			no_add_flag = -1;
+		no_add_flag = get_add_flag(no_add_flag, shell);
 		shell->size_com_args++;
 	}
 	to_free = shell->command_plus_args;

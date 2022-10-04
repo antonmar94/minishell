@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 18:41:41 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:17:10 by antonmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void		signal_handler(void);
 void		sigquit_handler(int sig);
 
 /*----------------------- init_commands --------------------------------------*/
-char 		**mini_enviro(void);
+char		**mini_enviro(void);
 t_path		*init_path(t_shell *shell);
 t_shell		*initialice(char **envp);
 void		separate_args_flag(t_shell *shell);
@@ -189,6 +189,8 @@ int			check_quotes(char *line_walker, char quotes);
 char		*find_dollar_quotes(char *argument);
 
 int			check_list_flag(char *list_arg);
+int			check_arg_flag(t_shell *shell, char *argument, int no_add_flag);
+int			get_add_flag(int no_add_flag, t_shell *shell);
 int			size_argument(t_shell *shell);
 int			get_size_part(char	**arg_walker, char **arg_holder, char quotes);
 char		*get_arg_part(t_shell *shell, char **arg_walker, char **arg_holder);
