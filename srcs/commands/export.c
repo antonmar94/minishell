@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:19:34 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/02 22:50:49 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:49:19 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,46 +66,45 @@ t_env_list	*init_list_env_ordered(t_shell *shell, char **envp)
 	return (init);
 }
 
-void free_env_list2(t_env_list *envp)
+void	free_env_list2(t_env_list *envp)
 {
-    t_env_list	*copy;
-    t_env_list	*aux;
+	t_env_list	*copy;
+	t_env_list	*aux;
 
-    copy = envp;
-    while (copy->next)
-    {
-        aux = copy;
-        copy = copy->next;
-        free(aux->var_name);
-        free(aux->var_content);
-        free(aux);
-    }
-    free(copy->var_name);
-    free(copy->var_content);
-    free(copy);
+	copy = envp;
+	while (copy->next)
+	{
+		aux = copy;
+		copy = copy->next;
+		free(aux->var_name);
+		free(aux->var_content);
+		free(aux);
+	}
+	free(copy->var_name);
+	free(copy->var_content);
+	free(copy);
 }
 
 int	env_export(t_shell *shell)
 {
-	shell->env_list_ordered = init_list_env_ordered(shell, shell->minishell_envp);
-	shell->env_list_ordered  = order_env_list(shell->env_list_ordered);
+	shell->env_list_ordered = init_list_env_ordered(shell,
+			shell->minishell_envp);
+	shell->env_list_ordered = order_env_list(shell->env_list_ordered);
 	print_env_list_export(shell->env_list_ordered);
 	free_env_list2(shell->env_list_ordered);
-    shell->env_list_ordered = NULL;
+	shell->env_list_ordered = NULL;
 	return (0);
 }
 
-
-
-int		export_util(char *name, char *content, t_shell *shell)
+int	export_util(char *name, char *content, t_shell *shell)
 {
 	t_env_list	*new_list_var;
 	char		**tofree;
-	char 		*var_name;
-	char 		*var_content;
+	char		*var_name;
+	char		*var_content;
 
 	var_name = ft_strdup(name);
-	var_content= ft_strdup(content);
+	var_content = ft_strdup(content);
 	if (varname_found(&var_name, &var_content, shell))
 		return (0);
 	new_list_var = env_var_list_new_char(var_name, var_content);
