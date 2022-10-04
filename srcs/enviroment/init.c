@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:33:27 by antonmar          #+#    #+#             */
-/*   Updated: 2022/10/04 18:51:44 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:59:03 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 t_path	*init_path(t_shell *shell)
 {
-	/* shell->path->user = ft_strdup(getenv("USER"));
-	shell->path->home_user = ft_strjoin("/Users/", shell->path->user);
-	return (shell->path); */
 	if (getenv("USER"))
 	{
 		shell->path->user = ft_strdup(getenv("USER"));
@@ -25,10 +22,8 @@ t_path	*init_path(t_shell *shell)
 	else
 	{
 		shell->path->user = ft_strdup("Anonimous");
-		shell->path->home_user = ft_strdup("Not Set");
+		shell->path->home_user = NULL;
 	}
-	printf("user: %s\n", shell->path->user);
-	printf("home_user: %s\n", shell->path->home_user);
 	return (shell->path);
 }
 
