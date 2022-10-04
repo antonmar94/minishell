@@ -6,7 +6,7 @@
 /*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 19:25:56 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 20:50:09 by albzamor         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:10:46 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	unset(t_shell *shell)
 
 int	unset_util(char *var_to_unset, t_shell *shell)
 {
-	//REVISAR
 	del_var_node_coincident(shell, var_to_unset);
 	new_free(&var_to_unset);
 	return (0);

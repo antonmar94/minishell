@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonmar <antonmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albzamor <albzamor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:38:47 by albzamor          #+#    #+#             */
-/*   Updated: 2022/10/04 19:17:10 by antonmar         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:13:08 by albzamor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void		print_env_list_export(t_env_list *envp);
 int			env_export(t_shell *shell);
 int			ft_lst_env_size(t_env_list *lst);
 void		check_new_minishell(t_shell *shell);
+int			export_one(t_shell *shell, char *var_name, char *var_content);
 
 /*----------------------- PIPES AND EXECUTION---------------------------------*/
 int			get_size_line(char *size_walker);
@@ -260,6 +261,7 @@ size_t		ft_desplace_2char(char const *s, char c, char d);
 size_t		ft_lens_2char(char *lens, char c, char d);
 int			ft_isdigit_str(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
+void		free_env_list2(t_env_list *envp);
 
 /*----------------------- REDIR----------------------------------------------*/
 
