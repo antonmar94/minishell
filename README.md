@@ -1,6 +1,6 @@
 # minishell
 
-Functional bash terminal. Developed from scratch on macOS Mojave and Catalina.
+Functional bash terminal programmed in C. Developed from scratch on macOS Mojave and Catalina.
 
 Use of pipes and creation of child processes to create system redirects and pipes.
 
